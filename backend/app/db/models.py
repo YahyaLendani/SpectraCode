@@ -322,3 +322,4 @@ class EvaluationSampleResult(Base):
     faithfulness: Mapped[float] = mapped_column(Float, nullable=False)
 
     evaluation_run: Mapped["EvaluationRun"] = relationship(back_populates="sample_results")
+

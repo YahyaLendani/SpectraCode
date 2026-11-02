@@ -166,3 +166,4 @@ class HybridCodeRetriever:
 
         reranked.sort(key=lambda x: x.final_score, reverse=True)
         return reranked[:top_k]
+

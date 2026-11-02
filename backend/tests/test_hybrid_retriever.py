@@ -23,3 +23,4 @@ def test_dynamic_alpha():
     # Identifier question -> sparse lexical focus (alpha = 0.35)
     alpha_code = retriever.compute_dynamic_alpha("Where is verify_jwt_signature located?")
     assert alpha_code == 0.35
+

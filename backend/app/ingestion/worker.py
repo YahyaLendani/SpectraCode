@@ -193,3 +193,4 @@ class RepositoryIndexingWorker:
             repo.error_message = str(exc)
             await session.commit()
             raise
+

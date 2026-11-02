@@ -57,3 +57,4 @@ settings = Settings()
 # Ensure directories exist
 settings.DATA_DIR.mkdir(parents=True, exist_ok=True)
 settings.REPOS_STORAGE_DIR.mkdir(parents=True, exist_ok=True)
+

@@ -71,3 +71,4 @@ def test_citation_abstention():
     resp_low = engine.verify_and_sanitize_response("some text", low_chunks)
     assert resp_low.is_abstained
     assert "insufficient relevance" in (resp_low.abstention_reason or "")
+

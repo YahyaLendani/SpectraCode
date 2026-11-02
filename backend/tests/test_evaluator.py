@@ -56,3 +56,4 @@ def test_evaluator_negative_abstention():
         is_abstained=False,
     )
     assert res_hallucinated.recall_at_k == 0.0
+

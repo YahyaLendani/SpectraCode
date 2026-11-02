@@ -57,3 +57,4 @@ class EmbeddingService:
         if norm_a == 0.0 or norm_b == 0.0:
             return 0.0
         return float(np.dot(a, b) / (norm_a * norm_b))
+

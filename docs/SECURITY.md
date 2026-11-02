@@ -27,3 +27,4 @@ RepoLens enforces strict security controls at every phase.
    - Repository file traversal automatically ignores vendor directories (`node_modules/`, `.git/`, `.venv/`, `vendor/`, `dist/`).
 5. **Path Normalization**:
    - All relative file paths are sanitized to prevent directory traversal outside the repository sandbox.
+

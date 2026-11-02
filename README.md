@@ -259,3 +259,4 @@ RepoLens treats repository contents as untrusted inputs. For details on how we i
 ## 📄 License
 
 MIT License. Designed and built with Google Gemini 4 Argon.
+

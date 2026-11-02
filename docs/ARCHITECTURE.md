@@ -76,3 +76,4 @@ RepoLens is an AI-powered developer platform designed to analyze, parse, index, 
 - **`chunk_embeddings`**: Vector embedding, model name, dimensions.
 - **`conversations` & `messages`**: Multi-turn chat history, verified citations, rejected citations, latency, abstention status.
 - **`evaluation_runs` & `evaluation_sample_results`**: Benchmark metric records (Recall@K, MRR, Citation Precision/Recall, Faithfulness).
+

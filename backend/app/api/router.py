@@ -8,3 +8,4 @@ api_router.include_router(repositories.router)
 api_router.include_router(search.router)
 api_router.include_router(chat.router)
 api_router.include_router(evaluation.router)
+

@@ -66,3 +66,4 @@ FASTAPI_BENCHMARK_SUITE: List[BenchmarkQueryItem] = [
         expected_answer_keywords=["INSUFFICIENT_REPOSITORY_CONTEXT"],
     ),
 ]
+

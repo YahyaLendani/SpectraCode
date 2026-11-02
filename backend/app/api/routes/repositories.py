@@ -2,23 +2,78 @@ from __future__ import annotations
 
 import asyncio
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 import uuid
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
-from pydantic import BaseModel, ConfigDict, HttpUrl
-from sqlalchemy import select
+from pydantic import BaseModel, ConfigDict
+from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
+from sqlalchemy.orm import noload, selectinload
 
 from app.core.config import settings
 from app.db.models import ASTSymbol, IndexingStatus, Repository, RepositoryFile
 from app.db.session import AsyncSessionLocal, get_db
-from app.ingestion.dependency_analyzer import CodebaseDependencyAnalyzer, CodebaseDependencyGraph
+from app.ingestion.dependency_analyzer import CodebaseDependencyAnalyzer
 from app.ingestion.git_importer import GitRepositoryImporter
 from app.ingestion.worker import RepositoryIndexingWorker
 
 router = APIRouter(prefix="/repositories", tags=["Repositories"])
+
+DEPENDENCY_CACHE_VERSION = "dependency_graph_v2"
+
+# In-memory cache keyed by (repo_id_str, commit_sha, total_files) -> serialized graph dict
+_DEPENDENCY_GRAPH_CACHE: Dict[Tuple[str, str, int], Dict[str, Any]] = {}
+
+
+def _get_repo_storage_dir(repo: Repository) -> Path:
+    return (
+        settings.REPOS_STORAGE_DIR
+        / f"{repo.github_owner}_{repo.github_name}_{repo.id.hex[:8]}"
+    )
+
+
+def _read_file_text_sync(disk_path: Path) -> str:
+    if not disk_path.exists():
+        return ""
+    return disk_path.read_text(encoding="utf-8", errors="replace")
+
+
+def _compute_dependency_graph_sync(
+    repo_dir: Path, file_paths: Sequence[str]
+) -> Dict[str, Any]:
+    """
+    Runs in a worker thread via asyncio.to_thread so synchronous disk I/O
+    and CPU-bound static import analysis never block the asyncio event loop.
+    """
+    files_dict: Dict[str, str] = {}
+    for rel_path in file_paths:
+        disk_path = repo_dir / rel_path
+        if disk_path.exists() and disk_path.is_file():
+            try:
+                files_dict[rel_path] = disk_path.read_text(
+                    encoding="utf-8", errors="replace"
+                )
+            except OSError:
+                continue
+
+    graph = CodebaseDependencyAnalyzer.analyze(files_dict)
+    return {
+        "nodes": [
+            {
+                "id": n.id,
+                "label": n.label,
+                "kind": n.kind,
+                "in_degree": n.in_degree,
+                "out_degree": n.out_degree,
+            }
+            for n in graph.nodes
+        ],
+        "edges": [{"source": e.source, "target": e.target} for e in graph.edges],
+        "external_packages": graph.external_packages,
+        "internal_files_count": graph.internal_files_count,
+        "circular_dependencies": graph.circular_dependencies,
+    }
 
 
 # Pydantic Schemas
@@ -66,9 +121,43 @@ class SymbolResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-async def run_indexing_task(repo_id: uuid.UUID):
+async def run_indexing_task(repo_id: uuid.UUID) -> None:
     async with AsyncSessionLocal() as session:
         await RepositoryIndexingWorker.index_repository(session, repo_id)
+
+        # Pre-compute and persist dependency graph right after indexing finishes
+        stmt_repo = (
+            select(Repository)
+            .where(Repository.id == repo_id)
+            .options(noload("*"))
+        )
+        res_repo = await session.execute(stmt_repo)
+        repo = res_repo.scalar_one_or_none()
+        if repo and repo.status == IndexingStatus.READY:
+            stmt_files = select(RepositoryFile.file_path).where(
+                RepositoryFile.repository_id == repo_id
+            )
+            res_files = await session.execute(stmt_files)
+            file_paths = list(res_files.scalars().all())
+            repo_dir = _get_repo_storage_dir(repo)
+            graph_payload = await asyncio.to_thread(
+                _compute_dependency_graph_sync, repo_dir, file_paths
+            )
+            updated_meta = dict(repo.metadata_json or {})
+            updated_meta[DEPENDENCY_CACHE_VERSION] = graph_payload
+            await session.execute(
+                update(Repository)
+                .where(Repository.id == repo_id)
+                .values(metadata_json=updated_meta)
+            )
+            await session.commit()
+
+            cache_key = (
+                str(repo.id),
+                repo.last_indexed_commit_sha or "",
+                repo.total_files,
+            )
+            _DEPENDENCY_GRAPH_CACHE[cache_key] = graph_payload
 
 
 @router.post("/import", response_model=RepositoryResponse, status_code=status.HTTP_202_ACCEPTED)
@@ -88,8 +177,10 @@ async def import_repository(
             raise HTTPException(status_code=400, detail=str(e))
 
     # Check if already imported
-    stmt = select(Repository).where(
-        Repository.github_owner == owner, Repository.github_name == name
+    stmt = (
+        select(Repository)
+        .where(Repository.github_owner == owner, Repository.github_name == name)
+        .options(noload("*"))
     )
     res = await db.execute(stmt)
     existing = res.scalar_one_or_none()
@@ -120,14 +211,22 @@ async def import_repository(
 
 @router.get("", response_model=List[RepositoryResponse])
 async def list_repositories(db: AsyncSession = Depends(get_db)):
-    stmt = select(Repository).order_by(Repository.created_at.desc())
+    stmt = (
+        select(Repository)
+        .options(noload("*"))
+        .order_by(Repository.created_at.desc())
+    )
     res = await db.execute(stmt)
     return res.scalars().all()
 
 
 @router.get("/{repo_id}", response_model=RepositoryResponse)
 async def get_repository(repo_id: uuid.UUID, db: AsyncSession = Depends(get_db)):
-    stmt = select(Repository).where(Repository.id == repo_id)
+    stmt = (
+        select(Repository)
+        .where(Repository.id == repo_id)
+        .options(noload("*"))
+    )
     res = await db.execute(stmt)
     repo = res.scalar_one_or_none()
     if not repo:
@@ -137,15 +236,25 @@ async def get_repository(repo_id: uuid.UUID, db: AsyncSession = Depends(get_db))
 
 @router.get("/{repo_id}/tree")
 async def get_repository_tree(repo_id: uuid.UUID, db: AsyncSession = Depends(get_db)):
-    stmt = select(RepositoryFile).where(RepositoryFile.repository_id == repo_id).order_by(RepositoryFile.file_path)
+    stmt = (
+        select(
+            RepositoryFile.id,
+            RepositoryFile.file_path,
+            RepositoryFile.language,
+            RepositoryFile.line_count,
+            RepositoryFile.byte_size,
+        )
+        .where(RepositoryFile.repository_id == repo_id)
+        .order_by(RepositoryFile.file_path)
+    )
     res = await db.execute(stmt)
-    files = res.scalars().all()
+    files = res.all()
 
     # Build hierarchical tree structure
     root: Dict[str, Any] = {"name": "root", "type": "directory", "children": []}
 
-    for f in files:
-        parts = f.file_path.split("/")
+    for f_id, f_path, f_lang, f_lines, f_size in files:
+        parts = f_path.split("/")
         curr = root
         for idx, part in enumerate(parts):
             is_file = idx == len(parts) - 1
@@ -153,15 +262,22 @@ async def get_repository_tree(repo_id: uuid.UUID, db: AsyncSession = Depends(get
                 curr["children"].append({
                     "name": part,
                     "type": "file",
-                    "path": f.file_path,
-                    "id": str(f.id),
-                    "language": f.language,
-                    "lines": f.line_count,
-                    "size": f.byte_size,
+                    "path": f_path,
+                    "id": str(f_id),
+                    "language": f_lang,
+                    "lines": f_lines,
+                    "size": f_size,
                 })
             else:
                 # Directory
-                found = next((c for c in curr["children"] if c["name"] == part and c["type"] == "directory"), None)
+                found = next(
+                    (
+                        c
+                        for c in curr["children"]
+                        if c["name"] == part and c["type"] == "directory"
+                    ),
+                    None,
+                )
                 if not found:
                     found = {"name": part, "type": "directory", "children": []}
                     curr["children"].append(found)
@@ -177,21 +293,29 @@ async def get_file_content(
     stmt = (
         select(RepositoryFile)
         .where(RepositoryFile.id == file_id, RepositoryFile.repository_id == repo_id)
-        .options(selectinload(RepositoryFile.symbols))
+        .options(
+            noload(RepositoryFile.chunks),
+            selectinload(RepositoryFile.symbols),
+        )
     )
     res = await db.execute(stmt)
     file_obj = res.scalar_one_or_none()
     if not file_obj:
         raise HTTPException(status_code=404, detail="File not found")
 
-    # Read content from disk
-    repo = await db.get(Repository, repo_id)
-    repo_dir = settings.REPOS_STORAGE_DIR / f"{repo.github_owner}_{repo.github_name}_{repo.id.hex[:8]}"
-    disk_path = repo_dir / file_obj.file_path
+    stmt_repo = (
+        select(Repository)
+        .where(Repository.id == repo_id)
+        .options(noload("*"))
+    )
+    res_repo = await db.execute(stmt_repo)
+    repo = res_repo.scalar_one_or_none()
+    if not repo:
+        raise HTTPException(status_code=404, detail="Repository not found")
 
-    content = ""
-    if disk_path.exists():
-        content = disk_path.read_text(encoding="utf-8", errors="replace")
+    repo_dir = _get_repo_storage_dir(repo)
+    disk_path = repo_dir / file_obj.file_path
+    content = await asyncio.to_thread(_read_file_text_sync, disk_path)
 
     symbols_data = [
         {
@@ -256,38 +380,60 @@ async def list_repository_symbols(
 
 @router.get("/{repo_id}/dependencies")
 async def get_repository_dependencies(
-    repo_id: uuid.UUID, db: AsyncSession = Depends(get_db)
+    repo_id: uuid.UUID,
+    refresh: bool = Query(False, description="Force recomputation of dependency graph"),
+    db: AsyncSession = Depends(get_db),
 ):
-    repo = await db.get(Repository, repo_id)
+    stmt_repo = (
+        select(Repository)
+        .where(Repository.id == repo_id)
+        .options(noload("*"))
+    )
+    res_repo = await db.execute(stmt_repo)
+    repo = res_repo.scalar_one_or_none()
     if not repo:
         raise HTTPException(status_code=404, detail="Repository not found")
 
-    repo_dir = settings.REPOS_STORAGE_DIR / f"{repo.github_owner}_{repo.github_name}_{repo.id.hex[:8]}"
+    cache_key = (
+        str(repo.id),
+        repo.last_indexed_commit_sha or "",
+        repo.total_files,
+    )
 
-    stmt = select(RepositoryFile).where(RepositoryFile.repository_id == repo_id)
-    res = await db.execute(stmt)
-    files = res.scalars().all()
+    if not refresh:
+        # 1. Fast path: In-memory cache (< 1ms)
+        if cache_key in _DEPENDENCY_GRAPH_CACHE:
+            return _DEPENDENCY_GRAPH_CACHE[cache_key]
 
-    files_dict: Dict[str, str] = {}
-    for f in files:
-        disk_path = repo_dir / f.file_path
-        if disk_path.exists():
-            files_dict[f.file_path] = disk_path.read_text(encoding="utf-8", errors="replace")
+        # 2. Persistent DB metadata cache (zero disk I/O)
+        if repo.metadata_json and isinstance(
+            repo.metadata_json.get(DEPENDENCY_CACHE_VERSION), dict
+        ):
+            cached_graph = repo.metadata_json[DEPENDENCY_CACHE_VERSION]
+            _DEPENDENCY_GRAPH_CACHE[cache_key] = cached_graph
+            return cached_graph
 
-    graph = CodebaseDependencyAnalyzer.analyze(files_dict)
-    return {
-        "nodes": [
-            {
-                "id": n.id,
-                "label": n.label,
-                "kind": n.kind,
-                "in_degree": n.in_degree,
-                "out_degree": n.out_degree,
-            }
-            for n in graph.nodes
-        ],
-        "edges": [{"source": e.source, "target": e.target} for e in graph.edges],
-        "external_packages": graph.external_packages,
-        "internal_files_count": graph.internal_files_count,
-        "circular_dependencies": graph.circular_dependencies,
-    }
+    # 3. Compute in background worker thread without blocking asyncio event loop
+    stmt_files = select(RepositoryFile.file_path).where(
+        RepositoryFile.repository_id == repo_id
+    )
+    res_files = await db.execute(stmt_files)
+    file_paths = list(res_files.scalars().all())
+
+    repo_dir = _get_repo_storage_dir(repo)
+    graph_payload = await asyncio.to_thread(
+        _compute_dependency_graph_sync, repo_dir, file_paths
+    )
+
+    # Persist into Repository.metadata_json without triggering relationship cascades
+    updated_meta = dict(repo.metadata_json or {})
+    updated_meta[DEPENDENCY_CACHE_VERSION] = graph_payload
+    await db.execute(
+        update(Repository)
+        .where(Repository.id == repo_id)
+        .values(metadata_json=updated_meta)
+    )
+    await db.commit()
+
+    _DEPENDENCY_GRAPH_CACHE[cache_key] = graph_payload
+    return graph_payload

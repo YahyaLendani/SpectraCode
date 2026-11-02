@@ -74,3 +74,4 @@ Target File: "src/auth/jwt_manager.py", Lines: [12, 35]
 ```
 
 If an LLM produces an answer with zero verified citations or retrieved relevance is below threshold, the system triggers `INSUFFICIENT_REPOSITORY_CONTEXT`.
+

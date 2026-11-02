@@ -55,3 +55,4 @@ Evaluated across the 5 core benchmark questions in `app/evaluation/benchmark_dat
 - **Ground Truth**: `None` (Query is intentionally outside the scope of this repository)
 - **Engine Behavior**: Detected zero chunks meeting minimum relevance threshold ($\tau = 0.15$).
 - **Verdict**: System safely abstained with `INSUFFICIENT_REPOSITORY_CONTEXT`. Zero hallucinations.
+

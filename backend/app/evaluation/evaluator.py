@@ -123,3 +123,4 @@ class RepoLensBenchmarkEvaluator:
             citation_f1=cit_f1,
             faithfulness=faithfulness,
         )
+
