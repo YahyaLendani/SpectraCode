@@ -147,3 +147,4 @@ export const RemotionPipelinePlayer: React.FC = () => {
     </div>
   );
 };
+

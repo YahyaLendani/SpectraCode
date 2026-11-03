@@ -59,3 +59,4 @@
   ],
   "renderCommand": "npx hyperframes render src/animations/hyperframes-spec.json -o public/repolens-pipeline.mp4"
 }
+

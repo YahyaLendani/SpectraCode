@@ -919,3 +919,4 @@ export const PipelineAnimation: React.FC = () => {
     </div>
   );
 };
+
