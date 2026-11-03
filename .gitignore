@@ -45,4 +45,6 @@ yarn-error.log*
 Thumbs.db
 .vscode/
 .idea/
+.gemini/
+backend/graphify-out/
 
