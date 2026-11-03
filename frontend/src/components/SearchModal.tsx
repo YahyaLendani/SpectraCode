@@ -3,11 +3,10 @@
 import React, { useState, useEffect } from "react";
 import {
   Search,
-  X,
   Loader2,
   FileCode2,
-  Sparkles,
   CornerDownLeft,
+  Terminal,
 } from "lucide-react";
 import { api, SearchResultItem } from "@/lib/api";
 import { cn } from "@/lib/utils";
@@ -108,19 +107,19 @@ export const SearchModal: React.FC<SearchModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-black/75 backdrop-blur-md p-4 pt-16"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/75 backdrop-blur-sm p-4 pt-16"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-white/[0.1] bg-[#0b101e] shadow-2xl"
+        className="relative w-full max-w-2xl overflow-hidden rounded-xl border border-slate-800 bg-[#0f1623] shadow-modal"
       >
         {/* Top Command Input Bar */}
         <form
           onSubmit={handleManualSubmit}
-          className="flex items-center border-b border-white/[0.08] bg-[#060911] px-4 py-3.5"
+          className="flex items-center border-b border-slate-800 bg-[#0b0f17] px-4 py-3.5"
         >
-          <Search className="h-4 w-4 text-indigo-400 mr-3 shrink-0" />
+          <Search className="h-4 w-4 text-blue-400 mr-3 shrink-0" />
           <input
             type="text"
             autoFocus
@@ -130,12 +129,12 @@ export const SearchModal: React.FC<SearchModalProps> = ({
             className="flex-1 bg-transparent font-mono text-xs sm:text-sm text-slate-100 placeholder:text-slate-500 outline-none"
           />
           {loading && (
-            <Loader2 className="h-4 w-4 animate-spin text-indigo-400 mr-2" />
+            <Loader2 className="h-4 w-4 animate-spin text-blue-400 mr-2" />
           )}
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg border border-white/10 bg-slate-900 px-1.5 py-0.5 font-mono text-[10px] text-slate-400 hover:text-white"
+            className="rounded border border-slate-800 bg-slate-900 px-1.5 py-0.5 font-mono text-[10px] text-slate-400 hover:text-white"
           >
             ESC
           </button>
@@ -155,38 +154,38 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     onClose();
                   }}
                   className={cn(
-                    "group cursor-pointer rounded-xl border p-3 transition-all",
+                    "group cursor-pointer rounded-lg border p-3 transition-colors",
                     isSelected
-                      ? "border-indigo-500/60 bg-indigo-950/25 shadow-md"
-                      : "border-white/[0.07] bg-slate-950/60 hover:border-indigo-500/40"
+                      ? "border-blue-500/60 bg-blue-950/25"
+                      : "border-slate-800 bg-[#0b0f17] hover:border-slate-700"
                   )}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                     <div className="flex items-center gap-2">
-                      <FileCode2 className="h-3.5 w-3.5 text-indigo-400" />
-                      <span className="font-mono text-xs font-bold text-white">
+                      <FileCode2 className="h-3.5 w-3.5 text-blue-400" />
+                      <span className="font-mono text-xs font-bold text-slate-100 tabular-nums">
                         {r.file_path}
-                        <span className="text-indigo-300">
+                        <span className="text-blue-300">
                           :{r.start_line}-{r.end_line}
                         </span>
                       </span>
                       {r.symbol_name && (
-                        <span className="rounded border border-indigo-500/30 bg-indigo-500/10 px-1.5 py-0.5 font-mono text-[10px] text-indigo-300">
+                        <span className="rounded border border-blue-500/30 bg-blue-500/10 px-1.5 py-0.5 font-mono text-[10px] text-blue-300">
                           {r.symbol_kind || "symbol"}: {r.symbol_name}
                         </span>
                       )}
                     </div>
 
                     {/* RRF Score Decomposition */}
-                    <div className="flex items-center gap-1.5 font-mono text-[10px]">
+                    <div className="flex items-center gap-1.5 font-mono text-[10px] tabular-nums">
                       <span
-                        className="rounded bg-slate-900 px-1.5 py-0.5 text-slate-400"
+                        className="rounded border border-slate-800 bg-slate-900 px-1.5 py-0.5 text-slate-400"
                         title="Dense ONNX Vector Cosine Similarity"
                       >
                         Dense {(r.dense_score * 100).toFixed(0)}%
                       </span>
                       <span
-                        className="rounded bg-slate-900 px-1.5 py-0.5 text-slate-400"
+                        className="rounded border border-slate-800 bg-slate-900 px-1.5 py-0.5 text-slate-400"
                         title="Sparse Lexical + Identifier Fuzzy Score"
                       >
                         Lex {(r.sparse_score * 100).toFixed(0)}%
@@ -198,24 +197,24 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                   </div>
 
                   {/* Code Preview */}
-                  <pre className="rounded-lg border border-white/[0.05] bg-[#060911] p-2.5 font-mono text-[11px] text-slate-300 overflow-x-auto max-h-24">
+                  <pre className="rounded border border-slate-800 bg-[#0b0f17] p-2.5 font-mono text-[11px] text-slate-300 overflow-x-auto max-h-24">
                     {r.raw_code.trim()}
                   </pre>
                 </div>
               );
             })
           ) : query.trim() && !loading ? (
-            <div className="p-8 text-center text-xs text-slate-500">
+            <div className="p-8 text-center text-xs text-slate-400">
               No matching AST code chunks found for &ldquo;{query}&rdquo;.
             </div>
           ) : (
             <div className="p-6 text-center space-y-4">
               <div className="space-y-1">
-                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300">
-                  <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-200">
+                  <Terminal className="h-3.5 w-3.5 text-blue-400" />
                   <span>Instant Hybrid Reciprocal Rank Fusion Search</span>
                 </div>
-                <p className="text-[11px] text-slate-500">
+                <p className="text-[11px] text-slate-400">
                   Combines 384-d dense embeddings with camelCase &amp; snake_case token expansion
                 </p>
               </div>
@@ -226,7 +225,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     key={token}
                     type="button"
                     onClick={() => setQuery(token)}
-                    className="rounded-lg border border-white/[0.08] bg-slate-900/90 px-2.5 py-1 font-mono text-[11px] text-indigo-300 hover:border-indigo-500/50 hover:bg-indigo-950/40 transition-colors"
+                    className="rounded border border-slate-800 bg-slate-900 px-2.5 py-1 font-mono text-[11px] text-blue-300 hover:border-blue-500/50 hover:bg-blue-950/40 transition-colors"
                   >
                     {token}
                   </button>
@@ -237,7 +236,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         </div>
 
         {/* Footer Keyboard Hints */}
-        <div className="flex items-center justify-between border-t border-white/[0.07] bg-[#060911] px-4 py-2 text-[10px] text-slate-500 font-mono">
+        <div className="flex items-center justify-between border-t border-slate-800 bg-[#0b0f17] px-4 py-2 text-[10px] text-slate-400 font-mono">
           <span>↑↓ Navigate results</span>
           <span className="flex items-center gap-1">
             <CornerDownLeft className="h-3 w-3" /> Jump to exact file &amp; lines

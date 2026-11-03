@@ -10,7 +10,6 @@ import {
   BarChart3,
   FolderGit2,
   GitBranch,
-  Sparkles,
 } from "lucide-react";
 import Link from "next/link";
 import { api, FileDetail, Repository, TreeNode } from "@/lib/api";
@@ -156,32 +155,32 @@ export default function RepositoryWorkspacePage() {
   };
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-[#060911] text-slate-100">
-      {/* Executive Workspace Top Bar */}
-      <header className="flex h-12 shrink-0 items-center justify-between border-b border-white/[0.08] bg-[#090e1a] px-4">
+    <div className="flex h-screen flex-col overflow-hidden bg-[#0b0f17] text-slate-100">
+      {/* Workspace Top Bar */}
+      <header className="flex h-12 shrink-0 items-center justify-between border-b border-slate-800 bg-[#0b0f17] px-4">
         <div className="flex items-center gap-3 min-w-0">
           <Link
             href="/"
-            className="flex items-center gap-1.5 rounded-lg border border-white/[0.07] bg-slate-900/80 px-2.5 py-1 text-xs font-medium text-slate-300 hover:border-indigo-500/40 hover:text-white transition-colors"
+            className="flex items-center gap-1.5 rounded border border-slate-800 bg-slate-900 px-2.5 py-1 text-xs font-medium text-slate-300 hover:border-slate-700 hover:text-white transition-colors"
           >
-            <ArrowLeft className="h-3.5 w-3.5 text-indigo-400" />
+            <ArrowLeft className="h-3.5 w-3.5 text-blue-400" />
             <span className="hidden sm:inline">Workspaces</span>
           </Link>
 
-          <div className="h-4 w-[1px] bg-white/[0.08]" />
+          <div className="h-4 w-[1px] bg-slate-800" />
 
           <div className="flex items-center gap-2 min-w-0">
-            <FolderGit2 className="h-4 w-4 text-indigo-400 shrink-0" />
-            <span className="font-mono text-xs font-bold text-white truncate">
+            <FolderGit2 className="h-4 w-4 text-blue-400 shrink-0" />
+            <span className="font-mono text-xs font-bold text-slate-100 truncate">
               {repo ? `${repo.github_owner}/${repo.github_name}` : "Loading..."}
             </span>
             {repo && (
-              <div className="hidden md:flex items-center gap-1.5">
-                <span className="inline-flex items-center gap-1 rounded border border-white/[0.07] bg-slate-900 px-1.5 py-0.5 font-mono text-[10px] text-slate-400">
-                  <GitBranch className="h-2.5 w-2.5 text-indigo-400" />
+              <div className="hidden md:flex items-center gap-1.5 tabular-nums">
+                <span className="inline-flex items-center gap-1 rounded border border-slate-800 bg-slate-900 px-1.5 py-0.5 font-mono text-[10px] text-slate-400">
+                  <GitBranch className="h-2.5 w-2.5 text-blue-400" />
                   {repo.default_branch}
                 </span>
-                <span className="rounded border border-indigo-500/25 bg-indigo-500/10 px-2 py-0.5 font-mono text-[10px] font-semibold text-indigo-300">
+                <span className="rounded border border-blue-500/25 bg-blue-500/10 px-2 py-0.5 font-mono text-[10px] font-semibold text-blue-300">
                   {repo.total_files} files • {repo.total_chunks} AST chunks
                 </span>
               </div>
@@ -190,12 +189,12 @@ export default function RepositoryWorkspacePage() {
         </div>
 
         {/* Center Mode Switcher */}
-        <div className="flex items-center rounded-xl border border-white/[0.08] bg-[#060911] p-0.5 text-xs font-medium">
+        <div className="flex items-center rounded-lg border border-slate-800 bg-slate-900 p-0.5 text-xs font-medium">
           <button
             onClick={() => setActiveTab("code")}
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-1 transition-all ${
+            className={`flex items-center gap-1.5 rounded-md px-3 py-1 transition-colors ${
               activeTab === "code"
-                ? "bg-indigo-600 text-white shadow-sm"
+                ? "bg-blue-600 text-white"
                 : "text-slate-400 hover:text-slate-200"
             }`}
           >
@@ -204,9 +203,9 @@ export default function RepositoryWorkspacePage() {
           </button>
           <button
             onClick={() => setActiveTab("dependencies")}
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-1 transition-all ${
+            className={`flex items-center gap-1.5 rounded-md px-3 py-1 transition-colors ${
               activeTab === "dependencies"
-                ? "bg-indigo-600 text-white shadow-sm"
+                ? "bg-blue-600 text-white"
                 : "text-slate-400 hover:text-slate-200"
             }`}
           >
@@ -219,20 +218,20 @@ export default function RepositoryWorkspacePage() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="flex items-center gap-2 rounded-lg border border-white/[0.08] bg-slate-900/90 px-3 py-1 text-xs text-slate-300 hover:border-indigo-500/40 hover:text-white transition-colors"
+            className="flex items-center gap-2 rounded border border-slate-800 bg-slate-900 px-3 py-1 text-xs text-slate-300 hover:border-slate-700 hover:text-white transition-colors"
           >
-            <Search className="h-3.5 w-3.5 text-indigo-400" />
+            <Search className="h-3.5 w-3.5 text-blue-400" />
             <span className="hidden sm:inline">Hybrid Search...</span>
-            <kbd className="rounded border border-white/10 bg-slate-950 px-1.5 py-0.2 font-mono text-[10px] text-slate-400">
+            <kbd className="rounded border border-slate-700 bg-slate-950 px-1.5 py-0.2 font-mono text-[10px] text-slate-400">
               ⌘K
             </kbd>
           </button>
 
           <Link
             href="/evaluation"
-            className="flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-slate-900/90 px-2.5 py-1 text-xs font-medium text-slate-300 hover:border-cyan-500/40 hover:text-white transition-colors"
+            className="flex items-center gap-1.5 rounded border border-slate-800 bg-slate-900 px-2.5 py-1 text-xs font-medium text-slate-300 hover:border-slate-700 hover:text-white transition-colors"
           >
-            <BarChart3 className="h-3.5 w-3.5 text-cyan-400" />
+            <BarChart3 className="h-3.5 w-3.5 text-teal-400" />
             <span className="hidden sm:inline">Benchmarks</span>
           </Link>
         </div>
@@ -241,7 +240,7 @@ export default function RepositoryWorkspacePage() {
       {/* 3-Pane Intelligence Workspace Body */}
       <div className="flex flex-1 overflow-hidden">
         {/* Left Pane: File Explorer */}
-        <div className="w-64 border-r border-white/[0.07] shrink-0">
+        <div className="w-64 border-r border-slate-800 shrink-0">
           <FileExplorer
             tree={tree}
             selectedFilePath={selectedFile?.file_path || null}

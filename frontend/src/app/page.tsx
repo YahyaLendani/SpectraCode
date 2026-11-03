@@ -7,19 +7,14 @@ import {
   Plus,
   ArrowRight,
   Code2,
-  Sparkles,
   BarChart3,
-  CheckCircle2,
   Clock,
   AlertCircle,
-  FileText,
   Search,
   GitBranch,
   GitCommit,
-  Cpu,
   ShieldCheck,
   RefreshCw,
-  Layers,
   Zap,
   Terminal,
 } from "lucide-react";
@@ -100,7 +95,7 @@ export default function DashboardPage() {
     switch (status) {
       case "ready":
         return (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-300">
+          <span className="badge-status border border-emerald-500/30 bg-emerald-500/10 text-emerald-300">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
             Ready
           </span>
@@ -109,8 +104,8 @@ export default function DashboardPage() {
       case "embedding":
       case "cloning":
         return (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/15 px-2.5 py-0.5 text-[11px] font-semibold text-indigo-300 animate-pulse">
-            <Clock className="h-3 w-3 text-indigo-400" />
+          <span className="badge-status border border-blue-500/30 bg-blue-500/15 text-blue-300">
+            <Clock className="h-3 w-3 text-blue-400" />
             {status === "cloning"
               ? "Cloning Git"
               : status === "parsing_ast"
@@ -120,14 +115,14 @@ export default function DashboardPage() {
         );
       case "failed":
         return (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-rose-500/30 bg-rose-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-rose-300">
+          <span className="badge-status border border-rose-500/30 bg-rose-500/10 text-rose-300">
             <AlertCircle className="h-3 w-3 text-rose-400" />
             Failed
           </span>
         );
       default:
         return (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-slate-500/25 bg-slate-500/10 px-2.5 py-0.5 text-[11px] font-semibold text-slate-300">
+          <span className="badge-status border border-slate-700 bg-slate-800/80 text-slate-300">
             <Clock className="h-3 w-3" />
             Queued
           </span>
@@ -153,46 +148,36 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#060911] text-slate-100 flex flex-col relative selection:bg-indigo-500/30">
-      {/* Subtle Ambient Background */}
-      <div className="pointer-events-none fixed inset-0 bg-grid-pattern opacity-60" />
-      <div className="pointer-events-none fixed inset-x-0 top-0 h-[520px] hero-spotlight" />
-
+    <div className="min-h-screen bg-[#0b0f17] text-slate-100 flex flex-col">
       <Navbar repositories={repositories} />
 
-      <main className="relative z-10 flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-10">
-        {/* Executive Hero Banner */}
-        <section className="relative overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-slate-900/90 via-[#0b1120]/95 to-[#070b14] p-7 sm:p-10 shadow-2xl">
-          <div className="pointer-events-none absolute -right-20 -top-20 h-96 w-96 rounded-full bg-indigo-600/15 blur-3xl" />
-          <div className="pointer-events-none absolute -bottom-24 left-1/3 h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl" />
-
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-8 space-y-5">
-
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-[1.12]">
-                Comprehend Any Codebase with{" "}
-                <span className="text-indigo-400 font-extrabold">
-                  Line-Verified Citations
-                </span>
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-8">
+        {/* Developer Workbench Header Banner */}
+        <section className="surface-card rounded-xl p-6 sm:p-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div className="lg:col-span-8 space-y-4">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-slate-50 leading-tight">
+                Codebase Intelligence with{" "}
+                <span className="text-blue-400">Line-Verified Citations</span>
               </h1>
 
-              <p className="max-w-2xl text-sm sm:text-base text-slate-300/90 leading-relaxed">
+              <p className="max-w-2xl text-sm sm:text-base text-slate-300 leading-relaxed">
                 RepoLens parses repositories into syntax-preserving AST chunks, fuses dense ONNX vector embeddings with identifier-aware lexical search via Reciprocal Rank Fusion, and enforces deterministic{" "}
-                <code className="rounded border border-indigo-500/30 bg-indigo-950/60 px-1.5 py-0.5 font-mono text-xs text-indigo-200">
+                <code className="rounded border border-blue-500/30 bg-blue-950/50 px-1.5 py-0.5 font-mono text-xs text-blue-200">
                   [file:start-end]
                 </code>{" "}
                 source grounding.
               </p>
 
-              <div className="inline-flex items-center gap-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 px-3.5 py-1 text-xs font-semibold text-indigo-300 shadow-sm">
-                <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
+              <div className="inline-flex items-center gap-2 rounded-md border border-slate-700 bg-slate-900 px-3 py-1 font-mono text-xs font-medium text-slate-300">
+                <Terminal className="h-3.5 w-3.5 text-blue-400" />
                 <span>Tree-Sitter AST • Hybrid RRF Retrieval • Grounded Citation Gate</span>
               </div>
 
-              <div className="flex flex-wrap items-center gap-3 pt-1">
+              <div className="flex flex-wrap items-center gap-3 pt-2">
                 <button
                   onClick={() => setIsImportOpen(true)}
-                  className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 px-5 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 ring-1 ring-white/15 transition-all hover:-translate-y-0.5"
+                  className="inline-flex items-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-500 px-4 py-2.5 text-xs sm:text-sm font-semibold text-white transition-colors"
                 >
                   <Plus className="h-4 w-4" />
                   <span>Import GitHub Repository</span>
@@ -201,7 +186,7 @@ export default function DashboardPage() {
                 <button
                   onClick={handleQuickSampleImport}
                   disabled={importingSample}
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] hover:border-indigo-500/40 px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-200 transition-all disabled:opacity-50"
+                  className="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-900 hover:bg-slate-800 hover:border-slate-600 px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-200 transition-colors disabled:opacity-50"
                 >
                   <Zap className="h-4 w-4 text-amber-400" />
                   <span>{importingSample ? "Indexing Sample..." : "Load Instant Demo Repo"}</span>
@@ -209,35 +194,35 @@ export default function DashboardPage() {
 
                 <Link
                   href="/evaluation"
-                  className="inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-slate-900/70 hover:border-cyan-500/40 hover:text-white px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-300 transition-all"
+                  className="inline-flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-900/70 hover:border-slate-700 hover:text-white px-4 py-2.5 text-xs sm:text-sm font-semibold text-slate-300 transition-colors"
                 >
-                  <BarChart3 className="h-4 w-4 text-cyan-400" />
+                  <BarChart3 className="h-4 w-4 text-teal-400" />
                   <span>Benchmark Suite</span>
                 </Link>
               </div>
             </div>
 
             {/* Right: Live Engine Telemetry Card */}
-            <div className="lg:col-span-4 rounded-xl border border-white/[0.08] bg-slate-950/80 p-5 backdrop-blur-md shadow-inner space-y-4">
-              <div className="flex items-center justify-between border-b border-white/[0.07] pb-3">
+            <div className="lg:col-span-4 rounded-lg border border-slate-800 bg-[#0b0f17] p-5 space-y-4">
+              <div className="flex items-center justify-between border-b border-slate-800 pb-3">
                 <div className="flex items-center gap-2">
-                  <Terminal className="h-4 w-4 text-indigo-400" />
+                  <Terminal className="h-4 w-4 text-blue-400" />
                   <span className="font-mono text-xs font-bold uppercase tracking-wider text-slate-200">
                     Index Telemetry
                   </span>
                 </div>
-                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 font-mono text-[10px] font-semibold text-emerald-300">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span className="inline-flex items-center gap-1.5 rounded border border-emerald-500/25 bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] font-semibold text-emerald-300">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
                   ONLINE
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-lg border border-white/[0.06] bg-slate-900/60 p-3">
+              <div className="grid grid-cols-2 gap-3 tabular-nums">
+                <div className="rounded-lg border border-slate-800 bg-slate-900/70 p-3">
                   <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 block">
                     Indexed Repos
                   </span>
-                  <div className="mt-1 font-mono text-2xl font-extrabold text-white">
+                  <div className="mt-1 font-mono text-2xl font-bold text-slate-100">
                     {telemetry.readyRepos}
                     <span className="text-xs font-normal text-slate-500">
                       /{telemetry.totalRepos}
@@ -245,25 +230,25 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                <div className="rounded-lg border border-white/[0.06] bg-slate-900/60 p-3">
+                <div className="rounded-lg border border-slate-800 bg-slate-900/70 p-3">
                   <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 block">
                     Source Files
                   </span>
-                  <div className="mt-1 font-mono text-2xl font-extrabold text-indigo-400">
+                  <div className="mt-1 font-mono text-2xl font-bold text-blue-400">
                     {telemetry.totalFiles.toLocaleString()}
                   </div>
                 </div>
 
-                <div className="rounded-lg border border-white/[0.06] bg-slate-900/60 p-3">
+                <div className="rounded-lg border border-slate-800 bg-slate-900/70 p-3">
                   <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 block">
                     AST Chunks
                   </span>
-                  <div className="mt-1 font-mono text-2xl font-extrabold text-cyan-400">
+                  <div className="mt-1 font-mono text-2xl font-bold text-teal-400">
                     {telemetry.totalChunks.toLocaleString()}
                   </div>
                 </div>
 
-                <div className="rounded-lg border border-white/[0.06] bg-slate-900/60 p-3">
+                <div className="rounded-lg border border-slate-800 bg-slate-900/70 p-3">
                   <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 block">
                     Vector Space
                   </span>
@@ -281,60 +266,60 @@ export default function DashboardPage() {
 
         {/* 4-Pillar Architecture Strip */}
         <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="glass-card rounded-xl p-4 transition-colors hover:border-indigo-500/30">
+          <div className="surface-card rounded-lg p-4">
             <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2 text-indigo-400 font-semibold text-xs">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-500/10 border border-indigo-500/20">
+              <div className="flex items-center gap-2 text-slate-100 font-semibold text-xs">
+                <div className="flex h-7 w-7 items-center justify-center rounded-md bg-blue-500/10 border border-blue-500/25 text-blue-400">
                   <Code2 className="h-4 w-4" />
                 </div>
                 <span>Tree-sitter AST Parser</span>
               </div>
-              <span className="font-mono text-[10px] text-slate-600 font-bold">01</span>
+              <span className="font-mono text-[10px] text-slate-500 font-bold tabular-nums">01</span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
               Extracts classes, functions, methods, and docstrings with exact 1-based line intervals and scope headers.
             </p>
           </div>
 
-          <div className="glass-card rounded-xl p-4 transition-colors hover:border-cyan-500/30">
+          <div className="surface-card rounded-lg p-4">
             <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2 text-cyan-400 font-semibold text-xs">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-cyan-500/10 border border-cyan-500/20">
+              <div className="flex items-center gap-2 text-slate-100 font-semibold text-xs">
+                <div className="flex h-7 w-7 items-center justify-center rounded-md bg-teal-500/10 border border-teal-500/25 text-teal-400">
                   <Search className="h-4 w-4" />
                 </div>
                 <span>Hybrid RRF Retrieval</span>
               </div>
-              <span className="font-mono text-[10px] text-slate-600 font-bold">02</span>
+              <span className="font-mono text-[10px] text-slate-500 font-bold tabular-nums">02</span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
               Dynamic alpha Reciprocal Rank Fusion combining dense semantic vectors with camelCase/snake_case lexical matching.
             </p>
           </div>
 
-          <div className="glass-card rounded-xl p-4 transition-colors hover:border-emerald-500/30">
+          <div className="surface-card rounded-lg p-4">
             <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2 text-emerald-400 font-semibold text-xs">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+              <div className="flex items-center gap-2 text-slate-100 font-semibold text-xs">
+                <div className="flex h-7 w-7 items-center justify-center rounded-md bg-emerald-500/10 border border-emerald-500/25 text-emerald-400">
                   <ShieldCheck className="h-4 w-4" />
                 </div>
                 <span>Grounded Citation Gate</span>
               </div>
-              <span className="font-mono text-[10px] text-slate-600 font-bold">03</span>
+              <span className="font-mono text-[10px] text-slate-500 font-bold tabular-nums">03</span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
-              Validates every <code className="font-mono text-indigo-300">[file:L-L]</code> citation against retrieved AST spans and abstains on unverified claims.
+              Validates every <code className="font-mono text-blue-300">[file:L-L]</code> citation against retrieved AST spans and abstains on unverified claims.
             </p>
           </div>
 
-          <div className="glass-card rounded-xl p-4 transition-colors hover:border-purple-500/30">
+          <div className="surface-card rounded-lg p-4">
             <div className="flex items-center justify-between mb-2">
-              <div className="flex items-center gap-2 text-purple-400 font-semibold text-xs">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-purple-500/10 border border-purple-500/20">
+              <div className="flex items-center gap-2 text-slate-100 font-semibold text-xs">
+                <div className="flex h-7 w-7 items-center justify-center rounded-md bg-amber-500/10 border border-amber-500/25 text-amber-400">
                   <BarChart3 className="h-4 w-4" />
                 </div>
                 <span>Automated Evaluation</span>
               </div>
-              <span className="font-mono text-[10px] text-slate-600 font-bold">04</span>
+              <span className="font-mono text-[10px] text-slate-500 font-bold tabular-nums">04</span>
             </div>
             <p className="text-xs text-slate-400 leading-relaxed">
               Reproducible benchmark suite quantifying Recall@K, MRR, Citation Precision/Recall/F1, and Faithfulness.
@@ -344,12 +329,12 @@ export default function DashboardPage() {
 
         {/* Repositories Workspace Directory */}
         <section className="space-y-5">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/[0.07] pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
             <div>
-              <h2 className="text-lg font-bold tracking-tight text-white flex items-center gap-2">
-                <FolderGit2 className="h-5 w-5 text-indigo-400" />
+              <h2 className="text-lg font-bold tracking-tight text-slate-100 flex items-center gap-2">
+                <FolderGit2 className="h-5 w-5 text-blue-400" />
                 <span>Indexed Codebase Workspaces</span>
-                <span className="rounded-full bg-white/[0.06] px-2 py-0.5 font-mono text-xs text-slate-300">
+                <span className="rounded-md border border-slate-800 bg-slate-900 px-2 py-0.5 font-mono text-xs text-slate-300 tabular-nums">
                   {filteredRepositories.length}
                 </span>
               </h2>
@@ -367,18 +352,18 @@ export default function DashboardPage() {
                   placeholder="Filter repositories..."
                   value={searchFilter}
                   onChange={(e) => setSearchFilter(e.target.value)}
-                  className="w-48 sm:w-56 rounded-lg border border-white/[0.08] bg-slate-900/90 py-1.5 pl-8 pr-3 text-xs text-slate-200 placeholder:text-slate-500 focus:border-indigo-500 focus:outline-none"
+                  className="w-48 sm:w-56 rounded-lg border border-slate-800 bg-slate-900 py-1.5 pl-8 pr-3 text-xs text-slate-200 placeholder:text-slate-500 focus:border-blue-500 focus:outline-none"
                 />
               </div>
 
-              <div className="flex items-center rounded-lg border border-white/[0.08] bg-slate-900/80 p-0.5 text-xs">
+              <div className="flex items-center rounded-lg border border-slate-800 bg-slate-900 p-0.5 text-xs">
                 {(["all", "ready", "indexing"] as const).map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setStatusFilter(tab)}
                     className={`rounded-md px-2.5 py-1 font-medium capitalize transition-colors ${
                       statusFilter === tab
-                        ? "bg-indigo-600 text-white"
+                        ? "bg-blue-600 text-white"
                         : "text-slate-400 hover:text-slate-200"
                     }`}
                   >
@@ -390,14 +375,14 @@ export default function DashboardPage() {
               <button
                 onClick={() => loadRepos(true)}
                 title="Refresh repository statuses"
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.08] bg-slate-900/80 text-slate-400 hover:border-white/15 hover:text-white transition-colors"
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-800 bg-slate-900 text-slate-400 hover:border-slate-700 hover:text-white transition-colors"
               >
-                <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? "animate-spin text-indigo-400" : ""}`} />
+                <RefreshCw className={`h-3.5 w-3.5 ${refreshing ? "animate-spin text-blue-400" : ""}`} />
               </button>
 
               <button
                 onClick={() => setIsImportOpen(true)}
-                className="flex items-center gap-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm transition-colors"
+                className="flex items-center gap-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 px-3.5 py-1.5 text-xs font-semibold text-white transition-colors"
               >
                 <Plus className="h-3.5 w-3.5" />
                 <span>Add Repository</span>
@@ -410,7 +395,7 @@ export default function DashboardPage() {
               {[1, 2, 3].map((n) => (
                 <div
                   key={n}
-                  className="h-56 rounded-xl border border-white/[0.06] bg-slate-900/40 p-5 animate-pulse flex flex-col justify-between"
+                  className="h-56 rounded-xl border border-slate-800 bg-slate-900/50 p-5 animate-pulse flex flex-col justify-between"
                 >
                   <div className="space-y-3">
                     <div className="h-5 w-2/3 rounded bg-slate-800" />
@@ -421,11 +406,11 @@ export default function DashboardPage() {
               ))}
             </div>
           ) : filteredRepositories.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-white/10 bg-slate-900/30 p-12 text-center">
-              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400">
+            <div className="rounded-xl border border-dashed border-slate-800 bg-slate-900/30 p-12 text-center">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400">
                 <FolderGit2 className="h-6 w-6" />
               </div>
-              <h3 className="text-sm font-bold text-white">
+              <h3 className="text-sm font-bold text-slate-100">
                 {repositories.length === 0
                   ? "No repositories indexed yet"
                   : "No repositories match your filter"}
@@ -438,14 +423,14 @@ export default function DashboardPage() {
               <div className="mt-5 flex items-center justify-center gap-3">
                 <button
                   onClick={() => setIsImportOpen(true)}
-                  className="rounded-lg bg-indigo-600 px-4 py-2 text-xs font-semibold text-white hover:bg-indigo-500 transition-colors"
+                  className="rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-500 transition-colors"
                 >
                   Import Repository
                 </button>
                 {repositories.length === 0 && (
                   <button
                     onClick={handleQuickSampleImport}
-                    className="rounded-lg border border-white/10 bg-white/[0.04] px-4 py-2 text-xs font-semibold text-slate-200 hover:bg-white/[0.08] transition-colors"
+                    className="rounded-lg border border-slate-700 bg-slate-900 px-4 py-2 text-xs font-semibold text-slate-200 hover:bg-slate-800 transition-colors"
                   >
                     Load 1-Click Sample
                   </button>
@@ -464,22 +449,22 @@ export default function DashboardPage() {
                 return (
                   <div
                     key={repo.id}
-                    className="glass-card-interactive group flex flex-col justify-between rounded-xl p-5"
+                    className="surface-card-interactive group flex flex-col justify-between rounded-xl p-5"
                   >
                     <div className="space-y-4">
                       {/* Card Header */}
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0">
                           <div className="flex items-center gap-2">
-                            <FolderGit2 className="h-4 w-4 text-indigo-400 shrink-0" />
+                            <FolderGit2 className="h-4 w-4 text-blue-400 shrink-0" />
                             <Link
                               href={`/repos/${repo.id}`}
-                              className="font-mono text-sm font-bold text-white group-hover:text-indigo-300 transition-colors truncate"
+                              className="font-mono text-sm font-bold text-slate-100 group-hover:text-blue-400 transition-colors truncate"
                             >
                               {repo.github_owner}/{repo.github_name}
                             </Link>
                           </div>
-                          <p className="mt-1 font-mono text-[11px] text-slate-500 truncate">
+                          <p className="mt-1 font-mono text-[11px] text-slate-400 truncate">
                             {repo.clone_url}
                           </p>
                         </div>
@@ -488,13 +473,13 @@ export default function DashboardPage() {
 
                       {/* Git Metadata Badges */}
                       <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
-                        <span className="inline-flex items-center gap-1 rounded-md border border-white/[0.07] bg-slate-950/70 px-2 py-0.5 text-slate-300">
-                          <GitBranch className="h-3 w-3 text-indigo-400" />
+                        <span className="inline-flex items-center gap-1 rounded border border-slate-800 bg-[#0b0f17] px-2 py-0.5 text-slate-300">
+                          <GitBranch className="h-3 w-3 text-blue-400" />
                           {repo.default_branch}
                         </span>
                         {repo.last_indexed_commit_sha && (
-                          <span className="inline-flex items-center gap-1 rounded-md border border-white/[0.07] bg-slate-950/70 px-2 py-0.5 text-slate-400">
-                            <GitCommit className="h-3 w-3 text-cyan-400" />
+                          <span className="inline-flex items-center gap-1 rounded border border-slate-800 bg-[#0b0f17] px-2 py-0.5 text-slate-400 tabular-nums">
+                            <GitCommit className="h-3 w-3 text-teal-400" />
                             {repo.last_indexed_commit_sha.slice(0, 12)}
                           </span>
                         )}
@@ -502,14 +487,14 @@ export default function DashboardPage() {
 
                       {/* Indexing Progress Bar */}
                       <div className="space-y-1">
-                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-950">
+                        <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#0b0f17]">
                           <div
                             className={`h-full rounded-full transition-all duration-500 ${
                               repo.status === "ready"
-                                ? "bg-gradient-to-r from-indigo-500 via-cyan-400 to-emerald-400"
+                                ? "bg-emerald-500"
                                 : repo.status === "failed"
                                 ? "bg-rose-500"
-                                : "bg-indigo-500 animate-pulse"
+                                : "bg-blue-500 animate-pulse"
                             }`}
                             style={{ width: `${progress}%` }}
                           />
@@ -517,28 +502,28 @@ export default function DashboardPage() {
                       </div>
 
                       {/* Stats Grid */}
-                      <div className="grid grid-cols-3 gap-2 rounded-lg border border-white/[0.06] bg-slate-950/60 p-2.5 text-center">
+                      <div className="grid grid-cols-3 gap-2 rounded-lg border border-slate-800 bg-[#0b0f17] p-2.5 text-center tabular-nums">
                         <div>
-                          <div className="text-[10px] font-medium uppercase text-slate-500">
+                          <div className="text-[10px] font-medium uppercase text-slate-400">
                             Files
                           </div>
                           <div className="font-mono text-xs font-bold text-slate-200 mt-0.5">
                             {repo.total_files}
                           </div>
                         </div>
-                        <div className="border-x border-white/[0.06]">
-                          <div className="text-[10px] font-medium uppercase text-slate-500">
+                        <div className="border-x border-slate-800">
+                          <div className="text-[10px] font-medium uppercase text-slate-400">
                             AST Chunks
                           </div>
-                          <div className="font-mono text-xs font-bold text-indigo-300 mt-0.5">
+                          <div className="font-mono text-xs font-bold text-blue-300 mt-0.5">
                             {repo.total_chunks}
                           </div>
                         </div>
                         <div>
-                          <div className="text-[10px] font-medium uppercase text-slate-500">
+                          <div className="text-[10px] font-medium uppercase text-slate-400">
                             Density
                           </div>
-                          <div className="font-mono text-xs font-bold text-cyan-300 mt-0.5">
+                          <div className="font-mono text-xs font-bold text-teal-300 mt-0.5">
                             {avgChunksPerFile}/file
                           </div>
                         </div>
@@ -555,15 +540,15 @@ export default function DashboardPage() {
                     <div className="pt-4 mt-3 flex items-center gap-2">
                       <Link
                         href={`/repos/${repo.id}`}
-                        className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-indigo-600/90 hover:bg-indigo-500 px-3.5 py-2 text-xs font-semibold text-white shadow-sm transition-all"
+                        className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-500 px-3.5 py-2 text-xs font-semibold text-white transition-colors"
                       >
                         <span>Open Workspace</span>
-                        <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                        <ArrowRight className="h-3.5 w-3.5" />
                       </Link>
                       <Link
                         href="/evaluation"
                         title="Run Evaluation Benchmarks"
-                        className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.08] bg-slate-900 hover:border-indigo-500/50 hover:text-indigo-300 text-slate-400 transition-colors"
+                        className="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-800 bg-slate-900 hover:border-slate-700 hover:text-blue-300 text-slate-400 transition-colors"
                       >
                         <BarChart3 className="h-3.5 w-3.5" />
                       </Link>

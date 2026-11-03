@@ -5,7 +5,6 @@ import {
   Send,
   Bot,
   User,
-  Sparkles,
   AlertTriangle,
   ExternalLink,
   RefreshCw,
@@ -205,7 +204,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             className="citation-pill"
             title={`Jump to ${filePath} (Lines ${startLine}–${endLine})`}
           >
-            <FileCode2 className="h-3 w-3 text-indigo-400 shrink-0" />
+            <FileCode2 className="h-3 w-3 text-blue-400 shrink-0" />
             <span>
               {shortName}:{startLine}
               {endLine !== startLine ? `-${endLine}` : ""}
@@ -220,7 +219,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         return (
           <code
             key={key}
-            className="rounded border border-white/10 bg-slate-900 px-1.5 py-0.5 font-mono text-[11px] text-indigo-200"
+            className="rounded border border-slate-700 bg-slate-900 px-1.5 py-0.5 font-mono text-[11px] text-blue-200"
           >
             {part.slice(1, -1)}
           </code>
@@ -245,7 +244,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     if (!content) {
       return (
         <div className="flex items-center gap-2 py-1 text-xs text-slate-400">
-          <RefreshCw className="h-3.5 w-3.5 animate-spin text-indigo-400" />
+          <RefreshCw className="h-3.5 w-3.5 animate-spin text-blue-400" />
           <span>Retrieving AST spans &amp; verifying line citations...</span>
         </div>
       );
@@ -274,17 +273,17 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             return (
               <div
                 key={segKey}
-                className="overflow-hidden rounded-lg border border-white/[0.08] bg-[#060911] my-2"
+                className="overflow-hidden rounded-lg border border-slate-800 bg-[#0b0f17] my-2"
               >
-                <div className="flex items-center justify-between border-b border-white/[0.06] bg-slate-900/90 px-3 py-1.5">
+                <div className="flex items-center justify-between border-b border-slate-800 bg-slate-900 px-3 py-1.5">
                   <span className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase text-slate-400">
-                    <Terminal className="h-3 w-3 text-indigo-400" />
+                    <Terminal className="h-3 w-3 text-blue-400" />
                     {lang}
                   </span>
                   <button
                     type="button"
                     onClick={() => handleCopySnippet(codeBody, segKey)}
-                    className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] text-slate-400 hover:bg-white/[0.06] hover:text-white transition-colors"
+                    className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
                   >
                     {copiedSnippetKey === segKey ? (
                       <>
@@ -335,16 +334,16 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   ];
 
   return (
-    <div className="flex h-full flex-col bg-[#080d19] border-l border-white/[0.07]">
+    <div className="flex h-full flex-col bg-[#0f1623] border-l border-slate-800">
       {/* Copilot Header */}
-      <div className="flex items-center justify-between border-b border-white/[0.07] bg-[#0b101e] px-4 py-2.5">
+      <div className="flex items-center justify-between border-b border-slate-800 bg-[#0b0f17] px-4 py-2.5">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-500/15 border border-indigo-500/30 text-indigo-400">
+          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-blue-500/15 border border-blue-500/30 text-blue-400">
             <Bot className="h-4 w-4" />
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <span className="text-xs font-bold text-white">
+              <span className="text-xs font-bold text-slate-100">
                 Grounded AI Copilot
               </span>
               <span className="rounded border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.2 font-mono text-[9px] font-semibold text-emerald-300">
@@ -359,7 +358,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             onClick={handleResetChat}
             disabled={streaming || messages.length <= 1}
             title="Start new conversation"
-            className="flex items-center gap-1 rounded-md border border-white/[0.07] bg-slate-900/80 px-2 py-1 text-[10px] font-medium text-slate-400 hover:border-white/15 hover:text-white disabled:opacity-40 transition-colors"
+            className="flex items-center gap-1 rounded border border-slate-800 bg-slate-900 px-2 py-1 text-[10px] font-medium text-slate-400 hover:border-slate-700 hover:text-white disabled:opacity-40 transition-colors"
           >
             <RotateCcw className="h-3 w-3" />
             <span>Reset</span>
@@ -373,10 +372,10 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           <div
             key={idx}
             className={cn(
-              "flex flex-col gap-2 rounded-xl p-3.5 text-xs transition-all",
+              "flex flex-col gap-2 rounded-lg p-3.5 text-xs",
               msg.role === "user"
-                ? "ml-6 bg-gradient-to-br from-indigo-600/25 to-indigo-900/20 border border-indigo-500/30 text-slate-100 shadow-sm"
-                : "mr-2 bg-[#0c1324]/95 border border-white/[0.07] text-slate-200 shadow-md"
+                ? "ml-6 bg-blue-950/35 border border-blue-500/30 text-slate-100"
+                : "mr-2 bg-[#111827] border border-slate-800 text-slate-200"
             )}
           >
             {/* Message Role Header */}
@@ -384,12 +383,12 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               <div className="flex items-center gap-1.5 text-[11px] font-semibold">
                 {msg.role === "user" ? (
                   <>
-                    <User className="h-3.5 w-3.5 text-indigo-400" />
-                    <span className="text-indigo-200">Developer Query</span>
+                    <User className="h-3.5 w-3.5 text-blue-400" />
+                    <span className="text-blue-200">Developer Query</span>
                   </>
                 ) : (
                   <>
-                    <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
+                    <Terminal className="h-3.5 w-3.5 text-blue-400" />
                     <span className="text-slate-300">RepoLens Intelligence</span>
                   </>
                 )}
@@ -398,7 +397,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               {msg.role === "assistant" && msg.content && (
                 <div className="flex items-center gap-2">
                   {typeof msg.latency_ms === "number" && msg.latency_ms > 0 && (
-                    <span className="flex items-center gap-1 font-mono text-[10px] text-slate-500">
+                    <span className="flex items-center gap-1 font-mono text-[10px] text-slate-400 tabular-nums">
                       <Clock className="h-2.5 w-2.5" />
                       {msg.latency_ms}ms
                     </span>
@@ -406,7 +405,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                   <button
                     onClick={() => handleCopyText(msg.content, idx)}
                     title="Copy response"
-                    className="rounded p-1 text-slate-500 hover:bg-white/[0.06] hover:text-slate-200 transition-colors"
+                    className="rounded p-1 text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition-colors"
                   >
                     {copiedMsgIdx === idx ? (
                       <Check className="h-3 w-3 text-emerald-400" />
@@ -423,9 +422,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
             {/* Verified Citations Shelf */}
             {msg.verified_citations && msg.verified_citations.length > 0 && (
-              <div className="mt-2 pt-2.5 border-t border-white/[0.07]">
+              <div className="mt-2 pt-2.5 border-t border-slate-800">
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="flex items-center gap-1 text-[10px] uppercase font-bold text-emerald-400 tracking-wider">
+                  <span className="flex items-center gap-1 text-[10px] uppercase font-bold text-emerald-400 tracking-wider tabular-nums">
                     <ShieldCheck className="h-3 w-3" />
                     Verified Source Citations ({msg.verified_citations.length})
                   </span>
@@ -440,7 +439,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                       }
                       className="citation-pill"
                     >
-                      <FileCode2 className="h-3 w-3 text-indigo-400" />
+                      <FileCode2 className="h-3 w-3 text-blue-400" />
                       <span>
                         {c.file_path}:{c.start_line}-{c.end_line}
                       </span>
@@ -466,9 +465,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
       {/* Curated Starter Prompts */}
       {messages.length === 1 && (
-        <div className="px-4 py-3 border-t border-white/[0.07] bg-[#060a14]">
+        <div className="px-4 py-3 border-t border-slate-800 bg-[#0b0f17]">
           <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider flex items-center gap-1.5 mb-2">
-            <Sparkles className="h-3 w-3 text-indigo-400" />
+            <Terminal className="h-3 w-3 text-blue-400" />
             Suggested Architecture Queries
           </span>
           <div className="space-y-1.5">
@@ -476,9 +475,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               <button
                 key={idx}
                 onClick={() => handleSend(item.question)}
-                className="group w-full flex items-start gap-2 text-left rounded-lg border border-white/[0.07] bg-slate-900/70 p-2 text-[11px] text-slate-300 hover:border-indigo-500/50 hover:bg-slate-900 hover:text-white transition-all"
+                className="group w-full flex items-start gap-2 text-left rounded-lg border border-slate-800 bg-slate-900/80 p-2 text-[11px] text-slate-300 hover:border-slate-700 hover:bg-slate-900 hover:text-white transition-colors"
               >
-                <span className="shrink-0 rounded bg-indigo-500/15 border border-indigo-500/30 px-1.5 py-0.5 font-mono text-[9px] font-semibold text-indigo-300 mt-0.5">
+                <span className="shrink-0 rounded bg-blue-500/15 border border-blue-500/30 px-1.5 py-0.5 font-mono text-[9px] font-semibold text-blue-300 mt-0.5">
                   {item.badge}
                 </span>
                 <span className="line-clamp-2 leading-snug">{item.question}</span>
@@ -489,7 +488,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       )}
 
       {/* Input Composer */}
-      <div className="p-3 border-t border-white/[0.07] bg-[#0b101e]">
+      <div className="p-3 border-t border-slate-800 bg-[#0b0f17]">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -503,13 +502,13 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={streaming}
-            className="flex-1 rounded-xl border border-white/[0.08] bg-[#060911] px-3.5 py-2.5 text-xs text-slate-100 placeholder:text-slate-500 focus:border-indigo-500 focus:outline-none disabled:opacity-50 shadow-inner"
+            className="flex-1 rounded-lg border border-slate-800 bg-slate-900 px-3.5 py-2.5 text-xs text-slate-100 placeholder:text-slate-500 focus:border-blue-500 focus:outline-none disabled:opacity-50"
           />
           <button
             type="submit"
             disabled={streaming || !input.trim()}
             aria-label="Send question"
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-md shadow-indigo-600/20 disabled:opacity-40 transition-all"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 transition-colors"
           >
             {streaming ? (
               <RefreshCw className="h-3.5 w-3.5 animate-spin" />

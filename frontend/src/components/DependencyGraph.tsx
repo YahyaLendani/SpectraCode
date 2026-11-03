@@ -18,7 +18,6 @@ import {
   RefreshCw,
   ArrowDownLeft,
   Compass,
-  Sparkles,
   X,
 } from "lucide-react";
 import { api, DependencyGraph as DependencyGraphData } from "@/lib/api";
@@ -51,10 +50,10 @@ const CATEGORY_COLORS: Record<
   { fill: string; stroke: string; text: string; badge: string; label: string }
 > = {
   python: {
-    fill: "#4f46e5",
-    stroke: "#818cf8",
-    text: "#c7d2fe",
-    badge: "bg-indigo-500/15 text-indigo-300 border-indigo-500/30",
+    fill: "#2563eb",
+    stroke: "#60a5fa",
+    text: "#bfdbfe",
+    badge: "bg-blue-500/15 text-blue-300 border-blue-500/30",
     label: "Python Module",
   },
   typescript: {
@@ -72,17 +71,17 @@ const CATEGORY_COLORS: Record<
     label: "JavaScript Module",
   },
   external: {
-    fill: "#7c3aed",
-    stroke: "#c084fc",
-    text: "#e9d5ff",
-    badge: "bg-purple-500/15 text-purple-300 border-purple-500/30",
-    label: "External Package",
-  },
-  other: {
     fill: "#0d9488",
     stroke: "#2dd4bf",
     text: "#99f6e4",
     badge: "bg-teal-500/15 text-teal-300 border-teal-500/30",
+    label: "External Package",
+  },
+  other: {
+    fill: "#059669",
+    stroke: "#34d399",
+    text: "#a7f3d0",
+    badge: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
     label: "Internal Module",
   },
 };
@@ -281,7 +280,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
     const count = selectedSlice.length;
 
     if (layoutMode === "radial" || count <= 2) {
-      // Concentric radial layout grouped by internal hubs vs peripheral vs external packages
       const hubs = selectedSlice.filter(
         (n) => n.kind === "internal_file" && n.total_degree >= 4
       );
@@ -308,7 +306,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
       placeRing(regulars, Math.min(cx, cy) * 0.62);
       placeRing(externals, Math.min(cx, cy) * 0.86);
     } else {
-      // Deterministic Force-Directed Layout
       selectedSlice.forEach((node, idx) => {
         const angle = (2 * Math.PI * idx) / count;
         const h = (hashString(node.id) % 100) / 100;
@@ -331,7 +328,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
         const dispX = new Float64Array(count);
         const dispY = new Float64Array(count);
 
-        // Repulsive forces between all pairs
         for (let i = 0; i < count; i++) {
           for (let j = i + 1; j < count; j++) {
             const dx = selectedSlice[i].x - selectedSlice[j].x;
@@ -349,7 +345,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
           }
         }
 
-        // Attractive forces along directed import edges
         for (const edge of validEdges) {
           const u = idxMap.get(edge.source);
           const v = idxMap.get(edge.target);
@@ -366,7 +361,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
           dispY[v] += fy;
         }
 
-        // Gentle gravity toward center
         for (let i = 0; i < count; i++) {
           const dx = cx - selectedSlice[i].x;
           const dy = cy - selectedSlice[i].y;
@@ -380,7 +374,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
           selectedSlice[i].x += (dispX[i] / dispLen) * step;
           selectedSlice[i].y += (dispY[i] / dispLen) * step;
 
-          // Keep inside padded canvas bounds
           const pad = 44;
           selectedSlice[i].x = Math.max(
             pad,
@@ -415,7 +408,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
     cycleEdgeSet,
   ]);
 
-  // Full lookup map for the Node Inspector (including nodes outside top-N canvas slice)
   const fullNodeMap = useMemo(() => {
     const map = new Map<string, GraphNodeEnriched>();
     for (const n of allEnrichedNodes) {
@@ -426,7 +418,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
 
   const activeNodeId = hoveredNodeId || selectedNodeId;
 
-  // Compute immediate incoming and outgoing neighbors for active/selected node
   const activeNeighborhood = useMemo(() => {
     const incoming = new Set<string>();
     const outgoing = new Set<string>();
@@ -458,7 +449,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
     };
   }, [data, selectedNodeId, fullNodeMap]);
 
-  // Top hub node statistics
   const topHubNode = useMemo(() => {
     const internals = allEnrichedNodes.filter((n) => n.kind === "internal_file");
     if (internals.length === 0) return null;
@@ -499,8 +489,8 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
 
   if (loading) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-3 bg-slate-950 p-8 text-xs text-slate-400">
-        <RefreshCw className="h-6 w-6 animate-spin text-indigo-400" />
+      <div className="flex h-full flex-col items-center justify-center gap-3 bg-[#0b0f17] p-8 text-xs text-slate-400">
+        <RefreshCw className="h-6 w-6 animate-spin text-blue-400" />
         <div>Analyzing AST import relationships and constructing dependency graph...</div>
       </div>
     );
@@ -508,17 +498,17 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
 
   if (error || !data) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-3 bg-slate-950 p-8 text-center">
+      <div className="flex h-full flex-col items-center justify-center gap-3 bg-[#0b0f17] p-8 text-center">
         <AlertTriangle className="h-8 w-8 text-rose-400" />
         <div className="text-sm font-semibold text-slate-200">
           Failed to load dependency graph
         </div>
-        <p className="max-w-md text-xs text-slate-500">
+        <p className="max-w-md text-xs text-slate-400">
           {error || "Unable to compute static import dependencies for this repository."}
         </p>
         <button
           onClick={loadGraph}
-          className="mt-2 flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-indigo-500 transition-colors"
+          className="mt-2 flex items-center gap-1.5 rounded-lg bg-blue-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-blue-500 transition-colors"
         >
           <RefreshCw className="h-3.5 w-3.5" /> Retry Analysis
         </button>
@@ -527,50 +517,50 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
   }
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto bg-slate-950 p-5 space-y-5">
+    <div className="flex h-full flex-col overflow-y-auto bg-[#0b0f17] p-5 space-y-5">
       {/* Top Coupling & Architecture KPI Cards */}
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <div className="rounded-xl border border-slate-800/90 bg-slate-900/60 p-3.5">
-          <div className="flex items-center gap-2 text-indigo-400 mb-1">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 tabular-nums">
+        <div className="surface-card rounded-xl p-3.5">
+          <div className="flex items-center gap-2 text-blue-400 mb-1">
             <Network className="h-4 w-4" />
             <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
               Internal Modules
             </span>
           </div>
-          <div className="text-xl font-bold text-white">
+          <div className="text-xl font-bold text-slate-100">
             {data.internal_files_count}
           </div>
-          <p className="text-[11px] text-slate-500 mt-0.5">
+          <p className="text-[11px] text-slate-400 mt-0.5">
             {data.edges.length} directed import edges
           </p>
         </div>
 
-        <div className="rounded-xl border border-slate-800/90 bg-slate-900/60 p-3.5">
-          <div className="flex items-center gap-2 text-purple-400 mb-1">
+        <div className="surface-card rounded-xl p-3.5">
+          <div className="flex items-center gap-2 text-teal-400 mb-1">
             <Package className="h-4 w-4" />
             <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
               External Packages
             </span>
           </div>
-          <div className="text-xl font-bold text-white">
+          <div className="text-xl font-bold text-slate-100">
             {data.external_packages.length}
           </div>
-          <p className="text-[11px] text-slate-500 mt-0.5">
+          <p className="text-[11px] text-slate-400 mt-0.5">
             Unique third-party dependencies
           </p>
         </div>
 
-        <div className="rounded-xl border border-slate-800/90 bg-slate-900/60 p-3.5">
-          <div className="flex items-center gap-2 text-cyan-400 mb-1">
+        <div className="surface-card rounded-xl p-3.5">
+          <div className="flex items-center gap-2 text-sky-400 mb-1">
             <Activity className="h-4 w-4" />
             <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
               Max Centrality Hub
             </span>
           </div>
-          <div className="truncate font-mono text-sm font-bold text-white">
+          <div className="truncate font-mono text-sm font-bold text-slate-100">
             {topHubNode ? topHubNode.label : "N/A"}
           </div>
-          <p className="text-[11px] text-slate-500 mt-0.5">
+          <p className="text-[11px] text-slate-400 mt-0.5">
             {topHubNode
               ? `In: ${topHubNode.in_degree} • Out: ${topHubNode.out_degree} (${(
                   topHubNode.centrality * 100
@@ -579,7 +569,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
           </p>
         </div>
 
-        <div className="rounded-xl border border-slate-800/90 bg-slate-900/60 p-3.5">
+        <div className="surface-card rounded-xl p-3.5">
           <div className="flex items-center gap-2 mb-1">
             {data.circular_dependencies.length === 0 ? (
               <ShieldCheck className="h-4 w-4 text-emerald-400" />
@@ -601,7 +591,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
               ? "0 Cycles"
               : `${data.circular_dependencies.length} Detected`}
           </div>
-          <p className="text-[11px] text-slate-500 mt-0.5">
+          <p className="text-[11px] text-slate-400 mt-0.5">
             {data.circular_dependencies.length === 0
               ? "Clean acyclic architecture"
               : `${cycleNodeSet.size} modules in cycle loops`}
@@ -610,7 +600,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
       </div>
 
       {/* Interactive Graph Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-800 bg-slate-900/70 p-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-800 bg-[#0f1623] p-3">
         {/* Search Input */}
         <div className="relative flex-1 min-w-[200px] max-w-xs">
           <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-500" />
@@ -619,7 +609,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Filter modules or packages..."
-            className="w-full rounded-lg border border-slate-800 bg-slate-950 pl-8 pr-7 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:border-indigo-500 focus:outline-none"
+            className="w-full rounded-lg border border-slate-800 bg-[#0b0f17] pl-8 pr-7 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:border-blue-500 focus:outline-none"
           />
           {searchQuery && (
             <button
@@ -632,7 +622,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
         </div>
 
         {/* Node Type Filter Pills */}
-        <div className="flex items-center gap-1 rounded-lg border border-slate-800 bg-slate-950 p-1 text-[11px] font-medium">
+        <div className="flex items-center gap-1 rounded-lg border border-slate-800 bg-[#0b0f17] p-1 text-[11px] font-medium">
           <Filter className="ml-1.5 mr-1 h-3 w-3 text-slate-500" />
           {(
             [
@@ -647,7 +637,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
               onClick={() => setFilterMode(tab.id)}
               className={`rounded-md px-2.5 py-1 transition-colors ${
                 filterMode === tab.id
-                  ? "bg-indigo-600 text-white"
+                  ? "bg-blue-600 text-white"
                   : "text-slate-400 hover:text-slate-200"
               }`}
             >
@@ -658,23 +648,23 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
 
         {/* Layout & Node Density Controls */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center rounded-lg border border-slate-800 bg-slate-950 p-1 text-[11px]">
+          <div className="flex items-center rounded-lg border border-slate-800 bg-[#0b0f17] p-1 text-[11px]">
             <button
               onClick={() => setLayoutMode("force")}
               className={`flex items-center gap-1 rounded px-2 py-1 ${
                 layoutMode === "force"
-                  ? "bg-slate-800 text-indigo-300 font-semibold"
+                  ? "bg-slate-800 text-blue-300 font-semibold"
                   : "text-slate-400 hover:text-slate-200"
               }`}
               title="Force-directed network layout"
             >
-              <Sparkles className="h-3 w-3" /> Force
+              <Network className="h-3 w-3" /> Force
             </button>
             <button
               onClick={() => setLayoutMode("radial")}
               className={`flex items-center gap-1 rounded px-2 py-1 ${
                 layoutMode === "radial"
-                  ? "bg-slate-800 text-indigo-300 font-semibold"
+                  ? "bg-slate-800 text-blue-300 font-semibold"
                   : "text-slate-400 hover:text-slate-200"
               }`}
               title="Concentric radial hub layout"
@@ -686,7 +676,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
           <select
             value={maxVisibleNodes}
             onChange={(e) => setMaxVisibleNodes(Number(e.target.value))}
-            className="rounded-lg border border-slate-800 bg-slate-950 px-2.5 py-1.5 text-[11px] text-slate-300 focus:border-indigo-500 focus:outline-none"
+            className="rounded-lg border border-slate-800 bg-[#0b0f17] px-2.5 py-1.5 text-[11px] text-slate-300 focus:border-blue-500 focus:outline-none"
             title="Maximum nodes rendered on SVG canvas"
           >
             <option value={50}>Top 50 Nodes</option>
@@ -701,13 +691,13 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
         {/* Interactive SVG Canvas */}
         <div
-          className={`relative overflow-hidden rounded-xl border border-slate-800 bg-[#070b12] shadow-inner ${
+          className={`relative overflow-hidden rounded-xl border border-slate-800 bg-[#080c14] ${
             selectedNodeDetails ? "lg:col-span-8" : "lg:col-span-12"
           }`}
           style={{ height: "540px" }}
         >
           {/* Floating Canvas Controls (Top-Right) */}
-          <div className="absolute right-3 top-3 z-10 flex items-center gap-1 rounded-lg border border-slate-800/90 bg-slate-900/90 p-1 backdrop-blur">
+          <div className="absolute right-3 top-3 z-10 flex items-center gap-1 rounded-lg border border-slate-800 bg-slate-900/90 p-1">
             <button
               onClick={() => setZoom((z) => Math.min(3.5, Number((z * 1.2).toFixed(2))))}
               className="rounded p-1.5 text-slate-300 hover:bg-slate-800 hover:text-white"
@@ -729,15 +719,15 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
             >
               <Maximize2 className="h-3.5 w-3.5" />
             </button>
-            <span className="px-2 font-mono text-[10px] text-slate-400">
+            <span className="px-2 font-mono text-[10px] text-slate-400 tabular-nums">
               {Math.round(zoom * 100)}%
             </span>
           </div>
 
           {/* Floating Legend (Bottom-Left) */}
-          <div className="pointer-events-none absolute bottom-3 left-3 z-10 flex flex-wrap items-center gap-3 rounded-lg border border-slate-800/80 bg-slate-900/85 px-3 py-1.5 text-[10px] text-slate-300 backdrop-blur">
+          <div className="pointer-events-none absolute bottom-3 left-3 z-10 flex flex-wrap items-center gap-3 rounded-lg border border-slate-800 bg-slate-900/90 px-3 py-1.5 text-[10px] text-slate-300">
             <span className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-indigo-500 ring-1 ring-indigo-300" />
+              <span className="h-2.5 w-2.5 rounded-full bg-blue-500 ring-1 ring-blue-300" />
               Python
             </span>
             <span className="flex items-center gap-1.5">
@@ -749,7 +739,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
               JavaScript
             </span>
             <span className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-purple-600 ring-1 ring-purple-300" />
+              <span className="h-2.5 w-2.5 rounded-full bg-teal-600 ring-1 ring-teal-300" />
               External Pkg
             </span>
             <span className="flex items-center gap-1.5">
@@ -759,7 +749,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
           </div>
 
           {/* Canvas Status Pill (Top-Left) */}
-          <div className="pointer-events-none absolute left-3 top-3 z-10 rounded-lg border border-slate-800/80 bg-slate-900/85 px-2.5 py-1 text-[11px] text-slate-400 backdrop-blur">
+          <div className="pointer-events-none absolute left-3 top-3 z-10 rounded-lg border border-slate-800 bg-slate-900/90 px-2.5 py-1 text-[11px] text-slate-400 tabular-nums">
             Showing <span className="font-semibold text-slate-200">{canvasNodes.length}</span>{" "}
             nodes &amp;{" "}
             <span className="font-semibold text-slate-200">{canvasEdges.length}</span>{" "}
@@ -767,7 +757,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
           </div>
 
           {canvasNodes.length === 0 ? (
-            <div className="flex h-full items-center justify-center text-xs text-slate-500">
+            <div className="flex h-full items-center justify-center text-xs text-slate-400">
               No modules match the current filter criteria.
             </div>
           ) : (
@@ -784,7 +774,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
               onMouseLeave={handleMouseUp}
             >
               <defs>
-                {/* Subtle background dot matrix */}
                 <pattern
                   id="dep-grid"
                   width="32"
@@ -794,7 +783,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                   <circle cx="2" cy="2" r="1" fill="#1e293b" />
                 </pattern>
 
-                {/* Directed Arrow Markers */}
                 <marker
                   id="arrow-default"
                   viewBox="0 -5 10 10"
@@ -815,7 +803,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                   markerHeight="6"
                   orient="auto"
                 >
-                  <path d="M0,-4L10,0L0,4" fill="#818cf8" />
+                  <path d="M0,-4L10,0L0,4" fill="#60a5fa" />
                 </marker>
                 <marker
                   id="arrow-incoming"
@@ -845,7 +833,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
 
               <g
                 transform={`translate(${pan.x}, ${pan.y}) scale(${zoom})`}
-                 style={{ transformOrigin: "center center" }}
+                style={{ transformOrigin: "center center" }}
               >
                 {/* Directed Edges */}
                 {canvasEdges.map((edge) => {
@@ -861,13 +849,11 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                   const dy = tgt.y - src.y;
                   const dist = Math.sqrt(dx * dx + dy * dy) || 1;
 
-                  // Shorten path so arrowhead lands cleanly on target node boundary
                   const startX = src.x + (dx / dist) * src.radius;
                   const startY = src.y + (dy / dist) * src.radius;
                   const endX = tgt.x - (dx / dist) * (tgt.radius + 4);
                   const endY = tgt.y - (dy / dist) * (tgt.radius + 4);
 
-                  // Slight quadratic curve so bidirectional edges separate cleanly
                   const midX = (startX + endX) / 2 - (dy / dist) * 16;
                   const midY = (startY + endY) / 2 + (dx / dist) * 16;
 
@@ -883,7 +869,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                     opacity = activeNodeId && !isHighlighted ? 0.35 : 0.9;
                   }
                   if (isOutgoingFromActive) {
-                    stroke = "#818cf8";
+                    stroke = "#60a5fa";
                     marker = "url(#arrow-outgoing)";
                     strokeWidth = 2.2;
                     opacity = 1;
@@ -941,7 +927,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                         }
                       }}
                     >
-                      {/* Outer halo for cycle nodes or selected state */}
                       {(node.inCycle || isSelected || isHovered) && (
                         <circle
                           r={node.radius + 4.5}
@@ -958,7 +943,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                         />
                       )}
 
-                      {/* Main Node Body */}
                       <circle
                         r={node.radius}
                         fill={palette.fill}
@@ -966,7 +950,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                         strokeWidth={isSelected ? 2.2 : 1.4}
                       />
 
-                      {/* Node Label */}
                       <text
                         y={node.radius + 12}
                         textAnchor="middle"
@@ -989,7 +972,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
 
         {/* Selected Node Details & Coupling Inspector Panel */}
         {selectedNodeDetails && (
-          <div className="flex flex-col justify-between rounded-xl border border-slate-800 bg-slate-900/75 p-4 lg:col-span-4 max-h-[540px] overflow-y-auto">
+          <div className="flex flex-col justify-between rounded-xl border border-slate-800 bg-[#0f1623] p-4 lg:col-span-4 max-h-[540px] overflow-y-auto">
             <div className="space-y-4">
               <div className="flex items-start justify-between gap-2 border-b border-slate-800 pb-3">
                 <div className="min-w-0">
@@ -1000,7 +983,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                   >
                     {CATEGORY_COLORS[selectedNodeDetails.node.category].label}
                   </span>
-                  <h4 className="mt-1.5 truncate font-mono text-sm font-bold text-white">
+                  <h4 className="mt-1.5 truncate font-mono text-sm font-bold text-slate-100">
                     {selectedNodeDetails.node.label}
                   </h4>
                   <p className="break-all font-mono text-[11px] text-slate-400 mt-0.5">
@@ -1016,22 +999,22 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
               </div>
 
               {/* Coupling Metrics Grid */}
-              <div className="grid grid-cols-3 gap-2 text-center">
-                <div className="rounded-lg border border-slate-800 bg-slate-950 p-2">
-                  <div className="text-[10px] text-slate-500 uppercase">In-Degree</div>
+              <div className="grid grid-cols-3 gap-2 text-center tabular-nums">
+                <div className="rounded-lg border border-slate-800 bg-[#0b0f17] p-2">
+                  <div className="text-[10px] text-slate-400 uppercase">In-Degree</div>
                   <div className="font-mono text-sm font-bold text-emerald-400">
                     {selectedNodeDetails.node.in_degree}
                   </div>
                 </div>
-                <div className="rounded-lg border border-slate-800 bg-slate-950 p-2">
-                  <div className="text-[10px] text-slate-500 uppercase">Out-Degree</div>
-                  <div className="font-mono text-sm font-bold text-indigo-400">
+                <div className="rounded-lg border border-slate-800 bg-[#0b0f17] p-2">
+                  <div className="text-[10px] text-slate-400 uppercase">Out-Degree</div>
+                  <div className="font-mono text-sm font-bold text-blue-400">
                     {selectedNodeDetails.node.out_degree}
                   </div>
                 </div>
-                <div className="rounded-lg border border-slate-800 bg-slate-950 p-2">
-                  <div className="text-[10px] text-slate-500 uppercase">Centrality</div>
-                  <div className="font-mono text-sm font-bold text-cyan-400">
+                <div className="rounded-lg border border-slate-800 bg-[#0b0f17] p-2">
+                  <div className="text-[10px] text-slate-400 uppercase">Centrality</div>
+                  <div className="font-mono text-sm font-bold text-sky-400">
                     {(selectedNodeDetails.node.centrality * 100).toFixed(1)}%
                   </div>
                 </div>
@@ -1041,7 +1024,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
               {selectedNodeDetails.node.kind === "internal_file" && onSelectFile && (
                 <button
                   onClick={() => onSelectFile(selectedNodeDetails.node.id)}
-                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 px-3 py-2 text-xs font-semibold text-white shadow transition-colors"
+                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-500 px-3 py-2 text-xs font-semibold text-white transition-colors"
                 >
                   <FileCode2 className="h-3.5 w-3.5" />
                   <span>Open File in Code Viewer</span>
@@ -1049,14 +1032,14 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                 </button>
               )}
 
-              {/* Incoming Dependents (Who imports this module) */}
+              {/* Incoming Dependents */}
               <div>
-                <h5 className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-emerald-400">
+                <h5 className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-emerald-400 tabular-nums">
                   <ArrowDownLeft className="h-3.5 w-3.5" /> Imported By (
                   {selectedNodeDetails.incomingSources.length})
                 </h5>
                 {selectedNodeDetails.incomingSources.length === 0 ? (
-                  <p className="text-[11px] text-slate-500 italic">
+                  <p className="text-[11px] text-slate-400 italic">
                     No internal modules import this target.
                   </p>
                 ) : (
@@ -1065,7 +1048,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                       <button
                         key={src}
                         onClick={() => setSelectedNodeId(src)}
-                        className="flex w-full items-center justify-between rounded border border-slate-800/80 bg-slate-950/80 px-2.5 py-1 text-left font-mono text-[11px] text-slate-300 hover:border-emerald-500/40 hover:text-emerald-300"
+                        className="flex w-full items-center justify-between rounded border border-slate-800 bg-[#0b0f17] px-2.5 py-1 text-left font-mono text-[11px] text-slate-300 hover:border-emerald-500/40 hover:text-emerald-300"
                       >
                         <span className="truncate">{src}</span>
                       </button>
@@ -1074,14 +1057,14 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                 )}
               </div>
 
-              {/* Outgoing Dependencies (What this module imports) */}
+              {/* Outgoing Dependencies */}
               <div>
-                <h5 className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-indigo-400">
+                <h5 className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-blue-400 tabular-nums">
                   <ArrowUpRight className="h-3.5 w-3.5" /> Direct Imports (
                   {selectedNodeDetails.outgoingTargets.length})
                 </h5>
                 {selectedNodeDetails.outgoingTargets.length === 0 ? (
-                  <p className="text-[11px] text-slate-500 italic">
+                  <p className="text-[11px] text-slate-400 italic">
                     No outgoing imports detected.
                   </p>
                 ) : (
@@ -1090,9 +1073,9 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                       <button
                         key={tgt}
                         onClick={() => setSelectedNodeId(tgt)}
-                        className="flex w-full items-center justify-between rounded border border-slate-800/80 bg-slate-950/80 px-2.5 py-1 text-left font-mono text-[11px] text-slate-300 hover:border-indigo-500/40 hover:text-indigo-300"
+                        className="flex w-full items-center justify-between rounded border border-slate-800 bg-[#0b0f17] px-2.5 py-1 text-left font-mono text-[11px] text-slate-300 hover:border-blue-500/40 hover:text-blue-300"
                       >
-                        <span className="truncate">{tgt.replace(/^pkg:/, "📦 ")}</span>
+                        <span className="truncate">{tgt.replace(/^pkg:/, "pkg: ")}</span>
                       </button>
                     ))}
                   </div>
@@ -1103,10 +1086,10 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
         )}
       </div>
 
-      {/* Circular Dependencies Warning List (if any exist) */}
+      {/* Circular Dependencies Warning List */}
       {data.circular_dependencies.length > 0 && (
         <div className="rounded-xl border border-amber-500/30 bg-amber-950/15 p-4">
-          <h3 className="text-xs font-bold text-amber-300 uppercase tracking-wider mb-2.5 flex items-center gap-2">
+          <h3 className="text-xs font-bold text-amber-300 uppercase tracking-wider mb-2.5 flex items-center gap-2 tabular-nums">
             <AlertTriangle className="h-4 w-4 text-amber-400" /> Circular Dependency Chains (
             {data.circular_dependencies.length})
           </h3>
@@ -1114,7 +1097,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
             {data.circular_dependencies.map((cycle, idx) => (
               <div
                 key={idx}
-                className="flex flex-wrap items-center gap-1.5 rounded-lg border border-amber-500/20 bg-slate-950/80 px-3 py-2 font-mono text-[11px] text-slate-300"
+                className="flex flex-wrap items-center gap-1.5 rounded-lg border border-amber-500/20 bg-[#0b0f17] px-3 py-2 font-mono text-[11px] text-slate-300"
               >
                 {cycle.map((modPath, mIdx) => (
                   <React.Fragment key={`${idx}-${modPath}`}>
@@ -1138,13 +1121,13 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
       )}
 
       {/* Third-Party Packages Pill Cloud */}
-      <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4">
-        <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider mb-3 flex items-center gap-2">
-          <Package className="h-4 w-4 text-purple-400" /> External Package Dependencies (
+      <div className="surface-card rounded-xl p-4">
+        <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider mb-3 flex items-center gap-2 tabular-nums">
+          <Package className="h-4 w-4 text-teal-400" /> External Package Dependencies (
           {data.external_packages.length})
         </h3>
         {data.external_packages.length === 0 ? (
-          <p className="text-xs text-slate-500">No external packages detected.</p>
+          <p className="text-xs text-slate-400">No external packages detected.</p>
         ) : (
           <div className="flex flex-wrap gap-1.5">
             {data.external_packages.map((pkg) => {
@@ -1158,10 +1141,10 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                       prev === pkgNodeId ? null : pkgNodeId
                     )
                   }
-                  className={`rounded-lg border px-2.5 py-1 text-xs font-mono transition-colors ${
+                  className={`rounded border px-2.5 py-1 text-xs font-mono transition-colors ${
                     isSelected
-                      ? "border-purple-400 bg-purple-950/80 text-white"
-                      : "border-slate-800 bg-slate-950 text-purple-300 hover:border-purple-500/50"
+                      ? "border-teal-400 bg-teal-950/80 text-white"
+                      : "border-slate-800 bg-[#0b0f17] text-teal-300 hover:border-teal-500/50"
                   }`}
                 >
                   {pkg}
@@ -1173,9 +1156,9 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
       </div>
 
       {/* Module Coupling & Centrality Matrix */}
-      <div className="rounded-xl border border-slate-800 bg-slate-900/40 p-4">
+      <div className="surface-card rounded-xl p-4">
         <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider mb-3 flex items-center gap-2">
-          <GitFork className="h-4 w-4 text-indigo-400" /> Internal Module Coupling Matrix
+          <GitFork className="h-4 w-4 text-blue-400" /> Internal Module Coupling Matrix
         </h3>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {allEnrichedNodes
@@ -1194,15 +1177,15 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
               <div
                 key={node.id}
                 onClick={() => setSelectedNodeId(node.id)}
-                className={`group flex items-center justify-between rounded-lg border p-2.5 cursor-pointer transition-all ${
+                className={`group flex items-center justify-between rounded-lg border p-2.5 cursor-pointer transition-colors ${
                   selectedNodeId === node.id
-                    ? "border-indigo-500 bg-indigo-950/30"
-                    : "border-slate-800/80 bg-slate-950/70 hover:border-indigo-500/50"
+                    ? "border-blue-500 bg-blue-950/30"
+                    : "border-slate-800 bg-[#0b0f17] hover:border-slate-700"
                 }`}
               >
                 <div className="min-w-0 pr-2">
                   <div className="flex items-center gap-1.5">
-                    <span className="truncate font-mono text-xs font-medium text-slate-200 group-hover:text-indigo-300">
+                    <span className="truncate font-mono text-xs font-medium text-slate-200 group-hover:text-blue-300">
                       {node.label}
                     </span>
                     {node.inCycle && (
@@ -1211,11 +1194,11 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                       </span>
                     )}
                   </div>
-                  <div className="truncate font-mono text-[10px] text-slate-500">
+                  <div className="truncate font-mono text-[10px] text-slate-400">
                     {node.id}
                   </div>
                 </div>
-                <div className="flex shrink-0 items-center gap-1.5 font-mono text-[10px]">
+                <div className="flex shrink-0 items-center gap-1.5 font-mono text-[10px] tabular-nums">
                   <span
                     className="rounded border border-emerald-800/70 bg-emerald-950/60 px-1.5 py-0.5 text-emerald-300"
                     title="Incoming imports (dependents)"
@@ -1223,7 +1206,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                     In:{node.in_degree}
                   </span>
                   <span
-                    className="rounded border border-indigo-800/70 bg-indigo-950/60 px-1.5 py-0.5 text-indigo-300"
+                    className="rounded border border-blue-800/70 bg-blue-950/60 px-1.5 py-0.5 text-blue-300"
                     title="Outgoing imports (dependencies)"
                   >
                     Out:{node.out_degree}
@@ -1234,7 +1217,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                         e.stopPropagation();
                         onSelectFile(node.id);
                       }}
-                      className="rounded bg-slate-800 p-1 text-slate-300 hover:bg-indigo-600 hover:text-white"
+                      className="rounded bg-slate-800 p-1 text-slate-300 hover:bg-blue-600 hover:text-white"
                       title="Jump to file in Code Viewer"
                     >
                       <ArrowUpRight className="h-3 w-3" />
