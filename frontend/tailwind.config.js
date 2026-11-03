@@ -30,11 +30,11 @@ module.exports = {
         background: "var(--background)",
         foreground: "var(--foreground)",
         surface: {
-          50: "#1e293b",
-          100: "#161f30",
-          200: "#111827",
-          300: "#0f1623",
-          400: "#0b0f17",
+          50: "#1c2230",
+          100: "#151a26",
+          200: "#11151f",
+          300: "#0d1017",
+          400: "#090b10",
         },
         brand: {
           50: "#eff6ff",
@@ -51,8 +51,9 @@ module.exports = {
         },
       },
       boxShadow: {
-        panel: "0 2px 8px rgba(0, 0, 0, 0.28)",
-        modal: "0 16px 48px rgba(0, 0, 0, 0.6)",
+        panel: "0 1px 2px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06)",
+        card: "0 4px 20px -2px rgba(0, 0, 0, 0.5)",
+        modal: "0 24px 64px -8px rgba(0, 0, 0, 0.78), 0 0 0 1px rgba(255, 255, 255, 0.09)",
       },
     },
   },

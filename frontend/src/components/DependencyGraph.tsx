@@ -12,13 +12,12 @@ import {
   ZoomIn,
   ZoomOut,
   Maximize2,
-  Filter,
-  Activity,
   FileCode2,
   RefreshCw,
   ArrowDownLeft,
   Compass,
   X,
+  Table2,
 } from "lucide-react";
 import { api, DependencyGraph as DependencyGraphData } from "@/lib/api";
 
@@ -29,6 +28,7 @@ interface DependencyGraphProps {
 
 type NodeFilterMode = "all" | "internal" | "external" | "cycles";
 type LayoutMode = "force" | "radial";
+type SubViewMode = "canvas" | "matrix";
 
 interface GraphNodeEnriched {
   id: string;
@@ -50,35 +50,35 @@ const CATEGORY_COLORS: Record<
   { fill: string; stroke: string; text: string; badge: string; label: string }
 > = {
   python: {
-    fill: "#2563eb",
+    fill: "#1d4ed8",
     stroke: "#60a5fa",
     text: "#bfdbfe",
     badge: "bg-blue-500/15 text-blue-300 border-blue-500/30",
     label: "Python Module",
   },
   typescript: {
-    fill: "#0284c7",
+    fill: "#0369a1",
     stroke: "#38bdf8",
     text: "#bae6fd",
     badge: "bg-sky-500/15 text-sky-300 border-sky-500/30",
     label: "TypeScript Module",
   },
   javascript: {
-    fill: "#d97706",
+    fill: "#b45309",
     stroke: "#fbbf24",
     text: "#fde68a",
     badge: "bg-amber-500/15 text-amber-300 border-amber-500/30",
     label: "JavaScript Module",
   },
   external: {
-    fill: "#0d9488",
+    fill: "#0f766e",
     stroke: "#2dd4bf",
     text: "#99f6e4",
     badge: "bg-teal-500/15 text-teal-300 border-teal-500/30",
     label: "External Package",
   },
   other: {
-    fill: "#059669",
+    fill: "#047857",
     stroke: "#34d399",
     text: "#a7f3d0",
     badge: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
@@ -125,6 +125,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
   const [error, setError] = useState<string | null>(null);
 
   // Interactive Controls State
+  const [subView, setSubView] = useState<SubViewMode>("canvas");
   const [searchQuery, setSearchQuery] = useState("");
   const [filterMode, setFilterMode] = useState<NodeFilterMode>("all");
   const [layoutMode, setLayoutMode] = useState<LayoutMode>("force");
@@ -154,7 +155,9 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
         setLoading(false);
       })
       .catch((err) => {
-        setError(err instanceof Error ? err.message : "Failed to load dependency graph");
+        setError(
+          err instanceof Error ? err.message : "Failed to load dependency graph"
+        );
         setLoading(false);
       });
   };
@@ -184,7 +187,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
     };
   }, [repoId]);
 
-  // Identify nodes participating in circular dependencies
   const cycleNodeSet = useMemo(() => {
     const set = new Set<string>();
     if (!data) return set;
@@ -196,7 +198,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
     return set;
   }, [data]);
 
-  // Identify edges participating in circular dependencies
   const cycleEdgeSet = useMemo(() => {
     const set = new Set<string>();
     if (!data) return set;
@@ -210,7 +211,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
     return set;
   }, [data]);
 
-  // Enrich all nodes with degree & centrality metrics
   const allEnrichedNodes = useMemo<GraphNodeEnriched[]>(() => {
     if (!data) return [];
     const denom = Math.max(1, data.nodes.length - 1);
@@ -233,7 +233,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
     });
   }, [data, cycleNodeSet]);
 
-  // Filter and rank nodes for the SVG canvas, then compute deterministic 2D coordinates
   const { canvasNodes, canvasEdges, nodeMap } = useMemo(() => {
     if (!data || allEnrichedNodes.length === 0) {
       return {
@@ -255,7 +254,6 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
       return true;
     });
 
-    // Prioritize cycle nodes, active selected node, and highest coupling degree
     const sorted = [...filtered].sort((a, b) => {
       if (a.id === selectedNodeId) return -1;
       if (b.id === selectedNodeId) return 1;
@@ -321,7 +319,8 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
       selectedSlice.forEach((n, i) => idxMap.set(n.id, i));
 
       const iterations = count > 100 ? 45 : 70;
-      const k = Math.sqrt((CANVAS_WIDTH * CANVAS_HEIGHT) / Math.max(1, count)) * 0.65;
+      const k =
+        Math.sqrt((CANVAS_WIDTH * CANVAS_HEIGHT) / Math.max(1, count)) * 0.65;
 
       for (let iter = 0; iter < iterations; iter++) {
         const temp = (1 - iter / iterations) * 18;
@@ -457,11 +456,12 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
     );
   }, [allEnrichedNodes]);
 
-  // SVG Pan/Zoom Handlers
   const handleWheel = (e: React.WheelEvent<SVGSVGElement>) => {
     e.preventDefault();
     const delta = e.deltaY < 0 ? 1.12 : 0.9;
-    setZoom((prev) => Math.max(0.35, Math.min(3.5, Number((prev * delta).toFixed(2)))));
+    setZoom((prev) =>
+      Math.max(0.35, Math.min(3.5, Number((prev * delta).toFixed(2))))
+    );
   };
 
   const handleMouseDown = (e: React.MouseEvent<SVGSVGElement>) => {
@@ -489,21 +489,21 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
 
   if (loading) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-3 bg-[#0b0f17] p-8 text-xs text-slate-400">
-        <RefreshCw className="h-6 w-6 animate-spin text-blue-400" />
-        <div>Analyzing AST import relationships and constructing dependency graph...</div>
+      <div className="flex h-full flex-col items-center justify-center gap-3 bg-[#090b10] p-8 text-xs text-zinc-400">
+        <RefreshCw className="h-5 w-5 animate-spin text-blue-400" />
+        <div>Analyzing AST import relationships &amp; constructing dependency graph...</div>
       </div>
     );
   }
 
   if (error || !data) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-3 bg-[#0b0f17] p-8 text-center">
-        <AlertTriangle className="h-8 w-8 text-rose-400" />
-        <div className="text-sm font-semibold text-slate-200">
+      <div className="flex h-full flex-col items-center justify-center gap-3 bg-[#090b10] p-8 text-center">
+        <AlertTriangle className="h-7 w-7 text-rose-400" />
+        <div className="text-sm font-semibold text-zinc-200">
           Failed to load dependency graph
         </div>
-        <p className="max-w-md text-xs text-slate-400">
+        <p className="max-w-md text-xs text-zinc-400">
           {error || "Unable to compute static import dependencies for this repository."}
         </p>
         <button
@@ -517,464 +517,457 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
   }
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto bg-[#0b0f17] p-5 space-y-5">
-      {/* Top Coupling & Architecture KPI Cards */}
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 tabular-nums">
-        <div className="surface-card rounded-xl p-3.5">
-          <div className="flex items-center gap-2 text-blue-400 mb-1">
-            <Network className="h-4 w-4" />
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-              Internal Modules
-            </span>
+    <div className="flex h-full flex-col overflow-hidden bg-[#090b10]">
+      {/* Compact Top Telemetry & Filter Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.07] bg-[#0d1017] px-4 py-2">
+        {/* Left: Compact Architecture Telemetry Strip */}
+        <div className="flex flex-wrap items-center gap-3 font-mono text-xs tabular-nums">
+          <div className="flex items-center gap-1.5">
+            <span className="text-zinc-500">Modules:</span>
+            <strong className="font-semibold text-zinc-100">
+              {data.internal_files_count}
+            </strong>
           </div>
-          <div className="text-xl font-bold text-slate-100">
-            {data.internal_files_count}
+          <span className="text-zinc-700">·</span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-zinc-500">Edges:</span>
+            <strong className="font-semibold text-zinc-100">
+              {data.edges.length}
+            </strong>
           </div>
-          <p className="text-[11px] text-slate-400 mt-0.5">
-            {data.edges.length} directed import edges
-          </p>
-        </div>
-
-        <div className="surface-card rounded-xl p-3.5">
-          <div className="flex items-center gap-2 text-teal-400 mb-1">
-            <Package className="h-4 w-4" />
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-              External Packages
-            </span>
+          <span className="text-zinc-700">·</span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-zinc-500">Ext Pkgs:</span>
+            <strong className="font-semibold text-zinc-100">
+              {data.external_packages.length}
+            </strong>
           </div>
-          <div className="text-xl font-bold text-slate-100">
-            {data.external_packages.length}
-          </div>
-          <p className="text-[11px] text-slate-400 mt-0.5">
-            Unique third-party dependencies
-          </p>
-        </div>
-
-        <div className="surface-card rounded-xl p-3.5">
-          <div className="flex items-center gap-2 text-sky-400 mb-1">
-            <Activity className="h-4 w-4" />
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-              Max Centrality Hub
-            </span>
-          </div>
-          <div className="truncate font-mono text-sm font-bold text-slate-100">
-            {topHubNode ? topHubNode.label : "N/A"}
-          </div>
-          <p className="text-[11px] text-slate-400 mt-0.5">
-            {topHubNode
-              ? `In: ${topHubNode.in_degree} • Out: ${topHubNode.out_degree} (${(
-                  topHubNode.centrality * 100
-                ).toFixed(1)}% centrality)`
-              : "No module couplings"}
-          </p>
-        </div>
-
-        <div className="surface-card rounded-xl p-3.5">
-          <div className="flex items-center gap-2 mb-1">
+          <span className="text-zinc-700">·</span>
+          <div className="flex items-center gap-1.5">
             {data.circular_dependencies.length === 0 ? (
-              <ShieldCheck className="h-4 w-4 text-emerald-400" />
+              <span className="inline-flex items-center gap-1 text-emerald-400">
+                <ShieldCheck className="h-3.5 w-3.5" />
+                <span>0 Cycles</span>
+              </span>
             ) : (
-              <AlertTriangle className="h-4 w-4 text-amber-400" />
+              <span className="inline-flex items-center gap-1 text-amber-400">
+                <AlertTriangle className="h-3.5 w-3.5" />
+                <span>{data.circular_dependencies.length} Cycles</span>
+              </span>
             )}
-            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-              Circular Cycles
-            </span>
           </div>
-          <div
-            className={`text-xl font-bold ${
-              data.circular_dependencies.length === 0
-                ? "text-emerald-400"
-                : "text-amber-400"
-            }`}
-          >
-            {data.circular_dependencies.length === 0
-              ? "0 Cycles"
-              : `${data.circular_dependencies.length} Detected`}
-          </div>
-          <p className="text-[11px] text-slate-400 mt-0.5">
-            {data.circular_dependencies.length === 0
-              ? "Clean acyclic architecture"
-              : `${cycleNodeSet.size} modules in cycle loops`}
-          </p>
-        </div>
-      </div>
-
-      {/* Interactive Graph Toolbar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-slate-800 bg-[#0f1623] p-3">
-        {/* Search Input */}
-        <div className="relative flex-1 min-w-[200px] max-w-xs">
-          <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-500" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Filter modules or packages..."
-            className="w-full rounded-lg border border-slate-800 bg-[#0b0f17] pl-8 pr-7 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:border-blue-500 focus:outline-none"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery("")}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
-            >
-              <X className="h-3.5 w-3.5" />
-            </button>
+          {topHubNode && (
+            <>
+              <span className="hidden xl:inline text-zinc-700">·</span>
+              <div className="hidden xl:flex items-center gap-1.5">
+                <span className="text-zinc-500">Top Hub:</span>
+                <button
+                  onClick={() => setSelectedNodeId(topHubNode.id)}
+                  className="text-blue-400 hover:underline font-medium"
+                >
+                  {topHubNode.label}
+                </button>
+              </div>
+            </>
           )}
         </div>
 
-        {/* Node Type Filter Pills */}
-        <div className="flex items-center gap-1 rounded-lg border border-slate-800 bg-[#0b0f17] p-1 text-[11px] font-medium">
-          <Filter className="ml-1.5 mr-1 h-3 w-3 text-slate-500" />
-          {(
-            [
-              { id: "all", label: "All Nodes" },
-              { id: "internal", label: "Internal Files" },
-              { id: "external", label: "External Pkgs" },
-              { id: "cycles", label: `Cycles (${cycleNodeSet.size})` },
-            ] as const
-          ).map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setFilterMode(tab.id)}
-              className={`rounded-md px-2.5 py-1 transition-colors ${
-                filterMode === tab.id
-                  ? "bg-blue-600 text-white"
-                  : "text-slate-400 hover:text-slate-200"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        {/* Layout & Node Density Controls */}
-        <div className="flex items-center gap-2">
-          <div className="flex items-center rounded-lg border border-slate-800 bg-[#0b0f17] p-1 text-[11px]">
-            <button
-              onClick={() => setLayoutMode("force")}
-              className={`flex items-center gap-1 rounded px-2 py-1 ${
-                layoutMode === "force"
-                  ? "bg-slate-800 text-blue-300 font-semibold"
-                  : "text-slate-400 hover:text-slate-200"
-              }`}
-              title="Force-directed network layout"
-            >
-              <Network className="h-3 w-3" /> Force
-            </button>
-            <button
-              onClick={() => setLayoutMode("radial")}
-              className={`flex items-center gap-1 rounded px-2 py-1 ${
-                layoutMode === "radial"
-                  ? "bg-slate-800 text-blue-300 font-semibold"
-                  : "text-slate-400 hover:text-slate-200"
-              }`}
-              title="Concentric radial hub layout"
-            >
-              <Compass className="h-3 w-3" /> Radial
-            </button>
-          </div>
-
-          <select
-            value={maxVisibleNodes}
-            onChange={(e) => setMaxVisibleNodes(Number(e.target.value))}
-            className="rounded-lg border border-slate-800 bg-[#0b0f17] px-2.5 py-1.5 text-[11px] text-slate-300 focus:border-blue-500 focus:outline-none"
-            title="Maximum nodes rendered on SVG canvas"
-          >
-            <option value={50}>Top 50 Nodes</option>
-            <option value={85}>Top 85 Nodes</option>
-            <option value={140}>Top 140 Nodes</option>
-            <option value={250}>Top 250 Nodes</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Main Interactive SVG Graph Canvas + Inspector Split View */}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">
-        {/* Interactive SVG Canvas */}
-        <div
-          className={`relative overflow-hidden rounded-xl border border-slate-800 bg-[#080c14] ${
-            selectedNodeDetails ? "lg:col-span-8" : "lg:col-span-12"
-          }`}
-          style={{ height: "540px" }}
-        >
-          {/* Floating Canvas Controls (Top-Right) */}
-          <div className="absolute right-3 top-3 z-10 flex items-center gap-1 rounded-lg border border-slate-800 bg-slate-900/90 p-1">
-            <button
-              onClick={() => setZoom((z) => Math.min(3.5, Number((z * 1.2).toFixed(2))))}
-              className="rounded p-1.5 text-slate-300 hover:bg-slate-800 hover:text-white"
-              title="Zoom In"
-            >
-              <ZoomIn className="h-3.5 w-3.5" />
-            </button>
-            <button
-              onClick={() => setZoom((z) => Math.max(0.35, Number((z * 0.8).toFixed(2))))}
-              className="rounded p-1.5 text-slate-300 hover:bg-slate-800 hover:text-white"
-              title="Zoom Out"
-            >
-              <ZoomOut className="h-3.5 w-3.5" />
-            </button>
-            <button
-              onClick={resetViewport}
-              className="rounded p-1.5 text-slate-300 hover:bg-slate-800 hover:text-white"
-              title="Reset Pan & Zoom"
-            >
-              <Maximize2 className="h-3.5 w-3.5" />
-            </button>
-            <span className="px-2 font-mono text-[10px] text-slate-400 tabular-nums">
-              {Math.round(zoom * 100)}%
-            </span>
-          </div>
-
-          {/* Floating Legend (Bottom-Left) */}
-          <div className="pointer-events-none absolute bottom-3 left-3 z-10 flex flex-wrap items-center gap-3 rounded-lg border border-slate-800 bg-slate-900/90 px-3 py-1.5 text-[10px] text-slate-300">
-            <span className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-blue-500 ring-1 ring-blue-300" />
-              Python
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-sky-500 ring-1 ring-sky-300" />
-              TypeScript
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-amber-500 ring-1 ring-amber-300" />
-              JavaScript
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-teal-600 ring-1 ring-teal-300" />
-              External Pkg
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="h-2.5 w-2.5 rounded-full border-2 border-rose-500 bg-transparent" />
-              Cycle Node
-            </span>
-          </div>
-
-          {/* Canvas Status Pill (Top-Left) */}
-          <div className="pointer-events-none absolute left-3 top-3 z-10 rounded-lg border border-slate-800 bg-slate-900/90 px-2.5 py-1 text-[11px] text-slate-400 tabular-nums">
-            Showing <span className="font-semibold text-slate-200">{canvasNodes.length}</span>{" "}
-            nodes &amp;{" "}
-            <span className="font-semibold text-slate-200">{canvasEdges.length}</span>{" "}
-            directed edges • Drag to pan, scroll to zoom
-          </div>
-
-          {canvasNodes.length === 0 ? (
-            <div className="flex h-full items-center justify-center text-xs text-slate-400">
-              No modules match the current filter criteria.
-            </div>
-          ) : (
-            <svg
-              ref={svgRef}
-              viewBox={`0 0 ${CANVAS_WIDTH} ${CANVAS_HEIGHT}`}
-              className={`h-full w-full select-none ${
-                isDragging ? "cursor-grabbing" : "cursor-grab"
-              }`}
-              onWheel={handleWheel}
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseUp}
-            >
-              <defs>
-                <pattern
-                  id="dep-grid"
-                  width="32"
-                  height="32"
-                  patternUnits="userSpaceOnUse"
-                >
-                  <circle cx="2" cy="2" r="1" fill="#1e293b" />
-                </pattern>
-
-                <marker
-                  id="arrow-default"
-                  viewBox="0 -5 10 10"
-                  refX="9"
-                  refY="0"
-                  markerWidth="5.5"
-                  markerHeight="5.5"
-                  orient="auto"
-                >
-                  <path d="M0,-4L10,0L0,4" fill="#475569" />
-                </marker>
-                <marker
-                  id="arrow-outgoing"
-                  viewBox="0 -5 10 10"
-                  refX="9"
-                  refY="0"
-                  markerWidth="6"
-                  markerHeight="6"
-                  orient="auto"
-                >
-                  <path d="M0,-4L10,0L0,4" fill="#60a5fa" />
-                </marker>
-                <marker
-                  id="arrow-incoming"
-                  viewBox="0 -5 10 10"
-                  refX="9"
-                  refY="0"
-                  markerWidth="6"
-                  markerHeight="6"
-                  orient="auto"
-                >
-                  <path d="M0,-4L10,0L0,4" fill="#34d399" />
-                </marker>
-                <marker
-                  id="arrow-cycle"
-                  viewBox="0 -5 10 10"
-                  refX="9"
-                  refY="0"
-                  markerWidth="6"
-                  markerHeight="6"
-                  orient="auto"
-                >
-                  <path d="M0,-4L10,0L0,4" fill="#f43f5e" />
-                </marker>
-              </defs>
-
-              <rect width={CANVAS_WIDTH} height={CANVAS_HEIGHT} fill="url(#dep-grid)" />
-
-              <g
-                transform={`translate(${pan.x}, ${pan.y}) scale(${zoom})`}
-                style={{ transformOrigin: "center center" }}
+        {/* Right: Search + View Mode Switcher */}
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="relative w-44 sm:w-52">
+            <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3 w-3 -translate-y-1/2 text-zinc-500" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Filter modules..."
+              className="w-full rounded-md border border-white/[0.08] bg-[#090b10] pl-7 pr-6 py-1 font-mono text-[11px] text-zinc-200 placeholder-zinc-500 focus:border-blue-500 focus:outline-none"
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery("")}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300"
               >
-                {/* Directed Edges */}
-                {canvasEdges.map((edge) => {
-                  const src = nodeMap.get(edge.source);
-                  const tgt = nodeMap.get(edge.target);
-                  if (!src || !tgt) return null;
+                <X className="h-3 w-3" />
+              </button>
+            )}
+          </div>
 
-                  const isOutgoingFromActive = activeNodeId === edge.source;
-                  const isIncomingToActive = activeNodeId === edge.target;
-                  const isHighlighted = isOutgoingFromActive || isIncomingToActive;
-
-                  const dx = tgt.x - src.x;
-                  const dy = tgt.y - src.y;
-                  const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-
-                  const startX = src.x + (dx / dist) * src.radius;
-                  const startY = src.y + (dy / dist) * src.radius;
-                  const endX = tgt.x - (dx / dist) * (tgt.radius + 4);
-                  const endY = tgt.y - (dy / dist) * (tgt.radius + 4);
-
-                  const midX = (startX + endX) / 2 - (dy / dist) * 16;
-                  const midY = (startY + endY) / 2 + (dx / dist) * 16;
-
-                  let stroke = "#334155";
-                  let marker = "url(#arrow-default)";
-                  let strokeWidth = 1.15;
-                  let opacity = activeNodeId ? 0.14 : 0.55;
-
-                  if (edge.isCycle) {
-                    stroke = "#f43f5e";
-                    marker = "url(#arrow-cycle)";
-                    strokeWidth = 1.8;
-                    opacity = activeNodeId && !isHighlighted ? 0.35 : 0.9;
-                  }
-                  if (isOutgoingFromActive) {
-                    stroke = "#60a5fa";
-                    marker = "url(#arrow-outgoing)";
-                    strokeWidth = 2.2;
-                    opacity = 1;
-                  } else if (isIncomingToActive) {
-                    stroke = "#34d399";
-                    marker = "url(#arrow-incoming)";
-                    strokeWidth = 2.2;
-                    opacity = 1;
-                  }
-
-                  return (
-                    <path
-                      key={`${edge.source}->${edge.target}`}
-                      d={`M ${startX} ${startY} Q ${midX} ${midY} ${endX} ${endY}`}
-                      fill="none"
-                      stroke={stroke}
-                      strokeWidth={strokeWidth}
-                      strokeOpacity={opacity}
-                      markerEnd={marker}
-                    />
-                  );
-                })}
-
-                {/* Graph Nodes */}
-                {canvasNodes.map((node) => {
-                  const palette = CATEGORY_COLORS[node.category];
-                  const isSelected = selectedNodeId === node.id;
-                  const isHovered = hoveredNodeId === node.id;
-                  const isNeighbor =
-                    activeNeighborhood.incoming.has(node.id) ||
-                    activeNeighborhood.outgoing.has(node.id);
-                  const isDimmed =
-                    Boolean(activeNodeId) &&
-                    activeNodeId !== node.id &&
-                    !isNeighbor;
-
-                  return (
-                    <g
-                      key={node.id}
-                      transform={`translate(${node.x}, ${node.y})`}
-                      className="cursor-pointer transition-opacity duration-150"
-                      style={{ opacity: isDimmed ? 0.22 : 1 }}
-                      onMouseEnter={() => setHoveredNodeId(node.id)}
-                      onMouseLeave={() => setHoveredNodeId(null)}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedNodeId((prev) =>
-                          prev === node.id ? null : node.id
-                        );
-                      }}
-                      onDoubleClick={(e) => {
-                        e.stopPropagation();
-                        if (node.kind === "internal_file" && onSelectFile) {
-                          onSelectFile(node.id);
-                        }
-                      }}
-                    >
-                      {(node.inCycle || isSelected || isHovered) && (
-                        <circle
-                          r={node.radius + 4.5}
-                          fill="none"
-                          stroke={
-                            node.inCycle
-                              ? "#f43f5e"
-                              : isSelected
-                              ? "#ffffff"
-                              : palette.stroke
-                          }
-                          strokeWidth={isSelected ? 2.2 : 1.6}
-                          strokeDasharray={node.inCycle && !isSelected ? "3 2" : undefined}
-                        />
-                      )}
-
-                      <circle
-                        r={node.radius}
-                        fill={palette.fill}
-                        stroke={isSelected ? "#ffffff" : palette.stroke}
-                        strokeWidth={isSelected ? 2.2 : 1.4}
-                      />
-
-                      <text
-                        y={node.radius + 12}
-                        textAnchor="middle"
-                        fill={isSelected || isHovered ? "#ffffff" : palette.text}
-                        fontSize={isSelected || isHovered ? 11 : 9.5}
-                        fontWeight={isSelected || isHovered ? 700 : 500}
-                        className="pointer-events-none font-mono"
-                      >
-                        {node.label.length > 22
-                          ? `${node.label.slice(0, 20)}…`
-                          : node.label}
-                      </text>
-                    </g>
-                  );
-                })}
-              </g>
-            </svg>
-          )}
+          <div className="flex items-center rounded-md border border-white/[0.08] bg-[#090b10] p-0.5 text-[11px] font-medium">
+            <button
+              onClick={() => setSubView("canvas")}
+              className={`flex items-center gap-1 rounded px-2.5 py-1 transition-colors ${
+                subView === "canvas"
+                  ? "bg-white/[0.1] text-zinc-100"
+                  : "text-zinc-400 hover:text-zinc-200"
+              }`}
+            >
+              <Network className="h-3 w-3 text-blue-400" />
+              <span>Graph</span>
+            </button>
+            <button
+              onClick={() => setSubView("matrix")}
+              className={`flex items-center gap-1 rounded px-2.5 py-1 transition-colors ${
+                subView === "matrix"
+                  ? "bg-white/[0.1] text-zinc-100"
+                  : "text-zinc-400 hover:text-zinc-200"
+              }`}
+            >
+              <Table2 className="h-3 w-3 text-blue-400" />
+              <span>Matrix &amp; Pkgs</span>
+            </button>
+          </div>
         </div>
+      </div>
 
-        {/* Selected Node Details & Coupling Inspector Panel */}
-        {selectedNodeDetails && (
-          <div className="flex flex-col justify-between rounded-xl border border-slate-800 bg-[#0f1623] p-4 lg:col-span-4 max-h-[540px] overflow-y-auto">
-            <div className="space-y-4">
-              <div className="flex items-start justify-between gap-2 border-b border-slate-800 pb-3">
+      {/* Sub-Toolbar for Graph Filter & Layout (Shown in Graph Mode) */}
+      {subView === "canvas" && (
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.07] bg-[#0b0e15] px-4 py-1.5 text-[11px]">
+          <div className="flex items-center gap-1">
+            {(
+              [
+                { id: "all", label: "All Nodes" },
+                { id: "internal", label: "Internal Files" },
+                { id: "external", label: "External Pkgs" },
+                { id: "cycles", label: `Cycles (${cycleNodeSet.size})` },
+              ] as const
+            ).map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setFilterMode(tab.id)}
+                className={`rounded px-2 py-0.5 font-medium transition-colors ${
+                  filterMode === tab.id
+                    ? "bg-blue-600/20 text-blue-300 border border-blue-500/35"
+                    : "text-zinc-400 hover:text-zinc-200 border border-transparent"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <div className="flex items-center rounded border border-white/[0.08] bg-[#090b10] p-0.5">
+              <button
+                onClick={() => setLayoutMode("force")}
+                className={`flex items-center gap-1 rounded px-2 py-0.5 ${
+                  layoutMode === "force"
+                    ? "bg-white/[0.1] text-zinc-100 font-medium"
+                    : "text-zinc-400 hover:text-zinc-200"
+                }`}
+              >
+                <Network className="h-3 w-3" /> Force
+              </button>
+              <button
+                onClick={() => setLayoutMode("radial")}
+                className={`flex items-center gap-1 rounded px-2 py-0.5 ${
+                  layoutMode === "radial"
+                    ? "bg-white/[0.1] text-zinc-100 font-medium"
+                    : "text-zinc-400 hover:text-zinc-200"
+                }`}
+              >
+                <Compass className="h-3 w-3" /> Radial
+              </button>
+            </div>
+
+            <select
+              value={maxVisibleNodes}
+              onChange={(e) => setMaxVisibleNodes(Number(e.target.value))}
+              className="rounded border border-white/[0.08] bg-[#090b10] px-2 py-0.5 font-mono text-[10px] text-zinc-300 focus:border-blue-500 focus:outline-none"
+            >
+              <option value={50}>Top 50</option>
+              <option value={85}>Top 85</option>
+              <option value={140}>Top 140</option>
+              <option value={250}>Top 250</option>
+            </select>
+          </div>
+        </div>
+      )}
+
+      {/* Main Content Area: Full-Height Canvas OR Scrollable Coupling Matrix */}
+      {subView === "canvas" ? (
+        <div className="relative flex flex-1 overflow-hidden">
+          {/* Interactive SVG Canvas */}
+          <div className="relative flex-1 overflow-hidden bg-[#07090e]">
+            {/* Floating Zoom Controls (Top-Right) */}
+            <div className="absolute right-3 top-3 z-10 flex items-center gap-1 rounded-lg border border-white/[0.08] bg-[#0d1017]/90 backdrop-blur-sm p-1">
+              <button
+                onClick={() =>
+                  setZoom((z) => Math.min(3.5, Number((z * 1.2).toFixed(2))))
+                }
+                className="rounded p-1.5 text-zinc-300 hover:bg-white/[0.08] hover:text-white"
+                title="Zoom In"
+              >
+                <ZoomIn className="h-3.5 w-3.5" />
+              </button>
+              <button
+                onClick={() =>
+                  setZoom((z) => Math.max(0.35, Number((z * 0.8).toFixed(2))))
+                }
+                className="rounded p-1.5 text-zinc-300 hover:bg-white/[0.08] hover:text-white"
+                title="Zoom Out"
+              >
+                <ZoomOut className="h-3.5 w-3.5" />
+              </button>
+              <button
+                onClick={resetViewport}
+                className="rounded p-1.5 text-zinc-300 hover:bg-white/[0.08] hover:text-white"
+                title="Reset Pan & Zoom"
+              >
+                <Maximize2 className="h-3.5 w-3.5" />
+              </button>
+              <span className="px-2 font-mono text-[10px] text-zinc-400 tabular-nums">
+                {Math.round(zoom * 100)}%
+              </span>
+            </div>
+
+            {/* Floating Legend (Bottom-Left) */}
+            <div className="pointer-events-none absolute bottom-3 left-3 z-10 flex flex-wrap items-center gap-3 rounded-lg border border-white/[0.08] bg-[#0d1017]/90 backdrop-blur-sm px-3 py-1.5 text-[10px] text-zinc-300">
+              <span className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-blue-500 ring-1 ring-blue-300" />
+                Python
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-sky-500 ring-1 ring-sky-300" />
+                TypeScript
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-amber-500 ring-1 ring-amber-300" />
+                JavaScript
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-teal-600 ring-1 ring-teal-300" />
+                External Pkg
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full border border-rose-500 bg-transparent" />
+                Cycle
+              </span>
+            </div>
+
+            {/* Canvas Status Pill (Top-Left) */}
+            <div className="pointer-events-none absolute left-3 top-3 z-10 rounded-lg border border-white/[0.08] bg-[#0d1017]/90 backdrop-blur-sm px-2.5 py-1 font-mono text-[10px] text-zinc-400 tabular-nums">
+              {canvasNodes.length} nodes · {canvasEdges.length} edges · Drag to pan, scroll to zoom
+            </div>
+
+            {canvasNodes.length === 0 ? (
+              <div className="flex h-full items-center justify-center text-xs text-zinc-500">
+                No modules match the current filter criteria.
+              </div>
+            ) : (
+              <svg
+                ref={svgRef}
+                viewBox={`0 0 ${CANVAS_WIDTH} ${CANVAS_HEIGHT}`}
+                className={`h-full w-full select-none ${
+                  isDragging ? "cursor-grabbing" : "cursor-grab"
+                }`}
+                onWheel={handleWheel}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+              >
+                <defs>
+                  <pattern
+                    id="dep-grid"
+                    width="32"
+                    height="32"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.06)" />
+                  </pattern>
+
+                  <marker
+                    id="arrow-default"
+                    viewBox="0 -5 10 10"
+                    refX="9"
+                    refY="0"
+                    markerWidth="5.5"
+                    markerHeight="5.5"
+                    orient="auto"
+                  >
+                    <path d="M0,-4L10,0L0,4" fill="#52525b" />
+                  </marker>
+                  <marker
+                    id="arrow-outgoing"
+                    viewBox="0 -5 10 10"
+                    refX="9"
+                    refY="0"
+                    markerWidth="6"
+                    markerHeight="6"
+                    orient="auto"
+                  >
+                    <path d="M0,-4L10,0L0,4" fill="#60a5fa" />
+                  </marker>
+                  <marker
+                    id="arrow-incoming"
+                    viewBox="0 -5 10 10"
+                    refX="9"
+                    refY="0"
+                    markerWidth="6"
+                    markerHeight="6"
+                    orient="auto"
+                  >
+                    <path d="M0,-4L10,0L0,4" fill="#34d399" />
+                  </marker>
+                  <marker
+                    id="arrow-cycle"
+                    viewBox="0 -5 10 10"
+                    refX="9"
+                    refY="0"
+                    markerWidth="6"
+                    markerHeight="6"
+                    orient="auto"
+                  >
+                    <path d="M0,-4L10,0L0,4" fill="#f43f5e" />
+                  </marker>
+                </defs>
+
+                <rect width={CANVAS_WIDTH} height={CANVAS_HEIGHT} fill="url(#dep-grid)" />
+
+                <g
+                  transform={`translate(${pan.x}, ${pan.y}) scale(${zoom})`}
+                  style={{ transformOrigin: "center center" }}
+                >
+                  {canvasEdges.map((edge) => {
+                    const src = nodeMap.get(edge.source);
+                    const tgt = nodeMap.get(edge.target);
+                    if (!src || !tgt) return null;
+
+                    const isOutgoingFromActive = activeNodeId === edge.source;
+                    const isIncomingToActive = activeNodeId === edge.target;
+                    const isHighlighted = isOutgoingFromActive || isIncomingToActive;
+
+                    const dx = tgt.x - src.x;
+                    const dy = tgt.y - src.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+                    const startX = src.x + (dx / dist) * src.radius;
+                    const startY = src.y + (dy / dist) * src.radius;
+                    const endX = tgt.x - (dx / dist) * (tgt.radius + 4);
+                    const endY = tgt.y - (dy / dist) * (tgt.radius + 4);
+
+                    const midX = (startX + endX) / 2 - (dy / dist) * 16;
+                    const midY = (startY + endY) / 2 + (dx / dist) * 16;
+
+                    let stroke = "#3f3f46";
+                    let marker = "url(#arrow-default)";
+                    let strokeWidth = 1.15;
+                    let opacity = activeNodeId ? 0.14 : 0.55;
+
+                    if (edge.isCycle) {
+                      stroke = "#f43f5e";
+                      marker = "url(#arrow-cycle)";
+                      strokeWidth = 1.8;
+                      opacity = activeNodeId && !isHighlighted ? 0.35 : 0.9;
+                    }
+                    if (isOutgoingFromActive) {
+                      stroke = "#60a5fa";
+                      marker = "url(#arrow-outgoing)";
+                      strokeWidth = 2.2;
+                      opacity = 1;
+                    } else if (isIncomingToActive) {
+                      stroke = "#34d399";
+                      marker = "url(#arrow-incoming)";
+                      strokeWidth = 2.2;
+                      opacity = 1;
+                    }
+
+                    return (
+                      <path
+                        key={`${edge.source}->${edge.target}`}
+                        d={`M ${startX} ${startY} Q ${midX} ${midY} ${endX} ${endY}`}
+                        fill="none"
+                        stroke={stroke}
+                        strokeWidth={strokeWidth}
+                        strokeOpacity={opacity}
+                        markerEnd={marker}
+                      />
+                    );
+                  })}
+
+                  {canvasNodes.map((node) => {
+                    const palette = CATEGORY_COLORS[node.category];
+                    const isSelected = selectedNodeId === node.id;
+                    const isHovered = hoveredNodeId === node.id;
+                    const isNeighbor =
+                      activeNeighborhood.incoming.has(node.id) ||
+                      activeNeighborhood.outgoing.has(node.id);
+                    const isDimmed =
+                      Boolean(activeNodeId) &&
+                      activeNodeId !== node.id &&
+                      !isNeighbor;
+
+                    return (
+                      <g
+                        key={node.id}
+                        transform={`translate(${node.x}, ${node.y})`}
+                        className="cursor-pointer transition-opacity duration-150"
+                        style={{ opacity: isDimmed ? 0.22 : 1 }}
+                        onMouseEnter={() => setHoveredNodeId(node.id)}
+                        onMouseLeave={() => setHoveredNodeId(null)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedNodeId((prev) =>
+                            prev === node.id ? null : node.id
+                          );
+                        }}
+                        onDoubleClick={(e) => {
+                          e.stopPropagation();
+                          if (node.kind === "internal_file" && onSelectFile) {
+                            onSelectFile(node.id);
+                          }
+                        }}
+                      >
+                        {(node.inCycle || isSelected || isHovered) && (
+                          <circle
+                            r={node.radius + 4.5}
+                            fill="none"
+                            stroke={
+                              node.inCycle
+                                ? "#f43f5e"
+                                : isSelected
+                                ? "#ffffff"
+                                : palette.stroke
+                            }
+                            strokeWidth={isSelected ? 2.2 : 1.6}
+                            strokeDasharray={
+                              node.inCycle && !isSelected ? "3 2" : undefined
+                            }
+                          />
+                        )}
+
+                        <circle
+                          r={node.radius}
+                          fill={palette.fill}
+                          stroke={isSelected ? "#ffffff" : palette.stroke}
+                          strokeWidth={isSelected ? 2.2 : 1.4}
+                        />
+
+                        <text
+                          y={node.radius + 12}
+                          textAnchor="middle"
+                          fill={isSelected || isHovered ? "#ffffff" : palette.text}
+                          fontSize={isSelected || isHovered ? 11 : 9.5}
+                          fontWeight={isSelected || isHovered ? 700 : 500}
+                          className="pointer-events-none font-mono"
+                        >
+                          {node.label.length > 22
+                            ? `${node.label.slice(0, 20)}…`
+                            : node.label}
+                        </text>
+                      </g>
+                    );
+                  })}
+                </g>
+              </svg>
+            )}
+          </div>
+
+          {/* Right Docked Node Inspector Drawer */}
+          {selectedNodeDetails && (
+            <div className="w-80 shrink-0 border-l border-white/[0.07] bg-[#0d1017] p-4 overflow-y-auto space-y-4">
+              <div className="flex items-start justify-between gap-2 border-b border-white/[0.07] pb-3">
                 <div className="min-w-0">
                   <span
                     className={`inline-flex items-center rounded border px-2 py-0.5 text-[10px] font-semibold ${
@@ -983,44 +976,42 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                   >
                     {CATEGORY_COLORS[selectedNodeDetails.node.category].label}
                   </span>
-                  <h4 className="mt-1.5 truncate font-mono text-sm font-bold text-slate-100">
+                  <h4 className="mt-1.5 truncate font-mono text-sm font-bold text-zinc-100">
                     {selectedNodeDetails.node.label}
                   </h4>
-                  <p className="break-all font-mono text-[11px] text-slate-400 mt-0.5">
+                  <p className="break-all font-mono text-[11px] text-zinc-400 mt-0.5">
                     {selectedNodeDetails.node.id}
                   </p>
                 </div>
                 <button
                   onClick={() => setSelectedNodeId(null)}
-                  className="rounded-lg p-1 text-slate-400 hover:bg-slate-800 hover:text-white"
+                  className="rounded-md p-1 text-zinc-400 hover:bg-white/[0.06] hover:text-white"
                 >
                   <X className="h-4 w-4" />
                 </button>
               </div>
 
-              {/* Coupling Metrics Grid */}
               <div className="grid grid-cols-3 gap-2 text-center tabular-nums">
-                <div className="rounded-lg border border-slate-800 bg-[#0b0f17] p-2">
-                  <div className="text-[10px] text-slate-400 uppercase">In-Degree</div>
+                <div className="rounded-lg border border-white/[0.07] bg-[#090b10] p-2">
+                  <div className="text-[10px] text-zinc-500 uppercase">In</div>
                   <div className="font-mono text-sm font-bold text-emerald-400">
                     {selectedNodeDetails.node.in_degree}
                   </div>
                 </div>
-                <div className="rounded-lg border border-slate-800 bg-[#0b0f17] p-2">
-                  <div className="text-[10px] text-slate-400 uppercase">Out-Degree</div>
+                <div className="rounded-lg border border-white/[0.07] bg-[#090b10] p-2">
+                  <div className="text-[10px] text-zinc-500 uppercase">Out</div>
                   <div className="font-mono text-sm font-bold text-blue-400">
                     {selectedNodeDetails.node.out_degree}
                   </div>
                 </div>
-                <div className="rounded-lg border border-slate-800 bg-[#0b0f17] p-2">
-                  <div className="text-[10px] text-slate-400 uppercase">Centrality</div>
-                  <div className="font-mono text-sm font-bold text-sky-400">
+                <div className="rounded-lg border border-white/[0.07] bg-[#090b10] p-2">
+                  <div className="text-[10px] text-zinc-500 uppercase">Centrality</div>
+                  <div className="font-mono text-sm font-bold text-zinc-100">
                     {(selectedNodeDetails.node.centrality * 100).toFixed(1)}%
                   </div>
                 </div>
               </div>
 
-              {/* Jump to Code Viewer Button */}
               {selectedNodeDetails.node.kind === "internal_file" && onSelectFile && (
                 <button
                   onClick={() => onSelectFile(selectedNodeDetails.node.id)}
@@ -1032,23 +1023,22 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                 </button>
               )}
 
-              {/* Incoming Dependents */}
               <div>
-                <h5 className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-emerald-400 tabular-nums">
-                  <ArrowDownLeft className="h-3.5 w-3.5" /> Imported By (
+                <h5 className="mb-1.5 flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-emerald-400 tabular-nums">
+                  <ArrowDownLeft className="h-3 w-3" /> Imported By (
                   {selectedNodeDetails.incomingSources.length})
                 </h5>
                 {selectedNodeDetails.incomingSources.length === 0 ? (
-                  <p className="text-[11px] text-slate-400 italic">
+                  <p className="text-[11px] text-zinc-500 italic">
                     No internal modules import this target.
                   </p>
                 ) : (
-                  <div className="max-h-32 space-y-1 overflow-y-auto pr-1">
+                  <div className="max-h-36 space-y-1 overflow-y-auto pr-1">
                     {selectedNodeDetails.incomingSources.map((src) => (
                       <button
                         key={src}
                         onClick={() => setSelectedNodeId(src)}
-                        className="flex w-full items-center justify-between rounded border border-slate-800 bg-[#0b0f17] px-2.5 py-1 text-left font-mono text-[11px] text-slate-300 hover:border-emerald-500/40 hover:text-emerald-300"
+                        className="flex w-full items-center justify-between rounded border border-white/[0.07] bg-[#090b10] px-2.5 py-1 text-left font-mono text-[11px] text-zinc-300 hover:border-emerald-500/40 hover:text-emerald-300"
                       >
                         <span className="truncate">{src}</span>
                       </button>
@@ -1057,177 +1047,176 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                 )}
               </div>
 
-              {/* Outgoing Dependencies */}
               <div>
-                <h5 className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-blue-400 tabular-nums">
-                  <ArrowUpRight className="h-3.5 w-3.5" /> Direct Imports (
+                <h5 className="mb-1.5 flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-blue-400 tabular-nums">
+                  <ArrowUpRight className="h-3 w-3" /> Direct Imports (
                   {selectedNodeDetails.outgoingTargets.length})
                 </h5>
                 {selectedNodeDetails.outgoingTargets.length === 0 ? (
-                  <p className="text-[11px] text-slate-400 italic">
+                  <p className="text-[11px] text-zinc-500 italic">
                     No outgoing imports detected.
                   </p>
                 ) : (
-                  <div className="max-h-32 space-y-1 overflow-y-auto pr-1">
+                  <div className="max-h-36 space-y-1 overflow-y-auto pr-1">
                     {selectedNodeDetails.outgoingTargets.map((tgt) => (
                       <button
                         key={tgt}
                         onClick={() => setSelectedNodeId(tgt)}
-                        className="flex w-full items-center justify-between rounded border border-slate-800 bg-[#0b0f17] px-2.5 py-1 text-left font-mono text-[11px] text-slate-300 hover:border-blue-500/40 hover:text-blue-300"
+                        className="flex w-full items-center justify-between rounded border border-white/[0.07] bg-[#090b10] px-2.5 py-1 text-left font-mono text-[11px] text-zinc-300 hover:border-blue-500/40 hover:text-blue-300"
                       >
-                        <span className="truncate">{tgt.replace(/^pkg:/, "pkg: ")}</span>
+                        <span className="truncate">
+                          {tgt.replace(/^pkg:/, "pkg: ")}
+                        </span>
                       </button>
                     ))}
                   </div>
                 )}
               </div>
             </div>
-          </div>
-        )}
-      </div>
-
-      {/* Circular Dependencies Warning List */}
-      {data.circular_dependencies.length > 0 && (
-        <div className="rounded-xl border border-amber-500/30 bg-amber-950/15 p-4">
-          <h3 className="text-xs font-bold text-amber-300 uppercase tracking-wider mb-2.5 flex items-center gap-2 tabular-nums">
-            <AlertTriangle className="h-4 w-4 text-amber-400" /> Circular Dependency Chains (
-            {data.circular_dependencies.length})
-          </h3>
-          <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
-            {data.circular_dependencies.map((cycle, idx) => (
-              <div
-                key={idx}
-                className="flex flex-wrap items-center gap-1.5 rounded-lg border border-amber-500/20 bg-[#0b0f17] px-3 py-2 font-mono text-[11px] text-slate-300"
-              >
-                {cycle.map((modPath, mIdx) => (
-                  <React.Fragment key={`${idx}-${modPath}`}>
-                    <button
-                      onClick={() => setSelectedNodeId(modPath)}
-                      className="text-amber-300 hover:underline"
-                    >
-                      {modPath}
-                    </button>
-                    {mIdx < cycle.length - 1 && (
-                      <span className="text-slate-600">→</span>
-                    )}
-                  </React.Fragment>
+          )}
+        </div>
+      ) : (
+        /* Matrix & External Packages View */
+        <div className="flex-1 overflow-y-auto p-5 space-y-5">
+          {data.circular_dependencies.length > 0 && (
+            <div className="rounded-xl border border-amber-500/30 bg-amber-950/15 p-4">
+              <h3 className="text-xs font-bold text-amber-300 uppercase tracking-wider mb-2.5 flex items-center gap-2 tabular-nums">
+                <AlertTriangle className="h-4 w-4 text-amber-400" /> Circular Dependency Chains (
+                {data.circular_dependencies.length})
+              </h3>
+              <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                {data.circular_dependencies.map((cycle, idx) => (
+                  <div
+                    key={idx}
+                    className="flex flex-wrap items-center gap-1.5 rounded-lg border border-amber-500/20 bg-[#090b10] px-3 py-2 font-mono text-[11px] text-zinc-300"
+                  >
+                    {cycle.map((modPath, mIdx) => (
+                      <React.Fragment key={`${idx}-${modPath}`}>
+                        <button
+                          onClick={() => {
+                            setSelectedNodeId(modPath);
+                            setSubView("canvas");
+                          }}
+                          className="text-amber-300 hover:underline"
+                        >
+                          {modPath}
+                        </button>
+                        {mIdx < cycle.length - 1 && (
+                          <span className="text-zinc-600">→</span>
+                        )}
+                      </React.Fragment>
+                    ))}
+                    <span className="text-zinc-600">→</span>
+                    <span className="text-rose-400">{cycle[0]}</span>
+                  </div>
                 ))}
-                <span className="text-slate-600">→</span>
-                <span className="text-rose-400">{cycle[0]}</span>
               </div>
-            ))}
+            </div>
+          )}
+
+          {/* External Packages */}
+          <div className="surface-card rounded-xl p-4">
+            <h3 className="text-xs font-semibold text-zinc-200 uppercase tracking-wider mb-3 flex items-center gap-2 tabular-nums">
+              <Package className="h-4 w-4 text-teal-400" /> External Package Dependencies (
+              {data.external_packages.length})
+            </h3>
+            {data.external_packages.length === 0 ? (
+              <p className="text-xs text-zinc-500">No external packages detected.</p>
+            ) : (
+              <div className="flex flex-wrap gap-1.5">
+                {data.external_packages.map((pkg) => {
+                  const pkgNodeId = `pkg:${pkg}`;
+                  return (
+                    <button
+                      key={pkg}
+                      onClick={() => {
+                        setSelectedNodeId(pkgNodeId);
+                        setSubView("canvas");
+                      }}
+                      className="rounded border border-white/[0.08] bg-[#090b10] px-2.5 py-1 text-xs font-mono text-teal-300 hover:border-teal-500/50 transition-colors"
+                    >
+                      {pkg}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Internal Module Coupling Matrix */}
+          <div className="surface-card rounded-xl p-4">
+            <h3 className="text-xs font-semibold text-zinc-200 uppercase tracking-wider mb-3 flex items-center gap-2">
+              <GitFork className="h-4 w-4 text-blue-400" /> Internal Module Coupling Matrix
+            </h3>
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+              {allEnrichedNodes
+                .filter((n) => n.kind === "internal_file")
+                .filter((n) => {
+                  const q = searchQuery.trim().toLowerCase();
+                  return (
+                    !q ||
+                    n.id.toLowerCase().includes(q) ||
+                    n.label.toLowerCase().includes(q)
+                  );
+                })
+                .sort((a, b) => b.total_degree - a.total_degree)
+                .slice(0, 60)
+                .map((node) => (
+                  <div
+                    key={node.id}
+                    onClick={() => {
+                      setSelectedNodeId(node.id);
+                      setSubView("canvas");
+                    }}
+                    className="group flex items-center justify-between rounded-lg border border-white/[0.07] bg-[#090b10] hover:border-white/[0.15] p-2.5 cursor-pointer transition-colors"
+                  >
+                    <div className="min-w-0 pr-2">
+                      <div className="flex items-center gap-1.5">
+                        <span className="truncate font-mono text-xs font-medium text-zinc-200 group-hover:text-blue-400">
+                          {node.label}
+                        </span>
+                        {node.inCycle && (
+                          <span className="rounded bg-rose-500/20 px-1.5 py-0.2 text-[9px] font-semibold text-rose-300">
+                            Cycle
+                          </span>
+                        )}
+                      </div>
+                      <div className="truncate font-mono text-[10px] text-zinc-500">
+                        {node.id}
+                      </div>
+                    </div>
+                    <div className="flex shrink-0 items-center gap-1.5 font-mono text-[10px] tabular-nums">
+                      <span
+                        className="rounded border border-white/[0.07] bg-[#11151f] px-1.5 py-0.5 text-emerald-300"
+                        title="Incoming imports (dependents)"
+                      >
+                        In:{node.in_degree}
+                      </span>
+                      <span
+                        className="rounded border border-white/[0.07] bg-[#11151f] px-1.5 py-0.5 text-blue-300"
+                        title="Outgoing imports (dependencies)"
+                      >
+                        Out:{node.out_degree}
+                      </span>
+                      {onSelectFile && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onSelectFile(node.id);
+                          }}
+                          className="rounded bg-white/[0.06] p-1 text-zinc-300 hover:bg-blue-600 hover:text-white"
+                          title="Open file in Code Viewer"
+                        >
+                          <ArrowUpRight className="h-3 w-3" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+            </div>
           </div>
         </div>
       )}
-
-      {/* Third-Party Packages Pill Cloud */}
-      <div className="surface-card rounded-xl p-4">
-        <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider mb-3 flex items-center gap-2 tabular-nums">
-          <Package className="h-4 w-4 text-teal-400" /> External Package Dependencies (
-          {data.external_packages.length})
-        </h3>
-        {data.external_packages.length === 0 ? (
-          <p className="text-xs text-slate-400">No external packages detected.</p>
-        ) : (
-          <div className="flex flex-wrap gap-1.5">
-            {data.external_packages.map((pkg) => {
-              const pkgNodeId = `pkg:${pkg}`;
-              const isSelected = selectedNodeId === pkgNodeId;
-              return (
-                <button
-                  key={pkg}
-                  onClick={() =>
-                    setSelectedNodeId((prev) =>
-                      prev === pkgNodeId ? null : pkgNodeId
-                    )
-                  }
-                  className={`rounded border px-2.5 py-1 text-xs font-mono transition-colors ${
-                    isSelected
-                      ? "border-teal-400 bg-teal-950/80 text-white"
-                      : "border-slate-800 bg-[#0b0f17] text-teal-300 hover:border-teal-500/50"
-                  }`}
-                >
-                  {pkg}
-                </button>
-              );
-            })}
-          </div>
-        )}
-      </div>
-
-      {/* Module Coupling & Centrality Matrix */}
-      <div className="surface-card rounded-xl p-4">
-        <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider mb-3 flex items-center gap-2">
-          <GitFork className="h-4 w-4 text-blue-400" /> Internal Module Coupling Matrix
-        </h3>
-        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-          {allEnrichedNodes
-            .filter((n) => n.kind === "internal_file")
-            .filter((n) => {
-              const q = searchQuery.trim().toLowerCase();
-              return (
-                !q ||
-                n.id.toLowerCase().includes(q) ||
-                n.label.toLowerCase().includes(q)
-              );
-            })
-            .sort((a, b) => b.total_degree - a.total_degree)
-            .slice(0, 60)
-            .map((node) => (
-              <div
-                key={node.id}
-                onClick={() => setSelectedNodeId(node.id)}
-                className={`group flex items-center justify-between rounded-lg border p-2.5 cursor-pointer transition-colors ${
-                  selectedNodeId === node.id
-                    ? "border-blue-500 bg-blue-950/30"
-                    : "border-slate-800 bg-[#0b0f17] hover:border-slate-700"
-                }`}
-              >
-                <div className="min-w-0 pr-2">
-                  <div className="flex items-center gap-1.5">
-                    <span className="truncate font-mono text-xs font-medium text-slate-200 group-hover:text-blue-300">
-                      {node.label}
-                    </span>
-                    {node.inCycle && (
-                      <span className="rounded bg-rose-500/20 px-1.5 py-0.2 text-[9px] font-semibold text-rose-300">
-                        Cycle
-                      </span>
-                    )}
-                  </div>
-                  <div className="truncate font-mono text-[10px] text-slate-400">
-                    {node.id}
-                  </div>
-                </div>
-                <div className="flex shrink-0 items-center gap-1.5 font-mono text-[10px] tabular-nums">
-                  <span
-                    className="rounded border border-emerald-800/70 bg-emerald-950/60 px-1.5 py-0.5 text-emerald-300"
-                    title="Incoming imports (dependents)"
-                  >
-                    In:{node.in_degree}
-                  </span>
-                  <span
-                    className="rounded border border-blue-800/70 bg-blue-950/60 px-1.5 py-0.5 text-blue-300"
-                    title="Outgoing imports (dependencies)"
-                  >
-                    Out:{node.out_degree}
-                  </span>
-                  {onSelectFile && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onSelectFile(node.id);
-                      }}
-                      className="rounded bg-slate-800 p-1 text-slate-300 hover:bg-blue-600 hover:text-white"
-                      title="Jump to file in Code Viewer"
-                    >
-                      <ArrowUpRight className="h-3 w-3" />
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-        </div>
-      </div>
     </div>
   );
 };

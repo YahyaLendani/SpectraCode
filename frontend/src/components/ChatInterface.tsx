@@ -3,8 +3,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
   Send,
-  Bot,
-  User,
   AlertTriangle,
   ExternalLink,
   RefreshCw,
@@ -15,6 +13,7 @@ import {
   RotateCcw,
   FileCode2,
   Terminal,
+  ArrowUpRight,
 } from "lucide-react";
 import { ChatMessage } from "@/lib/api";
 import { cn } from "@/lib/utils";
@@ -27,14 +26,16 @@ interface ChatInterfaceProps {
 const INITIAL_ASSISTANT_MESSAGE: ChatMessage = {
   role: "assistant",
   content:
-    "Welcome to **RepoLens Grounded Intelligence**. Ask any architectural or implementation question about this repository.\n\nEvery claim is backed by deterministic `[file:start-end]` source citations—click any citation badge to inspect the exact lines in the Code Viewer.",
+    "Ask any architectural or implementation question about this repository.\n\nEvery claim is backed by deterministic `[file:start-end]` source citations—click any citation badge to inspect the exact lines in the Code Viewer.",
 };
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   repoId,
   onCitationClick,
 }) => {
-  const [messages, setMessages] = useState<ChatMessage[]>([INITIAL_ASSISTANT_MESSAGE]);
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    INITIAL_ASSISTANT_MESSAGE,
+  ]);
   const [input, setInput] = useState("");
   const [streaming, setStreaming] = useState(false);
   const [conversationId, setConversationId] = useState<string | null>(null);
@@ -185,7 +186,6 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       if (!part) return null;
       const key = `${keyPrefix}-${idx}`;
 
-      // Check if [file:start-end] citation
       const citMatch =
         /^\[([a-zA-Z0-9_.\-\/\\]+?\.[a-zA-Z0-9]+):(\d+)(?:-(\d+))?\]$/.exec(
           part
@@ -209,27 +209,25 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               {shortName}:{startLine}
               {endLine !== startLine ? `-${endLine}` : ""}
             </span>
-            <ExternalLink className="h-2.5 w-2.5 opacity-75 shrink-0" />
+            <ExternalLink className="h-2.5 w-2.5 opacity-70 shrink-0" />
           </button>
         );
       }
 
-      // Check if `inline code`
       if (part.startsWith("`") && part.endsWith("`") && part.length > 2) {
         return (
           <code
             key={key}
-            className="rounded border border-slate-700 bg-slate-900 px-1.5 py-0.5 font-mono text-[11px] text-blue-200"
+            className="rounded border border-white/[0.1] bg-white/[0.04] px-1.5 py-0.5 font-mono text-[11px] text-zinc-200"
           >
             {part.slice(1, -1)}
           </code>
         );
       }
 
-      // Check if **bold**
       if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
         return (
-          <strong key={key} className="font-semibold text-white">
+          <strong key={key} className="font-semibold text-zinc-50">
             {part.slice(2, -2)}
           </strong>
         );
@@ -243,7 +241,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const renderMessageContent = (content: string, msgIdx: number) => {
     if (!content) {
       return (
-        <div className="flex items-center gap-2 py-1 text-xs text-slate-400">
+        <div className="flex items-center gap-2 py-1 text-xs text-zinc-400">
           <RefreshCw className="h-3.5 w-3.5 animate-spin text-blue-400" />
           <span>Retrieving AST spans &amp; verifying line citations...</span>
         </div>
@@ -273,17 +271,17 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             return (
               <div
                 key={segKey}
-                className="overflow-hidden rounded-lg border border-slate-800 bg-[#0b0f17] my-2"
+                className="overflow-hidden rounded-lg border border-white/[0.08] bg-[#090b10] my-2"
               >
-                <div className="flex items-center justify-between border-b border-slate-800 bg-slate-900 px-3 py-1.5">
-                  <span className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase text-slate-400">
+                <div className="flex items-center justify-between border-b border-white/[0.07] bg-[#0d1017] px-3 py-1.5">
+                  <span className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase text-zinc-400">
                     <Terminal className="h-3 w-3 text-blue-400" />
                     {lang}
                   </span>
                   <button
                     type="button"
                     onClick={() => handleCopySnippet(codeBody, segKey)}
-                    className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] text-slate-400 hover:bg-slate-800 hover:text-white transition-colors"
+                    className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] text-zinc-400 hover:bg-white/[0.06] hover:text-zinc-100 transition-colors"
                   >
                     {copiedSnippetKey === segKey ? (
                       <>
@@ -298,7 +296,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     )}
                   </button>
                 </div>
-                <pre className="overflow-x-auto p-3 font-mono text-[11px] leading-relaxed text-slate-200">
+                <pre className="overflow-x-auto p-3 font-mono text-[11px] leading-relaxed text-zinc-200">
                   {codeBody}
                 </pre>
               </div>
@@ -317,87 +315,69 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
   const sampleQueries = [
     {
-      badge: "JWT Auth",
+      tag: "auth/jwt",
       question:
         "Where is JWT token verification implemented and what exception is thrown on expiration?",
     },
     {
-      badge: "Scheduler",
+      tag: "scheduler",
       question:
         "How does the distributed scheduler handle retry backoff and concurrency limits?",
     },
     {
-      badge: "RBAC Models",
+      tag: "models/rbac",
       question:
         "How are user roles defined and how is administrative access verified?",
     },
   ];
 
   return (
-    <div className="flex h-full flex-col bg-[#0f1623] border-l border-slate-800">
+    <div className="flex h-full flex-col bg-[#0d1017] border-l border-white/[0.07]">
       {/* Copilot Header */}
-      <div className="flex items-center justify-between border-b border-slate-800 bg-[#0b0f17] px-4 py-2.5">
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-blue-500/15 border border-blue-500/30 text-blue-400">
-            <Bot className="h-4 w-4" />
-          </div>
-          <div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-xs font-bold text-slate-100">
-                Grounded AI Copilot
-              </span>
-              <span className="rounded border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.2 font-mono text-[9px] font-semibold text-emerald-300">
-                Strict Citations
-              </span>
-            </div>
-          </div>
+      <div className="flex items-center justify-between border-b border-white/[0.07] bg-[#0d1017] px-4 py-2">
+        <div className="flex items-center gap-2">
+          <Terminal className="h-3.5 w-3.5 text-blue-400" />
+          <span className="text-xs font-semibold text-zinc-100">
+            Grounded Copilot
+          </span>
+          <span className="rounded border border-emerald-500/25 bg-emerald-500/10 px-1.5 py-0.2 font-mono text-[10px] font-medium text-emerald-300">
+            Strict [file:L-L]
+          </span>
         </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleResetChat}
-            disabled={streaming || messages.length <= 1}
-            title="Start new conversation"
-            className="flex items-center gap-1 rounded border border-slate-800 bg-slate-900 px-2 py-1 text-[10px] font-medium text-slate-400 hover:border-slate-700 hover:text-white disabled:opacity-40 transition-colors"
-          >
-            <RotateCcw className="h-3 w-3" />
-            <span>Reset</span>
-          </button>
-        </div>
+        <button
+          onClick={handleResetChat}
+          disabled={streaming || messages.length <= 1}
+          title="Start new conversation"
+          className="flex items-center gap-1 rounded-md border border-white/[0.08] bg-[#11151f] px-2 py-1 text-[10px] font-medium text-zinc-400 hover:border-white/[0.15] hover:text-zinc-100 disabled:opacity-40 transition-colors"
+        >
+          <RotateCcw className="h-3 w-3" />
+          <span>Reset</span>
+        </button>
       </div>
 
       {/* Conversation Feed */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-3.5 space-y-3.5">
         {messages.map((msg, idx) => (
           <div
             key={idx}
             className={cn(
               "flex flex-col gap-2 rounded-lg p-3.5 text-xs",
               msg.role === "user"
-                ? "ml-6 bg-blue-950/35 border border-blue-500/30 text-slate-100"
-                : "mr-2 bg-[#111827] border border-slate-800 text-slate-200"
+                ? "ml-6 bg-[#151a26] border border-white/[0.1] text-zinc-100"
+                : "bg-[#090b10] border border-white/[0.07] text-zinc-200"
             )}
           >
             {/* Message Role Header */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5 text-[11px] font-semibold">
-                {msg.role === "user" ? (
-                  <>
-                    <User className="h-3.5 w-3.5 text-blue-400" />
-                    <span className="text-blue-200">Developer Query</span>
-                  </>
-                ) : (
-                  <>
-                    <Terminal className="h-3.5 w-3.5 text-blue-400" />
-                    <span className="text-slate-300">RepoLens Intelligence</span>
-                  </>
-                )}
-              </div>
+              <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
+                {msg.role === "user" ? "Query" : "RepoLens Grounded Response"}
+              </span>
 
               {msg.role === "assistant" && msg.content && (
                 <div className="flex items-center gap-2">
                   {typeof msg.latency_ms === "number" && msg.latency_ms > 0 && (
-                    <span className="flex items-center gap-1 font-mono text-[10px] text-slate-400 tabular-nums">
+                    <span className="flex items-center gap-1 font-mono text-[10px] text-zinc-500 tabular-nums">
                       <Clock className="h-2.5 w-2.5" />
                       {msg.latency_ms}ms
                     </span>
@@ -405,7 +385,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                   <button
                     onClick={() => handleCopyText(msg.content, idx)}
                     title="Copy response"
-                    className="rounded p-1 text-slate-400 hover:bg-slate-800 hover:text-slate-200 transition-colors"
+                    className="rounded p-1 text-zinc-500 hover:bg-white/[0.06] hover:text-zinc-200 transition-colors"
                   >
                     {copiedMsgIdx === idx ? (
                       <Check className="h-3 w-3 text-emerald-400" />
@@ -422,11 +402,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
             {/* Verified Citations Shelf */}
             {msg.verified_citations && msg.verified_citations.length > 0 && (
-              <div className="mt-2 pt-2.5 border-t border-slate-800">
+              <div className="mt-1.5 pt-2.5 border-t border-white/[0.07]">
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="flex items-center gap-1 text-[10px] uppercase font-bold text-emerald-400 tracking-wider tabular-nums">
+                  <span className="flex items-center gap-1 font-mono text-[10px] font-semibold text-emerald-400 tabular-nums">
                     <ShieldCheck className="h-3 w-3" />
-                    Verified Source Citations ({msg.verified_citations.length})
+                    Verified Source Spans ({msg.verified_citations.length})
                   </span>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
@@ -451,7 +431,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
             {/* Abstention Warning */}
             {msg.is_abstained && (
-              <div className="mt-1.5 flex items-center gap-2 rounded-lg bg-amber-950/40 border border-amber-500/30 p-2.5 text-[11px] text-amber-200">
+              <div className="mt-1.5 flex items-center gap-2 rounded-lg bg-amber-950/35 border border-amber-500/30 p-2.5 text-[11px] text-amber-200">
                 <AlertTriangle className="h-4 w-4 text-amber-400 shrink-0" />
                 <span>
                   Grounding Gate Abstained: Insufficient evidence in indexed repository chunks to verify claims.
@@ -465,22 +445,26 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
       {/* Curated Starter Prompts */}
       {messages.length === 1 && (
-        <div className="px-4 py-3 border-t border-slate-800 bg-[#0b0f17]">
-          <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider flex items-center gap-1.5 mb-2">
-            <Terminal className="h-3 w-3 text-blue-400" />
-            Suggested Architecture Queries
-          </span>
+        <div className="px-3.5 py-3 border-t border-white/[0.07] bg-[#090b10]/60">
+          <div className="font-mono text-[10px] text-zinc-500 font-semibold uppercase tracking-wider mb-2">
+            Suggested Queries
+          </div>
           <div className="space-y-1.5">
             {sampleQueries.map((item, idx) => (
               <button
                 key={idx}
                 onClick={() => handleSend(item.question)}
-                className="group w-full flex items-start gap-2 text-left rounded-lg border border-slate-800 bg-slate-900/80 p-2 text-[11px] text-slate-300 hover:border-slate-700 hover:bg-slate-900 hover:text-white transition-colors"
+                className="group w-full flex items-center justify-between gap-2 text-left rounded-lg border border-white/[0.07] bg-[#11151f] px-3 py-2 text-[11px] text-zinc-300 hover:border-white/[0.15] hover:bg-[#151a26] hover:text-zinc-100 transition-colors"
               >
-                <span className="shrink-0 rounded bg-blue-500/15 border border-blue-500/30 px-1.5 py-0.5 font-mono text-[9px] font-semibold text-blue-300 mt-0.5">
-                  {item.badge}
-                </span>
-                <span className="line-clamp-2 leading-snug">{item.question}</span>
+                <div className="min-w-0 space-y-0.5">
+                  <span className="block font-mono text-[10px] text-blue-400">
+                    #{item.tag}
+                  </span>
+                  <span className="block line-clamp-2 leading-snug">
+                    {item.question}
+                  </span>
+                </div>
+                <ArrowUpRight className="h-3.5 w-3.5 text-zinc-600 group-hover:text-blue-400 shrink-0 transition-colors" />
               </button>
             ))}
           </div>
@@ -488,7 +472,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       )}
 
       {/* Input Composer */}
-      <div className="p-3 border-t border-slate-800 bg-[#0b0f17]">
+      <div className="p-3 border-t border-white/[0.07] bg-[#090b10]">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -502,13 +486,13 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={streaming}
-            className="flex-1 rounded-lg border border-slate-800 bg-slate-900 px-3.5 py-2.5 text-xs text-slate-100 placeholder:text-slate-500 focus:border-blue-500 focus:outline-none disabled:opacity-50"
+            className="flex-1 rounded-lg border border-white/[0.08] bg-[#11151f] px-3.5 py-2 text-xs text-zinc-100 placeholder:text-zinc-500 focus:border-blue-500 focus:outline-none disabled:opacity-50 transition-colors"
           />
           <button
             type="submit"
             disabled={streaming || !input.trim()}
             aria-label="Send question"
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 transition-colors"
+            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 transition-colors"
           >
             {streaming ? (
               <RefreshCw className="h-3.5 w-3.5 animate-spin" />
