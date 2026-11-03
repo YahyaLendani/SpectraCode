@@ -20,7 +20,25 @@ import {
 import { api, Repository } from "@/lib/api";
 import { Navbar } from "@/components/Navbar";
 import { RepoImportModal } from "@/components/RepoImportModal";
-import { RemotionPipelinePlayer } from "@/components/animations/RemotionPipelinePlayer";
+import dynamic from "next/dynamic";
+
+const RemotionPipelinePlayer = dynamic(
+  () =>
+    import("@/components/animations/RemotionPipelinePlayer").then(
+      (mod) => mod.RemotionPipelinePlayer
+    ),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-80 rounded-2xl border border-white/[0.08] bg-[#070a12] flex items-center justify-center">
+        <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
+          <div className="h-3 w-3 rounded-full border border-blue-500 border-t-transparent animate-spin" />
+          <span>Loading 60fps Remotion Pipeline...</span>
+        </div>
+      </div>
+    ),
+  }
+);
 
 export default function DashboardPage() {
   const router = useRouter();
