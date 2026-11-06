@@ -15,6 +15,7 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const STAGE_CONFIGS = [
   { index: 0, label: "1. AST Parsing", startFrame: 0, color: "#60a5fa", glow: "rgba(59,130,246,0.3)" },
@@ -102,9 +103,9 @@ export const RemotionPipelinePlayer: React.FC = () => {
 
   if (!isMounted) {
     return (
-      <div className="w-full h-80 rounded-2xl border border-white/[0.08] bg-[#070a12] flex items-center justify-center">
-        <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
-          <div className="h-3 w-3 rounded-full border border-blue-500 border-t-transparent animate-spin" />
+      <div className="w-full h-80 rounded border border-white/[0.08] bg-[#0c0c0e] flex items-center justify-center">
+        <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
+          <div className="h-3 w-3 rounded-full border border-zinc-400 border-t-transparent animate-spin" />
           <span>Initializing 60fps Remotion Engine...</span>
         </div>
       </div>
@@ -112,44 +113,24 @@ export const RemotionPipelinePlayer: React.FC = () => {
   }
 
   return (
-    <div
-      className="relative overflow-hidden rounded-2xl border bg-[#070a12] shadow-2xl transition-all duration-300"
-      style={{
-        borderColor: currentStageInfo.color,
-        boxShadow: `0 0 35px ${currentStageInfo.glow}`,
-      }}
-    >
+    <div className="relative overflow-hidden rounded border border-white/[0.08] bg-[#0c0c0e]">
       {/* Top Banner Control Header */}
-      <div className="flex flex-wrap items-center justify-between border-b border-white/[0.08] bg-slate-950/85 px-4 py-3 backdrop-blur-md">
+      <div className="flex flex-wrap items-center justify-between border-b border-white/[0.07] bg-[#09090b] px-4 py-2.5">
         <div className="flex items-center gap-3">
-          <div
-            className="flex h-8 w-8 items-center justify-center rounded-lg border transition-colors"
-            style={{
-              backgroundColor: `${currentStageInfo.color}15`,
-              borderColor: `${currentStageInfo.color}40`,
-              color: currentStageInfo.color,
-            }}
-          >
-            <Cpu className="h-4 w-4" />
+          <div className="flex h-7 w-7 items-center justify-center rounded border border-white/[0.08] bg-[#111113] text-zinc-300">
+            <Cpu className="h-3.5 w-3.5" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-200">
+              <span className="text-xs font-semibold uppercase tracking-wider text-zinc-200 font-mono">
                 Remotion Pipeline Engine
               </span>
-              <span
-                className="rounded-full border px-2 py-0.5 font-mono text-[10px] font-semibold transition-colors"
-                style={{
-                  backgroundColor: `${currentStageInfo.color}15`,
-                  borderColor: `${currentStageInfo.color}35`,
-                  color: currentStageInfo.color,
-                }}
-              >
-                60 FPS • {currentStageInfo.label}
+              <span className="rounded border border-white/[0.08] bg-[#111113] px-2 py-0.5 font-mono text-[10px] font-medium text-zinc-300">
+                60 FPS · {currentStageInfo.label}
               </span>
             </div>
-            <p className="text-[11px] text-slate-400">
-              Interactive frame-accurate visualization of AST chunking, dual embeddings, and RRF
+            <p className="text-[11px] text-zinc-500">
+              Frame-accurate visualization of AST chunking, dual embeddings, and RRF
             </p>
           </div>
         </div>
@@ -157,15 +138,15 @@ export const RemotionPipelinePlayer: React.FC = () => {
         {/* Playback Controls & Speed Toggle */}
         <div className="flex items-center gap-2 mt-2 sm:mt-0">
           {/* Speed Selector */}
-          <div className="flex items-center rounded-lg border border-white/[0.08] bg-white/[0.03] p-0.5 text-[11px] font-mono">
+          <div className="flex items-center rounded border border-white/[0.08] bg-[#111113] p-0.5 text-[11px] font-mono">
             {[0.5, 1, 1.5, 2].map((s) => (
               <button
                 key={s}
                 onClick={() => handleSetSpeed(s)}
                 className={`rounded px-1.5 py-0.5 transition-colors ${
                   playbackSpeed === s
-                    ? "bg-blue-600 font-bold text-white shadow-sm"
-                    : "text-slate-400 hover:text-slate-200"
+                    ? "bg-zinc-100 font-semibold text-zinc-950"
+                    : "text-zinc-400 hover:text-zinc-200"
                 }`}
               >
                 {s}x
@@ -173,14 +154,14 @@ export const RemotionPipelinePlayer: React.FC = () => {
             ))}
           </div>
 
-          <div className="h-4 w-px bg-white/10 mx-1" />
+          <div className="h-4 w-px bg-white/[0.08] mx-1" />
 
           {/* Prev/Next Stage */}
           <button
             onClick={handlePrevStage}
             disabled={activeStage === 0}
             title="Previous Stage"
-            className="rounded-lg border border-white/10 bg-white/[0.04] p-1.5 text-slate-300 hover:border-white/20 hover:text-white disabled:opacity-30 transition-colors"
+            className="cursor-pointer rounded border border-white/[0.08] bg-[#111113] p-1.5 text-zinc-400 hover:border-white/[0.16] hover:text-white disabled:opacity-30 transition-colors"
           >
             <ChevronLeft className="h-3.5 w-3.5" />
           </button>
@@ -188,7 +169,7 @@ export const RemotionPipelinePlayer: React.FC = () => {
           {/* Play/Pause */}
           <button
             onClick={handleTogglePlay}
-            className="flex items-center gap-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-md shadow-blue-600/30 transition-all hover:scale-105"
+            className="cursor-pointer flex items-center gap-1.5 rounded bg-zinc-100 hover:bg-white px-3 py-1.5 text-xs font-semibold text-zinc-950 transition-colors"
           >
             {isPlaying ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />}
             <span>{isPlaying ? "Pause" : "Play"}</span>
@@ -198,7 +179,7 @@ export const RemotionPipelinePlayer: React.FC = () => {
             onClick={handleNextStage}
             disabled={activeStage === 3}
             title="Next Stage"
-            className="rounded-lg border border-white/10 bg-white/[0.04] p-1.5 text-slate-300 hover:border-white/20 hover:text-white disabled:opacity-30 transition-colors"
+            className="cursor-pointer rounded border border-white/[0.08] bg-[#111113] p-1.5 text-zinc-400 hover:border-white/[0.16] hover:text-white disabled:opacity-30 transition-colors"
           >
             <ChevronRight className="h-3.5 w-3.5" />
           </button>
@@ -207,7 +188,7 @@ export const RemotionPipelinePlayer: React.FC = () => {
           <button
             onClick={handleRestart}
             title="Restart to frame 0"
-            className="rounded-lg border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] p-1.5 text-slate-300 transition-colors"
+            className="cursor-pointer rounded border border-white/[0.08] bg-[#111113] hover:border-white/[0.16] p-1.5 text-zinc-400 hover:text-white transition-colors"
           >
             <RotateCcw className="h-3.5 w-3.5" />
           </button>
@@ -235,9 +216,9 @@ export const RemotionPipelinePlayer: React.FC = () => {
       </div>
 
       {/* Bottom Interactive Scrubber Bar & Telemetry */}
-      <div className="border-t border-white/[0.08] bg-slate-950/90 px-4 py-2.5 backdrop-blur-md">
+      <div className="border-t border-white/[0.07] bg-[#09090b] px-4 py-2.5">
         <div className="flex items-center gap-3">
-          <span className="font-mono text-[11px] font-semibold text-slate-300 tabular-nums">
+          <span className="font-mono text-[11px] font-medium text-zinc-400 tabular-nums">
             {currentTimeSec}s / {totalTimeSec}s
           </span>
 
@@ -249,18 +230,11 @@ export const RemotionPipelinePlayer: React.FC = () => {
               max={PIPELINE_DURATION_FRAMES - 1}
               value={currentFrame}
               onChange={(e) => handleSeek(Number(e.target.value))}
-              className="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-500 hover:bg-slate-700 transition-colors"
+              className="w-full h-1.5 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-zinc-300 hover:bg-zinc-700 transition-colors"
             />
           </div>
 
-          <span
-            className="font-mono text-[11px] font-bold px-2 py-0.5 rounded border tabular-nums"
-            style={{
-              backgroundColor: `${currentStageInfo.color}15`,
-              borderColor: `${currentStageInfo.color}35`,
-              color: currentStageInfo.color,
-            }}
-          >
+          <span className="font-mono text-[10px] font-medium px-2 py-0.5 rounded border border-white/[0.08] bg-[#111113] text-zinc-300 tabular-nums">
             FRAME {String(currentFrame).padStart(3, "0")} / 240
           </span>
         </div>
@@ -273,22 +247,16 @@ export const RemotionPipelinePlayer: React.FC = () => {
               <button
                 key={stage.index}
                 onClick={() => handleJumpToStage(stage.index)}
-                className={`flex items-center justify-between rounded-lg px-2.5 py-1 text-left font-mono text-[11px] transition-all ${
+                className={cn(
+                  "cursor-pointer flex items-center justify-between rounded px-2.5 py-1 text-left font-mono text-[11px] transition-colors",
                   isSelected
-                    ? "border font-bold text-white shadow-sm"
-                    : "border border-white/[0.06] bg-white/[0.02] text-slate-400 hover:border-white/15 hover:text-slate-200"
-                }`}
-                style={{
-                  borderColor: isSelected ? stage.color : undefined,
-                  backgroundColor: isSelected ? `${stage.color}18` : undefined,
-                }}
+                    ? "border border-white/[0.22] bg-[#18181b] font-semibold text-zinc-100"
+                    : "border border-white/[0.06] bg-[#111113] text-zinc-400 hover:border-white/[0.14] hover:text-zinc-200"
+                )}
               >
                 <span>{stage.label}</span>
                 {isSelected && (
-                  <span
-                    className="h-1.5 w-1.5 rounded-full"
-                    style={{ backgroundColor: stage.color, boxShadow: `0 0 6px ${stage.color}` }}
-                  />
+                  <span className="h-1.5 w-1.5 rounded-full bg-zinc-200" />
                 )}
               </button>
             );

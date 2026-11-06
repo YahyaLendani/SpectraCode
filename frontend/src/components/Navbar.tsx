@@ -44,42 +44,42 @@ export const Navbar: React.FC<NavbarProps> = ({
   }, [onOpenSearch]);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#06080d]/90 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-40 border-b border-white/[0.07] bg-[#09090b]/95 backdrop-blur-md">
+      <div className="mx-auto flex h-12 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Left: Brand & Primary Navigation */}
         <div className="flex items-center gap-5">
           <Link
             href="/"
-            className="group flex items-center gap-2.5 text-zinc-100 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md"
+            className="group flex items-center gap-2 text-zinc-100 cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-white/40 rounded"
           >
-            <div className="flex h-7 w-7 items-center justify-center rounded-md border border-blue-500/30 bg-blue-500/10 text-blue-400 transition-colors group-hover:border-blue-400/50 group-hover:bg-blue-500/20">
+            <div className="flex h-6 w-6 items-center justify-center rounded bg-zinc-100 text-zinc-950 font-mono font-bold text-xs transition-opacity group-hover:opacity-90">
               <Terminal className="h-3.5 w-3.5" />
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[15px] font-bold tracking-tight text-zinc-100 font-mono">
-                Repo<span className="text-blue-400">Lens</span>
+              <span className="text-[13px] font-semibold tracking-tight text-zinc-100 font-mono">
+                RepoLens
               </span>
-              <span className="hidden sm:inline-flex items-center rounded border border-white/[0.1] bg-white/[0.04] px-1.5 py-0.5 font-mono text-[10px] font-medium text-slate-400 tabular-nums">
+              <span className="hidden sm:inline-flex items-center rounded border border-white/[0.08] bg-[#111113] px-1.5 py-0.2 font-mono text-[10px] font-medium text-zinc-500 tabular-nums">
                 v2.0
               </span>
             </div>
           </Link>
 
           {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 border-l border-white/[0.08] pl-5">
+          <nav className="hidden md:flex items-center gap-1 border-l border-white/[0.07] pl-4">
             <Link
               href="/"
               className={cn(
-                "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium cursor-pointer transition-colors focus-visible:ring-2 focus-visible:ring-blue-500",
+                "flex items-center gap-1.5 rounded px-2.5 py-1 text-xs font-medium cursor-pointer transition-colors focus-visible:ring-1 focus-visible:ring-white/40",
                 pathname === "/"
-                  ? "bg-white/[0.09] text-zinc-100 font-semibold"
-                  : "text-slate-400 hover:bg-white/[0.05] hover:text-slate-200"
+                  ? "bg-[#16161a] border border-white/[0.08] text-zinc-100 font-semibold"
+                  : "text-zinc-400 hover:text-zinc-200"
               )}
             >
               <LayoutGrid
                 className={cn(
                   "h-3.5 w-3.5",
-                  pathname === "/" ? "text-blue-400" : "text-slate-400"
+                  pathname === "/" ? "text-zinc-300" : "text-zinc-500"
                 )}
               />
               <span>Workspaces</span>
@@ -88,18 +88,18 @@ export const Navbar: React.FC<NavbarProps> = ({
             <Link
               href="/evaluation"
               className={cn(
-                "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-xs font-medium cursor-pointer transition-colors focus-visible:ring-2 focus-visible:ring-blue-500",
+                "flex items-center gap-1.5 rounded px-2.5 py-1 text-xs font-medium cursor-pointer transition-colors focus-visible:ring-1 focus-visible:ring-white/40",
                 pathname?.startsWith("/evaluation")
-                  ? "bg-white/[0.09] text-zinc-100 font-semibold"
-                  : "text-slate-400 hover:bg-white/[0.05] hover:text-slate-200"
+                  ? "bg-[#16161a] border border-white/[0.08] text-zinc-100 font-semibold"
+                  : "text-zinc-400 hover:text-zinc-200"
               )}
             >
               <BarChart3
                 className={cn(
                   "h-3.5 w-3.5",
                   pathname?.startsWith("/evaluation")
-                    ? "text-blue-400"
-                    : "text-slate-400"
+                    ? "text-zinc-300"
+                    : "text-zinc-500"
                 )}
               />
               <span>Benchmarks</span>
@@ -108,9 +108,9 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Quick Workspace Jump Selector */}
           {repositories.length > 0 && (
-            <div className="hidden lg:flex items-center gap-2 border-l border-white/[0.08] pl-4">
-              <ChevronRight className="h-3.5 w-3.5 text-slate-500" />
-              <FolderGit2 className="h-3.5 w-3.5 text-slate-400" />
+            <div className="hidden lg:flex items-center gap-2 border-l border-white/[0.07] pl-4">
+              <ChevronRight className="h-3.5 w-3.5 text-zinc-600" />
+              <FolderGit2 className="h-3.5 w-3.5 text-zinc-500" />
               <select
                 value={currentRepo?.id || ""}
                 onChange={(e) => {
@@ -123,7 +123,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   }
                 }}
                 aria-label="Jump to repository workspace"
-                className="cursor-pointer rounded-md border border-white/[0.1] bg-[#0a0e17] px-2.5 py-1 font-mono text-xs text-slate-200 outline-none transition-colors hover:border-white/[0.2] focus:border-blue-500"
+                className="cursor-pointer rounded border border-white/[0.08] bg-[#111113] px-2 py-0.5 font-mono text-xs text-zinc-300 outline-none transition-colors hover:border-white/[0.16] focus:border-zinc-500"
               >
                 {!currentRepo && (
                   <option value="" disabled>
@@ -141,25 +141,25 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Right: Search Command Pill, Engine Status & External Links */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2">
           {onOpenSearch && (
             <button
               onClick={onOpenSearch}
               aria-label="Open search dialog (Ctrl+K or Cmd+K)"
-              className="group flex cursor-pointer items-center gap-2.5 rounded-md border border-white/[0.1] bg-[#0a0e17] px-3 py-1.5 text-xs text-slate-300 transition-colors hover:border-white/[0.2] hover:text-white focus-visible:ring-2 focus-visible:ring-blue-500"
+              className="group flex cursor-pointer items-center gap-2 rounded border border-white/[0.08] bg-[#111113] px-2.5 py-1 text-xs text-zinc-400 transition-colors hover:border-white/[0.16] hover:text-zinc-200 focus-visible:ring-1 focus-visible:ring-white/40"
             >
-              <Search className="h-3.5 w-3.5 text-blue-400" />
-              <span className="hidden sm:inline">Search symbols &amp; code...</span>
-              <kbd className="rounded border border-white/[0.12] bg-white/[0.06] px-1.5 py-0.5 font-mono text-[10px] font-semibold text-slate-300">
+              <Search className="h-3.5 w-3.5 text-zinc-500" />
+              <span className="hidden sm:inline">Search...</span>
+              <kbd className="rounded border border-white/[0.08] bg-[#16161a] px-1.5 py-0.2 font-mono text-[10px] font-medium text-zinc-400">
                 ⌘K
               </kbd>
             </button>
           )}
 
-          {/* Subtle Engine Status Indicator */}
-          <div className="hidden xl:flex items-center gap-2 rounded-md border border-white/[0.08] bg-[#0a0e17] px-2.5 py-1 text-[11px] text-slate-300">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="font-mono text-[10px] font-medium tracking-tight text-slate-200">
+          {/* Engine Status Indicator */}
+          <div className="hidden xl:flex items-center gap-2 rounded border border-white/[0.07] bg-[#111113] px-2.5 py-1 text-[11px] text-zinc-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            <span className="font-mono text-[10px] tracking-tight text-zinc-300">
               AST · RRF · ONNX
             </span>
           </div>
@@ -167,9 +167,9 @@ export const Navbar: React.FC<NavbarProps> = ({
           <Link
             href="/evaluation"
             aria-label="Navigate to benchmarks"
-            className="flex md:hidden cursor-pointer items-center gap-1.5 rounded-md border border-white/[0.1] bg-[#0a0e17] px-2.5 py-1.5 text-xs font-medium text-slate-200 hover:border-white/[0.2] hover:text-white transition-colors"
+            className="flex md:hidden cursor-pointer items-center gap-1.5 rounded border border-white/[0.08] bg-[#111113] px-2.5 py-1 text-xs font-medium text-zinc-300 hover:border-white/[0.16] hover:text-white transition-colors"
           >
-            <BarChart3 className="h-3.5 w-3.5 text-blue-400" />
+            <BarChart3 className="h-3.5 w-3.5 text-zinc-400" />
             <span>Benchmarks</span>
           </Link>
 
@@ -178,9 +178,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             target="_blank"
             rel="noreferrer"
             aria-label="View source repository on GitHub"
-            className="hidden sm:flex cursor-pointer items-center gap-1.5 rounded-md border border-white/[0.1] bg-[#0a0e17] px-2.5 py-1.5 text-xs font-medium text-slate-300 hover:border-white/[0.2] hover:text-white transition-colors"
+            className="hidden sm:flex cursor-pointer items-center gap-1.5 rounded border border-white/[0.08] bg-[#111113] px-2.5 py-1 text-xs font-medium text-zinc-400 hover:border-white/[0.16] hover:text-zinc-200 transition-colors"
           >
-            <GitBranch className="h-3.5 w-3.5 text-slate-400" />
+            <GitBranch className="h-3.5 w-3.5 text-zinc-500" />
             <span>GitHub</span>
           </Link>
         </div>

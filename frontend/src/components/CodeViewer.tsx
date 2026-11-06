@@ -83,7 +83,7 @@ function renderSyntaxHighlightedLine(line: string): React.ReactNode {
   }
 
   if (trimmed.startsWith("@")) {
-    return <span className="text-amber-300/90 font-medium">{line}</span>;
+    return <span className="text-zinc-400 font-medium">{line}</span>;
   }
 
   const tokenRegex =
@@ -106,25 +106,25 @@ function renderSyntaxHighlightedLine(line: string): React.ReactNode {
       token.startsWith("`")
     ) {
       parts.push(
-        <span key={key} className="text-emerald-300/95">
+        <span key={key} className="text-[#a3be8c]">
           {token}
         </span>
       );
     } else if (CODE_KEYWORDS.has(token)) {
       parts.push(
-        <span key={key} className="text-blue-300 font-semibold">
+        <span key={key} className="text-zinc-100 font-semibold">
           {token}
         </span>
       );
     } else if (/^\d/.test(token)) {
       parts.push(
-        <span key={key} className="text-amber-300/90">
+        <span key={key} className="text-[#d08770]">
           {token}
         </span>
       );
     } else if (/^[A-Z][A-Za-z0-9_]*$/.test(token)) {
       parts.push(
-        <span key={key} className="text-sky-300">
+        <span key={key} className="text-[#94a3b8]">
           {token}
         </span>
       );
@@ -146,13 +146,13 @@ function getSymbolKindColor(kind: string): string {
   switch ((kind || "").toLowerCase()) {
     case "class":
     case "interface":
-      return "text-amber-400";
+      return "text-[#d08770]";
     case "function":
-      return "text-blue-400";
+      return "text-zinc-200 font-medium";
     case "method":
-      return "text-sky-400";
-    default:
       return "text-zinc-400";
+    default:
+      return "text-zinc-500";
   }
 }
 
@@ -225,16 +225,16 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
 
   if (!file) {
     return (
-      <div className="flex h-full flex-col items-center justify-center bg-black p-8 text-center">
-        <div className="mb-3.5 flex h-11 w-11 items-center justify-center rounded-lg border border-white/[0.1] bg-[#0a0e17] text-blue-400">
+      <div className="flex h-full flex-col items-center justify-center bg-[#09090b] p-8 text-center">
+        <div className="mb-3.5 flex h-10 w-10 items-center justify-center rounded border border-white/[0.08] bg-[#111113] text-zinc-400">
           <Code2 className="h-5 w-5" />
         </div>
-        <h3 className="text-sm font-semibold text-white font-mono">
+        <h3 className="text-sm font-semibold text-zinc-200 font-mono">
           Select a source file to inspect AST boundaries
         </h3>
-        <p className="mt-1.5 max-w-sm text-xs text-slate-300 leading-relaxed">
+        <p className="mt-1.5 max-w-sm text-xs text-zinc-400 leading-relaxed">
           Choose any file from the left repository tree or click a verified{" "}
-          <code className="font-mono text-blue-300">[file:start-end]</code> citation badge in the AI chat to jump directly to exact source lines.
+          <code className="font-mono text-zinc-300">[file:start-end]</code> citation badge in the AI chat to jump directly to exact source lines.
         </p>
       </div>
     );
@@ -244,13 +244,13 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
   const byteSize = new Blob([file.content]).size;
 
   return (
-    <div className="flex h-full flex-col bg-black">
+    <div className="flex h-full flex-col bg-[#09090b]">
       {/* Top IDE File Header & Action Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.08] bg-[#06080d] px-4 py-2">
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.07] bg-[#0c0c0e] px-4 py-2">
         {/* Breadcrumb Path */}
         <div className="flex items-center gap-1.5 min-w-0 overflow-x-auto">
-          <FileText className="h-3.5 w-3.5 text-blue-400 shrink-0" />
-          <div className="flex items-center gap-1 font-mono text-xs text-slate-400 truncate">
+          <FileText className="h-3.5 w-3.5 text-zinc-400 shrink-0" />
+          <div className="flex items-center gap-1 font-mono text-xs text-zinc-400 truncate">
             {pathSegments.map((seg, i) => {
               const isLast = i === pathSegments.length - 1;
               return (
@@ -258,13 +258,13 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
                   <span
                     className={cn(
                       "truncate",
-                      isLast ? "font-semibold text-white" : "text-slate-400"
+                      isLast ? "font-semibold text-zinc-100" : "text-zinc-400"
                     )}
                   >
                     {seg}
                   </span>
                   {!isLast && (
-                    <ChevronRight className="h-3 w-3 text-slate-600 shrink-0" />
+                    <ChevronRight className="h-3 w-3 text-zinc-600 shrink-0" />
                   )}
                 </React.Fragment>
               );
@@ -273,14 +273,13 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
 
           <span
             className={cn(
-              "ml-1.5 rounded border px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase shrink-0",
-              getLanguageColor(file.language)
+              "ml-1.5 rounded border border-white/[0.08] bg-[#16161a] text-zinc-300 px-1.5 py-0.5 font-mono text-[10px] font-semibold uppercase shrink-0"
             )}
           >
             {file.language}
           </span>
 
-          <span className="hidden sm:inline-block font-mono text-[11px] text-slate-400 pl-1 shrink-0 tabular-nums">
+          <span className="hidden sm:inline-block font-mono text-[11px] text-zinc-500 pl-1 shrink-0 tabular-nums">
             {file.line_count} lines · {formatBytes(byteSize)}
           </span>
         </div>
@@ -288,14 +287,14 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
         {/* Right Toolbar & Citation Beacon */}
         <div className="flex items-center gap-1.5">
           {highlightRange && (
-            <div className="flex items-center rounded-md border border-blue-500/40 bg-blue-500/15 text-blue-200 font-mono text-[11px] tabular-nums">
+            <div className="flex items-center rounded border border-white/[0.14] bg-[#16161a] text-zinc-200 font-mono text-[11px] tabular-nums">
               <button
                 onClick={scrollToHighlightedLine}
                 title="Click to center highlighted citation span"
                 aria-label={`Center highlighted citation span lines ${highlightRange[0]} through ${highlightRange[1]}`}
                 className="cursor-pointer flex items-center gap-1.5 px-2 py-0.5 hover:text-white transition-colors"
               >
-                <Crosshair className="h-3 w-3 text-blue-400" />
+                <Crosshair className="h-3 w-3 text-zinc-400" />
                 <span className="font-medium">
                   L{highlightRange[0]}–L{highlightRange[1]}
                 </span>
@@ -305,7 +304,7 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
                   onClick={onClearHighlight}
                   title="Clear line highlight"
                   aria-label="Clear line highlight"
-                  className="cursor-pointer border-l border-blue-500/25 px-1.5 py-0.5 text-blue-300/70 hover:text-white transition-colors"
+                  className="cursor-pointer border-l border-white/[0.1] px-1.5 py-0.5 text-zinc-400 hover:text-white transition-colors"
                 >
                   <X className="h-3 w-3" />
                 </button>
@@ -319,10 +318,10 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
             title="Find in file"
             aria-label="Find in file"
             className={cn(
-              "cursor-pointer flex items-center gap-1 rounded-md border px-2 py-1 text-[11px] font-medium transition-colors focus-visible:ring-1 focus-visible:ring-blue-500",
+              "cursor-pointer flex items-center gap-1 rounded border px-2 py-1 text-[11px] font-medium transition-colors focus-visible:ring-1 focus-visible:ring-zinc-400",
               showFind
-                ? "border-blue-500/40 bg-blue-500/20 text-blue-300"
-                : "border-white/[0.1] bg-[#0a0e17] text-slate-400 hover:border-white/[0.2] hover:text-slate-200"
+                ? "border-white/[0.22] bg-[#16161a] text-zinc-100"
+                : "border-white/[0.08] bg-[#111113] text-zinc-400 hover:border-white/[0.14] hover:text-zinc-200"
             )}
           >
             <Search className="h-3 w-3" />
@@ -336,10 +335,10 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
             aria-label="Toggle word wrap"
             aria-pressed={wordWrap}
             className={cn(
-              "cursor-pointer flex items-center gap-1 rounded-md border px-2 py-1 text-[11px] font-medium transition-colors focus-visible:ring-1 focus-visible:ring-blue-500",
+              "cursor-pointer flex items-center gap-1 rounded border px-2 py-1 text-[11px] font-medium transition-colors focus-visible:ring-1 focus-visible:ring-zinc-400",
               wordWrap
-                ? "border-blue-500/40 bg-blue-500/20 text-blue-300"
-                : "border-white/[0.1] bg-[#0a0e17] text-slate-400 hover:border-white/[0.2] hover:text-slate-200"
+                ? "border-white/[0.22] bg-[#16161a] text-zinc-100"
+                : "border-white/[0.08] bg-[#111113] text-zinc-400 hover:border-white/[0.14] hover:text-zinc-200"
             )}
           >
             <WrapText className="h-3 w-3" />
@@ -349,7 +348,7 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
           <button
             onClick={handleCopyCode}
             aria-label={highlightRange ? "Copy highlighted code span" : "Copy full file content"}
-            className="cursor-pointer flex items-center gap-1.5 rounded-md border border-white/[0.1] bg-[#0a0e17] hover:border-white/[0.2] hover:text-white px-2.5 py-1 text-[11px] font-medium text-slate-300 transition-colors focus-visible:ring-1 focus-visible:ring-blue-500"
+            className="cursor-pointer flex items-center gap-1.5 rounded border border-white/[0.08] bg-[#111113] hover:border-white/[0.14] hover:text-white px-2.5 py-1 text-[11px] font-medium text-zinc-300 transition-colors focus-visible:ring-1 focus-visible:ring-zinc-400"
           >
             {copied ? (
               <>
@@ -358,7 +357,7 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
               </>
             ) : (
               <>
-                <Copy className="h-3 w-3 text-slate-400" />
+                <Copy className="h-3 w-3 text-zinc-400" />
                 <span>{highlightRange ? "Copy Span" : "Copy"}</span>
               </>
             )}
@@ -368,21 +367,21 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
 
       {/* Collapsible In-File Search Bar */}
       {showFind && (
-        <div className="flex items-center justify-between gap-2 border-b border-white/[0.07] bg-[#11151f] px-4 py-1.5">
+        <div className="flex items-center justify-between gap-2 border-b border-white/[0.07] bg-[#111113] px-4 py-1.5">
           <div className="flex items-center gap-2 flex-1">
-            <Search className="h-3.5 w-3.5 text-blue-400" />
+            <Search className="h-3.5 w-3.5 text-zinc-400" />
             <input
               type="text"
               autoFocus
               value={findQuery}
               onChange={(e) => setFindQuery(e.target.value)}
               placeholder="Find identifier or text in current file..."
-              className="w-full max-w-sm bg-transparent font-mono text-xs text-zinc-200 placeholder:text-zinc-500 outline-none"
+              className="w-full max-w-sm bg-transparent font-mono text-xs text-zinc-100 placeholder:text-zinc-500 outline-none"
             />
           </div>
           <div className="flex items-center gap-3">
             {findQuery && (
-              <span className="font-mono text-[11px] text-amber-300 tabular-nums">
+              <span className="font-mono text-[11px] text-zinc-400 tabular-nums">
                 {matchingLinesCount} matching lines
               </span>
             )}
@@ -401,9 +400,9 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
 
       {/* Clean Single-Layer AST Symbols Outline Ribbon */}
       {file.symbols && file.symbols.length > 0 && (
-        <div className="flex items-center gap-1.5 border-b border-white/[0.07] bg-[#0b0e15] px-4 py-1.5 overflow-x-auto text-[11px]">
+        <div className="flex items-center gap-1.5 border-b border-white/[0.07] bg-[#0c0c0e] px-4 py-1.5 overflow-x-auto text-[11px]">
           <span className="text-zinc-500 flex items-center gap-1 shrink-0 font-semibold uppercase tracking-wider text-[10px] mr-1 tabular-nums">
-            <Layers className="h-3 w-3 text-blue-400" />
+            <Layers className="h-3 w-3 text-zinc-400" />
             <span>AST ({file.symbols.length})</span>
           </span>
           {file.symbols.map((sym) => {
@@ -420,10 +419,10 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
                 }
                 title={`${sym.signature} (Lines ${sym.start_line}–${sym.end_line})`}
                 className={cn(
-                  "group flex items-center gap-1.5 rounded-md border px-2 py-0.5 shrink-0 font-mono text-[11px] transition-colors tabular-nums",
+                  "group flex items-center gap-1.5 rounded border px-2 py-0.5 shrink-0 font-mono text-[11px] transition-colors tabular-nums",
                   isSymActive
-                    ? "border-blue-500/50 bg-blue-500/15 text-zinc-100"
-                    : "border-white/[0.07] bg-[#11151f] text-zinc-300 hover:border-white/[0.15] hover:text-zinc-100"
+                    ? "border-white/[0.22] bg-[#18181b] text-zinc-100"
+                    : "border-white/[0.07] bg-[#111113] text-zinc-400 hover:border-white/[0.14] hover:text-zinc-200"
                 )}
               >
                 <span
@@ -438,7 +437,7 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
                     ? "def"
                     : sym.kind}
                 </span>
-                <span className="font-medium">{sym.name}</span>
+                <span className="font-medium text-zinc-200">{sym.name}</span>
                 <span className="text-[10px] text-zinc-500 group-hover:text-zinc-400">
                   :{sym.start_line}
                 </span>

@@ -127,31 +127,31 @@ export default function EvaluationDashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-slate-100 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col font-sans">
       <Navbar repositories={repositories} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-7">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b border-white/[0.08] pb-6">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b border-white/[0.07] pb-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <Link
                 href="/"
                 aria-label="Back to Workspaces"
-                className="cursor-pointer text-xs text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
+                className="cursor-pointer text-xs text-zinc-400 hover:text-white flex items-center gap-1 transition-colors"
               >
                 <ArrowLeft className="h-3.5 w-3.5" /> Workspaces
               </Link>
-              <span className="text-slate-600">/</span>
-              <span className="font-mono text-xs text-blue-400 font-semibold">
-                Quantitative Evaluation Suite
+              <span className="text-zinc-600">/</span>
+              <span className="font-mono text-xs text-zinc-400 font-medium">
+                QUANTITATIVE BENCHMARK SUITE
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center gap-2.5 font-mono">
-              <BarChart3 className="h-6 w-6 text-blue-400" />
+            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-100 flex items-center gap-2.5 font-mono">
+              <BarChart3 className="h-6 w-6 text-zinc-400" />
               <span>Retrieval &amp; Citation Grounding Benchmarks</span>
             </h1>
-            <p className="text-xs sm:text-sm text-slate-300 mt-1">
+            <p className="text-xs sm:text-sm text-zinc-400 mt-1">
               Automated evaluation measuring Recall@K, MRR, line-interval Citation Precision/Recall/F1, and Faithfulness.
             </p>
           </div>
@@ -164,7 +164,7 @@ export default function EvaluationDashboardPage() {
                 loadLatestEvaluation(e.target.value);
               }}
               aria-label="Select repository for evaluation"
-              className="cursor-pointer rounded-lg border border-white/[0.1] bg-[#0a0e17] px-3 py-2 font-mono text-xs text-slate-200 outline-none focus:border-blue-500 transition-colors"
+              className="cursor-pointer rounded border border-white/[0.08] bg-[#111113] px-3 py-1.5 font-mono text-xs text-zinc-200 outline-none focus:border-white/[0.25] transition-colors"
             >
               {repositories.map((r) => (
                 <option key={r.id} value={r.id}>
@@ -177,10 +177,10 @@ export default function EvaluationDashboardPage() {
               <Link
                 href={`/repos/${selectedRepoId}`}
                 aria-label="Open Workspace for selected repository"
-                className="cursor-pointer flex items-center gap-1.5 rounded-lg border border-white/[0.1] bg-[#0a0e17] hover:border-white/[0.2] hover:text-white px-3 py-2 text-xs font-medium text-slate-300 transition-colors focus-visible:ring-2 focus-visible:ring-blue-500"
+                className="cursor-pointer flex items-center gap-1.5 rounded border border-white/[0.08] bg-[#111113] hover:border-white/[0.16] hover:text-white px-3 py-1.5 text-xs font-medium text-zinc-300 transition-colors focus-visible:ring-1 focus-visible:ring-white/40"
               >
                 <span>Open Workspace</span>
-                <ArrowUpRight className="h-3.5 w-3.5 text-slate-400" />
+                <ArrowUpRight className="h-3.5 w-3.5 text-zinc-400" />
               </Link>
             )}
 
@@ -188,7 +188,7 @@ export default function EvaluationDashboardPage() {
               onClick={handleRunBenchmark}
               disabled={running || !selectedRepoId}
               aria-label="Execute automated benchmark suite"
-              className="cursor-pointer flex items-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-500 px-4 py-2 text-xs font-semibold text-white transition-colors disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-blue-500 shadow-sm"
+              className="cursor-pointer flex items-center gap-2 rounded bg-zinc-100 hover:bg-white px-4 py-1.5 text-xs font-semibold text-zinc-950 transition-colors disabled:opacity-40 focus-visible:ring-2 focus-visible:ring-zinc-400 shadow-sm"
             >
               {running ? (
                 <>
@@ -197,7 +197,7 @@ export default function EvaluationDashboardPage() {
                 </>
               ) : (
                 <>
-                  <Play className="h-3.5 w-3.5 fill-white" />
+                  <Play className="h-3.5 w-3.5 fill-zinc-950" />
                   <span>Run Benchmark Suite</span>
                 </>
               )}
@@ -206,14 +206,14 @@ export default function EvaluationDashboardPage() {
         </div>
 
         {error && (
-          <div className="flex items-center gap-2.5 rounded-xl border border-rose-500/30 bg-rose-950/30 p-3.5 text-xs text-rose-300">
+          <div className="flex items-center gap-2.5 rounded border border-rose-500/30 bg-rose-950/20 p-3.5 text-xs text-rose-300">
             <AlertCircle className="h-4 w-4 text-rose-400 shrink-0" />
             <span>{error}</span>
           </div>
         )}
 
         {/* Cohesive 6-Metric Quantitative Ledger */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.08] rounded-xl border border-white/[0.08] bg-[#0a0e17] tabular-nums shadow-lg">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.07] rounded border border-white/[0.08] bg-[#0c0c0e] tabular-nums shadow-sm">
           {kpiMetrics.map((kpi) => {
             const isHigh = kpi.pct >= 80;
             return (
@@ -223,33 +223,33 @@ export default function EvaluationDashboardPage() {
               >
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-medium text-slate-400 font-mono">
+                    <span className="text-[11px] font-medium text-zinc-400 font-mono">
                       {kpi.label}
                     </span>
-                    <span className="font-mono text-[9px] uppercase text-slate-400">
+                    <span className="font-mono text-[9px] uppercase text-zinc-500">
                       {kpi.group}
                     </span>
                   </div>
-                  <div className="mt-1.5 font-mono text-2xl font-bold text-white">
+                  <div className="mt-1.5 font-mono text-2xl font-semibold text-zinc-100">
                     {kpi.value}
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <div className="h-1 w-full overflow-hidden rounded-full bg-[#000000]">
+                  <div className="h-1 w-full overflow-hidden rounded-full bg-[#18181b]">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${
                         !report
                           ? "bg-zinc-800"
                           : isHigh
                           ? "bg-emerald-500"
-                          : "bg-blue-500"
+                          : "bg-zinc-300"
                       }`}
                       style={{
                         width: `${Math.min(100, Math.max(0, kpi.pct))}%`,
                       }}
                     />
                   </div>
-                  <span className="text-[10px] text-slate-400 block font-mono">
+                  <span className="text-[10px] text-zinc-500 block font-mono">
                     {kpi.desc}
                   </span>
                 </div>
@@ -259,10 +259,10 @@ export default function EvaluationDashboardPage() {
         </div>
 
         {/* Detailed Benchmark Verification Ledger */}
-        <div className="rounded-xl border border-white/[0.07] bg-[#0d1017] overflow-hidden">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.07] bg-[#11151f] px-5 py-3.5">
+        <div className="rounded border border-white/[0.07] bg-[#0c0c0e] overflow-hidden">
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.07] bg-[#09090b] px-5 py-3">
             <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-200 flex items-center gap-2">
-              <Terminal className="h-4 w-4 text-blue-400" />
+              <Terminal className="h-4 w-4 text-zinc-400" />
               <span>Benchmark Test Queries &amp; Ground-Truth Span Verification</span>
             </h2>
             {report && (
@@ -283,8 +283,8 @@ export default function EvaluationDashboardPage() {
                   <div className="flex flex-wrap items-start justify-between gap-4">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="inline-flex items-center gap-1 rounded border border-blue-500/25 bg-blue-500/10 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-blue-300">
-                          <Target className="h-3 w-3" /> {sample.query_id}
+                        <span className="inline-flex items-center gap-1 rounded border border-white/[0.08] bg-[#111113] px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-zinc-300">
+                          <Target className="h-3 w-3 text-zinc-400" /> {sample.query_id}
                         </span>
                       </div>
                       <h3 className="text-sm font-semibold text-zinc-100 pt-0.5">
@@ -293,25 +293,25 @@ export default function EvaluationDashboardPage() {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-1.5 font-mono text-[11px] shrink-0 tabular-nums">
-                      <span className="rounded border border-white/[0.08] bg-[#090b10] px-2.5 py-0.5 text-zinc-300">
+                      <span className="rounded border border-white/[0.08] bg-[#111113] px-2.5 py-0.5 text-zinc-300">
                         Recall:{" "}
                         <strong className="text-zinc-100">
                           {(sample.recall_at_k * 100).toFixed(0)}%
                         </strong>
                       </span>
-                      <span className="rounded border border-white/[0.08] bg-[#090b10] px-2.5 py-0.5 text-zinc-300">
+                      <span className="rounded border border-white/[0.08] bg-[#111113] px-2.5 py-0.5 text-zinc-300">
                         Cit P:{" "}
                         <strong className="text-emerald-400">
                           {(sample.citation_precision * 100).toFixed(0)}%
                         </strong>
                       </span>
-                      <span className="rounded border border-white/[0.08] bg-[#090b10] px-2.5 py-0.5 text-zinc-300">
+                      <span className="rounded border border-white/[0.08] bg-[#111113] px-2.5 py-0.5 text-zinc-300">
                         Cit F1:{" "}
-                        <strong className="text-blue-400">
+                        <strong className="text-zinc-100">
                           {(sample.citation_f1 * 100).toFixed(0)}%
                         </strong>
                       </span>
-                      <span className="rounded border border-white/[0.08] bg-[#090b10] px-2.5 py-0.5 text-zinc-300">
+                      <span className="rounded border border-white/[0.08] bg-[#111113] px-2.5 py-0.5 text-zinc-300">
                         Faith:{" "}
                         <strong className="text-zinc-100">
                           {(sample.faithfulness * 100).toFixed(0)}%
@@ -321,7 +321,7 @@ export default function EvaluationDashboardPage() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                    <div className="rounded-lg border border-white/[0.07] bg-[#090b10] p-3 font-mono text-[11px] space-y-1.5 tabular-nums">
+                    <div className="rounded border border-white/[0.07] bg-[#111113] p-3 font-mono text-[11px] space-y-1.5 tabular-nums">
                       <span className="text-zinc-400 font-semibold block text-[10px] uppercase tracking-wider">
                         Ground-Truth Target Spans
                       </span>
@@ -330,9 +330,9 @@ export default function EvaluationDashboardPage() {
                           {sample.ground_truth_spans.map((gt, i) => (
                             <span
                               key={i}
-                              className="inline-flex items-center gap-1.5 rounded border border-white/[0.08] bg-[#11151f] px-2 py-0.5 text-zinc-200"
+                              className="inline-flex items-center gap-1.5 rounded border border-white/[0.08] bg-[#16161a] px-2 py-0.5 text-zinc-200"
                             >
-                              <FileCode2 className="h-3 w-3 text-blue-400" />
+                              <FileCode2 className="h-3 w-3 text-zinc-400" />
                               <span>
                                 {gt.file_path}:{gt.start_line}-{gt.end_line}
                               </span>
@@ -340,13 +340,13 @@ export default function EvaluationDashboardPage() {
                           ))}
                         </div>
                       ) : (
-                        <div className="text-amber-300/90 italic">
+                        <div className="text-zinc-400 italic">
                           None (Out-of-scope abstention test case)
                         </div>
                       )}
                     </div>
 
-                    <div className="rounded-lg border border-white/[0.07] bg-[#090b10] p-3 font-mono text-[11px] space-y-1.5 tabular-nums">
+                    <div className="rounded border border-white/[0.07] bg-[#111113] p-3 font-mono text-[11px] space-y-1.5 tabular-nums">
                       <span className="text-zinc-400 font-semibold block text-[10px] uppercase tracking-wider">
                         Verified Citations Emitted by RepoLens
                       </span>
@@ -372,7 +372,7 @@ export default function EvaluationDashboardPage() {
                     </div>
                   </div>
 
-                  <div className="rounded-lg border border-white/[0.06] bg-[#090b10]/60 p-3 text-xs text-zinc-300">
+                  <div className="rounded border border-white/[0.06] bg-[#111113]/80 p-3 text-xs text-zinc-300">
                     <span className="font-mono text-[10px] uppercase font-semibold text-zinc-500 block mb-1">
                       Generated Grounded Answer
                     </span>
