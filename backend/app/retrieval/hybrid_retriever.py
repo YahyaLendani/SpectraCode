@@ -91,9 +91,8 @@ class HybridCodeRetriever:
         if not rows:
             return []
 
-        # 2. Vectorized Dense Similarity + Sparse Lexical Overlap
-        dense_candidates: List[RetrievedChunk] = []
-        sparse_candidates: List[RetrievedChunk] = []
+        # 2. Vectorized Dense Similarity + Fast-Path Sparse Lexical Overlap
+        items: List[RetrievedChunk] = []
 
         query_expanded = CodeQueryNormalizer.expand_code_text(query).lower()
         query_terms = set(query_expanded.split())
@@ -110,7 +109,7 @@ class HybridCodeRetriever:
         for idx, (chunk, file_obj, _) in enumerate(rows):
             dense_score = float(dense_scores[idx])
 
-            # Sparse score: token overlap & fuzzy match against lexical tokens & file path
+            # Sparse score: fast token overlap + selective fuzzy match
             lex_text = (chunk.lexical_tokens or "").lower()
             file_path_lower = file_obj.file_path.lower()
 
@@ -118,7 +117,12 @@ class HybridCodeRetriever:
                 1 for term in query_terms if term in lex_text or term in file_path_lower
             )
             overlap_ratio = overlap_hits / num_terms
-            fuzzy_ratio = fuzz.partial_ratio(query_expanded, lex_text) / 100.0
+
+            # Optimization: Only compute expensive partial Levenshtein ratio when there are lexical hits or high dense score
+            if overlap_hits > 0 or dense_score > 0.35:
+                fuzzy_ratio = fuzz.partial_ratio(query_expanded, lex_text) / 100.0
+            else:
+                fuzzy_ratio = 0.0
 
             sparse_score = (0.6 * overlap_ratio) + (0.4 * fuzzy_ratio)
 
@@ -135,44 +139,37 @@ class HybridCodeRetriever:
                 dense_score=max(0.0, dense_score),
                 sparse_score=max(0.0, float(sparse_score)),
             )
-            dense_candidates.append(item)
-            sparse_candidates.append(item)
+            items.append(item)
 
-        # Sort and rank dense
-        dense_candidates.sort(key=lambda x: x.dense_score, reverse=True)
-        for rank, item in enumerate(dense_candidates, start=1):
-            item.dense_rank = rank
+        # 3. Dense & Sparse Ranking
+        items_by_dense = sorted(items, key=lambda x: x.dense_score, reverse=True)
+        for rank, it in enumerate(items_by_dense, start=1):
+            it.dense_rank = rank
 
-        # Sort and rank sparse
-        sparse_candidates.sort(key=lambda x: x.sparse_score, reverse=True)
-        for rank, item in enumerate(sparse_candidates, start=1):
-            item.sparse_rank = rank
+        items_by_sparse = sorted(items, key=lambda x: x.sparse_score, reverse=True)
+        for rank, it in enumerate(items_by_sparse, start=1):
+            it.sparse_rank = rank
 
-        # 3. Reciprocal Rank Fusion (RRF)
+        # 4. Reciprocal Rank Fusion (RRF)
         alpha = self.compute_dynamic_alpha(query)
-        chunks_by_id: Dict[uuid.UUID, RetrievedChunk] = {
-            c.chunk_id: c for c in dense_candidates
-        }
-
-        for chunk in chunks_by_id.values():
+        for chunk in items:
             d_contrib = (1.0 / (self.rrf_k + chunk.dense_rank)) if chunk.dense_rank else 0.0
             s_contrib = (1.0 / (self.rrf_k + chunk.sparse_rank)) if chunk.sparse_rank else 0.0
             chunk.rrf_score = (alpha * d_contrib) + ((1.0 - alpha) * s_contrib)
 
-        fused = list(chunks_by_id.values())
-        fused.sort(key=lambda x: x.rrf_score, reverse=True)
+        items.sort(key=lambda x: x.rrf_score, reverse=True)
 
         # Min-Max normalize RRF
-        if fused:
-            min_rrf = min(c.rrf_score for c in fused)
-            max_rrf = max(c.rrf_score for c in fused)
+        if items:
+            min_rrf = min(c.rrf_score for c in items)
+            max_rrf = max(c.rrf_score for c in items)
             span = max_rrf - min_rrf
-            for c in fused:
+            for c in items:
                 c.rrf_score = (c.rrf_score - min_rrf) / span if span > 1e-9 else 1.0
 
-        # 4. Rerank / Calibrate Score
+        # 5. Rerank / Calibrate Score
         reranked: List[RetrievedChunk] = []
-        for c in fused[: top_k * 3]:
+        for c in items[: top_k * 3]:
             c.rerank_score = (0.55 * c.dense_score) + (0.45 * c.sparse_score)
             c.final_score = (self.rerank_weight * c.rerank_score) + (
                 (1.0 - self.rerank_weight) * c.rrf_score

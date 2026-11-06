@@ -102,6 +102,9 @@ class CodeASTChunker:
             SupportedLanguage.TSX: Language(tstypescript.language_tsx()),
             SupportedLanguage.JAVASCRIPT: Language(tstypescript.language_tsx()),
         }
+        self._parsers: Dict[SupportedLanguage, Parser] = {
+            lang: Parser(native_lang) for lang, native_lang in self._languages.items()
+        }
 
     def detect_language(self, file_path: str) -> SupportedLanguage:
         for ext, lang in self.EXTENSION_MAP.items():
@@ -122,7 +125,7 @@ class CodeASTChunker:
         if language == SupportedLanguage.GENERIC:
             return [], self._fallback_line_chunk(file_path, source_lines)
 
-        parser = Parser(self._languages[language])
+        parser = self._parsers[language]
         tree = parser.parse(source_bytes)
         root_node = tree.root_node
 

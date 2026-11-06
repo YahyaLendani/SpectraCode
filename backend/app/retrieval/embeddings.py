@@ -44,19 +44,21 @@ class EmbeddingService:
     @classmethod
     async def embed_query(cls, query: str) -> List[float]:
         """
-        Generates embedding for a single search query with fast LRU cache lookup.
+        Generates embedding for a single search query with thread-safe fast LRU cache lookup.
         """
         norm_key = query.strip()
-        if norm_key in cls._query_cache:
-            cls._query_cache.move_to_end(norm_key)
-            return cls._query_cache[norm_key]
+        async with cls._lock:
+            if norm_key in cls._query_cache:
+                cls._query_cache.move_to_end(norm_key)
+                return cls._query_cache[norm_key]
 
         res = await cls.embed_texts([norm_key])
         vec = res[0] if res else [0.0] * settings.EMBEDDING_DIM
 
-        if len(cls._query_cache) >= cls._MAX_CACHE_SIZE:
-            cls._query_cache.popitem(last=False)
-        cls._query_cache[norm_key] = vec
+        async with cls._lock:
+            if len(cls._query_cache) >= cls._MAX_CACHE_SIZE:
+                cls._query_cache.popitem(last=False)
+            cls._query_cache[norm_key] = vec
         return vec
 
     @staticmethod
@@ -66,8 +68,8 @@ class EmbeddingService:
         """
         a = np.asarray(vec_a, dtype=np.float32)
         b = np.asarray(vec_b, dtype=np.float32)
-        norm_a = np.linalg.norm(a)
-        norm_b = np.linalg.norm(b)
+        norm_a = float(np.linalg.norm(a))
+        norm_b = float(np.linalg.norm(b))
         if norm_a == 0.0 or norm_b == 0.0:
             return 0.0
         return float(np.dot(a, b) / (norm_a * norm_b))
@@ -78,14 +80,20 @@ class EmbeddingService:
     ) -> np.ndarray:
         """
         Vectorized cosine similarity between a 1D query vector and a 2D (N, D) chunk embedding matrix.
+        Optimized single-pass computation with safe non-zero division.
         """
         if matrix.size == 0:
             return np.zeros(0, dtype=np.float32)
         q = np.asarray(query_vec, dtype=np.float32)
-        q_norm = np.linalg.norm(q)
+        q_norm = float(np.linalg.norm(q))
         if q_norm == 0.0:
             return np.zeros(matrix.shape[0], dtype=np.float32)
+        dot_products = np.dot(matrix, q)
         row_norms = np.linalg.norm(matrix, axis=1)
-        denom = np.where(row_norms > 0.0, row_norms * q_norm, 1.0)
-        sims = np.dot(matrix, q) / denom
-        return np.where(row_norms > 0.0, sims, 0.0)
+        denoms = row_norms * q_norm
+        return np.divide(
+            dot_products,
+            denoms,
+            out=np.zeros_like(dot_products, dtype=np.float32),
+            where=denoms > 0,
+        )

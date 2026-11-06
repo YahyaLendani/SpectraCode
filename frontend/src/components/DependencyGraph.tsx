@@ -50,38 +50,38 @@ const CATEGORY_COLORS: Record<
   { fill: string; stroke: string; text: string; badge: string; label: string }
 > = {
   python: {
-    fill: "#1d4ed8",
-    stroke: "#60a5fa",
-    text: "#bfdbfe",
-    badge: "bg-blue-500/15 text-blue-300 border-blue-500/30",
+    fill: "#1c1c1f",
+    stroke: "#71717a",
+    text: "#e4e4e7",
+    badge: "bg-zinc-800 text-zinc-300 border-white/[0.08]",
     label: "Python Module",
   },
   typescript: {
-    fill: "#0369a1",
-    stroke: "#38bdf8",
-    text: "#bae6fd",
-    badge: "bg-sky-500/15 text-sky-300 border-sky-500/30",
+    fill: "#18181b",
+    stroke: "#94a3b8",
+    text: "#f1f5f9",
+    badge: "bg-slate-800/80 text-slate-300 border-white/[0.08]",
     label: "TypeScript Module",
   },
   javascript: {
-    fill: "#b45309",
-    stroke: "#fbbf24",
-    text: "#fde68a",
-    badge: "bg-amber-500/15 text-amber-300 border-amber-500/30",
+    fill: "#26221c",
+    stroke: "#d97706",
+    text: "#fef3c7",
+    badge: "bg-amber-950/40 text-amber-300 border-amber-500/20",
     label: "JavaScript Module",
   },
   external: {
-    fill: "#0f766e",
-    stroke: "#2dd4bf",
-    text: "#99f6e4",
-    badge: "bg-teal-500/15 text-teal-300 border-teal-500/30",
+    fill: "#141416",
+    stroke: "#52525b",
+    text: "#a1a1aa",
+    badge: "bg-zinc-900 text-zinc-400 border-white/[0.06]",
     label: "External Package",
   },
   other: {
-    fill: "#047857",
-    stroke: "#34d399",
-    text: "#a7f3d0",
-    badge: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
+    fill: "#18201a",
+    stroke: "#a3be8c",
+    text: "#d1fae5",
+    badge: "bg-emerald-950/30 text-emerald-300 border-emerald-500/20",
     label: "Internal Module",
   },
 };
@@ -322,10 +322,13 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
       const k =
         Math.sqrt((CANVAS_WIDTH * CANVAS_HEIGHT) / Math.max(1, count)) * 0.65;
 
+      const dispX = new Float64Array(count);
+      const dispY = new Float64Array(count);
+
       for (let iter = 0; iter < iterations; iter++) {
         const temp = (1 - iter / iterations) * 18;
-        const dispX = new Float64Array(count);
-        const dispY = new Float64Array(count);
+        dispX.fill(0);
+        dispY.fill(0);
 
         for (let i = 0; i < count; i++) {
           for (let j = i + 1; j < count; j++) {
@@ -489,8 +492,8 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
 
   if (loading) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-3 bg-[#090b10] p-8 text-xs text-zinc-400">
-        <RefreshCw className="h-5 w-5 animate-spin text-blue-400" />
+      <div className="flex h-full flex-col items-center justify-center gap-3 bg-[#09090b] p-8 text-xs text-zinc-400">
+        <RefreshCw className="h-5 w-5 animate-spin text-zinc-400" />
         <div>Analyzing AST import relationships &amp; constructing dependency graph...</div>
       </div>
     );
@@ -498,7 +501,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
 
   if (error || !data) {
     return (
-      <div className="flex h-full flex-col items-center justify-center gap-3 bg-[#090b10] p-8 text-center">
+      <div className="flex h-full flex-col items-center justify-center gap-3 bg-[#09090b] p-8 text-center">
         <AlertTriangle className="h-7 w-7 text-rose-400" />
         <div className="text-sm font-semibold text-zinc-200">
           Failed to load dependency graph
@@ -508,7 +511,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
         </p>
         <button
           onClick={loadGraph}
-          className="mt-2 flex items-center gap-1.5 rounded-lg bg-blue-600 px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-blue-500 transition-colors"
+          className="mt-2 flex items-center gap-1.5 rounded bg-zinc-100 hover:bg-white px-3.5 py-1.5 text-xs font-semibold text-zinc-950 transition-colors"
         >
           <RefreshCw className="h-3.5 w-3.5" /> Retry Analysis
         </button>
@@ -517,9 +520,9 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
   }
 
   return (
-    <div className="flex h-full flex-col overflow-hidden bg-[#090b10]">
+    <div className="flex h-full flex-col overflow-hidden bg-[#09090b]">
       {/* Compact Top Telemetry & Filter Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.07] bg-[#0d1017] px-4 py-2">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.07] bg-[#0c0c0e] px-4 py-2">
         {/* Left: Compact Architecture Telemetry Strip */}
         <div className="flex flex-wrap items-center gap-3 font-mono text-xs tabular-nums">
           <div className="flex items-center gap-1.5">
