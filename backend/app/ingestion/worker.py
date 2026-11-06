@@ -63,8 +63,12 @@ class RepositoryIndexingWorker:
                     )
                 repo.last_indexed_commit_sha = commit_sha
 
-            # 3. AST Parsing & Chunking Stage
+            # 3. AST Parsing & Chunking Stage (with idempotent cleanup of existing records)
             repo.status = IndexingStatus.PARSING_AST
+            await session.execute(delete(ChunkEmbedding).where(ChunkEmbedding.repository_id == repo.id))
+            await session.execute(delete(CodeChunk).where(CodeChunk.repository_id == repo.id))
+            await session.execute(delete(ASTSymbol).where(ASTSymbol.repository_id == repo.id))
+            await session.execute(delete(RepositoryFile).where(RepositoryFile.repository_id == repo.id))
             await session.commit()
 
             chunker = CodeASTChunker(

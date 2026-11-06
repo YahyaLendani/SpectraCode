@@ -39,10 +39,9 @@ async def lifespan(app: FastAPI):
             await session.commit()
             await session.refresh(sample_repo)
 
-            # Fire initial indexing in background task
-            asyncio.create_task(
-                RepositoryIndexingWorker.index_repository(session, sample_repo.id)
-            )
+            # Fire initial indexing in background task with dedicated session
+            from app.api.routes.repositories import run_indexing_task
+            asyncio.create_task(run_indexing_task(sample_repo.id))
 
     yield
 
