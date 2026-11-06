@@ -188,27 +188,27 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090b10] text-zinc-100 flex flex-col">
+    <div className="min-h-screen bg-black text-slate-100 flex flex-col font-sans">
       <Navbar repositories={repositories} />
 
       {/* Top Workbench Header & Telemetry Ledger */}
-      <section className="relative border-b border-white/[0.07] bg-engineering-grid">
+      <section className="relative border-b border-white/[0.08] bg-engineering-grid">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-8 pb-7">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div className="max-w-3xl space-y-3.5">
-              <div className="inline-flex items-center gap-2 rounded-md border border-blue-500/25 bg-blue-500/10 px-2.5 py-1 font-mono text-[11px] font-medium text-blue-300">
+              <div className="inline-flex items-center gap-2 rounded-md border border-blue-500/30 bg-blue-500/10 px-2.5 py-1 font-mono text-[11px] font-medium text-blue-300">
                 <Terminal className="h-3 w-3 text-blue-400" />
                 <span>Tree-Sitter AST · Hybrid RRF Retrieval · Deterministic Span Grounding</span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl lg:text-[34px] font-bold tracking-tight text-zinc-50 leading-[1.15]">
+              <h1 className="text-2xl sm:text-3xl lg:text-[34px] font-bold tracking-tight text-white leading-[1.15] font-mono">
                 Codebase Intelligence with{" "}
                 <span className="text-blue-400">Line-Verified Citations</span>
               </h1>
 
-              <p className="text-sm sm:text-[15px] text-zinc-400 leading-relaxed max-w-2xl">
+              <p className="text-sm sm:text-[15px] text-slate-300 leading-relaxed max-w-2xl">
                 Parse repositories into syntax-preserving AST chunks, fuse 384-d ONNX vector embeddings with identifier-aware BM25 search via Reciprocal Rank Fusion, and verify every{" "}
-                <code className="rounded border border-white/[0.12] bg-white/[0.05] px-1.5 py-0.5 font-mono text-xs text-zinc-200">
+                <code className="rounded border border-white/[0.12] bg-white/[0.06] px-1.5 py-0.5 font-mono text-xs text-blue-200">
                   [file:start-end]
                 </code>{" "}
                 citation against exact source intervals.
@@ -219,7 +219,8 @@ export default function DashboardPage() {
             <div className="flex flex-wrap items-center gap-2.5 shrink-0">
               <button
                 onClick={() => setIsImportOpen(true)}
-                className="inline-flex items-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-500 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition-colors"
+                aria-label="Import a Git repository"
+                className="cursor-pointer inline-flex items-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-500 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition-colors focus-visible:ring-2 focus-visible:ring-blue-500"
               >
                 <Plus className="h-4 w-4" />
                 <span>Import Repository</span>
@@ -228,7 +229,8 @@ export default function DashboardPage() {
               <button
                 onClick={handleQuickSampleImport}
                 disabled={importingSample}
-                className="inline-flex items-center gap-2 rounded-lg border border-white/[0.1] bg-[#11151f] hover:bg-[#151a26] hover:border-white/[0.18] px-3.5 py-2.5 text-xs font-semibold text-zinc-200 transition-colors disabled:opacity-50"
+                aria-label="Load the pre-indexed FastAPI CloudFlow sample repository"
+                className="cursor-pointer inline-flex items-center gap-2 rounded-lg border border-amber-500/30 bg-[#0a0e17] hover:bg-[#101624] hover:border-amber-400/50 px-3.5 py-2.5 text-xs font-semibold text-slate-200 transition-colors disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-amber-500"
               >
                 <Zap className="h-3.5 w-3.5 text-amber-400" />
                 <span>
@@ -238,7 +240,8 @@ export default function DashboardPage() {
 
               <Link
                 href="/evaluation"
-                className="inline-flex items-center gap-2 rounded-lg border border-white/[0.08] bg-[#0d1017] hover:border-white/[0.16] hover:text-white px-3.5 py-2.5 text-xs font-medium text-zinc-300 transition-colors"
+                aria-label="Open quantitative benchmark metrics"
+                className="cursor-pointer inline-flex items-center gap-2 rounded-lg border border-white/[0.1] bg-[#0a0e17] hover:border-white/[0.2] hover:text-white px-3.5 py-2.5 text-xs font-medium text-slate-300 transition-colors focus-visible:ring-2 focus-visible:ring-blue-500"
               >
                 <BarChart3 className="h-3.5 w-3.5 text-blue-400" />
                 <span>Benchmarks</span>
@@ -247,54 +250,54 @@ export default function DashboardPage() {
           </div>
 
           {/* Horizontal Telemetry Ledger */}
-          <div className="mt-7 grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.07] rounded-xl border border-white/[0.07] bg-[#0d1017]/90 backdrop-blur-sm tabular-nums">
+          <div className="mt-7 grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.08] rounded-xl border border-white/[0.08] bg-[#0a0e17]/95 backdrop-blur-sm tabular-nums shadow-lg">
             <div className="px-4 py-3.5">
-              <div className="text-[11px] font-medium text-zinc-400">
+              <div className="text-[11px] font-medium text-slate-400">
                 Indexed Workspaces
               </div>
               <div className="mt-1 flex items-baseline gap-1.5 font-mono">
-                <span className="text-xl font-bold text-zinc-100">
+                <span className="text-xl font-bold text-white">
                   {telemetry.readyRepos}
                 </span>
-                <span className="text-xs text-zinc-500">
+                <span className="text-xs text-slate-400">
                   / {telemetry.totalRepos} ready
                 </span>
               </div>
             </div>
 
             <div className="px-4 py-3.5">
-              <div className="text-[11px] font-medium text-zinc-400">
+              <div className="text-[11px] font-medium text-slate-400">
                 Parsed Source Files
               </div>
               <div className="mt-1 flex items-baseline gap-1.5 font-mono">
-                <span className="text-xl font-bold text-zinc-100">
+                <span className="text-xl font-bold text-white">
                   {telemetry.totalFiles.toLocaleString()}
                 </span>
-                <span className="text-xs text-zinc-500">files</span>
+                <span className="text-xs text-slate-400">files</span>
               </div>
             </div>
 
             <div className="px-4 py-3.5">
-              <div className="text-[11px] font-medium text-zinc-400">
+              <div className="text-[11px] font-medium text-slate-400">
                 AST Syntax Chunks
               </div>
               <div className="mt-1 flex items-baseline gap-1.5 font-mono">
-                <span className="text-xl font-bold text-zinc-100">
+                <span className="text-xl font-bold text-white">
                   {telemetry.totalChunks.toLocaleString()}
                 </span>
-                <span className="text-xs text-zinc-500">spans</span>
+                <span className="text-xs text-slate-400">spans</span>
               </div>
             </div>
 
             <div className="px-4 py-3.5">
-              <div className="text-[11px] font-medium text-zinc-400">
+              <div className="text-[11px] font-medium text-slate-400">
                 Vector &amp; Lexical Fusion
               </div>
               <div className="mt-1 flex items-baseline justify-between gap-2 font-mono">
-                <span className="text-sm font-semibold text-zinc-200">
+                <span className="text-sm font-semibold text-slate-200">
                   bge-small-en-v1.5
                 </span>
-                <span className="rounded border border-emerald-500/25 bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-medium text-emerald-300">
+                <span className="rounded border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-medium text-emerald-300">
                   384-d ONNX
                 </span>
               </div>
@@ -310,25 +313,27 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
               <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-400 animate-radar" />
-              <h2 className="text-xs font-bold uppercase tracking-wider text-zinc-300 font-mono">
-                Live Engine Architecture & Pipeline
+              <h2 className="text-xs font-bold uppercase tracking-wider text-slate-200 font-mono">
+                Live Engine Architecture &amp; Pipeline
               </h2>
             </div>
-            <span className="hidden sm:inline-block text-[11px] font-mono text-zinc-500">
+            <span className="hidden sm:inline-block text-[11px] font-mono text-slate-400">
               60fps Remotion Engine · Frame-Accurate Pipeline
             </span>
           </div>
-          <RemotionPipelinePlayer />
+          <div className="bento-cell border-white/[0.1] bg-[#0a0e17] p-1.5 shadow-xl">
+            <RemotionPipelinePlayer />
+          </div>
         </section>
 
         {/* Repositories Workspace Directory */}
         <section className="space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-2.5">
-              <h2 className="text-base font-semibold tracking-tight text-zinc-100">
+              <h2 className="text-base font-semibold tracking-tight text-white font-mono">
                 Codebase Workspaces
               </h2>
-              <span className="rounded-md border border-white/[0.08] bg-white/[0.03] px-2 py-0.5 font-mono text-xs text-zinc-400 tabular-nums">
+              <span className="rounded-md border border-white/[0.1] bg-white/[0.04] px-2 py-0.5 font-mono text-xs text-slate-300 tabular-nums">
                 {filteredRepositories.length}
               </span>
             </div>
@@ -336,23 +341,24 @@ export default function DashboardPage() {
             {/* Filter & Status Controls */}
             <div className="flex flex-wrap items-center gap-2">
               <div className="relative">
-                <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500" />
+                <Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" />
                 <input
                   ref={searchInputRef}
                   type="text"
-                  placeholder="Filter repositories..."
+                  placeholder="Filter repositories... (press /)"
+                  aria-label="Filter repositories"
                   value={searchFilter}
                   onChange={(e) => setSearchFilter(e.target.value)}
-                  className="w-48 sm:w-60 rounded-lg border border-white/[0.08] bg-[#0d1017] py-1.5 pl-8 pr-7 text-xs text-zinc-200 placeholder:text-zinc-500 focus:border-blue-500 focus:outline-none transition-colors"
+                  className="w-48 sm:w-64 rounded-lg border border-white/[0.1] bg-[#0a0e17] py-1.5 pl-8 pr-7 text-xs text-slate-200 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none transition-colors"
                 />
                 {!searchFilter && (
-                  <kbd className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 rounded border border-white/[0.08] bg-white/[0.03] px-1 font-mono text-[10px] text-zinc-500">
+                  <kbd className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 rounded border border-white/[0.1] bg-white/[0.04] px-1 font-mono text-[10px] text-slate-400">
                     /
                   </kbd>
                 )}
               </div>
 
-              <div className="flex items-center rounded-lg border border-white/[0.08] bg-[#0d1017] p-0.5 text-xs">
+              <div className="flex items-center rounded-lg border border-white/[0.1] bg-[#0a0e17] p-0.5 text-xs">
                 {(
                   [
                     { id: "all", label: "All", count: telemetry.totalRepos },
@@ -363,14 +369,15 @@ export default function DashboardPage() {
                   <button
                     key={tab.id}
                     onClick={() => setStatusFilter(tab.id)}
-                    className={`flex items-center gap-1.5 rounded-md px-2.5 py-1 font-medium transition-colors ${
+                    aria-label={`Show ${tab.label} repositories (${tab.count})`}
+                    className={`cursor-pointer flex items-center gap-1.5 rounded-md px-2.5 py-1 font-medium transition-colors ${
                       statusFilter === tab.id
-                        ? "bg-white/[0.1] text-zinc-100"
-                        : "text-zinc-400 hover:text-zinc-200"
+                        ? "bg-white/[0.12] text-white font-semibold"
+                        : "text-slate-400 hover:text-slate-200"
                     }`}
                   >
                     <span>{tab.label}</span>
-                    <span className="font-mono text-[10px] text-zinc-500 tabular-nums">
+                    <span className="font-mono text-[10px] text-slate-400 tabular-nums">
                       {tab.count}
                     </span>
                   </button>
@@ -380,7 +387,8 @@ export default function DashboardPage() {
               <button
                 onClick={() => loadRepos(true)}
                 title="Refresh repository statuses"
-                className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.08] bg-[#0d1017] text-zinc-400 hover:border-white/[0.16] hover:text-zinc-100 transition-colors"
+                aria-label="Refresh repository statuses"
+                className="cursor-pointer flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.1] bg-[#0a0e17] text-slate-300 hover:border-white/[0.2] hover:text-white transition-colors focus-visible:ring-2 focus-visible:ring-blue-500"
               >
                 <RefreshCw
                   className={`h-3.5 w-3.5 ${
@@ -396,27 +404,27 @@ export default function DashboardPage() {
               {[1, 2, 3].map((n) => (
                 <div
                   key={n}
-                  className="h-44 rounded-xl border border-white/[0.07] bg-[#11151f]/60 p-5 animate-pulse flex flex-col justify-between"
+                  className="h-44 rounded-xl border border-white/[0.08] bg-[#0a0e17]/80 p-5 animate-pulse flex flex-col justify-between"
                 >
                   <div className="space-y-3">
-                    <div className="h-4 w-3/5 rounded bg-white/[0.06]" />
-                    <div className="h-3 w-2/5 rounded bg-white/[0.04]" />
+                    <div className="h-4 w-3/5 rounded bg-white/[0.08]" />
+                    <div className="h-3 w-2/5 rounded bg-white/[0.05]" />
                   </div>
-                  <div className="h-8 w-full rounded-lg bg-white/[0.05]" />
+                  <div className="h-8 w-full rounded-lg bg-white/[0.06]" />
                 </div>
               ))}
             </div>
           ) : filteredRepositories.length === 0 ? (
-            <div className="rounded-xl border border-dashed border-white/[0.1] bg-[#0d1017]/60 p-12 text-center">
-              <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-lg border border-white/[0.1] bg-white/[0.03] text-zinc-300">
+            <div className="bento-cell border-dashed border-white/[0.12] bg-[#0a0e17]/60 p-12 text-center">
+              <div className="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-lg border border-white/[0.1] bg-white/[0.04] text-slate-300">
                 <FolderGit2 className="h-5 w-5 text-blue-400" />
               </div>
-              <h3 className="text-sm font-semibold text-zinc-100">
+              <h3 className="text-sm font-semibold text-white font-mono">
                 {repositories.length === 0
                   ? "No repositories indexed yet"
                   : "No repositories match your filter"}
               </h3>
-              <p className="text-xs text-zinc-400 mt-1 max-w-md mx-auto leading-relaxed">
+              <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto leading-relaxed">
                 {repositories.length === 0
                   ? "Import any public GitHub repository or load the FastAPI CloudFlow sample to inspect AST symbols, dependency graphs, and line-cited AI answers."
                   : "Try clearing your search filter or switching the status tab."}
@@ -424,14 +432,14 @@ export default function DashboardPage() {
               <div className="mt-5 flex items-center justify-center gap-2.5">
                 <button
                   onClick={() => setIsImportOpen(true)}
-                  className="rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-500 transition-colors"
+                  className="cursor-pointer rounded-lg bg-blue-600 px-4 py-2 text-xs font-semibold text-white hover:bg-blue-500 transition-colors shadow-sm"
                 >
                   Import Repository
                 </button>
                 {repositories.length === 0 && (
                   <button
                     onClick={handleQuickSampleImport}
-                    className="rounded-lg border border-white/[0.1] bg-[#11151f] px-4 py-2 text-xs font-semibold text-zinc-200 hover:bg-[#151a26] transition-colors"
+                    className="cursor-pointer rounded-lg border border-amber-500/30 bg-[#0a0e17] px-4 py-2 text-xs font-semibold text-slate-200 hover:bg-[#101624] transition-colors"
                   >
                     Load FastAPI Sample
                   </button>
@@ -456,20 +464,29 @@ export default function DashboardPage() {
                 return (
                   <div
                     key={repo.id}
+                    tabIndex={0}
+                    role="link"
+                    aria-label={`Open workspace for ${repo.github_owner}/${repo.github_name}`}
                     onClick={() => router.push(`/repos/${repo.id}`)}
-                    className="surface-card-interactive group cursor-pointer flex flex-col justify-between rounded-xl p-5"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        router.push(`/repos/${repo.id}`);
+                      }
+                    }}
+                    className="surface-card-interactive group cursor-pointer flex flex-col justify-between rounded-xl p-5 focus-visible:ring-2 focus-visible:ring-blue-500"
                   >
                     <div className="space-y-3.5">
                       {/* Header: Owner/Name + Status */}
                       <div className="flex items-start justify-between gap-3">
                         <div className="min-w-0">
                           <div className="flex items-center gap-2">
-                            <FolderGit2 className="h-4 w-4 text-zinc-400 group-hover:text-blue-400 transition-colors shrink-0" />
-                            <span className="font-mono text-sm font-semibold text-zinc-100 group-hover:text-blue-400 transition-colors truncate">
+                            <FolderGit2 className="h-4 w-4 text-slate-400 group-hover:text-blue-400 transition-colors shrink-0" />
+                            <span className="font-mono text-sm font-semibold text-white group-hover:text-blue-400 transition-colors truncate">
                               {repo.github_owner}/{repo.github_name}
                             </span>
                           </div>
-                          <p className="mt-1 font-mono text-[11px] text-zinc-500 truncate">
+                          <p className="mt-1 font-mono text-[11px] text-slate-400 truncate">
                             {repo.clone_url}
                           </p>
                         </div>
@@ -478,26 +495,26 @@ export default function DashboardPage() {
 
                       {/* Git Branch & Commit Metadata */}
                       <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono">
-                        <span className="inline-flex items-center gap-1 rounded border border-white/[0.07] bg-[#090b10] px-2 py-0.5 text-zinc-300">
-                          <GitBranch className="h-3 w-3 text-zinc-400" />
+                        <span className="inline-flex items-center gap-1 rounded border border-white/[0.08] bg-[#06080d] px-2 py-0.5 text-slate-300">
+                          <GitBranch className="h-3 w-3 text-slate-400" />
                           {repo.default_branch}
                         </span>
                         {repo.last_indexed_commit_sha && (
-                          <span className="inline-flex items-center gap-1 rounded border border-white/[0.07] bg-[#090b10] px-2 py-0.5 text-zinc-400 tabular-nums">
-                            <GitCommit className="h-3 w-3 text-zinc-500" />
+                          <span className="inline-flex items-center gap-1 rounded border border-white/[0.08] bg-[#06080d] px-2 py-0.5 text-slate-400 tabular-nums">
+                            <GitCommit className="h-3 w-3 text-slate-500" />
                             {repo.last_indexed_commit_sha.slice(0, 10)}
                           </span>
                         )}
                       </div>
 
-                      {/* Active Indexing Progress Bar (Only shown while indexing or failed) */}
+                      {/* Active Indexing Progress Bar */}
                       {(isIndexing || repo.status === "failed") && (
                         <div className="space-y-1.5 pt-1">
-                          <div className="flex items-center justify-between font-mono text-[10px] text-zinc-400">
+                          <div className="flex items-center justify-between font-mono text-[10px] text-slate-400">
                             <span>Pipeline stage: {repo.status}</span>
                             <span>{progress}%</span>
                           </div>
-                          <div className="h-1 w-full overflow-hidden rounded-full bg-[#090b10]">
+                          <div className="h-1.5 w-full overflow-hidden rounded-full bg-[#06080d]">
                             <div
                               className={`h-full rounded-full transition-all duration-500 ${
                                 repo.status === "failed"
@@ -518,23 +535,23 @@ export default function DashboardPage() {
                     </div>
 
                     {/* Clean Tabular Footer & Workspace Link */}
-                    <div className="mt-5 pt-3.5 border-t border-white/[0.06] flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-3 font-mono text-[11px] text-zinc-400 tabular-nums">
+                    <div className="mt-5 pt-3.5 border-t border-white/[0.07] flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-3 font-mono text-[11px] text-slate-300 tabular-nums">
                         <span>
-                          <strong className="font-semibold text-zinc-200">
+                          <strong className="font-semibold text-white">
                             {repo.total_files}
                           </strong>{" "}
                           files
                         </span>
-                        <span className="text-zinc-700">·</span>
+                        <span className="text-slate-600">·</span>
                         <span>
-                          <strong className="font-semibold text-zinc-200">
+                          <strong className="font-semibold text-white">
                             {repo.total_chunks}
                           </strong>{" "}
                           AST chunks
                         </span>
-                        <span className="hidden sm:inline text-zinc-700">·</span>
-                        <span className="hidden sm:inline text-zinc-500">
+                        <span className="hidden sm:inline text-slate-600">·</span>
+                        <span className="hidden sm:inline text-slate-400">
                           {avgChunksPerFile}/file
                         </span>
                       </div>
@@ -544,11 +561,12 @@ export default function DashboardPage() {
                           href={`/evaluation?repo=${repo.id}`}
                           onClick={(e) => e.stopPropagation()}
                           title="Run Evaluation Benchmarks"
-                          className="flex h-7 w-7 items-center justify-center rounded-md border border-white/[0.07] bg-[#090b10] text-zinc-400 hover:border-white/[0.18] hover:text-zinc-100 transition-colors"
+                          aria-label={`Run benchmarks for ${repo.github_name}`}
+                          className="cursor-pointer flex h-7 w-7 items-center justify-center rounded-md border border-white/[0.08] bg-[#06080d] text-slate-400 hover:border-white/[0.2] hover:text-white transition-colors"
                         >
                           <BarChart3 className="h-3.5 w-3.5" />
                         </Link>
-                        <span className="inline-flex items-center gap-1 rounded-md bg-white/[0.04] group-hover:bg-blue-600 px-2.5 py-1 text-[11px] font-semibold text-zinc-200 group-hover:text-white transition-colors">
+                        <span className="inline-flex items-center gap-1 rounded-md bg-white/[0.05] group-hover:bg-blue-600 px-2.5 py-1 text-[11px] font-semibold text-slate-200 group-hover:text-white transition-colors">
                           <span>Inspect</span>
                           <ArrowUpRight className="h-3 w-3" />
                         </span>
@@ -562,51 +580,51 @@ export default function DashboardPage() {
         </section>
 
         {/* Architectural Pipeline Specification Ledger */}
-        <section className="rounded-xl border border-white/[0.07] bg-[#0d1017] divide-y sm:divide-y-0 sm:divide-x divide-white/[0.07] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+        <section className="bento-cell border-white/[0.08] bg-[#0a0e17] divide-y sm:divide-y-0 sm:divide-x divide-white/[0.08] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 shadow-md">
           <div className="p-4 space-y-1.5">
             <div className="flex items-center justify-between font-mono text-[11px]">
-              <span className="font-semibold text-zinc-200">
+              <span className="font-semibold text-slate-200">
                 Tree-sitter AST Chunker
               </span>
-              <span className="text-zinc-500 tabular-nums">STAGE 01</span>
+              <span className="text-blue-400 tabular-nums font-semibold">STAGE 01</span>
             </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">
+            <p className="text-xs text-slate-400 leading-relaxed">
               Extracts classes, functions, methods, and docstrings with exact 1-based line intervals and scope headers.
             </p>
           </div>
 
           <div className="p-4 space-y-1.5">
             <div className="flex items-center justify-between font-mono text-[11px]">
-              <span className="font-semibold text-zinc-200">
+              <span className="font-semibold text-slate-200">
                 Hybrid RRF Retrieval
               </span>
-              <span className="text-zinc-500 tabular-nums">STAGE 02</span>
+              <span className="text-blue-400 tabular-nums font-semibold">STAGE 02</span>
             </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">
+            <p className="text-xs text-slate-400 leading-relaxed">
               Dynamic Reciprocal Rank Fusion combining dense ONNX vectors with camelCase and snake_case lexical matching.
             </p>
           </div>
 
           <div className="p-4 space-y-1.5">
             <div className="flex items-center justify-between font-mono text-[11px]">
-              <span className="font-semibold text-zinc-200">
+              <span className="font-semibold text-slate-200">
                 Grounded Citation Gate
               </span>
-              <span className="text-zinc-500 tabular-nums">STAGE 03</span>
+              <span className="text-blue-400 tabular-nums font-semibold">STAGE 03</span>
             </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              Validates every <code className="font-mono text-zinc-300">[file:L-L]</code> citation against retrieved AST spans and abstains on unverified claims.
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Validates every <code className="font-mono text-blue-300">[file:L-L]</code> citation against retrieved AST spans and abstains on unverified claims.
             </p>
           </div>
 
           <div className="p-4 space-y-1.5">
             <div className="flex items-center justify-between font-mono text-[11px]">
-              <span className="font-semibold text-zinc-200">
+              <span className="font-semibold text-slate-200">
                 Quantitative Benchmarks
               </span>
-              <span className="text-zinc-500 tabular-nums">STAGE 04</span>
+              <span className="text-blue-400 tabular-nums font-semibold">STAGE 04</span>
             </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">
+            <p className="text-xs text-slate-400 leading-relaxed">
               Reproducible benchmark suite measuring Recall@K, MRR, Citation Precision/Recall/F1, and Faithfulness.
             </p>
           </div>

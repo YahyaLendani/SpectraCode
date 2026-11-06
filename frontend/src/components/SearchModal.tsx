@@ -107,26 +107,30 @@ export const SearchModal: React.FC<SearchModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center bg-black/80 backdrop-blur-sm p-4 pt-16"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Hybrid Code Search"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-black/85 backdrop-blur-md p-4 pt-16"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-2xl overflow-hidden rounded-xl border border-white/[0.09] bg-[#0d1017] shadow-modal"
+        className="relative w-full max-w-2xl overflow-hidden rounded-xl border border-white/[0.12] bg-[#06080d] shadow-2xl"
       >
         {/* Top Command Input Bar */}
         <form
           onSubmit={handleManualSubmit}
-          className="flex items-center border-b border-white/[0.07] bg-[#090b10] px-4 py-3.5"
+          className="flex items-center border-b border-white/[0.08] bg-[#000000] px-4 py-3.5"
         >
           <Search className="h-4 w-4 text-blue-400 mr-3 shrink-0" />
           <input
             type="text"
             autoFocus
+            aria-label="Search code and symbols"
             placeholder="Search AST symbols, identifiers, or natural language concepts (Hybrid RRF)..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="flex-1 bg-transparent font-mono text-xs sm:text-sm text-zinc-100 placeholder:text-zinc-500 outline-none"
+            className="flex-1 bg-transparent font-mono text-xs sm:text-sm text-white placeholder:text-slate-400 outline-none"
           />
           {loading && (
             <Loader2 className="h-4 w-4 animate-spin text-blue-400 mr-2" />
@@ -134,7 +138,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded border border-white/[0.08] bg-[#11151f] px-1.5 py-0.5 font-mono text-[10px] text-zinc-400 hover:text-white"
+            aria-label="Close search modal"
+            className="cursor-pointer rounded border border-white/[0.1] bg-[#0a0e17] px-1.5 py-0.5 font-mono text-[10px] text-slate-300 hover:text-white"
           >
             ESC
           </button>
@@ -156,21 +161,21 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                   className={cn(
                     "group cursor-pointer rounded-lg border p-3 transition-colors",
                     isSelected
-                      ? "border-blue-500/50 bg-blue-500/10"
-                      : "border-white/[0.07] bg-[#090b10] hover:border-white/[0.14]"
+                      ? "border-blue-500/60 bg-blue-500/15"
+                      : "border-white/[0.08] bg-[#0a0e17] hover:border-white/[0.18]"
                   )}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                     <div className="flex items-center gap-2">
                       <FileCode2 className="h-3.5 w-3.5 text-blue-400" />
-                      <span className="font-mono text-xs font-semibold text-zinc-100 tabular-nums">
+                      <span className="font-mono text-xs font-semibold text-white tabular-nums">
                         {r.file_path}
                         <span className="text-blue-300">
                           :{r.start_line}-{r.end_line}
                         </span>
                       </span>
                       {r.symbol_name && (
-                        <span className="rounded border border-white/[0.09] bg-white/[0.04] px-1.5 py-0.5 font-mono text-[10px] text-zinc-300">
+                        <span className="rounded border border-white/[0.1] bg-white/[0.05] px-1.5 py-0.5 font-mono text-[10px] text-slate-200">
                           {r.symbol_kind || "symbol"}: {r.symbol_name}
                         </span>
                       )}
@@ -179,42 +184,42 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     {/* RRF Score Decomposition */}
                     <div className="flex items-center gap-1.5 font-mono text-[10px] tabular-nums">
                       <span
-                        className="rounded border border-white/[0.07] bg-[#11151f] px-1.5 py-0.5 text-zinc-400"
+                        className="rounded border border-white/[0.08] bg-[#06080d] px-1.5 py-0.5 text-slate-300"
                         title="Dense ONNX Vector Cosine Similarity"
                       >
                         Dense {(r.dense_score * 100).toFixed(0)}%
                       </span>
                       <span
-                        className="rounded border border-white/[0.07] bg-[#11151f] px-1.5 py-0.5 text-zinc-400"
+                        className="rounded border border-white/[0.08] bg-[#06080d] px-1.5 py-0.5 text-slate-300"
                         title="Sparse Lexical + Identifier Fuzzy Score"
                       >
                         Lex {(r.sparse_score * 100).toFixed(0)}%
                       </span>
-                      <span className="rounded border border-emerald-500/25 bg-emerald-500/10 px-1.5 py-0.5 font-semibold text-emerald-300">
+                      <span className="rounded border border-emerald-500/30 bg-emerald-500/15 px-1.5 py-0.5 font-semibold text-emerald-300">
                         RRF {(r.final_score * 100).toFixed(0)}%
                       </span>
                     </div>
                   </div>
 
                   {/* Code Preview */}
-                  <pre className="rounded border border-white/[0.06] bg-[#090b10] p-2.5 font-mono text-[11px] text-zinc-300 overflow-x-auto max-h-24">
+                  <pre className="rounded border border-white/[0.08] bg-[#000000] p-2.5 font-mono text-[11px] text-slate-200 overflow-x-auto max-h-24">
                     {r.raw_code.trim()}
                   </pre>
                 </div>
               );
             })
           ) : query.trim() && !loading ? (
-            <div className="p-8 text-center text-xs text-zinc-400">
+            <div className="p-8 text-center text-xs text-slate-400">
               No matching AST code chunks found for &ldquo;{query}&rdquo;.
             </div>
           ) : (
             <div className="p-6 text-center space-y-4">
               <div className="space-y-1">
-                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-200">
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-200">
                   <Terminal className="h-3.5 w-3.5 text-blue-400" />
                   <span>Hybrid Reciprocal Rank Fusion Search</span>
                 </div>
-                <p className="text-[11px] text-zinc-400">
+                <p className="text-[11px] text-slate-400">
                   Combines 384-d dense embeddings with camelCase &amp; snake_case token expansion
                 </p>
               </div>
@@ -225,7 +230,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     key={token}
                     type="button"
                     onClick={() => setQuery(token)}
-                    className="rounded border border-white/[0.08] bg-[#11151f] px-2.5 py-1 font-mono text-[11px] text-zinc-300 hover:border-blue-500/40 hover:text-blue-300 transition-colors"
+                    aria-label={`Search sample identifier ${token}`}
+                    className="cursor-pointer rounded border border-white/[0.1] bg-[#0a0e17] px-2.5 py-1 font-mono text-[11px] text-slate-200 hover:border-blue-500/50 hover:text-blue-300 transition-colors"
                   >
                     {token}
                   </button>
@@ -236,10 +242,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         </div>
 
         {/* Footer Keyboard Hints */}
-        <div className="flex items-center justify-between border-t border-white/[0.07] bg-[#090b10] px-4 py-2 text-[10px] text-zinc-500 font-mono">
+        <div className="flex items-center justify-between border-t border-white/[0.08] bg-[#000000] px-4 py-2 text-[10px] text-slate-400 font-mono">
           <span>↑↓ Navigate results</span>
           <span className="flex items-center gap-1">
-            <CornerDownLeft className="h-3 w-3" /> Jump to exact file &amp; lines
+            <CornerDownLeft className="h-3 w-3 text-blue-400" /> Jump to exact file &amp; lines
           </span>
         </div>
       </div>

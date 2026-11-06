@@ -336,15 +336,15 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   ];
 
   return (
-    <div className="flex h-full flex-col bg-[#0d1017] border-l border-white/[0.07]">
+    <div className="flex h-full flex-col bg-[#06080d] border-l border-white/[0.08]">
       {/* Copilot Header */}
-      <div className="flex items-center justify-between border-b border-white/[0.07] bg-[#0d1017] px-4 py-2">
+      <div className="flex items-center justify-between border-b border-white/[0.08] bg-[#06080d] px-4 py-2">
         <div className="flex items-center gap-2">
           <Terminal className="h-3.5 w-3.5 text-blue-400" />
-          <span className="text-xs font-semibold text-zinc-100">
+          <span className="text-xs font-semibold text-white font-mono">
             Grounded Copilot
           </span>
-          <span className="rounded border border-emerald-500/25 bg-emerald-500/10 px-1.5 py-0.2 font-mono text-[10px] font-medium text-emerald-300">
+          <span className="rounded border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 font-mono text-[10px] font-medium text-emerald-300">
             Strict [file:L-L]
           </span>
         </div>
@@ -353,7 +353,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           onClick={handleResetChat}
           disabled={streaming || messages.length <= 1}
           title="Start new conversation"
-          className="flex items-center gap-1 rounded-md border border-white/[0.08] bg-[#11151f] px-2 py-1 text-[10px] font-medium text-zinc-400 hover:border-white/[0.15] hover:text-zinc-100 disabled:opacity-40 transition-colors"
+          aria-label="Start new conversation"
+          className="cursor-pointer flex items-center gap-1 rounded-md border border-white/[0.1] bg-[#0a0e17] px-2 py-1 text-[10px] font-medium text-slate-300 hover:border-white/[0.2] hover:text-white disabled:opacity-40 transition-colors focus-visible:ring-1 focus-visible:ring-blue-500"
         >
           <RotateCcw className="h-3 w-3" />
           <span>Reset</span>
@@ -366,22 +367,22 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           <div
             key={idx}
             className={cn(
-              "flex flex-col gap-2 rounded-lg p-3.5 text-xs",
+              "flex flex-col gap-2 rounded-lg p-3.5 text-xs shadow-sm",
               msg.role === "user"
-                ? "ml-6 bg-[#151a26] border border-white/[0.1] text-zinc-100"
-                : "bg-[#090b10] border border-white/[0.07] text-zinc-200"
+                ? "ml-6 bg-[#101624] border border-blue-500/25 text-white"
+                : "bg-[#0a0e17] border border-white/[0.08] text-slate-200"
             )}
           >
             {/* Message Role Header */}
             <div className="flex items-center justify-between">
-              <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-zinc-400">
+              <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-slate-400">
                 {msg.role === "user" ? "Query" : "RepoLens Grounded Response"}
               </span>
 
               {msg.role === "assistant" && msg.content && (
                 <div className="flex items-center gap-2">
                   {typeof msg.latency_ms === "number" && msg.latency_ms > 0 && (
-                    <span className="flex items-center gap-1 font-mono text-[10px] text-zinc-500 tabular-nums">
+                    <span className="flex items-center gap-1 font-mono text-[10px] text-slate-400 tabular-nums">
                       <Clock className="h-2.5 w-2.5" />
                       {msg.latency_ms}ms
                     </span>
@@ -389,7 +390,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                   <button
                     onClick={() => handleCopyText(msg.content, idx)}
                     title="Copy response"
-                    className="rounded p-1 text-zinc-500 hover:bg-white/[0.06] hover:text-zinc-200 transition-colors"
+                    aria-label="Copy assistant response text"
+                    className="cursor-pointer rounded p-1 text-slate-400 hover:bg-white/[0.08] hover:text-white transition-colors"
                   >
                     {copiedMsgIdx === idx ? (
                       <Check className="h-3 w-3 text-emerald-400" />
@@ -406,7 +408,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
             {/* Verified Citations Shelf */}
             {msg.verified_citations && msg.verified_citations.length > 0 && (
-              <div className="mt-1.5 pt-2.5 border-t border-white/[0.07]">
+              <div className="mt-1.5 pt-2.5 border-t border-white/[0.08]">
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="flex items-center gap-1 font-mono text-[10px] font-semibold text-emerald-400 tabular-nums">
                     <ShieldCheck className="h-3 w-3" />
@@ -421,7 +423,9 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                       onClick={() =>
                         onCitationClick(c.file_path, c.start_line, c.end_line)
                       }
-                      className="citation-pill"
+                      title={`Jump to ${c.file_path} lines ${c.start_line}-${c.end_line}`}
+                      aria-label={`Jump to file ${c.file_path} lines ${c.start_line} through ${c.end_line}`}
+                      className="citation-pill cursor-pointer"
                     >
                       <FileCode2 className="h-3 w-3 text-blue-400" />
                       <span>
@@ -435,7 +439,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
             {/* Abstention Warning */}
             {msg.is_abstained && (
-              <div className="mt-1.5 flex items-center gap-2 rounded-lg bg-amber-950/35 border border-amber-500/30 p-2.5 text-[11px] text-amber-200">
+              <div className="mt-1.5 flex items-center gap-2 rounded-lg bg-amber-950/40 border border-amber-500/40 p-2.5 text-[11px] text-amber-200">
                 <AlertTriangle className="h-4 w-4 text-amber-400 shrink-0" />
                 <span>
                   Grounding Gate Abstained: Insufficient evidence in indexed repository chunks to verify claims.
@@ -449,8 +453,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
       {/* Curated Starter Prompts */}
       {messages.length === 1 && (
-        <div className="px-3.5 py-3 border-t border-white/[0.07] bg-[#090b10]/60">
-          <div className="font-mono text-[10px] text-zinc-500 font-semibold uppercase tracking-wider mb-2">
+        <div className="px-3.5 py-3 border-t border-white/[0.08] bg-[#000000]/60">
+          <div className="font-mono text-[10px] text-slate-400 font-semibold uppercase tracking-wider mb-2">
             Suggested Queries
           </div>
           <div className="space-y-1.5">
@@ -458,7 +462,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               <button
                 key={idx}
                 onClick={() => handleSend(item.question)}
-                className="group w-full flex items-center justify-between gap-2 text-left rounded-lg border border-white/[0.07] bg-[#11151f] px-3 py-2 text-[11px] text-zinc-300 hover:border-white/[0.15] hover:bg-[#151a26] hover:text-zinc-100 transition-colors"
+                aria-label={`Ask: ${item.question}`}
+                className="cursor-pointer group w-full flex items-center justify-between gap-2 text-left rounded-lg border border-white/[0.08] bg-[#0a0e17] px-3 py-2 text-[11px] text-slate-300 hover:border-white/[0.18] hover:bg-[#101624] hover:text-white transition-colors"
               >
                 <div className="min-w-0 space-y-0.5">
                   <span className="block font-mono text-[10px] text-blue-400">
@@ -468,7 +473,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     {item.question}
                   </span>
                 </div>
-                <ArrowUpRight className="h-3.5 w-3.5 text-zinc-600 group-hover:text-blue-400 shrink-0 transition-colors" />
+                <ArrowUpRight className="h-3.5 w-3.5 text-slate-500 group-hover:text-blue-400 shrink-0 transition-colors" />
               </button>
             ))}
           </div>
@@ -476,7 +481,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
       )}
 
       {/* Input Composer */}
-      <div className="p-3 border-t border-white/[0.07] bg-[#090b10]">
+      <div className="p-3 border-t border-white/[0.08] bg-[#06080d]">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -487,16 +492,17 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
           <input
             type="text"
             placeholder="Ask about functions, classes, or architecture..."
+            aria-label="Ask about codebase functions, classes, or architecture"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={streaming}
-            className="flex-1 rounded-lg border border-white/[0.08] bg-[#11151f] px-3.5 py-2 text-xs text-zinc-100 placeholder:text-zinc-500 focus:border-blue-500 focus:outline-none disabled:opacity-50 transition-colors"
+            className="flex-1 rounded-lg border border-white/[0.1] bg-[#0a0e17] px-3.5 py-2 text-xs text-white placeholder:text-slate-400 focus:border-blue-500 focus:outline-none disabled:opacity-50 transition-colors"
           />
           <button
             type="submit"
             disabled={streaming || !input.trim()}
             aria-label="Send question"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 transition-colors"
+            className="cursor-pointer flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-40 transition-colors focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             {streaming ? (
               <RefreshCw className="h-3.5 w-3.5 animate-spin" />

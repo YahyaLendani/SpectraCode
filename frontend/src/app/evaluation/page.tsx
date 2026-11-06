@@ -127,30 +127,31 @@ export default function EvaluationDashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#090b10] text-zinc-100 flex flex-col">
+    <div className="min-h-screen bg-black text-slate-100 flex flex-col font-sans">
       <Navbar repositories={repositories} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-7">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b border-white/[0.07] pb-6">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b border-white/[0.08] pb-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <Link
                 href="/"
-                className="text-xs text-zinc-400 hover:text-zinc-100 flex items-center gap-1 transition-colors"
+                aria-label="Back to Workspaces"
+                className="cursor-pointer text-xs text-slate-400 hover:text-white flex items-center gap-1 transition-colors"
               >
                 <ArrowLeft className="h-3.5 w-3.5" /> Workspaces
               </Link>
-              <span className="text-zinc-700">/</span>
-              <span className="font-mono text-xs text-blue-400">
+              <span className="text-slate-600">/</span>
+              <span className="font-mono text-xs text-blue-400 font-semibold">
                 Quantitative Evaluation Suite
               </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-50 flex items-center gap-2.5">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white flex items-center gap-2.5 font-mono">
               <BarChart3 className="h-6 w-6 text-blue-400" />
               <span>Retrieval &amp; Citation Grounding Benchmarks</span>
             </h1>
-            <p className="text-xs sm:text-sm text-zinc-400 mt-1">
+            <p className="text-xs sm:text-sm text-slate-300 mt-1">
               Automated evaluation measuring Recall@K, MRR, line-interval Citation Precision/Recall/F1, and Faithfulness.
             </p>
           </div>
@@ -163,7 +164,7 @@ export default function EvaluationDashboardPage() {
                 loadLatestEvaluation(e.target.value);
               }}
               aria-label="Select repository for evaluation"
-              className="rounded-lg border border-white/[0.09] bg-[#0d1017] px-3 py-2 font-mono text-xs text-zinc-200 outline-none focus:border-blue-500 transition-colors"
+              className="cursor-pointer rounded-lg border border-white/[0.1] bg-[#0a0e17] px-3 py-2 font-mono text-xs text-slate-200 outline-none focus:border-blue-500 transition-colors"
             >
               {repositories.map((r) => (
                 <option key={r.id} value={r.id}>
@@ -175,17 +176,19 @@ export default function EvaluationDashboardPage() {
             {selectedRepoId && (
               <Link
                 href={`/repos/${selectedRepoId}`}
-                className="flex items-center gap-1.5 rounded-lg border border-white/[0.08] bg-[#11151f] hover:border-white/[0.16] px-3 py-2 text-xs font-medium text-zinc-200 transition-colors"
+                aria-label="Open Workspace for selected repository"
+                className="cursor-pointer flex items-center gap-1.5 rounded-lg border border-white/[0.1] bg-[#0a0e17] hover:border-white/[0.2] hover:text-white px-3 py-2 text-xs font-medium text-slate-300 transition-colors focus-visible:ring-2 focus-visible:ring-blue-500"
               >
                 <span>Open Workspace</span>
-                <ArrowUpRight className="h-3.5 w-3.5 text-zinc-400" />
+                <ArrowUpRight className="h-3.5 w-3.5 text-slate-400" />
               </Link>
             )}
 
             <button
               onClick={handleRunBenchmark}
               disabled={running || !selectedRepoId}
-              className="flex items-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-500 px-4 py-2 text-xs font-semibold text-white transition-colors disabled:opacity-50"
+              aria-label="Execute automated benchmark suite"
+              className="cursor-pointer flex items-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-500 px-4 py-2 text-xs font-semibold text-white transition-colors disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-blue-500 shadow-sm"
             >
               {running ? (
                 <>
@@ -210,7 +213,7 @@ export default function EvaluationDashboardPage() {
         )}
 
         {/* Cohesive 6-Metric Quantitative Ledger */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.07] rounded-xl border border-white/[0.07] bg-[#0d1017] tabular-nums">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.08] rounded-xl border border-white/[0.08] bg-[#0a0e17] tabular-nums shadow-lg">
           {kpiMetrics.map((kpi) => {
             const isHigh = kpi.pct >= 80;
             return (
@@ -220,19 +223,19 @@ export default function EvaluationDashboardPage() {
               >
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-medium text-zinc-400">
+                    <span className="text-[11px] font-medium text-slate-400 font-mono">
                       {kpi.label}
                     </span>
-                    <span className="font-mono text-[9px] uppercase text-zinc-600">
+                    <span className="font-mono text-[9px] uppercase text-slate-400">
                       {kpi.group}
                     </span>
                   </div>
-                  <div className="mt-1.5 font-mono text-2xl font-bold text-zinc-100">
+                  <div className="mt-1.5 font-mono text-2xl font-bold text-white">
                     {kpi.value}
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <div className="h-1 w-full overflow-hidden rounded-full bg-[#090b10]">
+                  <div className="h-1 w-full overflow-hidden rounded-full bg-[#000000]">
                     <div
                       className={`h-full rounded-full transition-all duration-500 ${
                         !report
@@ -246,7 +249,7 @@ export default function EvaluationDashboardPage() {
                       }}
                     />
                   </div>
-                  <span className="text-[10px] text-zinc-500 block">
+                  <span className="text-[10px] text-slate-400 block font-mono">
                     {kpi.desc}
                   </span>
                 </div>
