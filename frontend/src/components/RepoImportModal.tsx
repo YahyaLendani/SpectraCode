@@ -35,6 +35,15 @@ export const RepoImportModal: React.FC<RepoImportModalProps> = ({
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [importProgress, setImportProgress] = useState<{
+    stage: string;
+    pct: number;
+    current_file?: string;
+    files_processed?: number;
+    total_files?: number;
+    chunks_count?: number;
+    total_chunks?: number;
+  } | null>(null);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -57,12 +66,49 @@ export const RepoImportModal: React.FC<RepoImportModalProps> = ({
     try {
       setLoading(true);
       setError(null);
+      setImportProgress({ stage: "cloning", pct: 15, current_file: "Initiating clone..." });
+
       const repo = await api.importRepository(importUrl);
-      onImportSuccess(repo);
-      onClose();
+      if (repo.status === "ready") {
+        setImportProgress({ stage: "ready", pct: 100, current_file: "Index ready" });
+        setTimeout(() => {
+          onImportSuccess(repo);
+          onClose();
+        }, 600);
+        return;
+      }
+
+      // Connect SSE stream for real-time progress
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api/v1";
+      const es = new EventSource(`${apiBase}/repositories/${repo.id}/progress-stream`);
+
+      es.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          setImportProgress(data);
+          if (data.stage === "ready") {
+            es.close();
+            setTimeout(() => {
+              onImportSuccess({ ...repo, status: "ready" });
+              onClose();
+            }, 700);
+          } else if (data.stage === "failed") {
+            es.close();
+            setError(data.error || "Indexing failed");
+            setLoading(false);
+          }
+        } catch {
+          // ignore parsing error
+        }
+      };
+
+      es.onerror = () => {
+        es.close();
+        onImportSuccess(repo);
+        onClose();
+      };
     } catch (err: any) {
       setError(err.message || "Failed to import repository");
-    } finally {
       setLoading(false);
     }
   };
@@ -204,18 +250,26 @@ export const RepoImportModal: React.FC<RepoImportModalProps> = ({
           {/* Pipeline Architecture Stepper */}
           <div className="grid grid-cols-4 gap-1.5 pt-1">
             {[
-              { icon: GitBranch, label: "1. Git Clone" },
-              { icon: Code2, label: "2. AST Parse" },
-              { icon: Cpu, label: "3. ONNX Embed" },
-              { icon: CheckCircle2, label: "4. RRF Ready" },
+              { icon: GitBranch, label: "1. Git Clone", stage: "cloning" },
+              { icon: Code2, label: "2. AST Parse", stage: "parsing_ast" },
+              { icon: Cpu, label: "3. ONNX Embed", stage: "embedding" },
+              { icon: CheckCircle2, label: "4. RRF Ready", stage: "ready" },
             ].map((step, idx) => {
               const Icon = step.icon;
+              const isActive = importProgress?.stage === step.stage;
+              const isPast =
+                (step.stage === "cloning" && ["parsing_ast", "embedding", "ready"].includes(importProgress?.stage || "")) ||
+                (step.stage === "parsing_ast" && ["embedding", "ready"].includes(importProgress?.stage || "")) ||
+                (step.stage === "embedding" && importProgress?.stage === "ready");
+
               return (
                 <div
                   key={idx}
-                  className={`flex items-center justify-center gap-1 rounded border px-2 py-1.5 text-[10px] font-medium ${
-                    loading
-                      ? "border-blue-500/30 bg-blue-950/30 text-blue-300 animate-pulse"
+                  className={`flex items-center justify-center gap-1 rounded border px-2 py-1.5 text-[10px] font-medium transition-colors ${
+                    isActive
+                      ? "border-blue-500/50 bg-blue-950/40 text-blue-300 animate-pulse ring-1 ring-blue-500/30"
+                      : isPast
+                      ? "border-emerald-500/30 bg-emerald-950/20 text-emerald-300"
                       : "border-white/[0.07] bg-[#090b10] text-zinc-400"
                   }`}
                 >
@@ -225,6 +279,37 @@ export const RepoImportModal: React.FC<RepoImportModalProps> = ({
               );
             })}
           </div>
+
+          {/* Real-Time SSE Progress Bar */}
+          {loading && importProgress && (
+            <div className="rounded-lg border border-blue-500/30 bg-[#090b10] p-3 space-y-2">
+              <div className="flex items-center justify-between text-[11px] font-mono">
+                <span className="flex items-center gap-1.5 text-blue-400 font-semibold uppercase">
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                  {importProgress.stage === "cloning" && "Stage 1/4: Cloning Git Tree"}
+                  {importProgress.stage === "parsing_ast" &&
+                    `Stage 2/4: AST Parsing (${importProgress.files_processed || 0}/${importProgress.total_files || "?"} files)`}
+                  {importProgress.stage === "embedding" &&
+                    `Stage 3/4: ONNX Vectors (${importProgress.chunks_count || 0}/${importProgress.total_chunks || "?"} chunks)`}
+                  {importProgress.stage === "ready" && "Stage 4/4: Index Ready"}
+                </span>
+                <span className="text-zinc-300 font-bold">{importProgress.pct}%</span>
+              </div>
+
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[0.08]">
+                <div
+                  className="h-full bg-gradient-to-r from-blue-500 to-emerald-400 transition-all duration-300"
+                  style={{ width: `${importProgress.pct}%` }}
+                />
+              </div>
+
+              {importProgress.current_file && (
+                <p className="truncate font-mono text-[10px] text-zinc-500">
+                  &gt; {importProgress.current_file}
+                </p>
+              )}
+            </div>
+          )}
 
           <button
             onClick={() => handleImport()}

@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import asyncio
+import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 import uuid
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, ConfigDict
 from sqlalchemy import select, update
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -16,7 +18,7 @@ from app.db.models import ASTSymbol, IndexingStatus, Repository, RepositoryFile
 from app.db.session import AsyncSessionLocal, get_db
 from app.ingestion.dependency_analyzer import CodebaseDependencyAnalyzer
 from app.ingestion.git_importer import GitRepositoryImporter
-from app.ingestion.worker import RepositoryIndexingWorker
+from app.ingestion.worker import IndexingProgressTracker, RepositoryIndexingWorker
 
 router = APIRouter(prefix="/repositories", tags=["Repositories"])
 
@@ -437,3 +439,56 @@ async def get_repository_dependencies(
 
     _DEPENDENCY_GRAPH_CACHE[cache_key] = graph_payload
     return graph_payload
+
+
+@router.get("/{repo_id}/progress-stream")
+async def stream_repository_indexing_progress(
+    repo_id: uuid.UUID,
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Server-Sent Events (SSE) streaming real-time indexing status,
+    active stage, current file, and completion percentage.
+    """
+    stmt = select(Repository).where(Repository.id == repo_id).options(noload("*"))
+    res = await db.execute(stmt)
+    repo = res.scalar_one_or_none()
+    if not repo:
+        raise HTTPException(status_code=404, detail="Repository not found")
+
+    async def event_generator():
+        # If repo is already ready or failed in DB
+        if repo.status == IndexingStatus.READY:
+            yield f"data: {json.dumps({'stage': 'ready', 'pct': 100, 'current_file': 'Index ready', 'files_processed': repo.total_files, 'total_files': repo.total_files, 'chunks_count': repo.total_chunks, 'total_chunks': repo.total_chunks})}\n\n"
+            return
+        if repo.status == IndexingStatus.FAILED:
+            yield f"data: {json.dumps({'stage': 'failed', 'pct': 0, 'error': repo.error_message or 'Indexing failed'})}\n\n"
+            return
+
+        for _ in range(300):
+            progress = IndexingProgressTracker.get(repo_id)
+            payload = {
+                "stage": progress.stage,
+                "pct": progress.pct,
+                "current_file": progress.current_file,
+                "files_processed": progress.files_processed,
+                "total_files": progress.total_files,
+                "chunks_count": progress.chunks_count,
+                "total_chunks": progress.total_chunks,
+                "error": progress.error,
+            }
+            yield f"data: {json.dumps(payload)}\n\n"
+
+            if progress.stage in ("ready", "failed"):
+                break
+            await asyncio.sleep(0.4)
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )

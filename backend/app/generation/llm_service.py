@@ -110,13 +110,20 @@ class LLMService:
     ) -> str:
         """
         Produces grounded code explanations referencing exact line numbers.
-        Cites only the strongest retrieved chunks to keep citation precision high.
+        Cites only the strongest primary retrieved chunks to keep citation precision high,
+        while presenting 1-hop AST call-graph definitions for contextual tracing.
         """
         if not chunks:
             return f'### Analysis for: *"{query}"*\n\nNo relevant code chunks found.'
-        primary = chunks[0]
+
+        primary_chunks = [c for c in chunks if not getattr(c, "is_linked_hop", False)]
+        hop_chunks = [c for c in chunks if getattr(c, "is_linked_hop", False)]
+        if not primary_chunks:
+            primary_chunks = chunks
+
+        primary = primary_chunks[0]
         cutoff = primary.final_score * self.RELATIVE_CITATION_CUTOFF
-        top_chunks = [c for c in chunks if c.final_score >= cutoff][: self.MAX_CITED_CHUNKS]
+        top_chunks = [c for c in primary_chunks if c.final_score >= cutoff][: self.MAX_CITED_CHUNKS]
 
         parts = [
             f"### Analysis for: *\"{query}\"*\n",
@@ -143,6 +150,20 @@ class LLMService:
             parts.append(
                 f"\n**Cross-Module Interaction:** Data and control flow connect from [{primary.file_path}:{primary.start_line}-{primary.end_line}] to [{second.file_path}:{second.start_line}-{second.end_line}]."
             )
+
+        if hop_chunks:
+            query_lower = query.lower()
+            hop_lines = []
+            for hc in hop_chunks[:2]:
+                via = f" (referenced by `{hc.linked_from_symbol}`)" if hc.linked_from_symbol else ""
+                if hc.symbol_name and hc.symbol_name.lower() in query_lower:
+                    loc = f"[{hc.file_path}:{hc.start_line}-{hc.end_line}]"
+                else:
+                    loc = f"`{hc.file_path}` (lines {hc.start_line}–{hc.end_line})"
+                hop_lines.append(
+                    f"- `{hc.symbol_name or 'symbol'}` ({hc.symbol_kind or 'definition'}){via} defined in {loc}."
+                )
+            parts.append("\n**1-Hop AST Call-Graph Context:**\n" + "\n".join(hop_lines))
 
         return "\n".join(parts)
 

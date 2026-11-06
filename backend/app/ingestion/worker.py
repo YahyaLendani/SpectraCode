@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
+from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 import uuid
 
 from sqlalchemy import delete, select
@@ -22,6 +23,38 @@ from app.db.models import (
 from app.ingestion.ast_chunker import CodeASTChunker, ExtractedSymbol
 from app.ingestion.git_importer import GitRepositoryImporter, SampleRepositoryFactory
 from app.retrieval.embeddings import EmbeddingService
+
+
+@dataclass
+class ProgressState:
+    stage: str = "pending"
+    files_processed: int = 0
+    total_files: int = 0
+    chunks_count: int = 0
+    total_chunks: int = 0
+    current_file: Optional[str] = None
+    pct: int = 0
+    error: Optional[str] = None
+
+
+class IndexingProgressTracker:
+    _instances: Dict[uuid.UUID, ProgressState] = {}
+
+    @classmethod
+    def get(cls, repo_id: uuid.UUID) -> ProgressState:
+        if repo_id not in cls._instances:
+            cls._instances[repo_id] = ProgressState()
+        return cls._instances[repo_id]
+
+    @classmethod
+    def update(cls, repo_id: uuid.UUID, **kwargs: Any) -> None:
+        state = cls.get(repo_id)
+        for k, v in kwargs.items():
+            setattr(state, k, v)
+
+    @classmethod
+    def remove(cls, repo_id: uuid.UUID) -> None:
+        cls._instances.pop(repo_id, None)
 
 
 class RepositoryIndexingWorker:
@@ -48,6 +81,12 @@ class RepositoryIndexingWorker:
             # 2. Cloning / Locating Stage
             repo.status = IndexingStatus.CLONING
             await session.commit()
+            IndexingProgressTracker.update(
+                repo.id,
+                stage="cloning",
+                pct=10,
+                current_file="Cloning repository git tree...",
+            )
 
             if repo_dir is None:
                 repo_dir = settings.REPOS_STORAGE_DIR / f"{repo.github_owner}_{repo.github_name}_{repo.id.hex[:8]}"
@@ -71,6 +110,13 @@ class RepositoryIndexingWorker:
             await session.execute(delete(RepositoryFile).where(RepositoryFile.repository_id == repo.id))
             await session.commit()
 
+            IndexingProgressTracker.update(
+                repo.id,
+                stage="parsing_ast",
+                pct=25,
+                current_file="Scanning directory tree for AST analysis...",
+            )
+
             chunker = CodeASTChunker(
                 max_chunk_chars=settings.MAX_CHUNK_CHARS,
                 min_chunk_chars=settings.MIN_CHUNK_CHARS,
@@ -85,7 +131,15 @@ class RepositoryIndexingWorker:
             all_db_symbols = []
             all_db_files = []
 
-            for df in discovered_files:
+            for f_idx, df in enumerate(discovered_files, start=1):
+                IndexingProgressTracker.update(
+                    repo.id,
+                    stage="parsing_ast",
+                    files_processed=f_idx,
+                    total_files=len(discovered_files),
+                    current_file=df.relative_path,
+                    pct=25 + int(35 * f_idx / max(1, len(discovered_files))),
+                )
                 file_id = uuid.uuid4()
                 sha = hashlib.sha256(df.content.encode("utf-8")).hexdigest()
 
@@ -161,6 +215,12 @@ class RepositoryIndexingWorker:
             # 4. Dense Vector Embedding Stage
             repo.status = IndexingStatus.EMBEDDING
             await session.commit()
+            IndexingProgressTracker.update(
+                repo.id,
+                stage="embedding",
+                pct=60,
+                current_file="Preparing ONNX vector embeddings...",
+            )
 
             if all_chunks_payloads:
                 batch_size = 32
@@ -171,6 +231,15 @@ class RepositoryIndexingWorker:
                     batch_texts = texts_to_embed[i : i + batch_size]
                     batch_vectors = await EmbeddingService.embed_texts(batch_texts)
                     embeddings_list.extend(batch_vectors)
+                    chunks_done = min(i + len(batch_texts), len(texts_to_embed))
+                    IndexingProgressTracker.update(
+                        repo.id,
+                        stage="embedding",
+                        chunks_count=chunks_done,
+                        total_chunks=len(texts_to_embed),
+                        current_file=f"Computing 384-d embeddings ({chunks_done}/{len(texts_to_embed)} chunks)...",
+                        pct=60 + int(35 * chunks_done / max(1, len(texts_to_embed))),
+                    )
 
                 all_db_embeddings = []
                 for (chunk_id, _), vec in zip(all_chunks_payloads, embeddings_list):
@@ -191,10 +260,26 @@ class RepositoryIndexingWorker:
             repo.status = IndexingStatus.READY
             repo.error_message = None
             await session.commit()
+            IndexingProgressTracker.update(
+                repo.id,
+                stage="ready",
+                pct=100,
+                current_file="Indexing completed successfully.",
+                files_processed=repo.total_files,
+                total_files=repo.total_files,
+                chunks_count=repo.total_chunks,
+                total_chunks=repo.total_chunks,
+            )
 
         except Exception as exc:
             repo.status = IndexingStatus.FAILED
             repo.error_message = str(exc)
             await session.commit()
+            IndexingProgressTracker.update(
+                repo.id,
+                stage="failed",
+                pct=0,
+                error=str(exc),
+            )
             raise
 

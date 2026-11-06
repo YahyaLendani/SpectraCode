@@ -17,6 +17,7 @@ You answer questions accurately and strictly grounded in the provided `<reposito
 3. NEVER invent file paths or line numbers.
 4. If the provided `<repository_context>` does not contain enough information to answer the question, respond with:
    `INSUFFICIENT_REPOSITORY_CONTEXT: <brief reason why the context does not cover the question>`
+5. Chunks inside `<linked_hop_chunk>` provide 1-hop AST symbol definitions for contextual reference. Only cite a `<linked_hop_chunk>` with `[filepath:line_start-line_end]` if its code is directly required to answer the user's question.
 """
 
 
@@ -140,14 +141,16 @@ class GroundedCitationEngine:
     ) -> Tuple[bool, Optional[str]]:
         if not chunks:
             return True, "No relevant code chunks were found in the indexed repository for this query."
-        max_score = max(c.final_score for c in chunks)
+        primary_chunks = [c for c in chunks if not getattr(c, "is_linked_hop", False)]
+        eval_chunks = primary_chunks if primary_chunks else chunks
+        max_score = max(c.final_score for c in eval_chunks)
         if max_score < self.min_context_score:
             return (
                 True,
                 f"Retrieved code chunks had insufficient relevance (max score {max_score:.2f} < threshold {self.min_context_score:.2f}).",
             )
         if query:
-            coverage, missing = self.query_term_coverage(query, chunks)
+            coverage, missing = self.query_term_coverage(query, eval_chunks)
             if coverage <= self.min_term_coverage:
                 return (
                     True,
@@ -162,11 +165,17 @@ class GroundedCitationEngine:
         for chunk in chunks:
             numbered_lines = self._add_line_numbers(chunk.raw_code, chunk.start_line)
             symbol_info = f' symbol="{chunk.symbol_name}"' if chunk.symbol_name else ""
+            tag = "linked_hop_chunk" if getattr(chunk, "is_linked_hop", False) else "code_chunk"
+            hop_attr = (
+                f' linked_from="{chunk.linked_from_symbol}"'
+                if getattr(chunk, "is_linked_hop", False) and getattr(chunk, "linked_from_symbol", None)
+                else ""
+            )
             context_blocks.append(
-                f'<code_chunk file="{chunk.file_path}" lines="{chunk.start_line}-{chunk.end_line}"'
-                f' language="{chunk.language}"{symbol_info}>\n'
+                f'<{tag} file="{chunk.file_path}" lines="{chunk.start_line}-{chunk.end_line}"'
+                f' language="{chunk.language}"{symbol_info}{hop_attr}>\n'
                 f"{numbered_lines}\n"
-                f"</code_chunk>"
+                f"</{tag}>"
             )
         context_blocks.append("</repository_context>")
         compiled_context = "\n\n".join(context_blocks)

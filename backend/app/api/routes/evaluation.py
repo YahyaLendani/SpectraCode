@@ -25,6 +25,13 @@ llm_service = LLMService()
 citation_engine = GroundedCitationEngine()
 
 
+class EvaluationRunRequest(BaseModel):
+    rrf_k: Optional[int] = 60
+    rerank_weight: Optional[float] = 0.75
+    min_relevance_threshold: Optional[float] = 0.15
+    relative_citation_cutoff: Optional[float] = 0.90
+
+
 class EvaluationRunResponse(BaseModel):
     id: uuid.UUID
     repository_id: uuid.UUID

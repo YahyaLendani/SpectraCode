@@ -42,3 +42,37 @@ def test_batch_cosine_similarity():
     assert np.isclose(scores[0], 1.0)
     assert np.isclose(scores[1], 0.0)
     assert np.isclose(scores[2], 0.70710677)
+
+
+def test_extract_referenced_symbols():
+    import uuid
+    from app.retrieval.hybrid_retriever import RetrievedChunk
+
+    retriever = HybridCodeRetriever()
+    primary = [
+        RetrievedChunk(
+            chunk_id=uuid.uuid4(),
+            file_path="src/api/routes.py",
+            language="python",
+            start_line=1,
+            end_line=20,
+            raw_code="""
+def login_handler(creds: Credentials):
+    token = TokenManager.verify_token(creds)
+    if not has_admin_access(token):
+        raise HTTPException(403)
+""",
+            contextualized_text="login_handler",
+            symbol_name="login_handler",
+            symbol_kind="function",
+            final_score=0.95,
+        )
+    ]
+
+    refs = retriever._extract_referenced_symbols(primary)
+    assert "TokenManager" in refs
+    assert "verify_token" in refs
+    assert "has_admin_access" in refs
+    # Built-in or excluded symbols like raise, if, not are not in refs
+    assert "login_handler" not in refs
+    assert "self" not in refs

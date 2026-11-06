@@ -17,6 +17,53 @@ import {
 } from "lucide-react";
 import { ChatMessage } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { ExecutionTraceStepper, TraceStep } from "@/components/ExecutionTraceStepper";
+
+function extractTraceSteps(msg: ChatMessage): TraceStep[] {
+  const steps: TraceStep[] = [];
+  const seen = new Set<string>();
+
+  if (msg.verified_citations && msg.verified_citations.length > 0) {
+    for (const c of msg.verified_citations) {
+      const key = `${c.file_path}:${c.start_line}-${c.end_line}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        const parts = c.file_path.split("/");
+        steps.push({
+          stepNumber: steps.length + 1,
+          filePath: c.file_path,
+          shortName: parts[parts.length - 1],
+          startLine: c.start_line,
+          endLine: c.end_line,
+        });
+      }
+    }
+  }
+
+  if (steps.length < 2 && msg.content) {
+    const regex = /\[([a-zA-Z0-9_.\-/\\]+?\.[a-zA-Z0-9]+):(?:L?)(\d+)(?:-(?:L?)(\d+))?\]/g;
+    let match;
+    while ((match = regex.exec(msg.content)) !== null) {
+      const filePath = match[1].replace(/\\/g, "/");
+      const startLine = parseInt(match[2], 10);
+      const endLine = match[3] ? parseInt(match[3], 10) : startLine;
+      const key = `${filePath}:${startLine}-${endLine}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        const parts = filePath.split("/");
+        steps.push({
+          stepNumber: steps.length + 1,
+          filePath,
+          shortName: parts[parts.length - 1],
+          startLine,
+          endLine,
+        });
+      }
+    }
+  }
+
+  return steps;
+}
 
 interface ChatInterfaceProps {
   repoId: string;
@@ -412,6 +459,14 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
             {/* Body */}
             {renderMessageContent(msg.content, idx)}
+
+            {/* Interactive Multi-Hop Trace Stepper */}
+            {msg.role === "assistant" && !streaming && (
+              <ExecutionTraceStepper
+                steps={extractTraceSteps(msg)}
+                onCitationClick={onCitationClick}
+              />
+            )}
 
             {/* Verified Citations Shelf */}
             {msg.verified_citations && msg.verified_citations.length > 0 && (

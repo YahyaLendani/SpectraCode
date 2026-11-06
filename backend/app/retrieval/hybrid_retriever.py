@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import dataclasses
 import re
 from dataclasses import dataclass
 from typing import Dict, List, Optional
@@ -11,7 +12,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import noload, selectinload
 
-from app.db.models import ChunkEmbedding, CodeChunk, RepositoryFile
+from app.db.models import ASTSymbol, ChunkEmbedding, CodeChunk, RepositoryFile
 from app.ingestion.ast_chunker import CodeQueryNormalizer
 from app.retrieval.embeddings import EmbeddingService
 
@@ -34,6 +35,8 @@ class RetrievedChunk:
     rrf_score: float = 0.0
     rerank_score: float = 0.0
     final_score: float = 0.0
+    is_linked_hop: bool = False
+    linked_from_symbol: Optional[str] = None
 
 
 class HybridCodeRetriever:
@@ -45,6 +48,17 @@ class HybridCodeRetriever:
     CODE_TOKEN_PATTERN = re.compile(
         r"[a-zA-Z_][a-zA-Z0-9_]*\.[a-zA-Z_][a-zA-Z0-9_]*|[a-z]+[A-Z][a-zA-Z0-9]*|[a-zA-Z0-9]+_[a-zA-Z0-9_]+"
     )
+    CALL_OR_TYPE_RE = re.compile(
+        r"\b([A-Za-z_][A-Za-z0-9_]{2,})\s*\(|\b([A-Z][A-Za-z0-9_]{2,})\b"
+    )
+    _IGNORED_SYMBOLS = frozenset({
+        "self", "cls", "super", "init", "__init__", "len", "str", "int", "float",
+        "bool", "list", "dict", "set", "tuple", "max", "min", "sum", "any", "all",
+        "print", "range", "enumerate", "zip", "isinstance", "getattr", "setattr",
+        "List", "Dict", "Set", "Tuple", "Optional", "Sequence", "Any", "Union",
+        "Callable", "Promise", "Array", "Record", "Error", "Exception", "ValueError",
+        "True", "False", "None", "async", "await", "return", "raise", "yield",
+    })
 
     def __init__(
         self,
@@ -178,4 +192,119 @@ class HybridCodeRetriever:
                 reranked.append(c)
 
         reranked.sort(key=lambda x: x.final_score, reverse=True)
-        return reranked[:top_k]
+        primary = reranked[:top_k]
+
+        # 6. 1-Hop AST Call-Graph Expansion
+        hop_chunks = await self._expand_one_hop_chunks(
+            session=session,
+            repository_id=repository_id,
+            primary_chunks=primary,
+            all_scored_items=items,
+            max_hops=2,
+        )
+        return primary + hop_chunks
+
+    def _extract_referenced_symbols(
+        self, primary_chunks: List[RetrievedChunk]
+    ) -> Dict[str, str]:
+        """Returns {candidate_symbol_name: source_chunk_symbol_or_file}."""
+        existing_symbols = {c.symbol_name for c in primary_chunks if c.symbol_name}
+        candidates: Dict[str, str] = {}
+
+        for chunk in primary_chunks[:3]:
+            origin = chunk.symbol_name or chunk.file_path
+            for m in self.CALL_OR_TYPE_RE.finditer(chunk.raw_code):
+                sym = m.group(1) or m.group(2)
+                if sym and sym not in self._IGNORED_SYMBOLS and sym not in existing_symbols:
+                    candidates.setdefault(sym, origin)
+        return candidates
+
+    async def _expand_one_hop_chunks(
+        self,
+        session: AsyncSession,
+        repository_id: uuid.UUID,
+        primary_chunks: List[RetrievedChunk],
+        all_scored_items: List[RetrievedChunk],
+        max_hops: int = 2,
+    ) -> List[RetrievedChunk]:
+        if not primary_chunks or max_hops <= 0:
+            return []
+
+        candidates = self._extract_referenced_symbols(primary_chunks)
+        if not candidates:
+            return []
+
+        primary_ids = {c.chunk_id for c in primary_chunks}
+        hop_chunks: List[RetrievedChunk] = []
+        matched_symbols: set[str] = set()
+
+        # Pass 1: Fast in-memory lookup from already-loaded & scored chunks
+        by_symbol: Dict[str, RetrievedChunk] = {}
+        for item in all_scored_items:
+            if item.chunk_id not in primary_ids and item.symbol_name in candidates:
+                prev = by_symbol.get(item.symbol_name)
+                if prev is None or item.final_score > prev.final_score:
+                    by_symbol[item.symbol_name] = item
+
+        for sym_name, item in sorted(
+            by_symbol.items(), key=lambda kv: kv[1].final_score, reverse=True
+        )[:max_hops]:
+            matched_symbols.add(sym_name)
+            hop_chunks.append(
+                dataclasses.replace(
+                    item,
+                    is_linked_hop=True,
+                    linked_from_symbol=candidates[sym_name],
+                )
+            )
+
+        if len(hop_chunks) >= max_hops:
+            return hop_chunks
+
+        # Pass 2: Single batched SQL query on ASTSymbol -> CodeChunk by line containment
+        remaining = [s for s in candidates if s not in matched_symbols]
+        if remaining:
+            stmt = (
+                select(ASTSymbol, CodeChunk, RepositoryFile)
+                .join(
+                    CodeChunk,
+                    (CodeChunk.file_id == ASTSymbol.file_id)
+                    & (CodeChunk.start_line <= ASTSymbol.start_line)
+                    & (CodeChunk.end_line >= ASTSymbol.start_line),
+                )
+                .join(RepositoryFile, CodeChunk.file_id == RepositoryFile.id)
+                .where(
+                    ASTSymbol.repository_id == repository_id,
+                    ASTSymbol.name.in_(remaining),
+                    CodeChunk.id.notin_(primary_ids | {h.chunk_id for h in hop_chunks}),
+                )
+                .limit((max_hops - len(hop_chunks)) * 2)
+            )
+            rows = (await session.execute(stmt)).all()
+            seen_chunk_ids = primary_ids | {h.chunk_id for h in hop_chunks}
+
+            base_discount = primary_chunks[-1].final_score * 0.5 if primary_chunks else 0.1
+            for sym_obj, chunk_obj, file_obj in rows:
+                if chunk_obj.id in seen_chunk_ids:
+                    continue
+                seen_chunk_ids.add(chunk_obj.id)
+                hop_chunks.append(
+                    RetrievedChunk(
+                        chunk_id=chunk_obj.id,
+                        file_path=file_obj.file_path,
+                        language=file_obj.language,
+                        start_line=chunk_obj.start_line,
+                        end_line=chunk_obj.end_line,
+                        raw_code=chunk_obj.raw_code,
+                        contextualized_text=chunk_obj.contextualized_text,
+                        symbol_name=sym_obj.name,
+                        symbol_kind=sym_obj.kind.value if hasattr(sym_obj.kind, "value") else str(sym_obj.kind),
+                        final_score=round(base_discount, 4),
+                        is_linked_hop=True,
+                        linked_from_symbol=candidates.get(sym_obj.name),
+                    )
+                )
+                if len(hop_chunks) >= max_hops:
+                    break
+
+        return hop_chunks
