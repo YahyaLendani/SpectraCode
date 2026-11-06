@@ -8,7 +8,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-14.2.15-000000.svg?logo=next.js&logoColor=white)](https://nextjs.org)
 [![Tree-sitter](https://img.shields.io/badge/Tree--sitter-AST%20Parsing-2b5b84.svg)](https://tree-sitter.github.io/tree-sitter/)
 [![Vector Search](https://img.shields.io/badge/RAG-Hybrid%20RRF%20Search-indigo.svg)](#hybrid-retrieval)
-[![Tests](https://img.shields.io/badge/Pytest-11%20Passed%20(100%25)-brightgreen.svg)](#automated-testing)
+[![Tests](https://img.shields.io/badge/Pytest-14%20Passed%20(100%25)-brightgreen.svg)](#automated-testing)
 
 ---
 
@@ -245,7 +245,7 @@ When presenting RepoLens to recruiters or hiring managers:
 5. **Quantitative Benchmark Evaluation**:
    - Navigate to `/evaluation`.
    - Click **"Run Benchmark"**.
-   - Review live measured metrics: **Recall@5: 100%**, **Citation Precision: 100%**, **Faithfulness: 100%**.
+   - Review live measured metrics: **Recall@5: 100%**, **Citation Precision: 76.7%**, **Faithfulness: 100%**, **MRR: 0.767**.
    - Inspect the negative test query (`Kubernetes Helm chart`) to demonstrate how the model cleanly abstains rather than hallucinating unsupported facts.
 
 ---

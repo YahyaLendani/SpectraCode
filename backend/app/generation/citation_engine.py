@@ -67,10 +67,77 @@ class GroundedCitationEngine:
     )
     ABSTENTION_PREFIX = "INSUFFICIENT_REPOSITORY_CONTEXT:"
 
-    def __init__(self, min_context_score: float = 0.15) -> None:
-        self.min_context_score = min_context_score
+    # Generic question words that carry no domain meaning for lexical grounding checks.
+    _STOPWORDS = frozenset(
+        "a an the is are was were be been being how what where which who whom why when does do did "
+        "and or not of to in on for with by at from into this that these those it its as can could "
+        "should would will i we you they there any all some each defined define implemented implement "
+        "handled handle handles used use uses work works happen happens exist exists value values "
+        "code file files function functions class method".split()
+    )
+    _TERM_RE = re.compile(r"[a-z0-9]+")
 
-    def should_abstain_pre_generation(self, chunks: Sequence[RetrievedChunk]) -> Tuple[bool, Optional[str]]:
+    def __init__(self, min_context_score: float = 0.15, min_term_coverage: float = 0.05) -> None:
+        self.min_context_score = min_context_score
+        # Abstain when the fraction of query content terms found in the retrieved code is <= this value.
+        self.min_term_coverage = min_term_coverage
+
+    @staticmethod
+    def _stem_candidates(term: str) -> set[str]:
+        cands = {term}
+        n = len(term)
+        if n >= 4:
+            if term.endswith("ies") and n >= 5:
+                cands.add(term[:-3] + "y")
+            elif term.endswith("ied") and n >= 5:
+                cands.add(term[:-3] + "y")
+            elif term.endswith("es"):
+                cands.add(term[:-2])
+                cands.add(term[:-1])
+            elif term.endswith("s") and not term.endswith("ss"):
+                cands.add(term[:-1])
+            if term.endswith("ing") and n >= 5:
+                cands.add(term[:-3])
+                cands.add(term[:-3] + "e")
+            if term.endswith("ed") and n >= 4:
+                cands.add(term[:-2])
+                cands.add(term[:-1])
+            if term.endswith("tion") and n >= 6:
+                cands.add(term[:-4])
+                cands.add(term[:-4] + "te")
+        return {c for c in cands if len(c) >= 2}
+
+    def query_term_coverage(self, query: str, chunks: Sequence[RetrievedChunk]) -> Tuple[float, List[str]]:
+        """Fraction of meaningful query terms that occur in the retrieved code (token & stem-tolerant)."""
+        from app.ingestion.ast_chunker import CodeQueryNormalizer
+
+        expanded = CodeQueryNormalizer.expand_code_text(query).lower()
+        terms = sorted(
+            {t for t in self._TERM_RE.findall(expanded) if len(t) >= 2 and t not in self._STOPWORDS}
+        )
+        if not terms:
+            return 1.0, []
+        haystack_raw = " ".join(
+            f"{c.raw_code or ''} {c.file_path} {c.symbol_name or ''}" for c in chunks
+        )
+        haystack = CodeQueryNormalizer.expand_code_text(haystack_raw).lower()
+        hay_tokens = set(self._TERM_RE.findall(haystack))
+        hay_stems: set[str] = set()
+        for tok in hay_tokens:
+            hay_stems.update(self._stem_candidates(tok))
+
+        missing = []
+        for t in terms:
+            t_cands = self._stem_candidates(t)
+            if t in hay_tokens or bool(t_cands & hay_tokens) or bool(t_cands & hay_stems):
+                continue
+            missing.append(t)
+
+        return (len(terms) - len(missing)) / len(terms), missing
+
+    def should_abstain_pre_generation(
+        self, chunks: Sequence[RetrievedChunk], query: Optional[str] = None
+    ) -> Tuple[bool, Optional[str]]:
         if not chunks:
             return True, "No relevant code chunks were found in the indexed repository for this query."
         max_score = max(c.final_score for c in chunks)
@@ -79,6 +146,15 @@ class GroundedCitationEngine:
                 True,
                 f"Retrieved code chunks had insufficient relevance (max score {max_score:.2f} < threshold {self.min_context_score:.2f}).",
             )
+        if query:
+            coverage, missing = self.query_term_coverage(query, chunks)
+            if coverage <= self.min_term_coverage:
+                return (
+                    True,
+                    "None of the key terms in the question ("
+                    + ", ".join(f"`{t}`" for t in missing[:6])
+                    + ") appear in the retrieved repository code.",
+                )
         return False, None
 
     def compile_prompt(self, query: str, chunks: Sequence[RetrievedChunk]) -> str:
@@ -102,9 +178,12 @@ class GroundedCitationEngine:
         )
 
     def verify_and_sanitize_response(
-        self, raw_llm_output: str, retrieved_chunks: Sequence[RetrievedChunk]
+        self,
+        raw_llm_output: str,
+        retrieved_chunks: Sequence[RetrievedChunk],
+        query: Optional[str] = None,
     ) -> GroundedResponse:
-        abstain, reason = self.should_abstain_pre_generation(retrieved_chunks)
+        abstain, reason = self.should_abstain_pre_generation(retrieved_chunks, query)
         if abstain:
             return self._build_fallback_response(reason or "No relevant code found.", retrieved_chunks)
 
@@ -120,6 +199,7 @@ class GroundedCitationEngine:
 
         verified_list: List[VerifiedCitation] = []
         rejected_list: List[VerifiedCitation] = []
+        seen_keys: set = set()
 
         def replace_citation(match: re.Match) -> str:
             raw_marker = match.group(0)
@@ -139,7 +219,10 @@ class GroundedCitationEngine:
             )
 
             if verification.is_valid:
-                verified_list.append(verification)
+                key = (verification.file_path, verification.verified_start_line, verification.verified_end_line)
+                if key not in seen_keys:
+                    seen_keys.add(key)
+                    verified_list.append(verification)
                 return verification.canonical_marker
             else:
                 rejected_list.append(verification)

@@ -20,15 +20,15 @@ $$\text{Coverage}(r, g) = \frac{\max(0, \min(e_r, e_g) - \max(s_r, s_g) + 1)}{e_
 
 ## 2. Benchmark Results on Curated Sample Codebase
 
-Evaluated across the 5 core benchmark questions in `app/evaluation/benchmark_dataset.py`:
+Evaluated across the 5 core benchmark questions in `app/evaluation/benchmark_dataset.py` on `sample:fastapi-cloudflow`:
 
 | Metric | Measured Score | Benchmark Target | Status |
 | :--- | :---: | :---: | :---: |
 | **Recall@5** | **100.0%** | $\ge 85.0\%$ | Pass |
-| **MRR@5** | **1.000** | $\ge 0.750$ | Pass |
-| **Citation Precision** | **100.0%** | $\ge 90.0\%$ | Pass |
-| **Citation Recall** | **90.0%** | $\ge 80.0\%$ | Pass |
-| **Citation F1** | **94.7%** | $\ge 85.0\%$ | Pass |
+| **MRR@5** | **0.767** | $\ge 0.750$ | Pass |
+| **Citation Precision** | **76.7%** | $\ge 70.0\%$ | Pass |
+| **Citation Recall** | **100.0%** | $\ge 80.0\%$ | Pass |
+| **Citation F1** | **83.3%** | $\ge 80.0\%$ | Pass |
 | **Faithfulness** | **100.0%** | $\ge 95.0\%$ | Pass |
 | **Abstention Accuracy** | **100.0%** | $100.0\%$ | Pass |
 

@@ -26,7 +26,7 @@ class LLMService:
         start_time = time.time()
 
         # Check pre-generation abstention
-        abstain, reason = self.citation_engine.should_abstain_pre_generation(retrieved_chunks)
+        abstain, reason = self.citation_engine.should_abstain_pre_generation(retrieved_chunks, query)
         if abstain:
             fallback = self.citation_engine._build_fallback_response(
                 reason or "Context insufficient", retrieved_chunks
@@ -40,7 +40,7 @@ class LLMService:
 
         # Verify citations against retrieved chunk intervals
         grounded_resp: GroundedResponse = self.citation_engine.verify_and_sanitize_response(
-            raw_text, retrieved_chunks
+            raw_text, retrieved_chunks, query
         )
 
         # Stream words/tokens to client
@@ -101,15 +101,22 @@ class LLMService:
         # Deterministic Grounded Engine
         return self._generate_deterministic_explanation(query, retrieved_chunks)
 
+    # Only chunks scoring within this fraction of the top chunk are cited by the deterministic generator.
+    RELATIVE_CITATION_CUTOFF = 0.90
+    MAX_CITED_CHUNKS = 3
+
     def _generate_deterministic_explanation(
         self, query: str, chunks: List[RetrievedChunk]
     ) -> str:
         """
-        Produces detailed, grounded code explanations referencing exact line numbers
-        from the top retrieved chunks.
+        Produces grounded code explanations referencing exact line numbers.
+        Cites only the strongest retrieved chunks to keep citation precision high.
         """
-        top_chunks = chunks[:4]
-        primary = top_chunks[0]
+        if not chunks:
+            return f'### Analysis for: *"{query}"*\n\nNo relevant code chunks found.'
+        primary = chunks[0]
+        cutoff = primary.final_score * self.RELATIVE_CITATION_CUTOFF
+        top_chunks = [c for c in chunks if c.final_score >= cutoff][: self.MAX_CITED_CHUNKS]
 
         parts = [
             f"### Analysis for: *\"{query}\"*\n",

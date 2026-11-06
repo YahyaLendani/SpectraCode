@@ -72,3 +72,60 @@ def test_citation_abstention():
     assert resp_low.is_abstained
     assert "insufficient relevance" in (resp_low.abstention_reason or "")
 
+
+def test_citation_out_of_scope_term_abstention():
+    engine = GroundedCitationEngine(min_term_coverage=0.05)
+    chunks = [
+        RetrievedChunk(
+            chunk_id=uuid.uuid4(),
+            file_path="src/auth/jwt.py",
+            language="python",
+            start_line=1,
+            end_line=20,
+            raw_code="def verify_token(token: str):\n    return decode(token)",
+            contextualized_text="JWT authentication",
+            symbol_name="verify_token",
+            symbol_kind="function",
+            final_score=0.85,
+        )
+    ]
+
+    # Out-of-scope query with 0 term coverage
+    out_of_scope_query = "Where is the Kubernetes Helm chart deployment configuration?"
+    abstain, reason = engine.should_abstain_pre_generation(chunks, out_of_scope_query)
+    assert abstain is True
+    assert "None of the key terms in the question" in (reason or "")
+
+    resp = engine.verify_and_sanitize_response("Kubernetes config [src/auth/jwt.py:1-5]", chunks, out_of_scope_query)
+    assert resp.is_abstained is True
+    assert len(resp.verified_citations) == 0
+
+
+def test_citation_deduplication():
+    engine = GroundedCitationEngine()
+    chunks = [
+        RetrievedChunk(
+            chunk_id=uuid.uuid4(),
+            file_path="src/auth/jwt.py",
+            language="python",
+            start_line=10,
+            end_line=50,
+            raw_code="def verify():\n    pass",
+            contextualized_text="...",
+            symbol_name="verify",
+            symbol_kind="function",
+            final_score=0.85,
+        )
+    ]
+
+    # Repeated duplicate citations in text
+    repeated_output = (
+        "Token verification occurs here [src/auth/jwt.py:15-30]. "
+        "As explained above [src/auth/jwt.py:15-30], tokens are validated."
+    )
+    resp = engine.verify_and_sanitize_response(repeated_output, chunks)
+    assert not resp.is_abstained
+    assert len(resp.verified_citations) == 1
+    assert resp.verified_citations[0].canonical_marker == "[src/auth/jwt.py:15-30]"
+
+

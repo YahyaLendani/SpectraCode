@@ -73,9 +73,15 @@ async def run_evaluation_benchmark(
             for c in chunks
         ]
 
-        # 2. Generate Grounded Answer & Extract Citations
-        grounded_text = await llm_service._generate_grounded_text(item.query_text, chunks)
-        verified_resp = citation_engine.verify_and_sanitize_response(grounded_text, chunks)
+        # 2. Check Pre-generation Abstention & Generate Grounded Answer
+        abstain, reason = citation_engine.should_abstain_pre_generation(chunks, item.query_text)
+        if abstain:
+            verified_resp = citation_engine._build_fallback_response(
+                reason or "No relevant code found.", chunks
+            )
+        else:
+            grounded_text = await llm_service._generate_grounded_text(item.query_text, chunks)
+            verified_resp = citation_engine.verify_and_sanitize_response(grounded_text, chunks, item.query_text)
 
         emitted_citations = [
             LineSpan(file_path=c.file_path, start_line=c.verified_start_line, end_line=c.verified_end_line)
