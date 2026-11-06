@@ -303,9 +303,13 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
             );
           }
 
+          const isLast = msgIdx === messages.length - 1;
           return (
             <div key={segKey} className="whitespace-pre-wrap">
               {renderInlineWithCitations(segment, segKey)}
+              {streaming && isLast && sIdx === segments.length - 1 && (
+                <span className="inline-block w-1.5 h-3.5 bg-blue-400 ml-1 rounded-sm animate-pulse align-middle" />
+              )}
             </div>
           );
         })}

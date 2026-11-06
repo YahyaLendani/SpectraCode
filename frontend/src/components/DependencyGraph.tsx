@@ -882,6 +882,7 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
                         strokeWidth={strokeWidth}
                         strokeOpacity={opacity}
                         markerEnd={marker}
+                        className={isHighlighted || edge.isCycle ? "animate-flow-dash" : undefined}
                       />
                     );
                   })}
