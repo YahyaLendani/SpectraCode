@@ -2,19 +2,33 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 from pathlib import Path
+import shutil
+import stat
 from typing import Any, Dict, List, Optional, Sequence, Tuple
 import uuid
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, ConfigDict
-from sqlalchemy import select, update
+from sqlalchemy import delete, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import noload, selectinload
 
 from app.core.config import settings
-from app.db.models import ASTSymbol, IndexingStatus, Repository, RepositoryFile
+from app.db.models import (
+    ASTSymbol,
+    ChunkEmbedding,
+    CodeChunk,
+    Conversation,
+    EvaluationRun,
+    EvaluationSampleResult,
+    IndexingStatus,
+    Message,
+    Repository,
+    RepositoryFile,
+)
 from app.db.session import AsyncSessionLocal, get_db
 from app.ingestion.dependency_analyzer import CodebaseDependencyAnalyzer
 from app.ingestion.git_importer import GitRepositoryImporter
@@ -33,6 +47,31 @@ def _get_repo_storage_dir(repo: Repository) -> Path:
         settings.REPOS_STORAGE_DIR
         / f"{repo.github_owner}_{repo.github_name}_{repo.id.hex[:8]}"
     )
+
+
+def _remove_repo_storage_dir_sync(repo_dir: Path) -> None:
+    """
+    Safely deletes a cloned repository directory from disk, handling read-only
+    .git packfiles on Windows and ensuring the path resides inside REPOS_STORAGE_DIR.
+    """
+    if not repo_dir.exists():
+        return
+    try:
+        resolved_base = settings.REPOS_STORAGE_DIR.resolve()
+        resolved_target = repo_dir.resolve()
+        if resolved_base not in resolved_target.parents:
+            return
+
+        def _on_rm_error(func: Any, path: str, exc_info: Any) -> None:
+            try:
+                os.chmod(path, stat.S_IWRITE)
+                func(path)
+            except OSError:
+                pass
+
+        shutil.rmtree(resolved_target, onerror=_on_rm_error)
+    except OSError:
+        shutil.rmtree(repo_dir, ignore_errors=True)
 
 
 def _read_file_text_sync(disk_path: Path) -> str:
@@ -234,6 +273,78 @@ async def get_repository(repo_id: uuid.UUID, db: AsyncSession = Depends(get_db))
     if not repo:
         raise HTTPException(status_code=404, detail="Repository not found")
     return repo
+
+
+@router.delete("/{repo_id}", status_code=status.HTTP_200_OK)
+async def delete_repository(repo_id: uuid.UUID, db: AsyncSession = Depends(get_db)):
+    """
+    Deletes a repository workspace including all database child records,
+    cloned files on disk, and in-memory dependency and progress caches.
+    """
+    stmt = (
+        select(Repository)
+        .where(Repository.id == repo_id)
+        .options(noload("*"))
+    )
+    res = await db.execute(stmt)
+    repo = res.scalar_one_or_none()
+    if not repo:
+        raise HTTPException(status_code=404, detail="Repository not found")
+
+    repo_dir = _get_repo_storage_dir(repo)
+
+    # 1. Database cascade cleanup across all child relations
+    eval_run_ids_subq = select(EvaluationRun.id).where(
+        EvaluationRun.repository_id == repo_id
+    )
+    await db.execute(
+        delete(EvaluationSampleResult).where(
+            EvaluationSampleResult.evaluation_run_id.in_(eval_run_ids_subq)
+        )
+    )
+    await db.execute(
+        delete(EvaluationRun).where(EvaluationRun.repository_id == repo_id)
+    )
+
+    conv_ids_subq = select(Conversation.id).where(
+        Conversation.repository_id == repo_id
+    )
+    await db.execute(
+        delete(Message).where(Message.conversation_id.in_(conv_ids_subq))
+    )
+    await db.execute(
+        delete(Conversation).where(Conversation.repository_id == repo_id)
+    )
+
+    await db.execute(
+        delete(ChunkEmbedding).where(ChunkEmbedding.repository_id == repo_id)
+    )
+    await db.execute(
+        delete(CodeChunk).where(CodeChunk.repository_id == repo_id)
+    )
+    await db.execute(
+        delete(ASTSymbol).where(ASTSymbol.repository_id == repo_id)
+    )
+    await db.execute(
+        delete(RepositoryFile).where(RepositoryFile.repository_id == repo_id)
+    )
+    await db.execute(delete(Repository).where(Repository.id == repo_id))
+    await db.commit()
+
+    # 2. Evict in-memory caches
+    repo_id_str = str(repo_id)
+    stale_cache_keys = [
+        key for key in _DEPENDENCY_GRAPH_CACHE if key[0] == repo_id_str
+    ]
+    for key in stale_cache_keys:
+        _DEPENDENCY_GRAPH_CACHE.pop(key, None)
+
+    IndexingProgressTracker.remove(repo_id)
+
+    # 3. Remove cloned repository directory from disk
+    await asyncio.to_thread(_remove_repo_storage_dir_sync, repo_dir)
+
+    return {"status": "deleted", "id": repo_id_str}
 
 
 @router.get("/{repo_id}/tree")

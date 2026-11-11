@@ -3,7 +3,15 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Plus, RefreshCw, Search, ArrowRight } from "lucide-react";
+import {
+  Plus,
+  RefreshCw,
+  Search,
+  ArrowRight,
+  Trash2,
+  AlertTriangle,
+  X,
+} from "lucide-react";
 import { api, Repository } from "@/lib/api";
 import { Navbar } from "@/components/Navbar";
 import { RepoImportModal } from "@/components/RepoImportModal";
@@ -69,6 +77,10 @@ export default function DashboardPage() {
   const [searchFilter, setSearchFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "ready" | "indexing">("all");
   const [importingSample, setImportingSample] = useState(false);
+  const [repoToDelete, setRepoToDelete] = useState<Repository | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const pendingDeleteIdsRef = useRef<Set<string>>(new Set());
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const loadRepos = async (silent = false) => {
@@ -76,7 +88,9 @@ export default function DashboardPage() {
       if (!silent) setLoading(true);
       else setRefreshing(true);
       const list = await api.listRepositories();
-      setRepositories(list);
+      setRepositories(
+        list.filter((r) => !pendingDeleteIdsRef.current.has(r.id))
+      );
       setLoadFailed(false);
     } catch (err) {
       console.error(err);
@@ -93,12 +107,18 @@ export default function DashboardPage() {
     return () => clearInterval(interval);
   }, []);
 
-  // Press "/" to focus the repository filter input
+  // Press "/" to focus the repository filter input, or "Escape" to close the delete modal
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && repoToDelete && !deletingId) {
+        setRepoToDelete(null);
+        setDeleteError(null);
+        return;
+      }
       if (
         e.key === "/" &&
         !isImportOpen &&
+        !repoToDelete &&
         document.activeElement?.tagName !== "INPUT" &&
         document.activeElement?.tagName !== "TEXTAREA"
       ) {
@@ -108,7 +128,7 @@ export default function DashboardPage() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isImportOpen]);
+  }, [isImportOpen, repoToDelete, deletingId]);
 
   const handleQuickSampleImport = async () => {
     try {
@@ -119,6 +139,31 @@ export default function DashboardPage() {
       console.error(err);
     } finally {
       setImportingSample(false);
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!repoToDelete || deletingId) return;
+    const target = repoToDelete;
+    const snapshot = repositories;
+
+    // Optimistic local state update
+    pendingDeleteIdsRef.current.add(target.id);
+    setDeletingId(target.id);
+    setDeleteError(null);
+    setRepositories((prev) => prev.filter((r) => r.id !== target.id));
+
+    try {
+      await api.deleteRepository(target.id);
+      setRepoToDelete(null);
+    } catch (err: any) {
+      console.error(err);
+      // Rollback optimistic removal on failure
+      setRepositories(snapshot);
+      setDeleteError(err?.message || "Could not delete the workspace.");
+    } finally {
+      pendingDeleteIdsRef.current.delete(target.id);
+      setDeletingId(null);
     }
   };
 
@@ -431,13 +476,28 @@ export default function DashboardPage() {
                         )}
                       </td>
                       <td className="!pr-0 text-right">
-                        <Link
-                          href={`/evaluation?repo=${repo.id}`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="text-sm font-semibold text-sub underline hover:text-ink"
-                        >
-                          Benchmark
-                        </Link>
+                        <div className="inline-flex items-center justify-end gap-3">
+                          <Link
+                            href={`/evaluation?repo=${repo.id}`}
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-sm font-semibold text-sub underline hover:text-ink"
+                          >
+                            Benchmark
+                          </Link>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setDeleteError(null);
+                              setRepoToDelete(repo);
+                            }}
+                            title={`Delete ${repo.github_owner}/${repo.github_name}`}
+                            aria-label={`Delete ${repo.github_owner}/${repo.github_name}`}
+                            className="btn-icon h-8 w-8 text-sub hover:border-line-red/40 hover:bg-line-red-soft hover:text-line-red"
+                          >
+                            <Trash2 className="h-4 w-4" aria-hidden="true" />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -448,25 +508,39 @@ export default function DashboardPage() {
               <ul className="border-t-[3px] border-ink md:hidden">
                 {filteredRepositories.map((repo) => (
                   <li key={repo.id} className="border-b border-rule py-3.5">
-                    <Link href={`/repos/${repo.id}`} className="block">
-                      <span className="block font-bold text-ink">
-                        {repo.github_owner}/{repo.github_name}
-                      </span>
-                      <span className="block truncate font-mono text-xs text-sub">
-                        {repo.default_branch} · {repo.total_files.toLocaleString()} files ·{" "}
-                        {repo.total_chunks.toLocaleString()} spans
-                      </span>
-                      <span className="mt-2.5 flex items-center gap-3">
-                        <IndexingLine status={repo.status} />
-                        <span
-                          className={`text-[0.8125rem] font-semibold ${
-                            repo.status === "failed" ? "text-line-red" : "text-ink-2"
-                          }`}
-                        >
-                          {indexingLabel(repo.status)}
+                    <div className="flex items-start justify-between gap-3">
+                      <Link href={`/repos/${repo.id}`} className="min-w-0 flex-1 block">
+                        <span className="block font-bold text-ink">
+                          {repo.github_owner}/{repo.github_name}
                         </span>
-                      </span>
-                    </Link>
+                        <span className="block truncate font-mono text-xs text-sub">
+                          {repo.default_branch} · {repo.total_files.toLocaleString()} files ·{" "}
+                          {repo.total_chunks.toLocaleString()} spans
+                        </span>
+                        <span className="mt-2.5 flex items-center gap-3">
+                          <IndexingLine status={repo.status} />
+                          <span
+                            className={`text-[0.8125rem] font-semibold ${
+                              repo.status === "failed" ? "text-line-red" : "text-ink-2"
+                            }`}
+                          >
+                            {indexingLabel(repo.status)}
+                          </span>
+                        </span>
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setDeleteError(null);
+                          setRepoToDelete(repo);
+                        }}
+                        title={`Delete ${repo.github_owner}/${repo.github_name}`}
+                        aria-label={`Delete ${repo.github_owner}/${repo.github_name}`}
+                        className="btn-icon h-8 w-8 shrink-0 text-sub hover:border-line-red/40 hover:bg-line-red-soft hover:text-line-red"
+                      >
+                        <Trash2 className="h-4 w-4" aria-hidden="true" />
+                      </button>
+                    </div>
                     {repo.error_message && (
                       <p className="mt-1.5 text-[0.8125rem] text-line-red">{repo.error_message}</p>
                     )}
@@ -516,6 +590,102 @@ export default function DashboardPage() {
         onClose={() => setIsImportOpen(false)}
         onImportSuccess={() => loadRepos(true)}
       />
+
+      {/* Swiss Graphite dark confirmation modal for workspace deletion */}
+      {repoToDelete && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/70 p-4 backdrop-blur-[1px]"
+          onClick={() => {
+            if (!deletingId) {
+              setRepoToDelete(null);
+              setDeleteError(null);
+            }
+          }}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="delete-repo-modal-title"
+            onClick={(e) => e.stopPropagation()}
+            className="relative flex w-full max-w-md flex-col overflow-hidden rounded border-2 border-[#2C3036] bg-[#15171A] text-white shadow-overlay"
+          >
+            <div className="flex h-12 shrink-0 items-center justify-between border-b border-[#2C3036] bg-[#1E2126] px-5">
+              <div className="flex items-center gap-2.5">
+                <AlertTriangle className="h-4 w-4 text-line-red" aria-hidden="true" />
+                <h2
+                  id="delete-repo-modal-title"
+                  className="text-base font-bold tracking-[-0.01em] text-white"
+                >
+                  Delete workspace
+                </h2>
+              </div>
+              <button
+                type="button"
+                disabled={!!deletingId}
+                onClick={() => {
+                  setRepoToDelete(null);
+                  setDeleteError(null);
+                }}
+                aria-label="Close"
+                className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded border border-transparent text-[#9BA1A8] transition-colors duration-150 hover:bg-[#2C3036] hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <X className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </div>
+
+            <div className="p-5">
+              <div className="rounded border border-[#2C3036] bg-[#1E2126] px-3.5 py-2.5">
+                <p className="font-mono text-sm font-bold text-white">
+                  {repoToDelete.github_owner}/{repoToDelete.github_name}
+                </p>
+                <p className="mt-0.5 font-mono text-xs tabular-nums text-[#9BA1A8]">
+                  {repoToDelete.default_branch} ·{" "}
+                  {repoToDelete.total_files.toLocaleString()} files ·{" "}
+                  {repoToDelete.total_chunks.toLocaleString()} code spans
+                </p>
+              </div>
+
+              <p className="mt-4 text-sm leading-relaxed text-[#D9DCDF]">
+                This permanently removes the indexed code spans, AST symbols,
+                embeddings, conversations, benchmark history, and the cloned
+                repository directory on disk.
+              </p>
+
+              {deleteError && (
+                <div
+                  role="alert"
+                  className="mt-4 rounded border border-line-red bg-[#2A1414] px-3 py-2 text-xs text-[#FCA5A5]"
+                >
+                  {deleteError}
+                </div>
+              )}
+
+              <div className="mt-6 flex items-center justify-end gap-2.5">
+                <button
+                  type="button"
+                  disabled={!!deletingId}
+                  onClick={() => {
+                    setRepoToDelete(null);
+                    setDeleteError(null);
+                  }}
+                  className="inline-flex h-10 cursor-pointer items-center justify-center rounded border-2 border-[#3E444C] bg-[#1E2126] px-4 text-sm font-bold text-white transition-colors duration-150 hover:bg-[#2C3036] disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  disabled={!!deletingId}
+                  onClick={handleConfirmDelete}
+                  className="inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded border-2 border-line-red bg-line-red px-4 text-sm font-bold text-white transition-colors duration-150 hover:bg-[#c81e16] disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <Trash2 className="h-4 w-4" aria-hidden="true" />
+                  {deletingId === repoToDelete.id ? "Deleting..." : "Delete workspace"}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

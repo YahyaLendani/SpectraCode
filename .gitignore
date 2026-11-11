@@ -47,5 +47,7 @@ Thumbs.db
 .vscode/
 .idea/
 .gemini/
+.claude/
+.impeccable/
 backend/graphify-out/
 

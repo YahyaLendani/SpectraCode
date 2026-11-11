@@ -145,6 +145,7 @@ export const api = {
     }
     treeCache.delete(repoId);
     dependencyCache.delete(repoId);
+    inFlightRequests.delete(`repo:${repoId}`);
     inFlightRequests.delete(`tree:${repoId}`);
     inFlightRequests.delete(`dep:${repoId}`);
     for (const key of Array.from(fileContentCache.keys())) {
@@ -187,6 +188,20 @@ export const api = {
       if (!res.ok) throw new Error("Failed to fetch repository");
       return res.json();
     });
+  },
+
+  async deleteRepository(id: string): Promise<void> {
+    const res = await fetch(`${API_BASE}/repositories/${id}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) {
+      const err = await res
+        .json()
+        .catch(() => ({ detail: "Failed to delete repository" }));
+      throw new Error(err.detail || "Failed to delete repository");
+    }
+    api.clearRepoCache(id);
+    inFlightRequests.delete("repos:list");
   },
 
   async getRepositoryTree(id: string): Promise<TreeNode> {
