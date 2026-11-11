@@ -19,6 +19,7 @@ import { SearchModal } from "@/components/SearchModal";
 import { DependencyGraph } from "@/components/DependencyGraph";
 import { BrandMark } from "@/components/Navbar";
 import { indexingLabel } from "@/components/LineMap";
+import { DeleteRepoModal } from "@/components/DeleteRepoModal";
 import { cn } from "@/lib/utils";
 
 const VIEWS = [
@@ -352,7 +353,7 @@ export default function RepositoryWorkspacePage() {
             aria-label="Delete workspace"
             className={cn(
               PANE_TOGGLE,
-              "border-transparent hover:border-line-red hover:bg-line-red hover:text-white active:bg-[#c81e16] disabled:cursor-not-allowed disabled:opacity-40"
+              "border-transparent hover:border-line-red hover:bg-line-red-soft hover:text-line-red active:bg-line-red active:text-white disabled:cursor-not-allowed disabled:opacity-40"
             )}
           >
             <Trash2 className="h-4 w-4" aria-hidden="true" />
@@ -454,102 +455,20 @@ export default function RepositoryWorkspacePage() {
         onSelectResult={handleCitationClick}
       />
 
-      {/* Swiss Graphite dark confirmation modal for workspace deletion */}
-      {isDeleteModalOpen && repo && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/70 p-4 backdrop-blur-[1px]"
-          onClick={() => {
-            if (!isDeleting) {
-              setIsDeleteModalOpen(false);
-              setDeleteError(null);
-            }
-          }}
-        >
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="workspace-delete-modal-title"
-            onClick={(e) => e.stopPropagation()}
-            className="relative flex w-full max-w-md flex-col overflow-hidden rounded border-2 border-[#2C3036] bg-[#15171A] text-white shadow-overlay"
-          >
-            <div className="flex h-12 shrink-0 items-center justify-between border-b border-[#2C3036] bg-[#1E2126] px-5">
-              <div className="flex items-center gap-2.5">
-                <AlertTriangle className="h-4 w-4 text-line-red" aria-hidden="true" />
-                <h2
-                  id="workspace-delete-modal-title"
-                  className="text-base font-bold tracking-[-0.01em] text-white"
-                >
-                  Delete workspace
-                </h2>
-              </div>
-              <button
-                type="button"
-                disabled={isDeleting}
-                onClick={() => {
-                  setIsDeleteModalOpen(false);
-                  setDeleteError(null);
-                }}
-                aria-label="Close"
-                className="inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded border border-transparent text-[#9BA1A8] transition-colors duration-150 hover:bg-[#2C3036] hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                <X className="h-4 w-4" aria-hidden="true" />
-              </button>
-            </div>
-
-            <div className="p-5">
-              <div className="rounded border border-[#2C3036] bg-[#1E2126] px-3.5 py-2.5">
-                <p className="font-mono text-sm font-bold text-white">
-                  {repo.github_owner}/{repo.github_name}
-                </p>
-                <p className="mt-0.5 font-mono text-xs tabular-nums text-[#9BA1A8]">
-                  {repo.default_branch} ·{" "}
-                  {repo.total_files.toLocaleString()} files ·{" "}
-                  {repo.total_chunks.toLocaleString()} code spans
-                </p>
-              </div>
-
-              <p className="mt-4 text-sm leading-relaxed text-[#D9DCDF]">
-                This permanently removes the indexed code spans, AST symbols,
-                embeddings, conversations, benchmark history, and the cloned
-                repository directory on disk. You will be returned to all
-                workspaces.
-              </p>
-
-              {deleteError && (
-                <div
-                  role="alert"
-                  className="mt-4 rounded border border-line-red bg-[#2A1414] px-3 py-2 text-xs text-[#FCA5A5]"
-                >
-                  {deleteError}
-                </div>
-              )}
-
-              <div className="mt-6 flex items-center justify-end gap-2.5">
-                <button
-                  type="button"
-                  disabled={isDeleting}
-                  onClick={() => {
-                    setIsDeleteModalOpen(false);
-                    setDeleteError(null);
-                  }}
-                  className="inline-flex h-10 cursor-pointer items-center justify-center rounded border-2 border-[#3E444C] bg-[#1E2126] px-4 text-sm font-bold text-white transition-colors duration-150 hover:bg-[#2C3036] disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  disabled={isDeleting}
-                  onClick={handleDeleteWorkspace}
-                  className="inline-flex h-10 cursor-pointer items-center justify-center gap-2 rounded border-2 border-line-red bg-line-red px-4 text-sm font-bold text-white transition-colors duration-150 hover:bg-[#c81e16] disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  <Trash2 className="h-4 w-4" aria-hidden="true" />
-                  {isDeleting ? "Deleting..." : "Delete workspace"}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <DeleteRepoModal
+        isOpen={isDeleteModalOpen && Boolean(repo)}
+        repository={repo}
+        isDeleting={isDeleting}
+        error={deleteError}
+        onClose={() => {
+          if (!isDeleting) {
+            setIsDeleteModalOpen(false);
+            setDeleteError(null);
+          }
+        }}
+        onConfirm={handleDeleteWorkspace}
+        returnToDashboardNote={true}
+      />
     </div>
   );
 }

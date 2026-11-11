@@ -277,6 +277,35 @@
   animation: station-pulse 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
+/* Modal and overlay entrance transitions */
+@keyframes modal-backdrop-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-card-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-backdrop {
+  animation: modal-backdrop-fade 150ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modal-card {
+  animation: modal-card-pop 170ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
