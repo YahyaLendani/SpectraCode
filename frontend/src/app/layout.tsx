@@ -1,27 +1,31 @@
 import type { Metadata, Viewport } from "next";
+import { Overpass, Overpass_Mono } from "next/font/google";
 import "@/styles/globals.css";
+
+const sans = Overpass({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const mono = Overpass_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
-    default: "RepoLens — Codebase Intelligence & AST Navigation",
-    template: "%s | RepoLens",
+    default: "SpectraCode — answers about code, with checked citations",
+    template: "%s | SpectraCode",
   },
   description:
-    "Developer platform for codebase navigation, Tree-sitter AST parsing, hybrid Reciprocal Rank Fusion (RRF) search, and deterministically verified file and line citations.",
-  keywords: [
-    "Codebase Search",
-    "Tree-sitter AST",
-    "Hybrid Retrieval",
-    "Reciprocal Rank Fusion",
-    "Source Citations",
-    "Code Navigation",
-    "Developer Tools",
-  ],
+    "SpectraCode indexes a repository and answers questions about it. Each answer cites the exact file and lines it came from, and every citation is checked against the source.",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#090b10",
-  colorScheme: "dark",
+  themeColor: "#FFD400",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -30,20 +34,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="min-h-screen bg-black font-sans text-zinc-100 antialiased selection:bg-blue-500/25 selection:text-blue-200">
+    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
+      <body className="min-h-screen bg-white font-sans text-ink antialiased">
         {children}
       </body>
     </html>

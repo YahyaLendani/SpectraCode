@@ -1,19 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import {
-  FolderGit2,
-  Loader2,
-  X,
-  AlertCircle,
-  GitBranch,
-  Code2,
-  Cpu,
-  CheckCircle2,
-  Zap,
-  Terminal,
-} from "lucide-react";
+import { X } from "lucide-react";
 import { api, Repository } from "@/lib/api";
+import { cn } from "@/lib/utils";
+import { INDEXING_STOPS, indexingLabel, indexingStep } from "@/components/LineMap";
 
 interface RepoImportModalProps {
   isOpen: boolean;
@@ -26,6 +17,116 @@ const QUICK_PRESETS = [
   { label: "encode/httpx", url: "https://github.com/encode/httpx" },
   { label: "tiangolo/typer", url: "https://github.com/tiangolo/typer" },
 ];
+
+const EMPTY_URL_MESSAGE =
+  "Enter a repository first, for example pallets/click, or load the FastAPI sample.";
+
+const STAGE_HEADING: Record<string, string> = {
+  cloning: "Fetching the repository",
+  parsing_ast: "Reading the code",
+  embedding: "Preparing the code for search",
+  ready: "Ready",
+};
+
+/* -------------------------------------------------------------------------
+ * The import drawn as a line with four stops. Local to this dialog: the
+ * shared IndexingLine is the compact table version of the same idea.
+ * ---------------------------------------------------------------------- */
+
+const STOP_X = ["12.5%", "37.5%", "62.5%", "87.5%"];
+
+interface ImportLineProps {
+  /** Stop being worked on; 4 means every stop is done. */
+  step: number;
+  /** Stop the import had reached when it failed, or null. */
+  failedAt: number | null;
+  label: string;
+}
+
+const ImportLine: React.FC<ImportLineProps> = ({ step, failedAt, label }) => {
+  const greenTo = failedAt ?? Math.min(step, 3);
+  const stateOf = (i: number): "done" | "now" | "failed" | "ahead" => {
+    if (failedAt !== null) {
+      return i < failedAt ? "done" : i === failedAt ? "failed" : "ahead";
+    }
+    return i < step ? "done" : i === step ? "now" : "ahead";
+  };
+
+  return (
+    <div>
+      <svg
+        role="img"
+        aria-label={label}
+        width="100%"
+        height={24}
+        className="block overflow-visible"
+      >
+        <line x1={STOP_X[0]} y1={12} x2={STOP_X[3]} y2={12} stroke="#C9CDD1" strokeWidth={6} />
+        {greenTo > 0 && (
+          <line x1={STOP_X[0]} y1={12} x2={STOP_X[greenTo]} y2={12} stroke="#007A41" strokeWidth={6} />
+        )}
+        {INDEXING_STOPS.map((stop, i) => {
+          const state = stateOf(i);
+          return (
+            <svg key={stop} x={STOP_X[i]} y={12} width={1} height={1} overflow="visible">
+              {state === "done" && (
+                <>
+                  <circle r={12} fill="#007A41" />
+                  <path
+                    d="M-5 0.5 L-1.5 4 L5.5 -3.5"
+                    fill="none"
+                    stroke="#FFFFFF"
+                    strokeWidth={2.5}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </>
+              )}
+              {state === "now" && (
+                <>
+                  {/* White backing so the line does not show through the pulse. */}
+                  <circle r={12} fill="#FFFFFF" />
+                  <circle
+                    r={10.5}
+                    fill="#FFD400"
+                    stroke="#15171A"
+                    strokeWidth={3}
+                    className="station-now"
+                  />
+                </>
+              )}
+              {state === "failed" && (
+                <>
+                  <circle r={12} fill="#E2231A" />
+                  <path
+                    d="M-4 -4 L4 4 M4 -4 L-4 4"
+                    fill="none"
+                    stroke="#FFFFFF"
+                    strokeWidth={2.5}
+                    strokeLinecap="round"
+                  />
+                </>
+              )}
+              {state === "ahead" && (
+                <circle r={10.5} fill="#FFFFFF" stroke="#C9CDD1" strokeWidth={3} />
+              )}
+            </svg>
+          );
+        })}
+      </svg>
+      <ol aria-hidden="true" className="mt-2 grid grid-cols-4 text-center text-sm font-bold">
+        {INDEXING_STOPS.map((stop, i) => (
+          <li key={stop} className={stateOf(i) === "ahead" ? "text-sub" : "text-ink"}>
+            {stop}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+};
+
+const count = (n: number, total: number, one: string, many: string) =>
+  `${n.toLocaleString()} of ${total.toLocaleString()} ${total === 1 ? one : many}`;
 
 export const RepoImportModal: React.FC<RepoImportModalProps> = ({
   isOpen,
@@ -56,10 +157,19 @@ export const RepoImportModal: React.FC<RepoImportModalProps> = ({
 
   if (!isOpen) return null;
 
+  // The dialog stays mounted, so clear it before closing or the next open
+  // would still show the finished import.
+  const resetForm = () => {
+    setLoading(false);
+    setImportProgress(null);
+    setError(null);
+    setUrl("");
+  };
+
   const handleImport = async (targetUrl?: string) => {
     const importUrl = (targetUrl ?? url).trim();
     if (!importUrl) {
-      setError("Please enter a GitHub repository URL or select the instant sample.");
+      setError(EMPTY_URL_MESSAGE);
       return;
     }
 
@@ -73,6 +183,7 @@ export const RepoImportModal: React.FC<RepoImportModalProps> = ({
         setImportProgress({ stage: "ready", pct: 100, current_file: "Index ready" });
         setTimeout(() => {
           onImportSuccess(repo);
+          resetForm();
           onClose();
         }, 600);
         return;
@@ -90,11 +201,12 @@ export const RepoImportModal: React.FC<RepoImportModalProps> = ({
             es.close();
             setTimeout(() => {
               onImportSuccess({ ...repo, status: "ready" });
+              resetForm();
               onClose();
             }, 700);
           } else if (data.stage === "failed") {
             es.close();
-            setError(data.error || "Indexing failed");
+            setError(data.error || "The server gave no reason.");
             setLoading(false);
           }
         } catch {
@@ -105,119 +217,158 @@ export const RepoImportModal: React.FC<RepoImportModalProps> = ({
       es.onerror = () => {
         es.close();
         onImportSuccess(repo);
+        resetForm();
         onClose();
       };
     } catch (err: any) {
-      setError(err.message || "Failed to import repository");
+      setError(err.message || "The import could not start.");
       setLoading(false);
     }
   };
 
+  // Which view, and which stop, the streamed stage puts us at.
+  const stage = importProgress?.stage ?? "";
+  const failed = !loading && stage === "failed";
+  const ready = stage === "ready";
+  const showProgress = loading || failed;
+  const step = indexingStep(stage as Repository["status"]);
+
+  const filesTotal = importProgress?.total_files ?? 0;
+  const filesDone = importProgress?.files_processed ?? 0;
+  const spansTotal = importProgress?.total_chunks ?? 0;
+  const spansDone = importProgress?.chunks_count ?? 0;
+
+  // A failed event carries no stage of its own. The counts it leaves behind
+  // say how far the import had got.
+  const failedAt = failed ? (spansTotal > 0 || spansDone > 0 ? 2 : filesTotal > 0 || filesDone > 0 ? 1 : 0) : null;
+
+  const filesFact =
+    filesTotal > 0 ? count(Math.min(filesDone, filesTotal), filesTotal, "file", "files") : null;
+  const spansFact =
+    spansTotal > 0
+      ? spansDone < spansTotal
+        ? count(spansDone, spansTotal, "code span", "code spans")
+        : `${spansTotal.toLocaleString()} ${spansTotal === 1 ? "code span" : "code spans"}`
+      : spansDone > 0
+      ? `${spansDone.toLocaleString()} ${spansDone === 1 ? "code span" : "code spans"}`
+      : null;
+
+  // The server sends status sentences in current_file outside the parse stage;
+  // only a real path is shown.
+  const currentFile =
+    stage === "parsing_ast" && importProgress?.current_file && !importProgress.current_file.endsWith("...")
+      ? importProgress.current_file
+      : null;
+  const slash = currentFile ? currentFile.lastIndexOf("/") : -1;
+
+  const heading = failed ? "The import stopped" : STAGE_HEADING[stage] ?? "Queued";
+
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40 p-4"
       onClick={() => !loading && onClose()}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="repo-import-title"
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-xl overflow-hidden rounded-xl border border-white/[0.09] bg-[#0d1017] p-6 shadow-modal"
+        className="relative flex max-h-full w-full max-w-xl flex-col overflow-hidden rounded border-2 border-ink bg-white shadow-overlay"
       >
-        <button
-          onClick={onClose}
-          disabled={loading}
-          aria-label="Close modal"
-          className="absolute right-4 top-4 rounded-lg p-1.5 text-zinc-400 hover:bg-white/[0.06] hover:text-white transition-colors"
-        >
-          <X className="h-4 w-4" />
-        </button>
-
-        {/* Modal Header */}
-        <div className="flex items-center gap-3.5 mb-5">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/25">
-            <FolderGit2 className="h-5 w-5" />
-          </div>
-          <div>
-            <h2 className="text-base font-bold tracking-tight text-zinc-100">
-              Import &amp; Index Codebase
-            </h2>
-            <p className="text-xs text-zinc-400">
-              Parse AST symbols with Tree-sitter and build hybrid RRF vector + lexical indices
-            </p>
-          </div>
-        </div>
-
-        {error && (
-          <div className="mb-4 flex items-center gap-2.5 rounded-lg border border-rose-500/30 bg-rose-950/30 p-3 text-xs text-rose-300">
-            <AlertCircle className="h-4 w-4 text-rose-400 shrink-0" />
-            <span>{error}</span>
-          </div>
-        )}
-
-        {/* 1-Click Instant Sample Card */}
-        <div className="mb-5 rounded-lg border border-white/[0.09] bg-[#11151f] p-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold text-zinc-100 flex items-center gap-1.5">
-              <Terminal className="h-3.5 w-3.5 text-blue-400" />
-              Instant Benchmark Repository (sample:fastapi)
-            </span>
-            <span className="rounded border border-emerald-500/25 bg-emerald-500/10 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-emerald-300">
-              Zero-Wait Demo
-            </span>
-          </div>
-
-          <p className="text-xs text-zinc-400 leading-relaxed mb-3">
-            Pre-configured FastAPI CloudFlow microservice featuring JWT authentication, token expiration handling, distributed job scheduler with exponential backoff, and RBAC models.
-          </p>
-
-          <div className="flex flex-wrap gap-1.5 mb-3.5 font-mono text-[10px]">
-            <span className="rounded border border-white/[0.07] bg-[#090b10] px-2 py-0.5 text-zinc-300">
-              src/auth/jwt_handler.py
-            </span>
-            <span className="rounded border border-white/[0.07] bg-[#090b10] px-2 py-0.5 text-zinc-300">
-              src/services/scheduler.py
-            </span>
-            <span className="rounded border border-white/[0.07] bg-[#090b10] px-2 py-0.5 text-zinc-300">
-              src/models/user.py
-            </span>
-          </div>
-
+        <div className="flex h-12 shrink-0 items-center justify-between bg-signal px-5">
+          <h2 id="repo-import-title" className="text-lg font-bold text-ink">
+            Import a repository
+          </h2>
           <button
-            onClick={() => handleImport("sample:fastapi")}
+            type="button"
+            onClick={onClose}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white px-3.5 py-2.5 text-xs font-semibold transition-colors disabled:opacity-50"
+            aria-label="Close"
+            className="btn-icon -mr-2 text-ink hover:bg-signal-deep active:bg-signal-deep disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent"
           >
-            {loading ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                <span>Indexing Sample Codebase...</span>
-              </>
-            ) : (
-              <>
-                <Zap className="h-3.5 w-3.5 text-amber-300" />
-                <span>Load Instant Sample Repository</span>
-              </>
-            )}
+            <X className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
 
-        {/* Divider */}
-        <div className="relative flex items-center justify-center my-4">
-          <div className="border-t border-white/[0.07] w-full" />
-          <span className="bg-[#0d1017] px-3 text-[10px] font-mono text-zinc-500 uppercase font-semibold tracking-wider shrink-0">
-            Or Public GitHub URL
-          </span>
-          <div className="border-t border-white/[0.07] w-full" />
-        </div>
+        {showProgress ? (
+          <div className="overflow-y-auto p-5">
+            <div aria-live="polite">
+              <h3 className="text-lg font-bold text-ink">{heading}</h3>
+            </div>
 
-        {/* Custom GitHub URL Input */}
-        <div className="space-y-3.5">
-          <div>
-            <label className="block text-xs font-medium text-zinc-300 mb-1.5">
-              GitHub Repository URL or <code className="font-mono text-zinc-200">owner/repo</code>
+            <div className="mt-4">
+              <ImportLine
+                step={step}
+                failedAt={failedAt}
+                label={failed ? "Indexing failed" : indexingLabel(stage as Repository["status"])}
+              />
+            </div>
+
+            {!failed && importProgress && (
+              <div className="mt-5 flex flex-wrap items-baseline gap-x-5 gap-y-1">
+                <span className="font-mono text-2xl font-extrabold tabular-nums text-ink">
+                  {Math.round(importProgress.pct ?? 0)}%
+                </span>
+                {filesFact && <span className="text-sm tabular-nums text-ink-2">{filesFact}</span>}
+                {spansFact && <span className="text-sm tabular-nums text-ink-2">{spansFact}</span>}
+                {currentFile && (
+                  <span
+                    className="flex min-w-0 flex-1 basis-40 font-mono text-sm text-sub"
+                    title={currentFile}
+                  >
+                    <span className="sr-only">Current file: </span>
+                    <span className="truncate">{currentFile.slice(0, slash + 1)}</span>
+                    <span className="max-w-full shrink-0 truncate">{currentFile.slice(slash + 1)}</span>
+                  </span>
+                )}
+              </div>
+            )}
+
+            {failed && (
+              <>
+                <div role="alert" className="note note-error mt-5">
+                  <p className="font-semibold">The server stopped indexing this repository.</p>
+                  {error && (
+                    <p className="mt-1 max-h-32 overflow-y-auto break-words font-mono text-[0.8125rem]">
+                      {error}
+                    </p>
+                  )}
+                  <p className="mt-1">
+                    Check that the repository exists and is public, then try again.
+                  </p>
+                </div>
+                <div className="mt-4 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setError(null);
+                      setImportProgress(null);
+                    }}
+                    className="btn btn-primary"
+                  >
+                    Try again
+                  </button>
+                </div>
+              </>
+            )}
+
+            {ready && (
+              <div className="mt-5 flex justify-end">
+                <button type="button" onClick={onClose} className="btn btn-primary">
+                  Done
+                </button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="overflow-y-auto p-5">
+            <label htmlFor="repo-import-url" className="mb-1.5 block text-sm font-semibold text-ink">
+              GitHub repository
             </label>
             <input
+              id="repo-import-url"
               type="text"
-              placeholder="https://github.com/fastapi/fastapi or pallets/click"
+              placeholder="owner/name or https://github.com/owner/name"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
               onKeyDown={(e) => {
@@ -226,106 +377,57 @@ export const RepoImportModal: React.FC<RepoImportModalProps> = ({
                   handleImport();
                 }
               }}
-              className="w-full rounded-lg border border-white/[0.09] bg-[#090b10] px-3.5 py-2.5 font-mono text-xs text-zinc-100 placeholder:text-zinc-500 focus:border-blue-500 focus:outline-none transition-colors"
+              aria-invalid={error ? true : undefined}
+              aria-describedby={cn("repo-import-help", error && "repo-import-error")}
+              className="field font-mono"
             />
-          </div>
+            <p id="repo-import-help" className="mt-1.5 text-sm text-sub">
+              Public repositories only. Python, TypeScript, TSX and JavaScript files are indexed.
+            </p>
 
-          {/* Quick Presets */}
-          <div className="flex flex-wrap items-center gap-1.5">
-            <span className="text-[10px] text-zinc-500 font-medium mr-1">
-              Presets:
-            </span>
-            {QUICK_PRESETS.map((preset) => (
-              <button
-                key={preset.label}
-                type="button"
-                onClick={() => setUrl(preset.url)}
-                className="rounded border border-white/[0.08] bg-[#11151f] px-2 py-0.5 font-mono text-[10px] text-zinc-300 hover:border-white/[0.16] hover:text-zinc-100 transition-colors"
-              >
-                {preset.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Pipeline Architecture Stepper */}
-          <div className="grid grid-cols-4 gap-1.5 pt-1">
-            {[
-              { icon: GitBranch, label: "1. Git Clone", stage: "cloning" },
-              { icon: Code2, label: "2. AST Parse", stage: "parsing_ast" },
-              { icon: Cpu, label: "3. ONNX Embed", stage: "embedding" },
-              { icon: CheckCircle2, label: "4. RRF Ready", stage: "ready" },
-            ].map((step, idx) => {
-              const Icon = step.icon;
-              const isActive = importProgress?.stage === step.stage;
-              const isPast =
-                (step.stage === "cloning" && ["parsing_ast", "embedding", "ready"].includes(importProgress?.stage || "")) ||
-                (step.stage === "parsing_ast" && ["embedding", "ready"].includes(importProgress?.stage || "")) ||
-                (step.stage === "embedding" && importProgress?.stage === "ready");
-
-              return (
-                <div
-                  key={idx}
-                  className={`flex items-center justify-center gap-1 rounded border px-2 py-1.5 text-[10px] font-medium transition-colors ${
-                    isActive
-                      ? "border-blue-500/50 bg-blue-950/40 text-blue-300 animate-pulse ring-1 ring-blue-500/30"
-                      : isPast
-                      ? "border-emerald-500/30 bg-emerald-950/20 text-emerald-300"
-                      : "border-white/[0.07] bg-[#090b10] text-zinc-400"
-                  }`}
-                >
-                  <Icon className="h-3 w-3 shrink-0" />
-                  <span className="truncate">{step.label}</span>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Real-Time SSE Progress Bar */}
-          {loading && importProgress && (
-            <div className="rounded-lg border border-blue-500/30 bg-[#090b10] p-3 space-y-2">
-              <div className="flex items-center justify-between text-[11px] font-mono">
-                <span className="flex items-center gap-1.5 text-blue-400 font-semibold uppercase">
-                  <Loader2 className="h-3 w-3 animate-spin" />
-                  {importProgress.stage === "cloning" && "Stage 1/4: Cloning Git Tree"}
-                  {importProgress.stage === "parsing_ast" &&
-                    `Stage 2/4: AST Parsing (${importProgress.files_processed || 0}/${importProgress.total_files || "?"} files)`}
-                  {importProgress.stage === "embedding" &&
-                    `Stage 3/4: ONNX Vectors (${importProgress.chunks_count || 0}/${importProgress.total_chunks || "?"} chunks)`}
-                  {importProgress.stage === "ready" && "Stage 4/4: Index Ready"}
-                </span>
-                <span className="text-zinc-300 font-bold">{importProgress.pct}%</span>
-              </div>
-
-              <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/[0.08]">
-                <div
-                  className="h-full bg-gradient-to-r from-blue-500 to-emerald-400 transition-all duration-300"
-                  style={{ width: `${importProgress.pct}%` }}
-                />
-              </div>
-
-              {importProgress.current_file && (
-                <p className="truncate font-mono text-[10px] text-zinc-500">
-                  &gt; {importProgress.current_file}
-                </p>
-              )}
-            </div>
-          )}
-
-          <button
-            onClick={() => handleImport()}
-            disabled={loading || !url.trim()}
-            className="w-full flex items-center justify-center gap-2 rounded-lg border border-white/[0.1] bg-[#151a26] hover:bg-blue-600 hover:border-blue-500 text-white px-4 py-2.5 text-xs font-semibold transition-colors disabled:opacity-40"
-          >
-            {loading ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin text-blue-300" />
-                <span>Ingesting &amp; Indexing Repository...</span>
-              </>
-            ) : (
-              "Import & Index GitHub Repository"
+            {error && (
+              <p id="repo-import-error" role="alert" className="note note-error mt-3 break-words">
+                {error}
+                {error !== EMPTY_URL_MESSAGE &&
+                  " Check the address and that the repository is public, then try again."}
+              </p>
             )}
-          </button>
-        </div>
+
+            <div className="mt-2 flex flex-wrap items-center gap-x-1 text-sm text-sub">
+              <span>Examples:</span>
+              {QUICK_PRESETS.map((preset) => (
+                <button
+                  key={preset.label}
+                  type="button"
+                  onClick={() => setUrl(preset.url)}
+                  className="inline-flex h-8 cursor-pointer items-center rounded px-1.5 font-mono text-sm text-ink underline decoration-rule-strong transition-colors duration-150 hover:bg-wash hover:decoration-ink active:bg-sunk"
+                >
+                  {preset.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-5 flex flex-wrap justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => handleImport("sample:fastapi")}
+                disabled={loading}
+                title="A small FastAPI service with sign-in tokens, a job scheduler and user roles."
+                className="btn"
+              >
+                Load the FastAPI sample
+              </button>
+              <button
+                type="button"
+                onClick={() => handleImport()}
+                disabled={loading || !url.trim()}
+                className="btn btn-primary"
+              >
+                Import
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

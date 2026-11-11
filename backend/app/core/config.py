@@ -7,7 +7,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "RepoLens"
+    PROJECT_NAME: str = "SpectraCode"
     API_V1_STR: str = "/api/v1"
     
     # Storage and Base Paths
@@ -15,8 +15,11 @@ class Settings(BaseSettings):
     DATA_DIR: Path = BASE_DIR / "data"
     REPOS_STORAGE_DIR: Path = DATA_DIR / "repos"
     
-    # Database
-    DATABASE_URL: str = os.getenv("DATABASE_URL", f"sqlite+aiosqlite:///{BASE_DIR}/repolens.db")
+    # Database (preserves existing local repolens.db if present, else spectracode.db)
+    DATABASE_URL: str = os.getenv(
+        "DATABASE_URL",
+        f"sqlite+aiosqlite:///{BASE_DIR / ('repolens.db' if (BASE_DIR / 'repolens.db').exists() else 'spectracode.db')}"
+    )
     
     # Embeddings & Retrieval
     EMBEDDING_PROVIDER: str = "fastembed"  # "fastembed" | "openai" | "voyage"

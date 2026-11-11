@@ -1,4 +1,4 @@
-# 🧠 RepoLens: AI-Powered Codebase Intelligence Platform
+# 🧠 SpectraCode: AI-Powered Codebase Intelligence Platform
 
 > **Category:** Generative AI · LLM Engineering · Code RAG · Developer Tools  
 > **Status:** Production-Ready Foundation  
@@ -14,9 +14,9 @@
 
 ## 📌 Executive Summary
 
-**RepoLens** is an intelligent developer platform that analyzes source-code repositories and empowers engineers to rapidly understand unfamiliar codebases. Users can import public GitHub repositories with live Server-Sent Events (SSE) indexing telemetry, search source code via hybrid semantic and lexical retrieval, explore syntax trees and module dependency graphs, and chat with an AI assistant that answers technical questions with **strictly verified, clickable file and line number citations** (`[filepath:line_start-line_end]`) and an **interactive multi-file execution trace stepper**.
+**SpectraCode** is an intelligent developer platform that analyzes source-code repositories and empowers engineers to rapidly understand unfamiliar codebases. Users can import public GitHub repositories with live Server-Sent Events (SSE) indexing telemetry, search source code via hybrid semantic and lexical retrieval, explore syntax trees and module dependency graphs, and chat with an AI assistant that answers technical questions with **strictly verified, clickable file and line number citations** (`[filepath:line_start-line_end]`) and an **interactive multi-file execution trace stepper**.
 
-Unlike naive RAG systems that suffer from hallucinated references, isolated single-file context windows, and broken line intervals, RepoLens combines **Tree-sitter Concrete Syntax Tree (CST) chunking**, **Reciprocal Rank Fusion (RRF)**, **1-Hop AST Call-Graph Context Expansion**, and a **two-stage grounding verification gate** to ensure that every architectural claim is verifiable down to the exact line of code.
+Unlike naive RAG systems that suffer from hallucinated references, isolated single-file context windows, and broken line intervals, SpectraCode combines **Tree-sitter Concrete Syntax Tree (CST) chunking**, **Reciprocal Rank Fusion (RRF)**, **1-Hop AST Call-Graph Context Expansion**, and a **two-stage grounding verification gate** to ensure that every architectural claim is verifiable down to the exact line of code.
 
 ---
 
@@ -149,7 +149,7 @@ pip install -r requirements.txt
 # Run FastAPI server (runs on http://localhost:8000)
 uvicorn app.main:app --reload --port 8000
 ```
-*Note: On first startup, RepoLens automatically seeds and indexes the built-in `fastapi-cloudflow` microservice sample repository.*
+*Note: On first startup, SpectraCode automatically seeds and indexes the built-in `fastapi-cloudflow` microservice sample repository.*
 
 #### 2. Frontend Setup
 ```bash
@@ -177,7 +177,7 @@ docker-compose up --build
 
 ## 🧪 Automated Testing & Benchmark Results
 
-RepoLens includes a 15-test automated suite in `backend/tests/`:
+SpectraCode includes a 15-test automated suite in `backend/tests/`:
 
 ```bash
 cd backend
@@ -195,7 +195,7 @@ python -m pytest tests/ -v
 15 passed in 1.62s (100% pass rate)
 ```
 
-### Quantitative Benchmark Ledger (`RepoLens Core Codebase Benchmark v1`)
+### Quantitative Benchmark Ledger (`SpectraCode Core Codebase Benchmark v1`)
 
 | Metric | Score | Description |
 | :--- | :--- | :--- |
@@ -212,7 +212,7 @@ python -m pytest tests/ -v
 ## 📁 Repository Structure
 
 ```text
-RepoLens/
+SpectraCode/
 ├── backend/
 │   ├── app/
 │   │   ├── api/
@@ -276,10 +276,10 @@ RepoLens/
 
 ## 🎯 Recruiter Demonstration Walkthrough
 
-When presenting RepoLens to recruiters, hiring managers, or engineering teams:
+When presenting SpectraCode to recruiters, hiring managers, or engineering teams:
 
 1. **Live SSE Repository Ingestion**:
-   - Launch RepoLens (`http://localhost:3000`) and open the **Import Repository** modal.
+   - Launch SpectraCode (`http://localhost:3000`) and open the **Import Repository** modal.
    - Import a repository or click **"Load Sample Repository"** (`fastapi-cloudflow`).
    - Watch the **4-Stage SSE Progress Tracker** animate smoothly through `Git Clone` $\rightarrow$ `AST Parsing` $\rightarrow$ `ONNX Vectors` $\rightarrow$ `Ready`, streaming the active file name and chunk count in real time.
 2. **AST Code Explorer & Monaco Viewer**:
@@ -301,7 +301,7 @@ When presenting RepoLens to recruiters, hiring managers, or engineering teams:
 
 ## 🔒 Security Policy
 
-RepoLens treats repository contents as untrusted inputs. Static AST parsing via Tree-sitter never executes repository code, file paths are strictly normalized against directory traversal, and all citations pass through interval verification gates. See [SECURITY.md](docs/SECURITY.md) for details.
+SpectraCode treats repository contents as untrusted inputs. Static AST parsing via Tree-sitter never executes repository code, file paths are strictly normalized against directory traversal, and all citations pass through interval verification gates. See [SECURITY.md](docs/SECURITY.md) for details.
 
 ---
 

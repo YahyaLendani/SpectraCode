@@ -1,16 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
-import {
-  ChevronDown,
-  ChevronRight,
-  FileCode,
-  Folder,
-  FolderOpen,
-  Search,
-  X,
-  Files,
-} from "lucide-react";
+import { File, Folder, FolderOpen, Search, X } from "lucide-react";
 import { TreeNode } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
@@ -61,23 +52,10 @@ function countTotalFiles(node: TreeNode | null): number {
   return node.children.reduce((acc, child) => acc + countTotalFiles(child), 0);
 }
 
-function getLangDotColor(lang?: string): string {
-  switch ((lang || "").toLowerCase()) {
-    case "python":
-    case "py":
-      return "text-blue-400";
-    case "typescript":
-    case "tsx":
-    case "ts":
-      return "text-sky-400";
-    case "javascript":
-    case "jsx":
-    case "js":
-      return "text-amber-400";
-    default:
-      return "text-zinc-500";
-  }
-}
+const ROW =
+  "flex h-7 w-full cursor-pointer items-center gap-2 pr-3 text-left font-sans text-sm transition-colors duration-150 focus-visible:outline-offset-[-2px]";
+
+const SKELETON_WIDTHS = ["w-24", "w-36", "w-28", "w-40", "w-20", "w-32", "w-28"];
 
 const TreeItem: React.FC<TreeItemProps> = ({
   node,
@@ -88,40 +66,35 @@ const TreeItem: React.FC<TreeItemProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const expanded = forceOpen || isOpen;
+  const indent = { paddingLeft: `${depth * 12 + 12}px` };
 
   if (node.type === "directory") {
+    const FolderIcon = expanded ? FolderOpen : Folder;
     return (
       <div role="treeitem" aria-expanded={expanded}>
         <button
+          type="button"
           onClick={() => setIsOpen(!isOpen)}
-          style={{ paddingLeft: `${depth * 12 + 8}px` }}
-          aria-label={`Toggle directory ${node.name}`}
-          className="cursor-pointer group flex w-full items-center justify-between py-1 pr-2 text-xs text-slate-300 hover:bg-white/[0.06] rounded transition-colors text-left font-medium focus-visible:ring-1 focus-visible:ring-blue-500"
+          style={indent}
+          aria-label={`Folder ${node.name}`}
+          className={cn(ROW, "font-semibold text-ink hover:bg-sunk active:bg-rule")}
         >
-          <div className="flex items-center gap-1.5 truncate">
-            {expanded ? (
-              <ChevronDown className="h-3.5 w-3.5 text-slate-400 shrink-0" />
-            ) : (
-              <ChevronRight className="h-3.5 w-3.5 text-slate-400 shrink-0" />
-            )}
-            {expanded ? (
-              <FolderOpen className="h-3.5 w-3.5 text-blue-400 shrink-0" />
-            ) : (
-              <Folder className="h-3.5 w-3.5 text-slate-400 group-hover:text-blue-400 shrink-0" />
-            )}
-            <span className="truncate font-mono text-[11.5px] text-slate-200">
-              {node.name}
-            </span>
-          </div>
+          <FolderIcon className="h-4 w-4 shrink-0 text-sub" aria-hidden="true" />
+          <span className="min-w-0 flex-1 truncate">{node.name}</span>
           {node.children && (
-            <span className="font-mono text-[10px] text-slate-400 tabular-nums">
+            <span
+              className="shrink-0 text-xs font-normal tabular-nums text-sub"
+              title={`${node.children.length} ${
+                node.children.length === 1 ? "item" : "items"
+              }`}
+            >
               {node.children.length}
             </span>
           )}
         </button>
 
         {expanded && node.children && (
-          <div role="group" className="relative">
+          <div role="group">
             {node.children.map((child, i) => (
               <TreeItem
                 key={`${child.name}-${i}`}
@@ -143,37 +116,31 @@ const TreeItem: React.FC<TreeItemProps> = ({
   return (
     <div role="treeitem" aria-selected={isSelected}>
       <button
+        type="button"
         onClick={() => node.id && node.path && onSelectFile(node.id, node.path)}
-        style={{ paddingLeft: `${depth * 12 + 18}px` }}
+        style={indent}
         aria-label={`Open file ${node.name}`}
         className={cn(
-          "cursor-pointer group flex w-full items-center justify-between py-1 pr-2 text-xs rounded transition-colors text-left my-0.5 focus-visible:ring-1 focus-visible:ring-blue-500",
+          ROW,
           isSelected
-            ? "bg-blue-500/20 text-white font-medium border-l-2 border-blue-400"
-            : "text-slate-300 hover:bg-white/[0.06] hover:text-white"
+            ? "bg-signal font-semibold text-ink"
+            : "text-ink-2 hover:bg-sunk hover:text-ink active:bg-rule"
         )}
       >
-        <div className="flex items-center gap-1.5 truncate min-w-0">
-          <FileCode
-            className={cn(
-              "h-3.5 w-3.5 shrink-0",
-              isSelected
-                ? "text-blue-400"
-                : cn(getLangDotColor(node.language), "opacity-80 group-hover:opacity-100")
-            )}
-          />
-          <span className="truncate font-mono text-[11.5px]">{node.name}</span>
-        </div>
+        <File
+          className={cn("h-4 w-4 shrink-0", isSelected ? "text-ink" : "text-sub")}
+          aria-hidden="true"
+        />
+        <span className="min-w-0 flex-1 truncate">{node.name}</span>
         {typeof node.lines === "number" && (
           <span
             className={cn(
-              "font-mono text-[10px] shrink-0 ml-1.5 tabular-nums",
-              isSelected
-                ? "text-blue-300"
-                : "text-slate-400 group-hover:text-slate-200"
+              "shrink-0 text-xs font-normal tabular-nums",
+              isSelected ? "text-ink" : "text-sub"
             )}
+            title={`${node.lines} ${node.lines === 1 ? "line" : "lines"}`}
           >
-            {node.lines}L
+            {node.lines}
           </span>
         )}
       </button>
@@ -197,52 +164,60 @@ export const FileExplorer: React.FC<FileExplorerProps> = ({
 
   if (!tree) {
     return (
-      <div className="flex h-full flex-col bg-[#06080d] p-3.5 space-y-2">
-        {[1, 2, 3, 4, 5, 6].map((i) => (
-          <div key={i} className="h-5 rounded bg-white/[0.04] animate-pulse" />
+      <div
+        className="flex h-full flex-col gap-3 bg-wash p-3"
+        aria-busy="true"
+        aria-label="Loading files"
+      >
+        {SKELETON_WIDTHS.map((w, i) => (
+          <div key={i} className={cn("skeleton h-4", w)} />
         ))}
       </div>
     );
   }
 
   return (
-    <div className="flex h-full flex-col bg-[#06080d]">
-      {/* Explorer Header */}
-      <div className="p-2.5 border-b border-white/[0.08] space-y-2">
-        <div className="flex items-center justify-between px-1">
-          <span className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-slate-300 font-mono">
-            <Files className="h-3 w-3 text-blue-400" />
-            Files
+    <div className="flex h-full flex-col bg-wash">
+      <div className="space-y-2 border-b border-rule p-3">
+        <h2 className="text-sm font-bold text-ink">
+          Files
+          <span className="ml-2 font-normal tabular-nums text-sub">
+            {totalFiles.toLocaleString()}
           </span>
-          <span className="font-mono text-[10px] text-slate-400 tabular-nums">
-            {totalFiles} indexed
-          </span>
-        </div>
+        </h2>
 
         <div className="relative">
-          <Search className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 h-3 w-3 text-slate-400" />
+          <Search
+            className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-sub"
+            aria-hidden="true"
+          />
           <input
             type="text"
-            placeholder="Filter files..."
+            placeholder="Filter files"
             aria-label="Filter files by name or path"
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="w-full rounded-md border border-white/[0.08] bg-[#000000] py-1 pl-7 pr-6 font-mono text-[11px] text-slate-200 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none transition-colors"
+            className="field field-sm pl-8 pr-8"
           />
           {filter && (
             <button
+              type="button"
               onClick={() => setFilter("")}
               aria-label="Clear filter"
-              className="cursor-pointer absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+              title="Clear filter"
+              className="absolute right-0.5 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 cursor-pointer items-center justify-center rounded text-sub transition-colors duration-150 hover:bg-wash hover:text-ink active:bg-sunk"
             >
-              <X className="h-3 w-3" />
+              <X className="h-4 w-4" aria-hidden="true" />
             </button>
           )}
         </div>
       </div>
 
-      {/* Tree Content */}
-      <div role="tree" aria-label="Repository files" className="flex-1 overflow-y-auto p-1.5">
+      <div
+        role="tree"
+        aria-label="Repository files"
+        className="flex-1 overflow-y-auto py-1"
+      >
         {filteredChildren.length > 0 ? (
           filteredChildren.map((child, i) => (
             <TreeItem
@@ -254,9 +229,11 @@ export const FileExplorer: React.FC<FileExplorerProps> = ({
             />
           ))
         ) : (
-          <div className="p-6 text-center text-xs text-slate-400">
-            {filter ? `No files match "${filter}"` : "No files indexed."}
-          </div>
+          <p className="px-3 py-2 text-sm text-sub">
+            {filter
+              ? `No file matches "${filter}".`
+              : "This repository has no indexed files."}
+          </p>
         )}
       </div>
     </div>

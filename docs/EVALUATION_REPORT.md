@@ -1,8 +1,8 @@
-# RepoLens Evaluation Benchmark Report
+# SpectraCode Evaluation Benchmark Report
 
 ## 1. Methodology & Metric Definitions
 
-To empirically benchmark retrieval performance and grounded generation accuracy, RepoLens implements an automated evaluation harness with formal metrics:
+To empirically benchmark retrieval performance and grounded generation accuracy, SpectraCode implements an automated evaluation harness with formal metrics:
 
 ### 1.1 Line Interval Coverage
 A retrieved or cited span $r = (f_r, [s_r, e_r])$ matches a ground-truth span $g = (f_g, [s_g, e_g])$ iff $f_r = f_g$ and:

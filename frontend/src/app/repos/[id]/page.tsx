@@ -2,18 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
-import {
-  Code2,
-  GitFork,
-  Search,
-  ArrowLeft,
-  BarChart3,
-  FolderGit2,
-  GitBranch,
-  PanelLeft,
-  PanelRight,
-  GitCommit,
-} from "lucide-react";
+import { Search, PanelLeft, PanelRight } from "lucide-react";
 import Link from "next/link";
 import { api, FileDetail, Repository, TreeNode } from "@/lib/api";
 import { FileExplorer } from "@/components/FileExplorer";
@@ -21,7 +10,53 @@ import { CodeViewer } from "@/components/CodeViewer";
 import { ChatInterface } from "@/components/ChatInterface";
 import { SearchModal } from "@/components/SearchModal";
 import { DependencyGraph } from "@/components/DependencyGraph";
+import { BrandMark } from "@/components/Navbar";
+import { indexingLabel } from "@/components/LineMap";
 import { cn } from "@/lib/utils";
+
+const VIEWS = [
+  { id: "code", label: "Code", shortLabel: "Code" },
+  { id: "dependencies", label: "Dependency graph", shortLabel: "Graph" },
+] as const;
+
+const SKELETON_WIDTHS = [
+  "w-2/5",
+  "w-3/5",
+  "w-1/2",
+  "w-1/3",
+  "w-3/4",
+  "w-1/2",
+  "w-2/3",
+  "w-1/4",
+  "w-3/5",
+  "w-2/5",
+];
+
+const PANE_TOGGLE =
+  "inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded border-2 text-ink transition-colors duration-150";
+const PANE_TOGGLE_ON = "border-ink bg-white hover:bg-wash active:bg-sunk";
+const PANE_TOGGLE_OFF =
+  "border-transparent hover:border-ink/30 hover:bg-signal-deep active:bg-signal-deep";
+
+function countLabel(n: number, one: string, many: string): string {
+  return `${n.toLocaleString()} ${n === 1 ? one : many}`;
+}
+
+/** Placeholder for the centre pane while the file list is on its way. */
+function CodeSkeleton() {
+  return (
+    <div className="h-full bg-white" aria-busy="true" aria-label="Loading the code">
+      <div className="flex h-11 items-center border-b border-rule px-4">
+        <div className="skeleton h-4 w-56" />
+      </div>
+      <div className="space-y-2.5 px-4 py-4">
+        {SKELETON_WIDTHS.map((w, i) => (
+          <div key={i} className={cn("skeleton h-3.5", w)} />
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function RepositoryWorkspacePage() {
   const params = useParams();
@@ -38,7 +73,12 @@ export default function RepositoryWorkspacePage() {
   const [showExplorer, setShowExplorer] = useState(true);
   const [showCopilot, setShowCopilot] = useState(true);
 
-  // Global Cmd+K / Ctrl+K shortcut for Hybrid Search Modal
+  // On a narrow screen start with the file list closed; it opens over the code.
+  useEffect(() => {
+    if (window.matchMedia("(max-width: 1023px)").matches) setShowExplorer(false);
+  }, []);
+
+  // Global Cmd+K / Ctrl+K shortcut for the search dialog
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
@@ -111,7 +151,15 @@ export default function RepositoryWorkspacePage() {
     return map;
   }, [tree]);
 
+  // On a narrow screen the side panes cover the code, so step them aside
+  // when the reader asks to see a file or a cited span.
+  const revealCode = () => {
+    if (window.matchMedia("(max-width: 1023px)").matches) setShowExplorer(false);
+    if (window.matchMedia("(max-width: 639px)").matches) setShowCopilot(false);
+  };
+
   const handleSelectFile = async (fileId: string) => {
+    revealCode();
     try {
       const detail = await api.getFileContent(repoId, fileId);
       setSelectedFile(detail);
@@ -122,12 +170,13 @@ export default function RepositoryWorkspacePage() {
     }
   };
 
-  // Triggered when clicking a citation pill in ChatInterface or result in SearchModal
+  // Triggered when clicking a citation in ChatInterface or a result in SearchModal
   const handleCitationClick = async (
     filePath: string,
     startLine: number,
     endLine: number
   ) => {
+    revealCode();
     const normTarget = filePath.replace(/\\/g, "/").toLowerCase();
 
     if (
@@ -160,142 +209,113 @@ export default function RepositoryWorkspacePage() {
     setActiveTab("code");
   };
 
+  const statusDot = !repo
+    ? "bg-rule-strong"
+    : repo.status === "ready"
+    ? "bg-line-green"
+    : repo.status === "failed"
+    ? "bg-line-red"
+    : "bg-signal ring-1 ring-ink";
+
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-[#09090b] text-zinc-100 font-sans">
-      {/* Workspace Top Bar */}
-      <header className="flex h-12 shrink-0 items-center justify-between border-b border-white/[0.07] bg-[#0c0c0e] px-3.5">
-        <div className="flex items-center gap-3 min-w-0">
-          <Link
-            href="/"
-            aria-label="Return to workspaces overview"
-            className="cursor-pointer flex items-center gap-1.5 rounded border border-white/[0.08] bg-[#111113] px-2.5 py-1 text-xs font-medium text-zinc-300 hover:border-white/[0.16] hover:text-white transition-colors focus-visible:ring-1 focus-visible:ring-white/40"
-          >
-            <ArrowLeft className="h-3.5 w-3.5 text-zinc-500" />
-            <span className="hidden sm:inline">Workspaces</span>
-          </Link>
-
-          <div className="h-4 w-[1px] bg-white/[0.08]" />
-
-          <div className="flex items-center gap-2 min-w-0">
-            <FolderGit2 className="h-4 w-4 text-zinc-400 shrink-0" />
-            <span className="font-mono text-xs font-semibold text-zinc-100 truncate">
-              {repo ? `${repo.github_owner}/${repo.github_name}` : "Loading..."}
-            </span>
-            {repo && (
-              <div className="hidden lg:flex items-center gap-1.5 tabular-nums">
-                <span className="inline-flex items-center gap-1 rounded border border-white/[0.08] bg-[#111113] px-1.5 py-0.5 font-mono text-[10px] text-zinc-400">
-                  <GitBranch className="h-2.5 w-2.5 text-zinc-500" />
-                  {repo.default_branch}
-                </span>
-                <span className="rounded border border-white/[0.08] bg-[#111113] px-2 py-0.5 font-mono text-[10px] text-zinc-400">
-                  {repo.total_files} files · {repo.total_chunks} AST chunks
-                </span>
-              </div>
-            )}
+    <div className="flex h-screen flex-col overflow-hidden bg-white font-sans text-ink">
+      {/* Top band */}
+      <header className="flex h-14 shrink-0 items-stretch gap-3 bg-signal px-3 text-ink sm:gap-4 sm:px-4">
+        {/* The metadata wraps onto a clipped second row when it does not fit. */}
+        <div className="-ml-1 flex h-14 min-w-0 flex-1 flex-wrap content-start gap-x-3 overflow-hidden pl-1">
+          <div className="flex h-14 min-w-0 max-w-full items-center gap-3">
+            <Link
+              href="/"
+              aria-label="All workspaces"
+              title="All workspaces"
+              className="flex shrink-0 items-center rounded-full"
+            >
+              <BrandMark />
+            </Link>
+            <h1 className="hidden min-w-0 translate-y-px truncate text-lg font-bold sm:block">
+              {repo
+                ? `${repo.github_owner}/${repo.github_name}`
+                : "Loading workspace"}
+            </h1>
           </div>
+          {repo && (
+            <p className="hidden h-14 translate-y-px items-center whitespace-nowrap text-sm tabular-nums lg:flex">
+              {repo.default_branch} · {countLabel(repo.total_files, "file", "files")} ·{" "}
+              {countLabel(repo.total_chunks, "code span", "code spans")}
+            </p>
+          )}
         </div>
 
-        {/* Center Mode Switcher */}
-        <div className="flex items-center rounded border border-white/[0.08] bg-[#111113] p-0.5 text-xs font-medium">
-          <button
-            onClick={() => setActiveTab("code")}
-            aria-label="View Code & Citations"
-            className={cn(
-              "cursor-pointer flex items-center gap-1.5 rounded px-2.5 py-1 transition-colors focus-visible:ring-1 focus-visible:ring-white/40",
-              activeTab === "code"
-                ? "bg-[#16161a] border border-white/[0.08] text-zinc-100 font-semibold"
-                : "text-zinc-400 hover:text-zinc-200"
-            )}
-          >
-            <Code2
-              className={cn(
-                "h-3.5 w-3.5",
-                activeTab === "code" ? "text-zinc-300" : "text-zinc-500"
-              )}
-            />
-            <span>Code &amp; Citations</span>
-          </button>
-          <button
-            onClick={() => setActiveTab("dependencies")}
-            aria-label="View Dependency Graph"
-            className={cn(
-              "cursor-pointer flex items-center gap-1.5 rounded px-2.5 py-1 transition-colors focus-visible:ring-1 focus-visible:ring-white/40",
-              activeTab === "dependencies"
-                ? "bg-[#16161a] border border-white/[0.08] text-zinc-100 font-semibold"
-                : "text-zinc-400 hover:text-zinc-200"
-            )}
-          >
-            <GitFork
-              className={cn(
-                "h-3.5 w-3.5",
-                activeTab === "dependencies" ? "text-zinc-300" : "text-zinc-500"
-              )}
-            />
-            <span>Dependency Graph</span>
-          </button>
-        </div>
-
-        {/* Right Actions & Pane Toggles */}
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={() => setIsSearchOpen(true)}
-            aria-label="Open Hybrid Search dialog"
-            className="cursor-pointer flex items-center gap-2 rounded border border-white/[0.08] bg-[#111113] px-2.5 py-1 text-xs text-zinc-400 hover:border-white/[0.16] hover:text-zinc-200 transition-colors focus-visible:ring-1 focus-visible:ring-white/40"
-          >
-            <Search className="h-3.5 w-3.5 text-zinc-500" />
-            <span className="hidden md:inline">Search...</span>
-            <kbd className="rounded border border-white/[0.08] bg-[#16161a] px-1.5 py-0.5 font-mono text-[10px] text-zinc-400">
-              ⌘K
-            </kbd>
-          </button>
-
-          <div className="hidden sm:flex items-center rounded border border-white/[0.08] bg-[#111113] p-0.5">
+        {/* View switcher */}
+        <div role="group" aria-label="View" className="flex shrink-0 items-stretch">
+          {VIEWS.map((view) => (
             <button
-              onClick={() => setShowExplorer((prev) => !prev)}
-              title="Toggle File Explorer"
-              aria-label="Toggle File Explorer"
-              aria-pressed={showExplorer}
+              key={view.id}
+              type="button"
+              onClick={() => setActiveTab(view.id)}
+              aria-pressed={activeTab === view.id}
               className={cn(
-                "cursor-pointer min-h-[28px] min-w-[28px] flex items-center justify-center rounded p-1 transition-colors focus-visible:ring-1 focus-visible:ring-white/40",
-                showExplorer
-                  ? "bg-[#16161a] text-zinc-100"
-                  : "text-zinc-500 hover:text-zinc-300"
+                "flex cursor-pointer items-center border-y-4 border-transparent px-2.5 text-[0.9375rem] font-bold transition-colors duration-150 focus-visible:outline-offset-[-4px] active:bg-signal-deep sm:px-3.5",
+                activeTab === view.id ? "border-b-ink" : "hover:border-b-ink/30"
               )}
             >
-              <PanelLeft className="h-3.5 w-3.5" />
+              <span className="translate-y-px sm:hidden">{view.shortLabel}</span>
+              <span className="hidden translate-y-px sm:inline">{view.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Search, pane toggles, benchmark */}
+        <div className="flex flex-1 items-center justify-end gap-2">
+          <button
+            type="button"
+            onClick={() => setIsSearchOpen(true)}
+            aria-label="Search code"
+            className="flex h-9 shrink-0 cursor-pointer items-center gap-2 rounded border-2 border-ink bg-white px-2.5 text-sm font-semibold text-ink transition-colors duration-150 hover:bg-wash active:bg-sunk"
+          >
+            <Search className="h-4 w-4" aria-hidden="true" />
+            <span className="hidden md:inline">Search code</span>
+            <kbd className="kbd hidden md:inline-flex">Ctrl K</kbd>
+          </button>
+
+          <div className="flex shrink-0 items-center gap-1">
+            <button
+              type="button"
+              onClick={() => setShowExplorer((prev) => !prev)}
+              title="Show or hide the file list"
+              aria-label="Show or hide the file list"
+              aria-pressed={showExplorer}
+              className={cn(PANE_TOGGLE, showExplorer ? PANE_TOGGLE_ON : PANE_TOGGLE_OFF)}
+            >
+              <PanelLeft className="h-4 w-4" aria-hidden="true" />
             </button>
             <button
+              type="button"
               onClick={() => setShowCopilot((prev) => !prev)}
-              title="Toggle Query Inspector"
-              aria-label="Toggle Query Inspector"
+              title="Show or hide the ask panel"
+              aria-label="Show or hide the ask panel"
               aria-pressed={showCopilot}
-              className={cn(
-                "cursor-pointer min-h-[28px] min-w-[28px] flex items-center justify-center rounded p-1 transition-colors focus-visible:ring-1 focus-visible:ring-white/40",
-                showCopilot
-                  ? "bg-[#16161a] text-zinc-100"
-                  : "text-zinc-500 hover:text-zinc-300"
-              )}
+              className={cn(PANE_TOGGLE, showCopilot ? PANE_TOGGLE_ON : PANE_TOGGLE_OFF)}
             >
-              <PanelRight className="h-3.5 w-3.5" />
+              <PanelRight className="h-4 w-4" aria-hidden="true" />
             </button>
           </div>
 
           <Link
             href={`/evaluation?repo=${repoId}`}
-            aria-label="View repository benchmarks"
-            className="cursor-pointer flex items-center gap-1.5 rounded border border-white/[0.08] bg-[#111113] px-2.5 py-1 text-xs font-medium text-zinc-300 hover:border-white/[0.16] hover:text-white transition-colors focus-visible:ring-1 focus-visible:ring-white/40"
+            className="hidden shrink-0 px-1 text-sm font-bold hover:underline sm:inline"
           >
-            <BarChart3 className="h-3.5 w-3.5 text-zinc-400" />
-            <span className="hidden xl:inline">Benchmarks</span>
+            Benchmark
           </Link>
         </div>
       </header>
 
-      {/* 3-Pane Intelligence Workspace Body */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Left Pane: File Explorer */}
+      {/* Three panes */}
+      {/* Below lg the side panes slide over the code instead of squeezing it. */}
+      <div className="relative flex flex-1 overflow-hidden">
+        {/* File list */}
         {showExplorer && (
-          <div className="w-60 border-r border-white/[0.07] shrink-0">
+          <div className="absolute inset-y-0 left-0 z-20 w-[min(18rem,85vw)] border-r border-rule bg-wash shadow-overlay lg:static lg:z-auto lg:w-60 lg:shrink-0 lg:shadow-none">
             <FileExplorer
               tree={tree}
               selectedFilePath={selectedFile?.file_path || null}
@@ -304,17 +324,21 @@ export default function RepositoryWorkspacePage() {
           </div>
         )}
 
-        {/* Center Pane: Code Viewer or Dependency Graph */}
-        <div className="flex-1 overflow-hidden">
+        {/* Code or dependency graph */}
+        <div className="flex-1 overflow-hidden bg-white">
           {activeTab === "code" ? (
-            <CodeViewer
-              file={selectedFile}
-              highlightRange={highlightRange}
-              onSelectSymbol={(startLine, endLine) =>
-                setHighlightRange([startLine, endLine ?? startLine + 12])
-              }
-              onClearHighlight={() => setHighlightRange(null)}
-            />
+            !tree ? (
+              <CodeSkeleton />
+            ) : (
+              <CodeViewer
+                file={selectedFile}
+                highlightRange={highlightRange}
+                onSelectSymbol={(startLine, endLine) =>
+                  setHighlightRange([startLine, endLine ?? startLine + 12])
+                }
+                onClearHighlight={() => setHighlightRange(null)}
+              />
+            )
           ) : (
             <DependencyGraph
               repoId={repoId}
@@ -323,9 +347,9 @@ export default function RepositoryWorkspacePage() {
           )}
         </div>
 
-        {/* Right Pane: Grounded AI Copilot */}
+        {/* Ask panel (ChatInterface draws its own left hairline) */}
         {showCopilot && (
-          <div className="w-[410px] shrink-0">
+          <div className="absolute inset-y-0 right-0 z-10 w-full bg-white sm:w-[410px] sm:shadow-overlay lg:static lg:z-auto lg:shrink-0 lg:shadow-none">
             <ChatInterface
               repoId={repoId}
               onCitationClick={handleCitationClick}
@@ -334,42 +358,45 @@ export default function RepositoryWorkspacePage() {
         )}
       </div>
 
-      {/* Precision IDE Bottom Status Bar */}
-      <footer className="flex h-6 shrink-0 items-center justify-between border-t border-white/[0.07] bg-[#090b10] px-3 font-mono text-[10.5px] text-zinc-500 select-none tabular-nums">
-        <div className="flex items-center gap-3 min-w-0">
-          <span className="flex items-center gap-1.5 text-zinc-300">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-            <span>{repo?.status?.toUpperCase() || "READY"}</span>
+      {/* Status bar */}
+      <footer className="flex h-7 shrink-0 items-center justify-between gap-3 border-t border-rule bg-wash px-3 text-xs text-sub">
+        <div className="flex min-w-0 items-center gap-3">
+          <span className="flex shrink-0 items-center gap-1.5 font-semibold text-ink">
+            <span
+              aria-hidden="true"
+              className={cn("h-2 w-2 rounded-full", statusDot)}
+            />
+            {repo ? indexingLabel(repo.status) : "Loading"}
           </span>
           {repo?.last_indexed_commit_sha && (
-            <span className="hidden sm:flex items-center gap-1 text-zinc-500">
-              <GitCommit className="h-2.5 w-2.5" />
-              {repo.last_indexed_commit_sha.slice(0, 8)}
+            <span className="hidden shrink-0 sm:inline">
+              commit{" "}
+              <span className="font-mono">
+                {repo.last_indexed_commit_sha.slice(0, 8)}
+              </span>
             </span>
           )}
           {selectedFile && (
-            <span className="truncate text-zinc-400">
+            <span className="truncate font-mono tabular-nums">
               {selectedFile.file_path}
               {highlightRange
-                ? ` : L${highlightRange[0]}–L${highlightRange[1]}`
+                ? highlightRange[0] === highlightRange[1]
+                  ? `:${highlightRange[0]}`
+                  : `:${highlightRange[0]}–${highlightRange[1]}`
                 : ""}
             </span>
           )}
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
-          {selectedFile?.symbols && (
-            <span className="hidden md:inline text-zinc-500">
-              {selectedFile.symbols.length} AST symbols
-            </span>
-          )}
-          <span className="hidden sm:inline text-zinc-500">
-            Tree-sitter · Hybrid RRF · Strict Citations
+        {selectedFile?.symbols && (
+          <span className="hidden shrink-0 tabular-nums md:inline">
+            {countLabel(selectedFile.symbols.length, "symbol", "symbols")} in
+            this file
           </span>
-        </div>
+        )}
       </footer>
 
-      {/* Global Hybrid Search Modal */}
+      {/* Search dialog */}
       <SearchModal
         isOpen={isSearchOpen}
         repoId={repoId}

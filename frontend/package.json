@@ -1,5 +1,5 @@
 {
-  "name": "repolens-frontend",
+  "name": "spectracode-frontend",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -9,13 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@remotion/player": "^4.0.540",
     "clsx": "^2.1.1",
     "lucide-react": "^0.453.0",
     "next": "14.2.15",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "remotion": "^4.0.540",
     "tailwind-merge": "^2.5.4"
   },
   "devDependencies": {

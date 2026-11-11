@@ -1,13 +1,13 @@
-# RepoLens Security & Untrusted Input Policy
+# SpectraCode Security & Untrusted Input Policy
 
 ## 1. Threat Model
 
-RepoLens indexes source code from arbitrary public GitHub repositories. Ingesting arbitrary codebases introduces critical security risks:
+SpectraCode indexes source code from arbitrary public GitHub repositories. Ingesting arbitrary codebases introduces critical security risks:
 - Malicious repository configurations attempting remote code execution (RCE) via `setup.py`, npm post-install scripts, or git hooks.
 - Path traversal attacks via crafted directory structures or symlinks (`../../etc/passwd`).
 - Resource exhaustion (Zip bombs, deeply nested directory recursion, multi-gigabyte binary files).
 
-RepoLens enforces strict security controls at every phase.
+SpectraCode enforces strict security controls at every phase.
 
 ---
 

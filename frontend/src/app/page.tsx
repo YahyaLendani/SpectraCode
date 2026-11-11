@@ -3,47 +3,67 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import {
-  FolderGit2,
-  Plus,
-  ArrowUpRight,
-  BarChart3,
-  Clock,
-  AlertCircle,
-  Search,
-  GitBranch,
-  GitCommit,
-  RefreshCw,
-  Zap,
-  Terminal,
-} from "lucide-react";
+import { Plus, RefreshCw, Search, ArrowRight } from "lucide-react";
 import { api, Repository } from "@/lib/api";
 import { Navbar } from "@/components/Navbar";
 import { RepoImportModal } from "@/components/RepoImportModal";
-import dynamic from "next/dynamic";
+import {
+  IndexingLine,
+  IndexingLineHeader,
+  indexingLabel,
+  Roundel,
+  Route,
+} from "@/components/LineMap";
+import { LINE_COLORS } from "@/lib/utils";
 
-const RemotionPipelinePlayer = dynamic(
-  () =>
-    import("@/components/animations/RemotionPipelinePlayer").then(
-      (mod) => mod.RemotionPipelinePlayer
-    ),
+const INDEXING_STATES = ["pending", "cloning", "parsing_ast", "embedding"];
+
+/*
+ * The example answer on this page is real: these are spans in the bundled
+ * FastAPI sample (backend SampleRepositoryFactory), at the lines the index
+ * reports for them.
+ */
+const EXAMPLE_STOPS = [
+  { n: 1, filePath: "src/api/routes.py", startLine: 9, endLine: 16, color: LINE_COLORS[0] },
+  { n: 2, filePath: "src/auth/jwt_manager.py", startLine: 10, endLine: 32, color: LINE_COLORS[1] },
+  { n: 3, filePath: "src/config.py", startLine: 3, endLine: 9, color: LINE_COLORS[2] },
+];
+
+/* Figures from docs/EVALUATION_REPORT.md. */
+const MEASURED = [
+  { label: "Right code in the top 5 results", value: "100%" },
+  { label: "Citations that point at the right lines", value: "76.7%" },
+  { label: "Declines when the code has no answer", value: "100%" },
+];
+
+const HOW_IT_WORKS = [
   {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-80 rounded-2xl border border-white/[0.08] bg-[#070a12] flex items-center justify-center">
-        <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
-          <div className="h-3 w-3 rounded-full border border-blue-500 border-t-transparent animate-spin" />
-          <span>Loading 60fps Remotion Pipeline...</span>
-        </div>
-      </div>
-    ),
-  }
-);
+    name: "Parse",
+    text: "Each file is split along function, method and class boundaries, so a span is always a whole unit with exact line numbers.",
+  },
+  {
+    name: "Search",
+    text: "A meaning-based search and an identifier-aware keyword search each rank the spans. The two rankings are merged.",
+  },
+  {
+    name: "Follow",
+    text: "Functions and types that the top spans refer to are looked up one hop away and added as context.",
+  },
+  {
+    name: "Answer",
+    text: "The model writes its answer and cites spans by file and line range.",
+  },
+  {
+    name: "Check",
+    text: "Every citation is compared with the retrieved code. Lines out of range are clamped, unknown files are rejected, and unsupported questions get no answer.",
+  },
+];
 
 export default function DashboardPage() {
   const router = useRouter();
   const [repositories, setRepositories] = useState<Repository[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadFailed, setLoadFailed] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [isImportOpen, setIsImportOpen] = useState(false);
   const [searchFilter, setSearchFilter] = useState("");
@@ -57,8 +77,10 @@ export default function DashboardPage() {
       else setRefreshing(true);
       const list = await api.listRepositories();
       setRepositories(list);
+      setLoadFailed(false);
     } catch (err) {
       console.error(err);
+      setLoadFailed(true);
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -100,27 +122,24 @@ export default function DashboardPage() {
     }
   };
 
-  const telemetry = useMemo(() => {
-    const totalRepos = repositories.length;
-    const readyRepos = repositories.filter((r) => r.status === "ready").length;
-    const indexingRepos = repositories.filter((r) =>
-      ["pending", "cloning", "parsing_ast", "embedding"].includes(r.status)
-    ).length;
-    const totalFiles = repositories.reduce((acc, r) => acc + (r.total_files || 0), 0);
-    const totalChunks = repositories.reduce((acc, r) => acc + (r.total_chunks || 0), 0);
-    return { totalRepos, readyRepos, indexingRepos, totalFiles, totalChunks };
+  const totals = useMemo(() => {
+    const ready = repositories.filter((r) => r.status === "ready").length;
+    const indexing = repositories.filter((r) => INDEXING_STATES.includes(r.status)).length;
+    const files = repositories.reduce((acc, r) => acc + (r.total_files || 0), 0);
+    const spans = repositories.reduce((acc, r) => acc + (r.total_chunks || 0), 0);
+    return { all: repositories.length, ready, indexing, files, spans };
   }, [repositories]);
+
+  const sampleRepo = useMemo(
+    () => repositories.find((r) => r.clone_url === "sample:fastapi" && r.status === "ready"),
+    [repositories]
+  );
 
   const filteredRepositories = useMemo(() => {
     const q = searchFilter.trim().toLowerCase();
     return repositories.filter((r) => {
       if (statusFilter === "ready" && r.status !== "ready") return false;
-      if (
-        statusFilter === "indexing" &&
-        !["pending", "cloning", "parsing_ast", "embedding"].includes(r.status)
-      ) {
-        return false;
-      }
+      if (statusFilter === "indexing" && !INDEXING_STATES.includes(r.status)) return false;
       if (!q) return true;
       return (
         r.github_owner.toLowerCase().includes(q) ||
@@ -131,497 +150,364 @@ export default function DashboardPage() {
     });
   }, [repositories, searchFilter, statusFilter]);
 
-  const getStatusBadge = (status: Repository["status"]) => {
-    switch (status) {
-      case "ready":
-        return (
-          <span className="badge-status border border-white/[0.08] bg-[#16161a] text-zinc-300 font-mono text-[10px]">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            READY
-          </span>
-        );
-      case "parsing_ast":
-      case "embedding":
-      case "cloning":
-        return (
-          <span className="badge-status border border-white/[0.08] bg-[#16161a] text-zinc-300 font-mono text-[10px]">
-            <span className="h-1.5 w-1.5 rounded-full bg-amber-500" />
-            {status === "cloning"
-              ? "CLONING"
-              : status === "parsing_ast"
-              ? "PARSING AST"
-              : "EMBEDDING"}
-          </span>
-        );
-      case "failed":
-        return (
-          <span className="badge-status border border-white/[0.08] bg-[#16161a] text-zinc-300 font-mono text-[10px]">
-            <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
-            FAILED
-          </span>
-        );
-      default:
-        return (
-          <span className="badge-status border border-white/[0.08] bg-[#16161a] text-zinc-400 font-mono text-[10px]">
-            <span className="h-1.5 w-1.5 rounded-full bg-zinc-500" />
-            QUEUED
-          </span>
-        );
-    }
-  };
-
-  const getStageProgress = (status: Repository["status"]) => {
-    switch (status) {
-      case "ready":
-        return 100;
-      case "embedding":
-        return 78;
-      case "parsing_ast":
-        return 50;
-      case "cloning":
-        return 25;
-      case "failed":
-        return 100;
-      default:
-        return 12;
-    }
-  };
+  const sourceLabel = (repo: Repository) =>
+    repo.clone_url === "sample:fastapi"
+      ? "Bundled sample"
+      : repo.clone_url.replace(/^https?:\/\//, "").replace(/\.git$/, "");
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col font-sans">
+    <div className="flex min-h-screen flex-col bg-white">
       <Navbar repositories={repositories} />
 
-      {/* Top Workbench Header & Telemetry Ledger */}
-      <section className="relative border-b border-white/[0.07] bg-engineering-grid">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-7 pb-6">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-            <div className="space-y-1.5 max-w-3xl">
-              <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-zinc-500">
-                <span>WORKBENCH</span>
-                <span>/</span>
-                <span className="text-zinc-400">AST · HYBRID RRF · SPAN VERIFICATION</span>
-              </div>
-              <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-zinc-100 font-mono">
-                Codebase Intelligence &amp; Citation Index
-              </h1>
-              <p className="text-xs text-zinc-400 max-w-2xl leading-relaxed">
-                Syntax-preserving Tree-sitter AST indexing with 384-d ONNX + BM25 Reciprocal Rank Fusion and deterministic [file:start-end] verification.
-              </p>
-            </div>
-
-            {/* Primary Workbench Actions */}
-            <div className="flex flex-wrap items-center gap-2 shrink-0">
+      <main className="mx-auto w-full max-w-[84rem] flex-1 px-4 sm:px-8">
+        {/* What it is, and one checked answer as proof */}
+        <section className="grid gap-x-16 gap-y-12 pb-14 pt-10 sm:pt-14 lg:grid-cols-[minmax(0,1fr)_26.5rem]">
+          <div>
+            <h1 className="max-w-[18ch] text-[2.5rem] font-extrabold leading-[1.02] tracking-[-0.025em] sm:text-[3.25rem]">
+              Ask a codebase anything. Check every answer.
+            </h1>
+            <p className="mt-5 max-w-[62ch] text-lg leading-relaxed text-ink-2">
+              SpectraCode indexes a repository and answers questions about it. Each
+              answer cites the exact file and lines it came from, and every
+              citation is checked against the source before you see it.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
               <button
+                type="button"
                 onClick={() => setIsImportOpen(true)}
-                aria-label="Import a Git repository"
-                className="cursor-pointer inline-flex items-center gap-1.5 rounded bg-zinc-100 hover:bg-white px-3.5 py-2 text-xs font-semibold text-zinc-950 transition-colors shadow-sm focus-visible:ring-1 focus-visible:ring-white/40"
+                className="btn btn-primary h-11 px-5"
               >
-                <Plus className="h-3.5 w-3.5" />
-                <span>Import Repository</span>
+                <Plus className="h-4 w-4" aria-hidden="true" />
+                Import a repository
               </button>
+              {sampleRepo ? (
+                <Link href={`/repos/${sampleRepo.id}`} className="btn h-11 px-5">
+                  Open the FastAPI sample
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleQuickSampleImport}
+                  disabled={importingSample}
+                  className="btn h-11 px-5"
+                >
+                  {importingSample ? "Loading the sample" : "Load the FastAPI sample"}
+                </button>
+              )}
+            </div>
+          </div>
 
-              <button
-                onClick={handleQuickSampleImport}
-                disabled={importingSample}
-                aria-label="Load the pre-indexed FastAPI CloudFlow sample repository"
-                className="cursor-pointer inline-flex items-center gap-1.5 rounded border border-white/[0.08] bg-[#111113] hover:bg-[#16161a] hover:border-white/[0.16] px-3 py-2 text-xs font-medium text-zinc-300 transition-colors disabled:opacity-50 focus-visible:ring-1 focus-visible:ring-white/40"
-              >
-                <Terminal className="h-3.5 w-3.5 text-zinc-400" />
-                <span>
-                  {importingSample ? "Indexing..." : "Load FastAPI Sample"}
-                </span>
-              </button>
+          <aside
+            aria-label="Example of a checked answer"
+            className="border-t-[3px] border-ink pt-4 lg:border-l-[3px] lg:border-t-0 lg:pl-8 lg:pt-0"
+          >
+            <p className="text-sm text-sub">An answer from the bundled FastAPI sample</p>
+            <h2 className="mt-1.5 text-2xl font-extrabold leading-tight tracking-[-0.01em]">
+              Where is the access token verified?
+            </h2>
+            <p className="mt-3 leading-relaxed text-ink-2">
+              The scheduling routes call{" "}
+              <code className="font-semibold text-ink">get_current_user_claims</code>
+              <Roundel n={1} color={LINE_COLORS[0]} className="mx-1 align-[-3px]" />
+              which passes the token to{" "}
+              <code className="font-semibold text-ink">TokenManager.verify_token</code>
+              <Roundel n={2} color={LINE_COLORS[1]} className="mx-1 align-[-3px]" />
+              The signing key and algorithm come from{" "}
+              <span className="whitespace-nowrap">
+                <code className="font-semibold text-ink">AppSettings</code>
+                <Roundel n={3} color={LINE_COLORS[2]} className="ml-1 align-[-3px]" />
+              </span>
+            </p>
 
-              <Link
-                href="/evaluation"
-                aria-label="Open quantitative benchmark metrics"
-                className="cursor-pointer inline-flex items-center gap-1.5 rounded border border-white/[0.08] bg-[#111113] hover:border-white/[0.16] hover:text-white px-3 py-2 text-xs font-medium text-zinc-300 transition-colors focus-visible:ring-1 focus-visible:ring-white/40"
-              >
-                <BarChart3 className="h-3.5 w-3.5 text-zinc-400" />
-                <span>Benchmarks</span>
+            <Route
+              stops={EXAMPLE_STOPS}
+              className="mt-6"
+              note={<span className="font-semibold text-line-green">checked</span>}
+            />
+
+            <dl className="mt-6 border-t border-rule">
+              {MEASURED.map((m) => (
+                <div
+                  key={m.label}
+                  className="flex items-baseline justify-between gap-4 border-b border-rule py-2 text-sm"
+                >
+                  <dt className="text-ink-2">{m.label}</dt>
+                  <dd className="font-mono font-semibold tabular-nums text-ink">{m.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-2 text-[0.8125rem] text-sub">
+              Measured on the built-in benchmark.{" "}
+              <Link href="/evaluation" className="font-semibold text-ink underline hover:text-line-blue">
+                Run it yourself
               </Link>
-            </div>
-          </div>
-
-          {/* Horizontal Telemetry Ledger */}
-          <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.07] rounded border border-white/[0.07] bg-[#0c0c0e] tabular-nums">
-            <div className="px-4 py-3">
-              <div className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-                Indexed Workspaces
-              </div>
-              <div className="mt-1 flex items-baseline gap-1.5 font-mono">
-                <span className="text-xl font-bold text-zinc-100">
-                  {telemetry.readyRepos}
-                </span>
-                <span className="text-xs text-zinc-500">
-                  / {telemetry.totalRepos} ready
-                </span>
-              </div>
-            </div>
-
-            <div className="px-4 py-3">
-              <div className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-                Parsed Source Files
-              </div>
-              <div className="mt-1 flex items-baseline gap-1.5 font-mono">
-                <span className="text-xl font-bold text-zinc-100">
-                  {telemetry.totalFiles.toLocaleString()}
-                </span>
-                <span className="text-xs text-zinc-500">files</span>
-              </div>
-            </div>
-
-            <div className="px-4 py-3">
-              <div className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-                AST Syntax Chunks
-              </div>
-              <div className="mt-1 flex items-baseline gap-1.5 font-mono">
-                <span className="text-xl font-bold text-zinc-100">
-                  {telemetry.totalChunks.toLocaleString()}
-                </span>
-                <span className="text-xs text-zinc-500">spans</span>
-              </div>
-            </div>
-
-            <div className="px-4 py-3">
-              <div className="font-mono text-[10px] uppercase tracking-wider text-zinc-500">
-                Vector &amp; Lexical Fusion
-              </div>
-              <div className="mt-1 flex items-baseline justify-between gap-2 font-mono">
-                <span className="text-xs font-semibold text-zinc-200">
-                  bge-small-en-v1.5
-                </span>
-                <span className="rounded border border-white/[0.08] bg-[#16161a] px-1.5 py-0.2 font-mono text-[10px] text-zinc-400">
-                  384-d ONNX
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content Container */}
-      <main className="flex-1 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 py-7 space-y-8">
-        {/* Remotion 60fps Pipeline Player Section */}
-        <section className="space-y-2.5">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-zinc-400" />
-              <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-300 font-mono">
-                Engine Architecture &amp; Pipeline
-              </h2>
-            </div>
-            <span className="hidden sm:inline-block text-[11px] font-mono text-zinc-500">
-              60fps Remotion Engine · Frame-Accurate Pipeline
-            </span>
-          </div>
-          <div className="rounded border border-white/[0.07] bg-[#0c0c0e] p-1 shadow-sm">
-            <RemotionPipelinePlayer />
-          </div>
+            </p>
+          </aside>
         </section>
 
-        {/* Repositories Workspace Directory */}
-        <section className="space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <h2 className="text-sm font-semibold tracking-tight text-zinc-100 font-mono">
+        {/* Workspaces */}
+        <section aria-labelledby="workspaces-heading" className="pb-16">
+          <div className="flex flex-col gap-4 pb-3 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <h2 id="workspaces-heading" className="text-2xl font-extrabold tracking-[-0.01em]">
                 Workspaces
               </h2>
-              <span className="rounded border border-white/[0.08] bg-[#111113] px-1.5 py-0.2 font-mono text-xs text-zinc-400 tabular-nums">
-                {filteredRepositories.length}
-              </span>
+              {repositories.length > 0 && (
+                <p className="mt-0.5 text-sm text-sub tabular-nums">
+                  {totals.all} {totals.all === 1 ? "repository" : "repositories"},{" "}
+                  {totals.files.toLocaleString()} files, {totals.spans.toLocaleString()} code spans indexed
+                </p>
+              )}
             </div>
 
-            {/* Filter & Status Controls */}
-            <div className="flex flex-wrap items-center gap-2">
-              <div className="relative">
-                <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-zinc-500" />
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  placeholder="Filter workspaces... (press /)"
-                  aria-label="Filter repositories"
-                  value={searchFilter}
-                  onChange={(e) => setSearchFilter(e.target.value)}
-                  className="w-48 sm:w-60 rounded border border-white/[0.08] bg-[#111113] py-1 pl-8 pr-7 text-xs text-zinc-200 placeholder:text-zinc-500 focus:border-zinc-500 focus:outline-none transition-colors"
-                />
-                {!searchFilter && (
-                  <kbd className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 rounded border border-white/[0.08] bg-[#16161a] px-1 font-mono text-[10px] text-zinc-500">
-                    /
-                  </kbd>
-                )}
-              </div>
+            {repositories.length > 0 && (
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                <div role="group" aria-label="Filter by status" className="flex gap-4">
+                  {(
+                    [
+                      { id: "all", label: "All", count: totals.all },
+                      { id: "ready", label: "Ready", count: totals.ready },
+                      { id: "indexing", label: "Indexing", count: totals.indexing },
+                    ] as const
+                  ).map((tab) => (
+                    <button
+                      key={tab.id}
+                      type="button"
+                      onClick={() => setStatusFilter(tab.id)}
+                      aria-pressed={statusFilter === tab.id}
+                      className="tab h-9"
+                    >
+                      {tab.label}
+                      <span className="font-normal tabular-nums text-sub">{tab.count}</span>
+                    </button>
+                  ))}
+                </div>
 
-              <div className="flex items-center rounded border border-white/[0.08] bg-[#111113] p-0.5 text-xs">
-                {(
-                  [
-                    { id: "all", label: "All", count: telemetry.totalRepos },
-                    { id: "ready", label: "Ready", count: telemetry.readyRepos },
-                    { id: "indexing", label: "Indexing", count: telemetry.indexingRepos },
-                  ] as const
-                ).map((tab) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setStatusFilter(tab.id)}
-                    aria-label={`Show ${tab.label} repositories (${tab.count})`}
-                    className={`cursor-pointer flex items-center gap-1.5 rounded px-2.5 py-0.5 font-medium transition-colors ${
-                      statusFilter === tab.id
-                        ? "bg-[#16161a] border border-white/[0.08] text-zinc-100 font-semibold"
-                        : "text-zinc-400 hover:text-zinc-200"
-                    }`}
-                  >
-                    <span>{tab.label}</span>
-                    <span className="font-mono text-[10px] text-zinc-500 tabular-nums">
-                      {tab.count}
-                    </span>
-                  </button>
-                ))}
-              </div>
+                <div className="relative">
+                  <Search
+                    className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-sub"
+                    aria-hidden="true"
+                  />
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    placeholder="Filter by name or branch"
+                    aria-label="Filter workspaces"
+                    value={searchFilter}
+                    onChange={(e) => setSearchFilter(e.target.value)}
+                    className="field field-sm h-9 w-64 pl-8 pr-9"
+                  />
+                  {!searchFilter && (
+                    <kbd className="kbd pointer-events-none absolute right-2 top-1/2 -translate-y-1/2">/</kbd>
+                  )}
+                </div>
 
-              <button
-                onClick={() => loadRepos(true)}
-                title="Refresh repository statuses"
-                aria-label="Refresh repository statuses"
-                className="cursor-pointer flex h-7 w-7 items-center justify-center rounded border border-white/[0.08] bg-[#111113] text-zinc-400 hover:border-white/[0.16] hover:text-zinc-200 transition-colors focus-visible:ring-1 focus-visible:ring-white/40"
-              >
-                <RefreshCw
-                  className={`h-3 w-3 ${
-                    refreshing ? "animate-spin text-zinc-200" : ""
-                  }`}
-                />
-              </button>
-            </div>
+                <button
+                  type="button"
+                  onClick={() => loadRepos(true)}
+                  title="Refresh"
+                  aria-label="Refresh workspace statuses"
+                  className="btn-icon h-9 w-9"
+                >
+                  <RefreshCw className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`} aria-hidden="true" />
+                </button>
+              </div>
+            )}
           </div>
 
           {loading && repositories.length === 0 ? (
-            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
-              {[1, 2, 3].map((n) => (
-                <div
-                  key={n}
-                  className="h-40 rounded border border-white/[0.07] bg-[#111113] p-4 animate-pulse flex flex-col justify-between"
-                >
-                  <div className="space-y-3">
-                    <div className="h-4 w-3/5 rounded bg-white/[0.06]" />
-                    <div className="h-3 w-2/5 rounded bg-white/[0.04]" />
-                  </div>
-                  <div className="h-7 w-full rounded bg-white/[0.04]" />
+            <div className="border-t-[3px] border-ink" aria-busy="true" aria-label="Loading workspaces">
+              {[0, 1, 2].map((n) => (
+                <div key={n} className="flex items-center gap-6 border-b border-rule py-4">
+                  <div className="skeleton h-5 w-64" />
+                  <div className="skeleton hidden h-4 w-16 sm:block" />
+                  <div className="skeleton ml-auto h-4 w-44" />
                 </div>
               ))}
             </div>
-          ) : filteredRepositories.length === 0 ? (
-            <div className="rounded border border-dashed border-white/[0.1] bg-[#0c0c0e] p-10 text-center">
-              <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded border border-white/[0.08] bg-[#111113] text-zinc-400">
-                <FolderGit2 className="h-4 w-4" />
-              </div>
-              <h3 className="text-xs font-semibold text-zinc-200 font-mono">
-                {repositories.length === 0
-                  ? "No repositories indexed yet"
-                  : "No workspaces match your filter"}
-              </h3>
-              <p className="text-xs text-zinc-400 mt-1 max-w-md mx-auto leading-relaxed">
-                {repositories.length === 0
-                  ? "Import any public GitHub repository or load the FastAPI CloudFlow sample to inspect AST symbols and line-cited answers."
-                  : "Try clearing your search filter or switching the status tab."}
+          ) : loadFailed && repositories.length === 0 ? (
+            <div className="border-t-[3px] border-ink pt-6">
+              <p className="note note-error max-w-2xl">
+                The SpectraCode API did not respond, so workspaces could not be loaded. Start
+                the backend on port 8000, then refresh.
               </p>
-              <div className="mt-4 flex items-center justify-center gap-2">
-                <button
-                  onClick={() => setIsImportOpen(true)}
-                  className="cursor-pointer rounded bg-zinc-100 px-3.5 py-1.5 text-xs font-semibold text-zinc-950 hover:bg-white transition-colors shadow-sm"
-                >
-                  Import Repository
+              <button type="button" onClick={() => loadRepos()} className="btn mt-4">
+                Try again
+              </button>
+            </div>
+          ) : repositories.length === 0 ? (
+            <div className="border-t-[3px] border-ink pt-6">
+              <h3 className="text-lg font-bold">No repositories yet</h3>
+              <p className="mt-1 max-w-[62ch] text-ink-2">
+                Import any public GitHub repository by its URL. Indexing takes four
+                steps: clone, parse, embed, ready. To try a question straight away, load
+                the small FastAPI sample that ships with SpectraCode.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <button type="button" onClick={() => setIsImportOpen(true)} className="btn btn-primary">
+                  Import a repository
                 </button>
-                {repositories.length === 0 && (
-                  <button
-                    onClick={handleQuickSampleImport}
-                    className="cursor-pointer rounded border border-white/[0.08] bg-[#111113] px-3.5 py-1.5 text-xs font-medium text-zinc-300 hover:bg-[#16161a] transition-colors"
-                  >
-                    Load FastAPI Sample
-                  </button>
-                )}
+                <button
+                  type="button"
+                  onClick={handleQuickSampleImport}
+                  disabled={importingSample}
+                  className="btn"
+                >
+                  {importingSample ? "Loading the sample" : "Load the FastAPI sample"}
+                </button>
               </div>
             </div>
+          ) : filteredRepositories.length === 0 ? (
+            <div className="border-t-[3px] border-ink pt-6">
+              <p className="text-ink-2">No workspace matches this filter.</p>
+              <button
+                type="button"
+                onClick={() => {
+                  setSearchFilter("");
+                  setStatusFilter("all");
+                }}
+                className="btn btn-sm mt-3"
+              >
+                Clear the filter
+              </button>
+            </div>
           ) : (
-            <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredRepositories.map((repo) => {
-                const isIndexing = [
-                  "pending",
-                  "cloning",
-                  "parsing_ast",
-                  "embedding",
-                ].includes(repo.status);
-                const progress = getStageProgress(repo.status);
-                const avgChunksPerFile =
-                  repo.total_files > 0
-                    ? (repo.total_chunks / repo.total_files).toFixed(1)
-                    : "0.0";
-
-                return (
-                  <div
-                    key={repo.id}
-                    tabIndex={0}
-                    role="link"
-                    aria-label={`Open workspace for ${repo.github_owner}/${repo.github_name}`}
-                    onClick={() => router.push(`/repos/${repo.id}`)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        router.push(`/repos/${repo.id}`);
-                      }
-                    }}
-                    className="surface-card-interactive group cursor-pointer flex flex-col justify-between rounded p-4 border border-white/[0.07] bg-[#111113] hover:border-white/[0.16] focus-visible:ring-1 focus-visible:ring-white/40"
-                  >
-                    <div className="space-y-3">
-                      {/* Header: Owner/Name + Status */}
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <div className="flex items-center gap-2">
-                            <FolderGit2 className="h-4 w-4 text-zinc-500 group-hover:text-zinc-300 transition-colors shrink-0" />
-                            <span className="font-mono text-xs font-semibold text-zinc-100 group-hover:text-white transition-colors truncate">
-                              {repo.github_owner}/{repo.github_name}
-                            </span>
-                          </div>
-                          <p className="mt-1 font-mono text-[11px] text-zinc-500 truncate">
-                            {repo.clone_url}
-                          </p>
-                        </div>
-                        {getStatusBadge(repo.status)}
-                      </div>
-
-                      {/* Git Branch & Commit Metadata */}
-                      <div className="flex flex-wrap items-center gap-1.5 text-[11px] font-mono">
-                        <span className="inline-flex items-center gap-1 rounded border border-white/[0.08] bg-[#0c0c0e] px-1.5 py-0.2 text-zinc-300">
-                          <GitBranch className="h-2.5 w-2.5 text-zinc-500" />
-                          {repo.default_branch}
+            <>
+              {/* Wide screens: departure board */}
+              <table className="board hidden md:table">
+                <thead>
+                  <tr>
+                    <th scope="col">Repository</th>
+                    <th scope="col">Branch</th>
+                    <th scope="col" className="num !font-sans">Files</th>
+                    <th scope="col" className="num !font-sans">Spans</th>
+                    <th scope="col" className="pl-6">
+                      <span className="sr-only">Indexing progress</span>
+                      <IndexingLineHeader />
+                    </th>
+                    <th scope="col" className="!pr-0">
+                      <span className="sr-only">Actions</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredRepositories.map((repo) => (
+                    <tr
+                      key={repo.id}
+                      onClick={() => router.push(`/repos/${repo.id}`)}
+                      className="group cursor-pointer"
+                    >
+                      <td>
+                        <Link
+                          href={`/repos/${repo.id}`}
+                          onClick={(e) => e.stopPropagation()}
+                          className="font-bold text-ink group-hover:underline"
+                        >
+                          {repo.github_owner}/{repo.github_name}
+                        </Link>
+                        <span className="block max-w-[28rem] truncate font-mono text-xs text-sub">
+                          {sourceLabel(repo)}
                         </span>
-                        {repo.last_indexed_commit_sha && (
-                          <span className="inline-flex items-center gap-1 rounded border border-white/[0.08] bg-[#0c0c0e] px-1.5 py-0.2 text-zinc-400 tabular-nums">
-                            <GitCommit className="h-2.5 w-2.5 text-zinc-600" />
-                            {repo.last_indexed_commit_sha.slice(0, 8)}
+                        {repo.error_message && (
+                          <span className="mt-1 block max-w-[28rem] text-[0.8125rem] text-line-red">
+                            {repo.error_message}
                           </span>
                         )}
-                      </div>
-
-                      {/* Active Indexing Progress Bar */}
-                      {(isIndexing || repo.status === "failed") && (
-                        <div className="space-y-1 pt-1">
-                          <div className="flex items-center justify-between font-mono text-[10px] text-zinc-400">
-                            <span>Stage: {repo.status}</span>
-                            <span>{progress}%</span>
-                          </div>
-                          <div className="h-1 w-full overflow-hidden rounded bg-[#09090b]">
-                            <div
-                              className={`h-full rounded transition-all duration-300 ${
-                                repo.status === "failed"
-                                  ? "bg-rose-500"
-                                  : "bg-zinc-200"
-                              }`}
-                              style={{ width: `${progress}%` }}
-                            />
-                          </div>
-                        </div>
-                      )}
-
-                      {repo.error_message && (
-                        <div className="rounded border border-rose-500/30 bg-rose-950/20 p-2 text-[11px] text-rose-300 line-clamp-2">
-                          {repo.error_message}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Clean Tabular Footer & Workspace Link */}
-                    <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2.5 font-mono text-[11px] text-zinc-400 tabular-nums">
-                        <span>
-                          <strong className="font-semibold text-zinc-200">
-                            {repo.total_files}
-                          </strong>{" "}
-                          files
-                        </span>
-                        <span className="text-zinc-700">·</span>
-                        <span>
-                          <strong className="font-semibold text-zinc-200">
-                            {repo.total_chunks}
-                          </strong>{" "}
-                          spans
-                        </span>
-                        <span className="hidden sm:inline text-zinc-700">·</span>
-                        <span className="hidden sm:inline text-zinc-500">
-                          {avgChunksPerFile}/f
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-1.5 shrink-0">
+                      </td>
+                      <td className="font-mono text-sm">
+                        {repo.default_branch}
+                        {repo.last_indexed_commit_sha && (
+                          <span className="block text-xs text-sub">
+                            {repo.last_indexed_commit_sha.slice(0, 7)}
+                          </span>
+                        )}
+                      </td>
+                      <td className="num text-sm">{repo.total_files.toLocaleString()}</td>
+                      <td className="num text-sm">{repo.total_chunks.toLocaleString()}</td>
+                      <td className="pl-6">
+                        <IndexingLine status={repo.status} />
+                        {repo.status === "failed" && (
+                          <span className="mt-1 block text-xs font-semibold text-line-red">Failed</span>
+                        )}
+                      </td>
+                      <td className="!pr-0 text-right">
                         <Link
                           href={`/evaluation?repo=${repo.id}`}
                           onClick={(e) => e.stopPropagation()}
-                          title="Run Evaluation Benchmarks"
-                          aria-label={`Run benchmarks for ${repo.github_name}`}
-                          className="cursor-pointer flex h-6 w-6 items-center justify-center rounded border border-white/[0.08] bg-[#0c0c0e] text-zinc-400 hover:border-white/[0.18] hover:text-white transition-colors"
+                          className="text-sm font-semibold text-sub underline hover:text-ink"
                         >
-                          <BarChart3 className="h-3 w-3" />
+                          Benchmark
                         </Link>
-                        <span className="inline-flex items-center gap-1 rounded border border-white/[0.08] bg-[#16161a] group-hover:border-white/[0.2] group-hover:bg-zinc-100 group-hover:text-zinc-950 px-2 py-0.5 text-[11px] font-medium text-zinc-300 transition-colors">
-                          <span>Inspect</span>
-                          <ArrowUpRight className="h-2.5 w-2.5" />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {/* Narrow screens: one stop per row */}
+              <ul className="border-t-[3px] border-ink md:hidden">
+                {filteredRepositories.map((repo) => (
+                  <li key={repo.id} className="border-b border-rule py-3.5">
+                    <Link href={`/repos/${repo.id}`} className="block">
+                      <span className="block font-bold text-ink">
+                        {repo.github_owner}/{repo.github_name}
+                      </span>
+                      <span className="block truncate font-mono text-xs text-sub">
+                        {repo.default_branch} · {repo.total_files.toLocaleString()} files ·{" "}
+                        {repo.total_chunks.toLocaleString()} spans
+                      </span>
+                      <span className="mt-2.5 flex items-center gap-3">
+                        <IndexingLine status={repo.status} />
+                        <span
+                          className={`text-[0.8125rem] font-semibold ${
+                            repo.status === "failed" ? "text-line-red" : "text-ink-2"
+                          }`}
+                        >
+                          {indexingLabel(repo.status)}
                         </span>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+                      </span>
+                    </Link>
+                    {repo.error_message && (
+                      <p className="mt-1.5 text-[0.8125rem] text-line-red">{repo.error_message}</p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </>
           )}
         </section>
 
-        {/* Architectural Pipeline Specification Ledger */}
-        <section className="rounded border border-white/[0.07] bg-[#0c0c0e] divide-y sm:divide-y-0 sm:divide-x divide-white/[0.07] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 shadow-sm">
-          <div className="p-3.5 space-y-1">
-            <div className="flex items-center justify-between font-mono text-[11px]">
-              <span className="font-semibold text-zinc-200">
-                Tree-sitter AST Chunker
-              </span>
-              <span className="text-zinc-500 tabular-nums">01</span>
-            </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              Extracts classes, functions, methods, and docstrings with exact 1-based line intervals and scope headers.
-            </p>
-          </div>
-
-          <div className="p-3.5 space-y-1">
-            <div className="flex items-center justify-between font-mono text-[11px]">
-              <span className="font-semibold text-zinc-200">
-                Hybrid RRF Retrieval
-              </span>
-              <span className="text-zinc-500 tabular-nums">02</span>
-            </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              Dynamic Reciprocal Rank Fusion combining dense ONNX vectors with camelCase and snake_case lexical matching.
-            </p>
-          </div>
-
-          <div className="p-3.5 space-y-1">
-            <div className="flex items-center justify-between font-mono text-[11px]">
-              <span className="font-semibold text-zinc-200">
-                Grounded Citation Gate
-              </span>
-              <span className="text-zinc-500 tabular-nums">03</span>
-            </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              Validates every <code className="font-mono text-zinc-300">[file:L-L]</code> citation against retrieved AST spans and abstains on unverified claims.
-            </p>
-          </div>
-
-          <div className="p-3.5 space-y-1">
-            <div className="flex items-center justify-between font-mono text-[11px]">
-              <span className="font-semibold text-zinc-200">
-                Quantitative Benchmarks
-              </span>
-              <span className="text-zinc-500 tabular-nums">04</span>
-            </div>
-            <p className="text-xs text-zinc-400 leading-relaxed">
-              Reproducible benchmark suite measuring Recall@K, MRR, Citation Precision/Recall/F1, and Faithfulness.
-            </p>
-          </div>
+        {/* How an answer gets checked: the pipeline as a five-stop line */}
+        <section aria-labelledby="how-heading" className="border-t-[3px] border-ink pb-20 pt-10">
+          <h2 id="how-heading" className="text-2xl font-extrabold tracking-[-0.01em]">
+            How an answer gets checked
+          </h2>
+          <ol className="relative mt-8 grid gap-y-7 lg:grid-cols-5 lg:gap-x-8">
+            <span
+              aria-hidden="true"
+              className="absolute bottom-3 left-[11px] top-3 w-1.5 rounded-full bg-ink lg:bottom-auto lg:left-3 lg:right-[calc(20%-1.75rem)] lg:top-[9px] lg:h-1.5 lg:w-auto"
+            />
+            {HOW_IT_WORKS.map((step, i) => (
+              <li key={step.name} className="relative pl-10 lg:pl-0">
+                <span
+                  aria-hidden="true"
+                  className={`absolute left-0 top-0 block h-6 w-6 rounded-full border-4 border-ink lg:static ${
+                    i === HOW_IT_WORKS.length - 1 ? "bg-signal" : "bg-white"
+                  }`}
+                />
+                <h3 className="text-lg font-bold leading-6 lg:mt-3">{step.name}</h3>
+                <p className="mt-1 max-w-[46ch] text-[0.9375rem] leading-relaxed text-ink-2">{step.text}</p>
+              </li>
+            ))}
+          </ol>
+          <p className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 border-t border-rule pt-4 text-sm text-sub">
+            <span>Reads Python, TypeScript, TSX and JavaScript.</span>
+            <span>Search embeddings are computed on your machine.</span>
+            <Link href="/evaluation" className="ml-auto inline-flex items-center gap-1 font-semibold text-ink underline hover:text-line-blue">
+              See the benchmarks
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </p>
         </section>
       </main>
 

@@ -2,20 +2,84 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  BarChart3,
-  Play,
-  ArrowLeft,
-  Loader2,
-  CheckCircle2,
-  Target,
-  Terminal,
-  AlertCircle,
-  ArrowUpRight,
-  FileCode2,
-} from "lucide-react";
-import { api, EvaluationReport, Repository } from "@/lib/api";
+import { api, EvaluationReport, EvaluationSample, Repository } from "@/lib/api";
 import { Navbar } from "@/components/Navbar";
+import { cn } from "@/lib/utils";
+
+type Span = { file_path: string; start_line: number; end_line: number };
+
+/*
+ * Same rule the backend evaluator uses for citation precision: the two
+ * spans are in the same file and share at least one line.
+ */
+const normPath = (p: string) => p.replace(/\\/g, "/").replace(/^\/+/, "");
+
+function spansOverlap(a: Span, b: Span): boolean {
+  const pa = normPath(a.file_path);
+  const pb = normPath(b.file_path);
+  if (!(pa === pb || pa.endsWith(pb) || pb.endsWith(pa))) return false;
+  return Math.min(a.end_line, b.end_line) - Math.max(a.start_line, b.start_line) + 1 > 0;
+}
+
+const spanText = (s: Span) => `${s.file_path}:${s.start_line}-${s.end_line}`;
+const wholePct = (v: number) => `${(v * 100).toFixed(0)}%`;
+
+/** Bar drawn to scale from 0 to full score, with the target as a red tick. */
+function ScoreBar({ value, target, className }: { value: number; target: number; className?: string }) {
+  const pct = Math.min(100, Math.max(0, value * 100));
+  return (
+    <div aria-hidden="true" className={cn("relative h-2 w-full bg-sunk", className)}>
+      <div className="h-full bg-ink" style={{ width: `${pct}%` }} />
+      <span
+        className="absolute -bottom-1 -top-1 w-0.5 bg-line-red"
+        style={{ left: `calc(${target * 100}% - 1px)` }}
+      />
+    </div>
+  );
+}
+
+function Dot({ tone }: { tone: "green" | "red" | "orange" }) {
+  return (
+    <span
+      aria-hidden="true"
+      className={cn(
+        "inline-block h-2 w-2 shrink-0 rounded-full",
+        tone === "green" && "bg-line-green",
+        tone === "red" && "bg-line-red",
+        tone === "orange" && "bg-line-orange"
+      )}
+    />
+  );
+}
+
+/** What the search column says for one question. */
+function foundStatus(sample: EvaluationSample): { tone: "green" | "red" | "orange"; text: string } {
+  if (sample.ground_truth_spans.length === 0) {
+    return sample.recall_at_k >= 1
+      ? { tone: "green", text: "Declined, as expected" }
+      : { tone: "red", text: "Answered, should have declined" };
+  }
+  if (sample.recall_at_k >= 1) return { tone: "green", text: "Yes" };
+  if (sample.recall_at_k > 0) return { tone: "orange", text: `Partly, ${wholePct(sample.recall_at_k)}` };
+  return { tone: "red", text: "No" };
+}
+
+function TableSkeleton({ label }: { label: string }) {
+  return (
+    <div className="border-t-[3px] border-ink" aria-busy="true" aria-label={label}>
+      {[0, 1, 2, 3, 4, 5].map((n) => (
+        <div key={n} className="flex items-center gap-6 border-b border-rule py-4">
+          <div className="w-64 max-w-[45%] shrink-0">
+            <div className="skeleton h-5 w-full" />
+            <div className="skeleton mt-2 h-3 w-2/3" />
+          </div>
+          <div className="skeleton ml-auto h-5 w-16 md:ml-0" />
+          <div className="skeleton hidden h-2 flex-1 md:block" />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function EvaluationDashboardPage() {
   const [repositories, setRepositories] = useState<Repository[]>([]);
@@ -23,6 +87,9 @@ export default function EvaluationDashboardPage() {
   const [report, setReport] = useState<EvaluationReport | null>(null);
   const [running, setRunning] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Display only: lets the page tell "still loading" from "nothing there".
+  const [reposState, setReposState] = useState<"loading" | "ready" | "failed">("loading");
+  const [reportLoading, setReportLoading] = useState(false);
 
   useEffect(() => {
     const params =
@@ -35,6 +102,7 @@ export default function EvaluationDashboardPage() {
       .listRepositories()
       .then((repos) => {
         setRepositories(repos);
+        setReposState("ready");
         if (repos.length > 0) {
           const match =
             requestedRepo && repos.find((r) => r.id === requestedRepo);
@@ -45,12 +113,14 @@ export default function EvaluationDashboardPage() {
       })
       .catch((err) => {
         console.error(err);
+        setReposState("failed");
       });
   }, []);
 
   const loadLatestEvaluation = async (repoId: string) => {
     try {
       setError(null);
+      setReportLoading(true);
       const runs = await api.listEvaluations(repoId);
       if (runs.length > 0) {
         setReport(runs[0]);
@@ -59,6 +129,8 @@ export default function EvaluationDashboardPage() {
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setReportLoading(false);
     }
   };
 
@@ -77,322 +149,422 @@ export default function EvaluationDashboardPage() {
     }
   };
 
-  const kpiMetrics = [
-    {
-      group: "Retrieval",
-      label: "Recall@5",
-      value: report ? `${(report.mean_recall_at_k * 100).toFixed(1)}%` : "—",
-      pct: report ? report.mean_recall_at_k * 100 : 0,
-      desc: "Ground-truth span coverage",
-    },
-    {
-      group: "Retrieval",
-      label: "MRR@5",
-      value: report ? report.mean_mrr.toFixed(3) : "—",
-      pct: report ? report.mean_mrr * 100 : 0,
-      desc: "Mean reciprocal rank",
-    },
-    {
-      group: "Grounding",
-      label: "Citation Precision",
-      value: report
-        ? `${(report.mean_citation_precision * 100).toFixed(1)}%`
-        : "—",
-      pct: report ? report.mean_citation_precision * 100 : 0,
-      desc: "Citations intersecting GT",
-    },
-    {
-      group: "Grounding",
-      label: "Citation Recall",
-      value: report
-        ? `${(report.mean_citation_recall * 100).toFixed(1)}%`
-        : "—",
-      pct: report ? report.mean_citation_recall * 100 : 0,
-      desc: "GT intervals cited",
-    },
-    {
-      group: "Grounding",
-      label: "Citation F1",
-      value: report ? `${(report.mean_citation_f1 * 100).toFixed(1)}%` : "—",
-      pct: report ? report.mean_citation_f1 * 100 : 0,
-      desc: "Harmonic grounding mean",
-    },
-    {
-      group: "Integrity",
-      label: "Faithfulness",
-      value: report ? `${(report.mean_faithfulness * 100).toFixed(1)}%` : "—",
-      pct: report ? report.mean_faithfulness * 100 : 0,
-      desc: "Code context entailment",
-    },
-  ];
+  /* Targets are the ones published in docs/EVALUATION_REPORT.md, section 2. */
+  const metrics = report
+    ? [
+        {
+          name: "Right code found",
+          realName: "Recall@5",
+          explain: "Share of the expected code spans that appear in the top 5 search results.",
+          value: report.mean_recall_at_k,
+          target: 0.85,
+          decimal: false,
+        },
+        {
+          name: "How high the right code ranks",
+          realName: "MRR@5, scored from 0 to 1",
+          explain:
+            "1 means the first result was a right one, 0.5 the second, 0 none in the top 5. Averaged over the questions.",
+          value: report.mean_mrr,
+          target: 0.75,
+          decimal: true,
+        },
+        {
+          name: "Citations that point at the right code",
+          realName: "Citation precision",
+          explain: "Share of the answer's citations that overlap an expected span.",
+          value: report.mean_citation_precision,
+          target: 0.7,
+          decimal: false,
+        },
+        {
+          name: "Expected code that got cited",
+          realName: "Citation recall",
+          explain: "Share of the expected spans that the answer cites.",
+          value: report.mean_citation_recall,
+          target: 0.8,
+          decimal: false,
+        },
+        {
+          name: "Citation precision and recall combined",
+          realName: "Citation F1",
+          explain: "One figure for the two rows above. It is high only when both are.",
+          value: report.mean_citation_f1,
+          target: 0.8,
+          decimal: false,
+        },
+        {
+          name: "Citations backed by retrieved code",
+          realName: "Faithfulness",
+          explain: "Share of citations that lie inside the code the search retrieved for that question.",
+          value: report.mean_faithfulness,
+          target: 0.95,
+          decimal: false,
+        },
+      ]
+    : [];
+
+  const selectedRepo = repositories.find((r) => r.id === selectedRepoId);
+  const reportRepo = report
+    ? repositories.find((r) => r.id === report.repository_id) ?? selectedRepo
+    : undefined;
+  const busy = running || reportLoading;
+  const samples = report?.sample_results ?? [];
+
+  const runButton = (
+    <button
+      type="button"
+      onClick={handleRunBenchmark}
+      disabled={running || !selectedRepoId}
+      className="btn btn-primary"
+    >
+      {running && (
+        <span aria-hidden="true" className="station-now block h-2.5 w-2.5 border border-ink bg-signal" />
+      )}
+      {running ? "Running" : "Run benchmark"}
+    </button>
+  );
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-zinc-100 flex flex-col font-sans">
+    <div className="flex min-h-screen flex-col bg-white">
       <Navbar repositories={repositories} />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-7">
-        {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 border-b border-white/[0.07] pb-6">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <Link
-                href="/"
-                aria-label="Back to Workspaces"
-                className="cursor-pointer text-xs text-zinc-400 hover:text-white flex items-center gap-1 transition-colors"
-              >
-                <ArrowLeft className="h-3.5 w-3.5" /> Workspaces
-              </Link>
-              <span className="text-zinc-600">/</span>
-              <span className="font-mono text-xs text-zinc-400 font-medium">
-                QUANTITATIVE BENCHMARK SUITE
-              </span>
-            </div>
-            <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-100 flex items-center gap-2.5 font-mono">
-              <BarChart3 className="h-6 w-6 text-zinc-400" />
-              <span>Retrieval &amp; Citation Grounding Benchmarks</span>
-            </h1>
-            <p className="text-xs sm:text-sm text-zinc-400 mt-1">
-              Automated evaluation measuring Recall@K, MRR, line-interval Citation Precision/Recall/F1, and Faithfulness.
+      <main className="mx-auto w-full max-w-[84rem] flex-1 px-4 pb-20 sm:px-8">
+        <header className="pb-8 pt-10 sm:pt-14">
+          <h1 className="text-[2.5rem] font-extrabold leading-none tracking-[-0.025em]">Benchmarks</h1>
+          <p className="mt-4 max-w-[62ch] text-lg leading-relaxed text-ink-2">
+            This page asks a repository a fixed set of questions, then scores whether
+            the search found the right code and whether each citation points at the
+            right lines.
+          </p>
+        </header>
+
+        {reposState === "loading" ? (
+          <TableSkeleton label="Loading repositories" />
+        ) : reposState === "failed" ? (
+          <div className="border-t-[3px] border-ink pt-6">
+            <p className="note note-error max-w-2xl">
+              The SpectraCode API did not respond, so repositories could not be loaded.
+              Start the backend on port 8000, then reload this page.
             </p>
           </div>
-
-          <div className="flex flex-wrap items-center gap-2.5">
-            <select
-              value={selectedRepoId}
-              onChange={(e) => {
-                setSelectedRepoId(e.target.value);
-                loadLatestEvaluation(e.target.value);
-              }}
-              aria-label="Select repository for evaluation"
-              className="cursor-pointer rounded border border-white/[0.08] bg-[#111113] px-3 py-1.5 font-mono text-xs text-zinc-200 outline-none focus:border-white/[0.25] transition-colors"
-            >
-              {repositories.map((r) => (
-                <option key={r.id} value={r.id}>
-                  {r.github_owner}/{r.github_name}
-                </option>
-              ))}
-            </select>
-
-            {selectedRepoId && (
-              <Link
-                href={`/repos/${selectedRepoId}`}
-                aria-label="Open Workspace for selected repository"
-                className="cursor-pointer flex items-center gap-1.5 rounded border border-white/[0.08] bg-[#111113] hover:border-white/[0.16] hover:text-white px-3 py-1.5 text-xs font-medium text-zinc-300 transition-colors focus-visible:ring-1 focus-visible:ring-white/40"
-              >
-                <span>Open Workspace</span>
-                <ArrowUpRight className="h-3.5 w-3.5 text-zinc-400" />
-              </Link>
-            )}
-
-            <button
-              onClick={handleRunBenchmark}
-              disabled={running || !selectedRepoId}
-              aria-label="Execute automated benchmark suite"
-              className="cursor-pointer flex items-center gap-2 rounded bg-zinc-100 hover:bg-white px-4 py-1.5 text-xs font-semibold text-zinc-950 transition-colors disabled:opacity-40 focus-visible:ring-2 focus-visible:ring-zinc-400 shadow-sm"
-            >
-              {running ? (
-                <>
-                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                  <span>Running Suite...</span>
-                </>
-              ) : (
-                <>
-                  <Play className="h-3.5 w-3.5 fill-zinc-950" />
-                  <span>Run Benchmark Suite</span>
-                </>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {error && (
-          <div className="flex items-center gap-2.5 rounded border border-rose-500/30 bg-rose-950/20 p-3.5 text-xs text-rose-300">
-            <AlertCircle className="h-4 w-4 text-rose-400 shrink-0" />
-            <span>{error}</span>
-          </div>
-        )}
-
-        {/* Cohesive 6-Metric Quantitative Ledger */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 divide-y sm:divide-y-0 sm:divide-x divide-white/[0.07] rounded border border-white/[0.08] bg-[#0c0c0e] tabular-nums shadow-sm">
-          {kpiMetrics.map((kpi) => {
-            const isHigh = kpi.pct >= 80;
-            return (
-              <div
-                key={kpi.label}
-                className="p-4 flex flex-col justify-between space-y-3"
-              >
-                <div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-medium text-zinc-400 font-mono">
-                      {kpi.label}
-                    </span>
-                    <span className="font-mono text-[9px] uppercase text-zinc-500">
-                      {kpi.group}
-                    </span>
-                  </div>
-                  <div className="mt-1.5 font-mono text-2xl font-semibold text-zinc-100">
-                    {kpi.value}
-                  </div>
-                </div>
-                <div className="space-y-1.5">
-                  <div className="h-1 w-full overflow-hidden rounded-full bg-[#18181b]">
-                    <div
-                      className={`h-full rounded-full transition-all duration-500 ${
-                        !report
-                          ? "bg-zinc-800"
-                          : isHigh
-                          ? "bg-emerald-500"
-                          : "bg-zinc-300"
-                      }`}
-                      style={{
-                        width: `${Math.min(100, Math.max(0, kpi.pct))}%`,
-                      }}
-                    />
-                  </div>
-                  <span className="text-[10px] text-zinc-500 block font-mono">
-                    {kpi.desc}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Detailed Benchmark Verification Ledger */}
-        <div className="rounded border border-white/[0.07] bg-[#0c0c0e] overflow-hidden">
-          <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.07] bg-[#09090b] px-5 py-3">
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-zinc-200 flex items-center gap-2">
-              <Terminal className="h-4 w-4 text-zinc-400" />
-              <span>Benchmark Test Queries &amp; Ground-Truth Span Verification</span>
+        ) : repositories.length === 0 ? (
+          <div className="border-t-[3px] border-ink pt-6">
+            <h2 className="text-2xl font-extrabold tracking-[-0.01em]">
+              No repository is ready to benchmark
             </h2>
-            {report && (
-              <span className="font-mono text-xs text-zinc-400 tabular-nums">
-                Commit: {report.commit_sha} · Evaluated{" "}
-                {new Date(report.created_at).toLocaleString()}
-              </span>
-            )}
+            <p className="mt-1 max-w-[62ch] text-ink-2">
+              A benchmark runs against a repository that has been imported and
+              indexed. None has been imported yet.
+            </p>
+            <Link href="/" className="btn btn-primary mt-5">
+              Import a repository
+            </Link>
           </div>
-
-          {report && report.sample_results && report.sample_results.length > 0 ? (
-            <div className="divide-y divide-white/[0.07]">
-              {report.sample_results.map((sample, idx) => (
-                <div
-                  key={sample.query_id || idx}
-                  className="p-5 space-y-4 hover:bg-white/[0.01] transition-colors"
-                >
-                  <div className="flex flex-wrap items-start justify-between gap-4">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
-                        <span className="inline-flex items-center gap-1 rounded border border-white/[0.08] bg-[#111113] px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-zinc-300">
-                          <Target className="h-3 w-3 text-zinc-400" /> {sample.query_id}
-                        </span>
-                      </div>
-                      <h3 className="text-sm font-semibold text-zinc-100 pt-0.5">
-                        {sample.query}
-                      </h3>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-1.5 font-mono text-[11px] shrink-0 tabular-nums">
-                      <span className="rounded border border-white/[0.08] bg-[#111113] px-2.5 py-0.5 text-zinc-300">
-                        Recall:{" "}
-                        <strong className="text-zinc-100">
-                          {(sample.recall_at_k * 100).toFixed(0)}%
-                        </strong>
-                      </span>
-                      <span className="rounded border border-white/[0.08] bg-[#111113] px-2.5 py-0.5 text-zinc-300">
-                        Cit P:{" "}
-                        <strong className="text-emerald-400">
-                          {(sample.citation_precision * 100).toFixed(0)}%
-                        </strong>
-                      </span>
-                      <span className="rounded border border-white/[0.08] bg-[#111113] px-2.5 py-0.5 text-zinc-300">
-                        Cit F1:{" "}
-                        <strong className="text-zinc-100">
-                          {(sample.citation_f1 * 100).toFixed(0)}%
-                        </strong>
-                      </span>
-                      <span className="rounded border border-white/[0.08] bg-[#111113] px-2.5 py-0.5 text-zinc-300">
-                        Faith:{" "}
-                        <strong className="text-zinc-100">
-                          {(sample.faithfulness * 100).toFixed(0)}%
-                        </strong>
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
-                    <div className="rounded border border-white/[0.07] bg-[#111113] p-3 font-mono text-[11px] space-y-1.5 tabular-nums">
-                      <span className="text-zinc-400 font-semibold block text-[10px] uppercase tracking-wider">
-                        Ground-Truth Target Spans
-                      </span>
-                      {sample.ground_truth_spans.length > 0 ? (
-                        <div className="flex flex-wrap gap-1.5 pt-0.5">
-                          {sample.ground_truth_spans.map((gt, i) => (
-                            <span
-                              key={i}
-                              className="inline-flex items-center gap-1.5 rounded border border-white/[0.08] bg-[#16161a] px-2 py-0.5 text-zinc-200"
-                            >
-                              <FileCode2 className="h-3 w-3 text-zinc-400" />
-                              <span>
-                                {gt.file_path}:{gt.start_line}-{gt.end_line}
-                              </span>
-                            </span>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="text-zinc-400 italic">
-                          None (Out-of-scope abstention test case)
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="rounded border border-white/[0.07] bg-[#111113] p-3 font-mono text-[11px] space-y-1.5 tabular-nums">
-                      <span className="text-zinc-400 font-semibold block text-[10px] uppercase tracking-wider">
-                        Verified Citations Emitted by RepoLens
-                      </span>
-                      {sample.emitted_citations.length > 0 ? (
-                        <div className="flex flex-wrap gap-1.5 pt-0.5">
-                          {sample.emitted_citations.map((c, i) => (
-                            <span
-                              key={i}
-                              className="inline-flex items-center gap-1.5 rounded border border-emerald-500/25 bg-emerald-500/10 px-2 py-0.5 text-emerald-300"
-                            >
-                              <CheckCircle2 className="h-3 w-3 text-emerald-400 shrink-0" />
-                              <span>
-                                {c.file_path}:{c.start_line}-{c.end_line}
-                              </span>
-                            </span>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="text-zinc-400 italic">
-                          No citations emitted (Grounding gate safely abstained)
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="rounded border border-white/[0.06] bg-[#111113]/80 p-3 text-xs text-zinc-300">
-                    <span className="font-mono text-[10px] uppercase font-semibold text-zinc-500 block mb-1">
-                      Generated Grounded Answer
-                    </span>
-                    <p className="line-clamp-3 whitespace-pre-wrap font-sans leading-relaxed text-zinc-300">
-                      {sample.generated_answer}
-                    </p>
-                  </div>
+        ) : (
+          <>
+            {/* Controls */}
+            <section aria-label="Run a benchmark" className="border-t-[3px] border-ink pb-10 pt-4">
+              <div className="flex flex-wrap items-end gap-x-3 gap-y-3">
+                <div className="w-full sm:w-80">
+                  <label htmlFor="benchmark-repo" className="mb-1 block text-sm font-semibold">
+                    Repository
+                  </label>
+                  <select
+                    id="benchmark-repo"
+                    value={selectedRepoId}
+                    onChange={(e) => {
+                      setSelectedRepoId(e.target.value);
+                      loadLatestEvaluation(e.target.value);
+                    }}
+                    className="field cursor-pointer"
+                  >
+                    {repositories.map((r) => (
+                      <option key={r.id} value={r.id}>
+                        {r.github_owner}/{r.github_name}
+                        {r.status === "ready" ? "" : " (not ready)"}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className="p-12 text-center text-xs text-zinc-400">
-              Click{" "}
-              <span className="font-semibold text-zinc-200">
-                &ldquo;Run Benchmark Suite&rdquo;
-              </span>{" "}
-              above to execute the automated retrieval &amp; citation grounding evaluation on this codebase.
-            </div>
-          )}
-        </div>
+
+                {runButton}
+
+                {selectedRepoId && (
+                  <Link href={`/repos/${selectedRepoId}`} className="btn">
+                    Open workspace
+                  </Link>
+                )}
+
+                {running && (
+                  <p role="status" className="basis-full text-sm text-sub sm:basis-auto sm:self-center">
+                    Running the benchmark. Scores appear below when it finishes.
+                  </p>
+                )}
+              </div>
+
+              {error && (
+                <p role="alert" className="note note-error mt-4 max-w-2xl">
+                  The benchmark did not finish ({error.replace(/\.$/, "")}). Make sure the
+                  SpectraCode backend is running on port 8000 and this repository has
+                  finished indexing, then run it again.
+                </p>
+              )}
+
+              {selectedRepo && selectedRepo.status !== "ready" && (
+                <p className="note note-warn mt-4 max-w-2xl">
+                  This repository has not finished indexing, so a run now would search
+                  an incomplete index.{" "}
+                  <Link href="/" className="font-semibold underline">
+                    Check its progress
+                  </Link>
+                </p>
+              )}
+
+              {selectedRepo && selectedRepo.clone_url !== "sample:fastapi" && (
+                <p className="note note-warn mt-4 max-w-2xl">
+                  The questions and expected spans were written for the bundled FastAPI
+                  sample. On another repository those files are not there, so the
+                  scores say little about it.
+                </p>
+              )}
+            </section>
+
+            {busy ? (
+              <section aria-labelledby="scores-heading">
+                <h2 id="scores-heading" className="pb-3 text-2xl font-extrabold tracking-[-0.01em]">
+                  Scores
+                </h2>
+                <TableSkeleton label={running ? "Running the benchmark" : "Loading the latest run"} />
+              </section>
+            ) : !report ? (
+              <section className="border-t border-rule pt-6">
+                <h2 className="text-2xl font-extrabold tracking-[-0.01em]">
+                  No benchmark has been run for this repository
+                </h2>
+                <p className="mt-1 max-w-[62ch] text-ink-2">
+                  A run asks each benchmark question, records the code the search
+                  returned and the lines the answer cited, and compares both with the
+                  expected spans. It needs an indexed repository. No API key is
+                  required: answers come from Gemini when{" "}
+                  <code className="text-[0.875rem] text-ink">GEMINI_API_KEY</code> is set
+                  on the backend, and from the built-in answer writer otherwise.
+                </p>
+                <div className="mt-5">{runButton}</div>
+              </section>
+            ) : (
+              <>
+                {/* Scores */}
+                <section aria-labelledby="scores-heading" className="pb-14">
+                  <h2 id="scores-heading" className="text-2xl font-extrabold tracking-[-0.01em]">
+                    Scores
+                  </h2>
+                  <table className="board mt-1">
+                    <caption className="caption-top pb-3 text-left text-sm text-sub">
+                      {reportRepo && (
+                        <>
+                          {reportRepo.github_owner}/{reportRepo.github_name},{" "}
+                        </>
+                      )}
+                      commit <span className="font-mono">{report.commit_sha.slice(0, 7)}</span>, run{" "}
+                      <span className="tabular-nums">{new Date(report.created_at).toLocaleString()}</span>
+                    </caption>
+                    <thead>
+                      <tr>
+                        <th scope="col">Metric</th>
+                        <th scope="col" className="num !font-sans">Score</th>
+                        <th scope="col" className="hidden !pr-0 pl-4 md:table-cell md:w-[38%]">
+                          <span className="flex items-center justify-between gap-3">
+                            <span>0</span>
+                            <span className="inline-flex items-center gap-1.5">
+                              <span aria-hidden="true" className="block h-3 w-0.5 bg-line-red" />
+                              Target
+                            </span>
+                            <span>Full score</span>
+                          </span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {metrics.map((m) => {
+                        const passes = m.value >= m.target;
+                        const score = m.decimal ? m.value.toFixed(3) : `${(m.value * 100).toFixed(1)}%`;
+                        const target = m.decimal ? m.target.toFixed(3) : wholePct(m.target);
+                        return (
+                          <tr key={m.realName}>
+                            <th scope="row" className="!border-rule !py-3 !text-base !font-normal !text-ink">
+                              <span className="block font-bold">{m.name}</span>
+                              <span className="block text-xs text-sub">{m.realName}</span>
+                              <span className="mt-0.5 block max-w-[56ch] text-sm text-ink-2">{m.explain}</span>
+                              <ScoreBar value={m.value} target={m.target} className="mt-3 md:hidden" />
+                            </th>
+                            <td className={cn("num whitespace-nowrap", passes ? "text-line-green" : "text-line-red")}>
+                              <span className="block text-lg font-semibold">{score}</span>
+                              <span className="block font-sans text-xs font-semibold">
+                                {passes ? "meets target" : "below target"} of {target}
+                              </span>
+                            </td>
+                            <td className="hidden !pr-0 pl-4 md:table-cell">
+                              <ScoreBar value={m.value} target={m.target} />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                  <p className="mt-3 max-w-[80ch] text-[0.8125rem] text-sub">
+                    An expected span counts as found or cited when at least 40% of its
+                    lines are covered. Targets are the ones in the project&apos;s
+                    evaluation report.
+                  </p>
+                </section>
+
+                {/* Per-question results */}
+                <section aria-labelledby="questions-heading">
+                  <h2 id="questions-heading" className="pb-3 text-2xl font-extrabold tracking-[-0.01em]">
+                    Results by question
+                  </h2>
+                  {samples.length === 0 ? (
+                    <p className="max-w-[62ch] border-t-[3px] border-ink pt-4 text-ink-2">
+                      This saved run was loaded without its per-question results. Run
+                      the benchmark again to see them.
+                    </p>
+                  ) : (
+                    <>
+                      <table className="board">
+                        <thead>
+                          <tr>
+                            <th scope="col">Question</th>
+                            <th scope="col">Found in top results</th>
+                            <th scope="col" className="num hidden !font-sans sm:table-cell">Citation precision</th>
+                            <th scope="col" className="num hidden !font-sans sm:table-cell">Citation recall</th>
+                            <th scope="col" className="num hidden !pr-0 !font-sans sm:table-cell">Faithfulness</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {samples.map((sample, idx) => {
+                            const found = foundStatus(sample);
+                            return (
+                              <tr key={sample.query_id || idx}>
+                                <td className="align-top">
+                                  <details>
+                                    <summary className="cursor-pointer font-semibold text-ink hover:underline">
+                                      {sample.query}
+                                    </summary>
+                                    <div className="pb-2 pt-3">
+                                      <dl className="mb-4 grid grid-cols-3 gap-3 text-sm sm:hidden">
+                                        {[
+                                          ["Citation precision", sample.citation_precision],
+                                          ["Citation recall", sample.citation_recall],
+                                          ["Faithfulness", sample.faithfulness],
+                                        ].map(([label, v]) => (
+                                          <div key={label as string}>
+                                            <dt className="text-xs text-sub">{label}</dt>
+                                            <dd className="font-mono tabular-nums">{wholePct(v as number)}</dd>
+                                          </div>
+                                        ))}
+                                      </dl>
+
+                                      <h3 className="text-sm font-semibold text-sub">Generated answer</h3>
+                                      <p className="mt-1 max-w-[70ch] whitespace-pre-wrap text-base leading-relaxed text-ink-2">
+                                        {sample.generated_answer}
+                                      </p>
+
+                                      <div className="mt-5 grid gap-x-8 gap-y-5 lg:grid-cols-2">
+                                        <div>
+                                          <h3 className="text-sm font-semibold text-sub">Expected spans</h3>
+                                          {sample.ground_truth_spans.length > 0 ? (
+                                            <ul className="mt-1.5 space-y-1.5">
+                                              {sample.ground_truth_spans.map((gt, i) => (
+                                                <li key={i} className="break-all font-mono text-[0.8125rem] tabular-nums text-ink">
+                                                  {spanText(gt)}
+                                                </li>
+                                              ))}
+                                            </ul>
+                                          ) : (
+                                            <p className="mt-1.5 text-sm text-ink-2">
+                                              None. The repository has no code for this
+                                              question, so the right response is to decline.
+                                            </p>
+                                          )}
+                                        </div>
+                                        <div>
+                                          <h3 className="text-sm font-semibold text-sub">Cited spans</h3>
+                                          {sample.emitted_citations.length > 0 ? (
+                                            <ul className="mt-1.5 space-y-1.5">
+                                              {sample.emitted_citations.map((c, i) => {
+                                                const matches = sample.ground_truth_spans.some((gt) =>
+                                                  spansOverlap(c, gt)
+                                                );
+                                                return (
+                                                  <li key={i} className="flex items-center gap-2">
+                                                    <span
+                                                      aria-hidden="true"
+                                                      className={cn(
+                                                        "block h-5 w-5 shrink-0 rounded-full",
+                                                        matches ? "bg-line-green" : "bg-line-red"
+                                                      )}
+                                                    />
+                                                    <span className="break-all font-mono text-[0.8125rem] tabular-nums text-ink">
+                                                      {spanText(c)}
+                                                    </span>
+                                                    <span
+                                                      className={cn(
+                                                        "whitespace-nowrap text-xs font-semibold",
+                                                        matches ? "text-line-green" : "text-line-red"
+                                                      )}
+                                                    >
+                                                      {matches ? "matches" : "no match"}
+                                                    </span>
+                                                  </li>
+                                                );
+                                              })}
+                                            </ul>
+                                          ) : (
+                                            <p className="mt-1.5 text-sm text-ink-2">
+                                              None. The answer cites no code.
+                                            </p>
+                                          )}
+                                        </div>
+                                      </div>
+                                      <p className="mt-4 text-xs text-sub">
+                                        Question id <span className="font-mono">{sample.query_id}</span>
+                                      </p>
+                                    </div>
+                                  </details>
+                                </td>
+                                <td className="whitespace-nowrap align-top text-sm">
+                                  <span className="inline-flex items-center gap-2">
+                                    <Dot tone={found.tone} />
+                                    {found.text}
+                                  </span>
+                                </td>
+                                <td className="num hidden align-top text-sm sm:table-cell">
+                                  {wholePct(sample.citation_precision)}
+                                </td>
+                                <td className="num hidden align-top text-sm sm:table-cell">
+                                  {wholePct(sample.citation_recall)}
+                                </td>
+                                <td className="num hidden !pr-0 align-top text-sm sm:table-cell">
+                                  {wholePct(sample.faithfulness)}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                      <p className="mt-3 max-w-[80ch] text-[0.8125rem] text-sub">
+                        Select a question to read its answer and compare the cited spans
+                        with the expected ones. A question the repository cannot answer
+                        scores 100% when SpectraCode declines and 0% when it answers anyway.
+                      </p>
+                    </>
+                  )}
+                </section>
+              </>
+            )}
+          </>
+        )}
       </main>
     </div>
   );

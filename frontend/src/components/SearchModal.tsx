@@ -1,15 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import {
-  Search,
-  Loader2,
-  FileCode2,
-  CornerDownLeft,
-  Terminal,
-} from "lucide-react";
+import { Search, Loader2, X } from "lucide-react";
 import { api, SearchResultItem } from "@/lib/api";
-import { cn } from "@/lib/utils";
+import { cn, getSymbolBadgeStyle } from "@/lib/utils";
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -26,6 +20,11 @@ const SUGGESTED_IDENTIFIERS = [
   "UserRole",
 ];
 
+/** First lines of a span, keeping the indentation of the first one. */
+function previewOf(code: string): string {
+  return code.replace(/^\s*\n/, "").trimEnd().split("\n").slice(0, 3).join("\n");
+}
+
 export const SearchModal: React.FC<SearchModalProps> = ({
   isOpen,
   repoId,
@@ -36,11 +35,14 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   const [results, setResults] = useState<SearchResultItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  // Display only: lets a failed request say so instead of reading as "no match".
+  const [searchFailed, setSearchFailed] = useState(false);
 
   // Debounced live hybrid search
   useEffect(() => {
     if (!isOpen) return;
     const trimmed = query.trim();
+    setSearchFailed(false);
     if (!trimmed) {
       setResults([]);
       setLoading(false);
@@ -59,6 +61,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         }
       } catch (err) {
         console.error(err);
+        if (!isCancelled) setSearchFailed(true);
       } finally {
         if (!isCancelled) setLoading(false);
       }
@@ -105,133 +108,187 @@ export const SearchModal: React.FC<SearchModalProps> = ({
     }
   };
 
+  const trimmedQuery = query.trim();
+
   return (
     <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="Hybrid Code Search"
-      className="fixed inset-0 z-50 flex items-start justify-center bg-black/85 backdrop-blur-md p-4 pt-16"
+      className="fixed inset-0 z-50 flex items-start justify-center bg-ink/40 p-4 pt-16"
       onClick={onClose}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="search-modal-title"
         onClick={(e) => e.stopPropagation()}
-        className="relative w-full max-w-2xl overflow-hidden rounded border border-white/[0.12] bg-[#0c0c0e] shadow-2xl"
+        className="relative flex max-h-full w-full max-w-2xl flex-col overflow-hidden rounded border-2 border-ink bg-white shadow-overlay"
       >
-        {/* Top Command Input Bar */}
-        <form
-          onSubmit={handleManualSubmit}
-          className="flex items-center border-b border-white/[0.07] bg-[#09090b] px-4 py-3"
-        >
-          <Search className="h-4 w-4 text-zinc-400 mr-3 shrink-0" />
-          <input
-            type="text"
-            autoFocus
-            aria-label="Search code and symbols"
-            placeholder="Search AST symbols, identifiers, or natural language concepts (Hybrid RRF)..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="flex-1 bg-transparent font-mono text-xs sm:text-sm text-zinc-100 placeholder:text-zinc-500 outline-none"
-          />
-          {loading && (
-            <Loader2 className="h-4 w-4 animate-spin text-zinc-400 mr-2" />
-          )}
+        <div className="flex h-12 shrink-0 items-center justify-between bg-signal px-5">
+          <h2 id="search-modal-title" className="text-lg font-bold text-ink">
+            Search code
+          </h2>
           <button
             type="button"
             onClick={onClose}
-            aria-label="Close search modal"
-            className="cursor-pointer rounded border border-white/[0.08] bg-[#111113] px-1.5 py-0.5 font-mono text-[10px] text-zinc-400 hover:text-zinc-200"
+            aria-label="Close"
+            className="btn-icon -mr-2 text-ink hover:bg-signal-deep active:bg-signal-deep"
           >
-            ESC
+            <X className="h-5 w-5" aria-hidden="true" />
           </button>
+        </div>
+
+        <form onSubmit={handleManualSubmit} className="shrink-0 px-5 pb-3 pt-5">
+          <div className="relative">
+            <Search
+              className="pointer-events-none absolute left-3.5 top-1/2 h-5 w-5 -translate-y-1/2 text-sub"
+              aria-hidden="true"
+            />
+            <input
+              type="text"
+              autoFocus
+              aria-label="Search code"
+              placeholder="Search by meaning or by name, e.g. verify token"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="field h-12 pl-11 pr-11 text-base"
+            />
+            {loading && results.length > 0 && (
+              <Loader2
+                className="pointer-events-none absolute right-3.5 top-1/2 -mt-2.5 h-5 w-5 animate-spin text-sub"
+                aria-label="Searching"
+              />
+            )}
+          </div>
+          <p className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-sub">
+            <span className="inline-flex items-center gap-1">
+              <kbd className="kbd">↑</kbd>
+              <kbd className="kbd">↓</kbd>
+              to move
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <kbd className="kbd">Enter</kbd>
+              to open
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <kbd className="kbd">Esc</kbd>
+              to close
+            </span>
+          </p>
         </form>
 
-        {/* Results Feed */}
-        <div className="max-h-[62vh] overflow-y-auto p-3 space-y-2">
-          {results.length > 0 ? (
-            results.map((r, idx) => {
-              const isSelected = idx === selectedIndex;
-              return (
-                <div
-                  key={r.chunk_id}
-                  onMouseEnter={() => setSelectedIndex(idx)}
-                  onClick={() => {
-                    onSelectResult(r.file_path, r.start_line, r.end_line);
-                    onClose();
-                  }}
-                  className={cn(
-                    "group cursor-pointer rounded border p-3 transition-colors",
-                    isSelected
-                      ? "border-white/[0.22] bg-[#16161a]"
-                      : "border-white/[0.07] bg-[#111113] hover:border-white/[0.14]"
-                  )}
-                >
-                  <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                    <div className="flex items-center gap-2">
-                      <FileCode2 className="h-3.5 w-3.5 text-zinc-400" />
-                      <span className="font-mono text-xs font-semibold text-zinc-100 tabular-nums">
-                        {r.file_path}
-                        <span className="text-zinc-400">
-                          :{r.start_line}-{r.end_line}
-                        </span>
-                      </span>
-                      {r.symbol_name && (
-                        <span className="rounded border border-white/[0.08] bg-[#16161a] px-1.5 py-0.5 font-mono text-[10px] text-zinc-300">
-                          {r.symbol_kind || "symbol"}: {r.symbol_name}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* RRF Score Decomposition */}
-                    <div className="flex items-center gap-1.5 font-mono text-[10px] tabular-nums">
-                      <span
-                        className="rounded border border-white/[0.08] bg-[#09090b] px-1.5 py-0.5 text-zinc-400"
-                        title="Dense ONNX Vector Cosine Similarity"
-                      >
-                        Dense {(r.dense_score * 100).toFixed(0)}%
-                      </span>
-                      <span
-                        className="rounded border border-white/[0.08] bg-[#09090b] px-1.5 py-0.5 text-zinc-400"
-                        title="Sparse Lexical + Identifier Fuzzy Score"
-                      >
-                        Lex {(r.sparse_score * 100).toFixed(0)}%
-                      </span>
-                      <span className="rounded border border-emerald-500/30 bg-emerald-500/10 px-1.5 py-0.5 font-semibold text-emerald-400">
-                        RRF {(r.final_score * 100).toFixed(0)}%
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Code Preview */}
-                  <pre className="rounded border border-white/[0.07] bg-[#09090b] p-2.5 font-mono text-[11px] text-zinc-300 overflow-x-auto max-h-24">
-                    {r.raw_code.trim()}
-                  </pre>
-                </div>
-              );
-            })
-          ) : query.trim() && !loading ? (
-            <div className="p-8 text-center text-xs text-zinc-400">
-              No matching AST code chunks found for &ldquo;{query}&rdquo;.
+        <div className="min-h-0 overflow-y-auto border-t border-rule">
+          {searchFailed && (
+            <div className={cn("p-5", results.length > 0 && "border-b border-rule")}>
+              <p role="alert" className="note note-error">
+                The search could not run. Check that the server is reachable, then type again to
+                retry.
+              </p>
             </div>
-          ) : (
-            <div className="p-6 text-center space-y-4">
-              <div className="space-y-1">
-                <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-zinc-200">
-                  <Terminal className="h-3.5 w-3.5 text-zinc-400" />
-                  <span>Hybrid Reciprocal Rank Fusion Search</span>
-                </div>
-                <p className="text-[11px] text-zinc-400">
-                  Combines 384-d dense embeddings with camelCase &amp; snake_case token expansion
-                </p>
-              </div>
+          )}
 
-              <div className="flex flex-wrap items-center justify-center gap-1.5">
+          {results.length > 0 ? (
+            <ul>
+              {results.map((r, idx) => {
+                const isSelected = idx === selectedIndex;
+                const slash = r.file_path.lastIndexOf("/");
+                return (
+                  <li key={r.chunk_id} className="border-b border-rule last:border-b-0">
+                    <button
+                      type="button"
+                      onMouseEnter={() => setSelectedIndex(idx)}
+                      onFocus={() => setSelectedIndex(idx)}
+                      onClick={() => {
+                        onSelectResult(r.file_path, r.start_line, r.end_line);
+                        onClose();
+                      }}
+                      aria-current={isSelected ? "true" : undefined}
+                      title={`Meaning ${r.dense_score.toFixed(2)}, keyword ${r.sparse_score.toFixed(2)}, combined ${r.rrf_score.toFixed(3)}`}
+                      className={cn(
+                        "block w-full cursor-pointer px-5 py-3 text-left transition-colors duration-150 hover:bg-wash active:bg-sunk focus-visible:-outline-offset-2",
+                        isSelected && "bg-signal-soft hover:bg-signal-soft"
+                      )}
+                    >
+                      <span className="flex flex-wrap items-center gap-x-2 gap-y-1 sm:flex-nowrap">
+                        <span
+                          aria-hidden="true"
+                          className={cn(
+                            "h-1 w-1 shrink-0",
+                            isSelected && "bg-signal ring-1 ring-ink"
+                          )}
+                        />
+                        {r.symbol_name && (
+                          <span className="min-w-0 truncate font-mono text-sm font-bold text-ink">
+                            {r.symbol_name}
+                          </span>
+                        )}
+                        {r.symbol_name && r.symbol_kind && (
+                          <span className={cn("tag shrink-0", getSymbolBadgeStyle(r.symbol_kind))}>
+                            {r.symbol_kind}
+                          </span>
+                        )}
+                        <span
+                          className={cn(
+                            "flex min-w-0 font-mono text-sm tabular-nums text-sub",
+                            r.symbol_name && "sm:ml-auto"
+                          )}
+                        >
+                          <span className="truncate">{r.file_path.slice(0, slash + 1)}</span>
+                          <span className="shrink-0">
+                            {r.file_path.slice(slash + 1)}:{r.start_line}-{r.end_line}
+                          </span>
+                        </span>
+                        <span
+                          className={cn(
+                            "shrink-0 text-xs tabular-nums text-sub",
+                            !r.symbol_name && "ml-auto"
+                          )}
+                        >
+                          match {r.final_score.toFixed(2)}
+                        </span>
+                      </span>
+                      <code className="mt-2 block overflow-hidden whitespace-pre bg-wash p-2 font-mono text-[0.8125rem] leading-5 text-ink-2 [tab-size:4]">
+                        {previewOf(r.raw_code)}
+                      </code>
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+          ) : loading ? (
+            <ul aria-busy="true">
+              <li className="sr-only">Searching</li>
+              {[0, 1, 2].map((i) => (
+                <li
+                  key={i}
+                  aria-hidden="true"
+                  className="border-b border-rule px-5 py-3 last:border-b-0"
+                >
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="skeleton h-4 w-40" />
+                    <div className="skeleton h-4 w-48" />
+                  </div>
+                  <div className="skeleton mt-2 h-[4.75rem]" />
+                </li>
+              ))}
+            </ul>
+          ) : searchFailed ? null : trimmedQuery ? (
+            <p className="p-5 text-sm text-sub">
+              Nothing matched &ldquo;{trimmedQuery}&rdquo;. Try a function name, or describe what
+              the code does.
+            </p>
+          ) : (
+            <div className="p-5">
+              <p className="text-sm text-sub">
+                Type a function or class name, or describe what the code does in your own words.
+              </p>
+              <div className="mt-1 flex flex-wrap items-center gap-x-1 text-sm text-sub">
+                <span>Try</span>
                 {SUGGESTED_IDENTIFIERS.map((token) => (
                   <button
                     key={token}
                     type="button"
                     onClick={() => setQuery(token)}
-                    aria-label={`Search sample identifier ${token}`}
-                    className="cursor-pointer rounded border border-white/[0.08] bg-[#111113] px-2.5 py-1 font-mono text-[11px] text-zinc-300 hover:border-white/[0.2] hover:text-white transition-colors"
+                    aria-label={`Search for ${token}`}
+                    className="inline-flex h-8 cursor-pointer items-center rounded px-1.5 font-mono text-sm text-ink underline decoration-rule-strong transition-colors duration-150 hover:bg-wash hover:decoration-ink active:bg-sunk"
                   >
                     {token}
                   </button>
@@ -239,14 +296,6 @@ export const SearchModal: React.FC<SearchModalProps> = ({
               </div>
             </div>
           )}
-        </div>
-
-        {/* Footer Keyboard Hints */}
-        <div className="flex items-center justify-between border-t border-white/[0.07] bg-[#09090b] px-4 py-2 text-[10px] text-zinc-500 font-mono">
-          <span>↑↓ Navigate results</span>
-          <span className="flex items-center gap-1">
-            <CornerDownLeft className="h-3 w-3 text-zinc-400" /> Jump to exact file &amp; lines
-          </span>
         </div>
       </div>
     </div>

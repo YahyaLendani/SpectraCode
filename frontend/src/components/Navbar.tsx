@@ -3,15 +3,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  GitBranch,
-  Search,
-  BarChart3,
-  LayoutGrid,
-  ChevronRight,
-  FolderGit2,
-  Terminal,
-} from "lucide-react";
+import { Search } from "lucide-react";
 import { Repository } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
@@ -21,6 +13,18 @@ interface NavbarProps {
   onSelectRepo?: (repo: Repository) => void;
   onOpenSearch?: () => void;
 }
+
+/** The mark: an ink station with a yellow centre, standing in for a lens. */
+export const BrandMark: React.FC<{ className?: string }> = ({ className }) => (
+  <svg
+    aria-hidden="true"
+    viewBox="0 0 28 28"
+    className={cn("h-7 w-7 shrink-0", className)}
+  >
+    <circle cx="14" cy="14" r="14" fill="#15171A" />
+    <circle cx="14" cy="14" r="6" fill="#FFD400" />
+  </svg>
+);
 
 export const Navbar: React.FC<NavbarProps> = ({
   repositories = [],
@@ -43,146 +47,81 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onOpenSearch]);
 
+  const links = [
+    { href: "/", label: "Workspaces", active: pathname === "/" },
+    {
+      href: "/evaluation",
+      label: "Benchmarks",
+      active: !!pathname?.startsWith("/evaluation"),
+    },
+  ];
+
   return (
-    <header className="sticky top-0 z-40 border-b border-white/[0.07] bg-[#09090b]/95 backdrop-blur-md">
-      <div className="mx-auto flex h-12 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Left: Brand & Primary Navigation */}
-        <div className="flex items-center gap-5">
-          <Link
-            href="/"
-            className="group flex items-center gap-2 text-zinc-100 cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-white/40 rounded"
-          >
-            <div className="flex h-6 w-6 items-center justify-center rounded bg-zinc-100 text-zinc-950 font-mono font-bold text-xs transition-opacity group-hover:opacity-90">
-              <Terminal className="h-3.5 w-3.5" />
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-[13px] font-semibold tracking-tight text-zinc-100 font-mono">
-                RepoLens
-              </span>
-              <span className="hidden sm:inline-flex items-center rounded border border-white/[0.08] bg-[#111113] px-1.5 py-0.2 font-mono text-[10px] font-medium text-zinc-500 tabular-nums">
-                v2.0
-              </span>
-            </div>
-          </Link>
+    <header className="sticky top-0 z-40 bg-signal text-ink">
+      <div className="mx-auto flex h-14 max-w-[84rem] items-stretch gap-3 px-4 sm:gap-6 sm:px-8">
+        <Link
+          href="/"
+          aria-label="SpectraCode home"
+          className="flex items-center gap-2.5 text-xl font-extrabold tracking-[-0.01em]"
+        >
+          <BrandMark />
+          <span className="hidden translate-y-px sm:inline">SpectraCode</span>
+        </Link>
 
-          {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-1 border-l border-white/[0.07] pl-4">
+        <nav aria-label="Main" className="flex items-stretch">
+          {links.map((link) => (
             <Link
-              href="/"
+              key={link.href}
+              href={link.href}
+              aria-current={link.active ? "page" : undefined}
               className={cn(
-                "flex items-center gap-1.5 rounded px-2.5 py-1 text-xs font-medium cursor-pointer transition-colors focus-visible:ring-1 focus-visible:ring-white/40",
-                pathname === "/"
-                  ? "bg-[#16161a] border border-white/[0.08] text-zinc-100 font-semibold"
-                  : "text-zinc-400 hover:text-zinc-200"
+                "flex items-center border-y-4 border-transparent px-2.5 text-[0.9375rem] font-bold transition-colors duration-150 sm:px-3.5",
+                link.active ? "border-b-ink" : "hover:border-b-ink/30"
               )}
             >
-              <LayoutGrid
-                className={cn(
-                  "h-3.5 w-3.5",
-                  pathname === "/" ? "text-zinc-300" : "text-zinc-500"
-                )}
-              />
-              <span>Workspaces</span>
+              <span className="translate-y-px">{link.label}</span>
             </Link>
+          ))}
+        </nav>
 
-            <Link
-              href="/evaluation"
-              className={cn(
-                "flex items-center gap-1.5 rounded px-2.5 py-1 text-xs font-medium cursor-pointer transition-colors focus-visible:ring-1 focus-visible:ring-white/40",
-                pathname?.startsWith("/evaluation")
-                  ? "bg-[#16161a] border border-white/[0.08] text-zinc-100 font-semibold"
-                  : "text-zinc-400 hover:text-zinc-200"
-              )}
-            >
-              <BarChart3
-                className={cn(
-                  "h-3.5 w-3.5",
-                  pathname?.startsWith("/evaluation")
-                    ? "text-zinc-300"
-                    : "text-zinc-500"
-                )}
-              />
-              <span>Benchmarks</span>
-            </Link>
-          </nav>
-
-          {/* Quick Workspace Jump Selector */}
+        <div className="ml-auto flex items-center gap-2.5">
           {repositories.length > 0 && (
-            <div className="hidden lg:flex items-center gap-2 border-l border-white/[0.07] pl-4">
-              <ChevronRight className="h-3.5 w-3.5 text-zinc-600" />
-              <FolderGit2 className="h-3.5 w-3.5 text-zinc-500" />
-              <select
-                value={currentRepo?.id || ""}
-                onChange={(e) => {
-                  const r = repositories.find((x) => x.id === e.target.value);
-                  if (!r) return;
-                  if (onSelectRepo) {
-                    onSelectRepo(r);
-                  } else {
-                    router.push(`/repos/${r.id}`);
-                  }
-                }}
-                aria-label="Jump to repository workspace"
-                className="cursor-pointer rounded border border-white/[0.08] bg-[#111113] px-2 py-0.5 font-mono text-xs text-zinc-300 outline-none transition-colors hover:border-white/[0.16] focus:border-zinc-500"
-              >
-                {!currentRepo && (
-                  <option value="" disabled>
-                    Jump to workspace...
-                  </option>
-                )}
-                {repositories.map((r) => (
-                  <option key={r.id} value={r.id}>
-                    {r.github_owner}/{r.github_name} ({r.status})
-                  </option>
-                ))}
-              </select>
-            </div>
+            <select
+              value={currentRepo?.id || ""}
+              onChange={(e) => {
+                const r = repositories.find((x) => x.id === e.target.value);
+                if (!r) return;
+                if (onSelectRepo) onSelectRepo(r);
+                else router.push(`/repos/${r.id}`);
+              }}
+              aria-label="Open a workspace"
+              className="hidden h-9 max-w-[15rem] cursor-pointer rounded border-2 border-ink bg-white px-2 text-sm font-semibold text-ink md:block"
+            >
+              {!currentRepo && (
+                <option value="" disabled>
+                  Open a workspace
+                </option>
+              )}
+              {repositories.map((r) => (
+                <option key={r.id} value={r.id}>
+                  {r.github_owner}/{r.github_name}
+                  {r.status === "ready" ? "" : " (indexing)"}
+                </option>
+              ))}
+            </select>
           )}
-        </div>
 
-        {/* Right: Search Command Pill, Engine Status & External Links */}
-        <div className="flex items-center gap-2">
           {onOpenSearch && (
             <button
+              type="button"
               onClick={onOpenSearch}
-              aria-label="Open search dialog (Ctrl+K or Cmd+K)"
-              className="group flex cursor-pointer items-center gap-2 rounded border border-white/[0.08] bg-[#111113] px-2.5 py-1 text-xs text-zinc-400 transition-colors hover:border-white/[0.16] hover:text-zinc-200 focus-visible:ring-1 focus-visible:ring-white/40"
+              className="flex h-9 cursor-pointer items-center gap-2 rounded border-2 border-ink bg-white px-2.5 text-sm font-semibold text-ink transition-colors duration-150 hover:bg-wash"
             >
-              <Search className="h-3.5 w-3.5 text-zinc-500" />
-              <span className="hidden sm:inline">Search...</span>
-              <kbd className="rounded border border-white/[0.08] bg-[#16161a] px-1.5 py-0.2 font-mono text-[10px] font-medium text-zinc-400">
-                ⌘K
-              </kbd>
+              <Search className="h-4 w-4" aria-hidden="true" />
+              <span className="hidden sm:inline">Search code</span>
+              <kbd className="kbd hidden sm:inline-flex">Ctrl K</kbd>
             </button>
           )}
-
-          {/* Engine Status Indicator */}
-          <div className="hidden xl:flex items-center gap-2 rounded border border-white/[0.07] bg-[#111113] px-2.5 py-1 text-[11px] text-zinc-400">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            <span className="font-mono text-[10px] tracking-tight text-zinc-300">
-              AST · RRF · ONNX
-            </span>
-          </div>
-
-          <Link
-            href="/evaluation"
-            aria-label="Navigate to benchmarks"
-            className="flex md:hidden cursor-pointer items-center gap-1.5 rounded border border-white/[0.08] bg-[#111113] px-2.5 py-1 text-xs font-medium text-zinc-300 hover:border-white/[0.16] hover:text-white transition-colors"
-          >
-            <BarChart3 className="h-3.5 w-3.5 text-zinc-400" />
-            <span>Benchmarks</span>
-          </Link>
-
-          <Link
-            href="https://github.com"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="View source repository on GitHub"
-            className="hidden sm:flex cursor-pointer items-center gap-1.5 rounded border border-white/[0.08] bg-[#111113] px-2.5 py-1 text-xs font-medium text-zinc-400 hover:border-white/[0.16] hover:text-zinc-200 transition-colors"
-          >
-            <GitBranch className="h-3.5 w-3.5 text-zinc-500" />
-            <span>GitHub</span>
-          </Link>
         </div>
       </div>
     </header>

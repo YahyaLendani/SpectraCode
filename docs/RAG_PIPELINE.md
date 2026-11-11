@@ -1,11 +1,11 @@
-# RepoLens Code-Aware RAG Pipeline
+# SpectraCode Code-Aware RAG Pipeline
 
 Standard text Retrieval-Augmented Generation (RAG) fails on codebases because:
 1. Fixed-size character or token splitters cut across function signatures, indentations, and class scopes.
 2. Code identifiers (`getUserById`, `verify_jwt`) fail generic English stemmers.
 3. LLMs hallucinate file paths and line numbers when generating technical explanations.
 
-RepoLens solves each of these challenges systematically.
+SpectraCode solves each of these challenges systematically.
 
 ---
 
@@ -53,7 +53,7 @@ $$\text{RRF Score}(d) = \alpha \cdot \frac{1}{60 + \text{rank}_{\text{dense}}(d)
 
 ## 3. Grounded Citation Verification
 
-RepoLens enforces deterministic verification before presenting citations to users:
+SpectraCode enforces deterministic verification before presenting citations to users:
 
 ```
 Streaming Token: "[src/auth/jwt_manager.py:12-35]"

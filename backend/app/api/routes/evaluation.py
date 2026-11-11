@@ -12,14 +12,14 @@ from sqlalchemy.orm import selectinload
 from app.db.models import EvaluationRun, EvaluationSampleResult, Repository
 from app.db.session import get_db
 from app.evaluation.benchmark_dataset import FASTAPI_BENCHMARK_SUITE, BenchmarkQueryItem
-from app.evaluation.evaluator import LineSpan, RepoLensBenchmarkEvaluator
+from app.evaluation.evaluator import LineSpan, SpectraCodeBenchmarkEvaluator
 from app.generation.citation_engine import GroundedCitationEngine
 from app.generation.llm_service import LLMService
 from app.retrieval.hybrid_retriever import HybridCodeRetriever
 
 router = APIRouter(prefix="/repositories", tags=["Evaluation"])
 
-evaluator = RepoLensBenchmarkEvaluator()
+evaluator = SpectraCodeBenchmarkEvaluator()
 retriever = HybridCodeRetriever()
 llm_service = LLMService()
 citation_engine = GroundedCitationEngine()
@@ -148,7 +148,7 @@ async def run_evaluation_benchmark(
     run_obj = EvaluationRun(
         id=run_id,
         repository_id=repo_id,
-        benchmark_name="RepoLens Core Codebase Benchmark v1",
+        benchmark_name="SpectraCode Core Codebase Benchmark v1",
         commit_sha=repo.last_indexed_commit_sha or "main",
         mean_recall_at_k=round(sum(recalls) / n, 4),
         mean_mrr=round(sum(mrrs) / n, 4),

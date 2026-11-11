@@ -1,59 +1,46 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       fontFamily: {
-        sans: [
-          "var(--font-sans)",
-          "Plus Jakarta Sans",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "Segoe UI",
-          "Roboto",
-          "sans-serif",
-        ],
-        mono: [
-          "var(--font-mono)",
-          "JetBrains Mono",
-          "Fira Code",
-          "Consolas",
-          "monospace",
-        ],
+        sans: ["var(--font-sans)", "Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
+        mono: ["var(--font-mono)", "Consolas", "Menlo", "monospace"],
       },
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
-        surface: {
-          50: "#1c2230",
-          100: "#151a26",
-          200: "#11151f",
-          300: "#0d1017",
-          400: "#090b10",
-        },
-        brand: {
-          50: "#eff6ff",
-          100: "#dbeafe",
-          200: "#bfdbfe",
-          300: "#93c5fd",
-          400: "#60a5fa",
-          500: "#3b82f6",
-          600: "#2563eb",
-          700: "#1d4ed8",
-          800: "#1e40af",
-          900: "#1e3a8a",
-          950: "#172554",
+        // Neutrals
+        ground: "#FFFFFF",
+        wash: "#F3F4F5",
+        sunk: "#E9EBED",
+        rule: "#D9DCDF",
+        "rule-strong": "#9BA1A8",
+        ink: { DEFAULT: "#15171A", 2: "#2C3036" },
+        sub: "#555B63",
+        faint: "#6B717A",
+        // The band, the highlighter, and "you are here"
+        signal: { DEFAULT: "#FFD400", soft: "#FFF3B0", deep: "#F2C800" },
+        // Line colours: one per file in a route, also data series and state
+        line: {
+          blue: "#0A5FD9",
+          red: "#E2231A",
+          green: "#007A41",
+          orange: "#B84E00",
+          violet: "#7A3DB8",
+          teal: "#00788A",
+          "blue-soft": "#E6EFFC",
+          "red-soft": "#FDEBEA",
+          "green-soft": "#E3F3EA",
+          "orange-soft": "#FBEDE0",
+          "violet-soft": "#F1E9F9",
+          "teal-soft": "#E0F1F3",
         },
       },
       boxShadow: {
-        panel: "0 1px 2px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06)",
-        card: "0 4px 20px -2px rgba(0, 0, 0, 0.5)",
-        modal: "0 24px 64px -8px rgba(0, 0, 0, 0.78), 0 0 0 1px rgba(255, 255, 255, 0.09)",
+        // Only overlays float. Resting surfaces are flat.
+        overlay: "0 18px 48px -12px rgba(21, 23, 26, 0.32), 0 2px 6px rgba(21, 23, 26, 0.12)",
       },
     },
   },

@@ -18,7 +18,7 @@ async def test_health_check_endpoint():
         assert resp.status_code == 200
         data = resp.json()
         assert data["status"] == "healthy"
-        assert data["service"] == "RepoLens"
+        assert data["service"] == "SpectraCode"
 
 
 @pytest.mark.asyncio
@@ -28,7 +28,7 @@ async def test_root_endpoint():
         resp = await client.get("/")
         assert resp.status_code == 200
         data = resp.json()
-        assert data["name"] == "RepoLens API"
+        assert data["name"] == "SpectraCode API"
 
 
 @pytest.mark.asyncio

@@ -32,7 +32,7 @@ class EvaluationMetricsResult:
     faithfulness: float
 
 
-class RepoLensBenchmarkEvaluator:
+class SpectraCodeBenchmarkEvaluator:
     """Calculates Recall@K, MRR@K, Citation Precision/Recall/F1, and Faithfulness."""
 
     def __init__(self, coverage_threshold: float = 0.40) -> None:
@@ -123,4 +123,8 @@ class RepoLensBenchmarkEvaluator:
             citation_f1=cit_f1,
             faithfulness=faithfulness,
         )
+
+
+# Backward-compatible alias
+RepoLensBenchmarkEvaluator = SpectraCodeBenchmarkEvaluator
 

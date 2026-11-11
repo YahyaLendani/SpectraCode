@@ -1,23 +1,11 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import {
-  Send,
-  AlertTriangle,
-  ExternalLink,
-  RefreshCw,
-  Copy,
-  Check,
-  ShieldCheck,
-  Clock,
-  RotateCcw,
-  FileCode2,
-  Terminal,
-  ArrowUpRight,
-} from "lucide-react";
+import { ArrowRight, Check, Copy, RotateCcw } from "lucide-react";
 import { ChatMessage } from "@/lib/api";
-import { cn } from "@/lib/utils";
+import { cn, assignLineColors, LINE_COLORS } from "@/lib/utils";
 import { ExecutionTraceStepper, TraceStep } from "@/components/ExecutionTraceStepper";
+import { Roundel } from "@/components/LineMap";
 
 function extractTraceSteps(msg: ChatMessage): TraceStep[] {
   const steps: TraceStep[] = [];
@@ -65,16 +53,106 @@ function extractTraceSteps(msg: ChatMessage): TraceStep[] {
   return steps;
 }
 
+/* -------------------------------------------------------------------------
+ * One numbering per answer. The stations in the text and the stops on the
+ * route under it are read from the same list, so ② in a sentence is ② on
+ * the route, in the same line colour.
+ * ---------------------------------------------------------------------- */
+
+// Values the backend's citation check sends in `status`.
+const STATUS_CLAMPED = "clamped_to_bounds";
+const STATUS_REJECTED = ["invalid_line_range", "hallucinated_file"];
+
+interface CitationIndex {
+  steps: TraceStep[];
+  numbers: Map<string, number>;
+  colors: Record<string, string>;
+  statuses: Map<string, string>;
+}
+
+const citationKey = (filePath: string, startLine: number, endLine: number) =>
+  `${filePath.replace(/\\/g, "/")}:${startLine}-${endLine}`;
+
+// Message objects are replaced, never mutated, once they are in state, so
+// the index can be kept per object. It also keeps `steps` stable for the route.
+const citationIndexCache = new WeakMap<ChatMessage, CitationIndex>();
+
+function getCitationIndex(msg: ChatMessage): CitationIndex {
+  const cached = citationIndexCache.get(msg);
+  if (cached) return cached;
+
+  const steps = extractTraceSteps(msg);
+  const numbers = new Map<string, number>();
+  for (const s of steps) {
+    numbers.set(citationKey(s.filePath, s.startLine, s.endLine), s.stepNumber);
+  }
+
+  // A marker in the prose that the route did not pick up joins the end of it.
+  if (msg.content) {
+    for (const segment of msg.content.split(/(```[\s\S]*?```)/g)) {
+      if (!segment || (segment.startsWith("```") && segment.endsWith("```"))) continue;
+      const regex = /\[([a-zA-Z0-9_.\-\/\\]+?\.[a-zA-Z0-9]+):(\d+)(?:-(\d+))?\]/g;
+      let match;
+      while ((match = regex.exec(segment)) !== null) {
+        const filePath = match[1].replace(/\\/g, "/");
+        const startLine = parseInt(match[2], 10);
+        const endLine = match[3] ? parseInt(match[3], 10) : startLine;
+        const key = citationKey(filePath, startLine, endLine);
+        if (!numbers.has(key)) {
+          const parts = filePath.split("/");
+          steps.push({
+            stepNumber: steps.length + 1,
+            filePath,
+            shortName: parts[parts.length - 1],
+            startLine,
+            endLine,
+          });
+          numbers.set(key, steps.length);
+        }
+      }
+    }
+  }
+
+  const statuses = new Map<string, string>();
+  for (const c of msg.verified_citations ?? []) {
+    const key = citationKey(c.file_path, c.start_line, c.end_line);
+    if (!statuses.has(key)) statuses.set(key, c.status);
+  }
+
+  const index: CitationIndex = {
+    steps,
+    numbers,
+    // Same call the route makes, over the same list, so colours agree.
+    colors: assignLineColors(steps.map((s) => s.filePath)),
+    statuses,
+  };
+  citationIndexCache.set(msg, index);
+  return index;
+}
+
 interface ChatInterfaceProps {
   repoId: string;
   onCitationClick: (filePath: string, startLine: number, endLine: number) => void;
 }
 
+// Kept as the first entry in `messages` so the empty-state checks stay as
+// they were; it is shown as the empty state's sentence, not as an answer.
 const INITIAL_ASSISTANT_MESSAGE: ChatMessage = {
   role: "assistant",
-  content:
-    "Ask any architectural or implementation question about this repository.\n\nEvery claim is backed by deterministic `[file:start-end]` source citations—click any citation badge to inspect the exact lines in the Code Viewer.",
+  content: "Type your own question below, or start with one of these.",
 };
+
+const ERROR_PREFIX = "Error generating response: ";
+
+const StreamingMark: React.FC<{ className?: string }> = ({ className }) => (
+  <span
+    aria-hidden="true"
+    className={cn(
+      "station-now inline-block h-2.5 w-2.5 shrink-0 border border-ink bg-signal",
+      className
+    )}
+  />
+);
 
 export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   repoId,
@@ -89,6 +167,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [copiedMsgIdx, setCopiedMsgIdx] = useState<number | null>(null);
   const [copiedSnippetKey, setCopiedSnippetKey] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -97,6 +176,14 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   useEffect(() => {
     scrollToBottom();
   }, [messages, streaming]);
+
+  // The question box grows with its text, up to its max height.
+  useEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    el.style.height = `${el.scrollHeight + 2}px`;
+  }, [input]);
 
   const handleResetChat = () => {
     if (streaming) return;
@@ -213,8 +300,8 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         ...prev,
         {
           role: "assistant",
-          content: `Error generating response: ${
-            err.message || "Failed to connect to RepoLens API server"
+          content: `${ERROR_PREFIX}${
+            err.message || "Failed to connect to SpectraCode API server"
           }`,
         },
       ]);
@@ -224,7 +311,11 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   };
 
   // Renders inline text containing [file:start-end] citations, `inline code`, and **bold**
-  const renderInlineWithCitations = (text: string, keyPrefix: string) => {
+  const renderInlineWithCitations = (
+    text: string,
+    keyPrefix: string,
+    index: CitationIndex
+  ) => {
     const tokenPattern =
       /(\[[a-zA-Z0-9_.\-\/\\]+?\.[a-zA-Z0-9]+:\d+(?:-\d+)?\]|`[^`\n]+`|\*\*[^*\n]+\*\*)/g;
     const parts = text.split(tokenPattern);
@@ -242,21 +333,49 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         const startLine = parseInt(citMatch[2], 10);
         const endLine = citMatch[3] ? parseInt(citMatch[3], 10) : startLine;
         const shortName = filePath.split("/").pop() || filePath;
+        const range =
+          endLine !== startLine ? `${startLine}-${endLine}` : `${startLine}`;
+
+        const citeKey = citationKey(filePath, startLine, endLine);
+        const status = index.statuses.get(citeKey);
+
+        // A citation the check rejected is named but cannot be opened.
+        if (status && STATUS_REJECTED.includes(status)) {
+          return (
+            <span
+              key={key}
+              className="font-mono text-sm text-sub"
+              title={`${filePath}:${range} could not be matched to the retrieved code`}
+            >
+              {shortName}:{range}
+            </span>
+          );
+        }
+
+        const n = index.numbers.get(citeKey);
+        const color =
+          index.colors[filePath.replace(/\\/g, "/")] ?? LINE_COLORS[0];
+        const adjusted = status === STATUS_CLAMPED;
 
         return (
           <button
             key={key}
             type="button"
             onClick={() => onCitationClick(filePath, startLine, endLine)}
-            className="citation-pill"
-            title={`Jump to ${filePath} (Lines ${startLine}–${endLine})`}
+            className="cite max-w-full"
+            title={`${filePath}:${range}${
+              adjusted ? " (lines adjusted to the retrieved code)" : ""
+            }`}
+            aria-label={`Citation ${n ?? ""}: ${filePath}, ${
+              endLine !== startLine
+                ? `lines ${startLine} to ${endLine}`
+                : `line ${startLine}`
+            }`}
           >
-            <FileCode2 className="h-3 w-3 text-zinc-400 shrink-0" />
-            <span>
-              {shortName}:{startLine}
-              {endLine !== startLine ? `-${endLine}` : ""}
+            <Roundel n={n ?? "?"} color={color} variant="solid" />
+            <span className="truncate">
+              {shortName}:{range}
             </span>
-            <ExternalLink className="h-2.5 w-2.5 opacity-60 shrink-0" />
           </button>
         );
       }
@@ -265,7 +384,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
         return (
           <code
             key={key}
-            className="rounded border border-white/[0.1] bg-white/[0.04] px-1.5 py-0.5 font-mono text-[11px] text-zinc-200"
+            className="break-words rounded-sm border border-rule bg-wash px-1 font-mono text-sm text-ink"
           >
             {part.slice(1, -1)}
           </code>
@@ -274,7 +393,7 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
       if (part.startsWith("**") && part.endsWith("**") && part.length > 4) {
         return (
-          <strong key={key} className="font-semibold text-zinc-50">
+          <strong key={key} className="font-semibold text-ink">
             {part.slice(2, -2)}
           </strong>
         );
@@ -285,20 +404,31 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
   };
 
   // Renders full message with fenced code blocks + inline formatting + citations
-  const renderMessageContent = (content: string, msgIdx: number) => {
+  const renderMessageContent = (msg: ChatMessage, msgIdx: number) => {
+    const content = msg.content;
+    const isLast = msgIdx === messages.length - 1;
+
     if (!content) {
+      if (streaming && isLast) {
+        return (
+          <p role="status" className="flex items-center gap-2 text-sm text-sub">
+            <StreamingMark />
+            <span>Reading the code</span>
+          </p>
+        );
+      }
       return (
-        <div className="flex items-center gap-2 py-1 text-xs text-zinc-400">
-          <RefreshCw className="h-3.5 w-3.5 animate-spin text-zinc-400" />
-          <span>Retrieving AST spans &amp; verifying line citations...</span>
-        </div>
+        <p role="alert" className="note note-error">
+          No answer came back. Check that the backend is running and try again.
+        </p>
       );
     }
 
+    const index = getCitationIndex(msg);
     const segments = content.split(/(```[\s\S]*?```)/g);
 
     return (
-      <div className="space-y-2.5 text-xs leading-relaxed">
+      <div className="space-y-3 text-base leading-relaxed text-ink-2">
         {segments.map((segment, sIdx) => {
           if (!segment) return null;
           const segKey = `msg-${msgIdx}-seg-${sIdx}`;
@@ -314,48 +444,40 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
               firstNewline !== -1
                 ? rawInner.slice(firstNewline + 1).replace(/\n$/, "")
                 : rawInner;
+            const copied = copiedSnippetKey === segKey;
 
             return (
-              <div
-                key={segKey}
-                className="overflow-hidden rounded border border-white/[0.08] bg-[#0c0c0e] my-2"
-              >
-                <div className="flex items-center justify-between border-b border-white/[0.07] bg-[#111113] px-3 py-1.5">
-                  <span className="flex items-center gap-1.5 font-mono text-[10px] font-semibold uppercase text-zinc-400">
-                    <Terminal className="h-3 w-3 text-zinc-400" />
-                    {lang}
+              <div key={segKey} className="rounded border border-rule bg-wash">
+                <div className="flex items-center justify-between gap-2 pl-3 pr-1 pt-1">
+                  <span className="font-mono text-xs text-sub">
+                    {lang !== "code" ? lang : ""}
                   </span>
                   <button
                     type="button"
                     onClick={() => handleCopySnippet(codeBody, segKey)}
-                    className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] text-zinc-400 hover:bg-white/[0.06] hover:text-zinc-100 transition-colors"
+                    title={copied ? "Copied" : "Copy code"}
+                    aria-label={copied ? "Copied" : "Copy code"}
+                    className="btn-icon h-7 w-7 hover:bg-sunk"
                   >
-                    {copiedSnippetKey === segKey ? (
-                      <>
-                        <Check className="h-2.5 w-2.5 text-emerald-400" />
-                        <span className="text-emerald-300">Copied</span>
-                      </>
+                    {copied ? (
+                      <Check className="h-3.5 w-3.5 text-line-green" aria-hidden="true" />
                     ) : (
-                      <>
-                        <Copy className="h-2.5 w-2.5" />
-                        <span>Copy</span>
-                      </>
+                      <Copy className="h-3.5 w-3.5" aria-hidden="true" />
                     )}
                   </button>
                 </div>
-                <pre className="overflow-x-auto p-3 font-mono text-[11px] leading-relaxed text-zinc-200">
+                <pre className="overflow-x-auto px-3 pb-3 font-mono text-[0.8125rem] leading-relaxed text-ink">
                   {codeBody}
                 </pre>
               </div>
             );
           }
 
-          const isLast = msgIdx === messages.length - 1;
           return (
-            <div key={segKey} className="whitespace-pre-wrap">
-              {renderInlineWithCitations(segment, segKey)}
+            <div key={segKey} className="whitespace-pre-wrap break-words">
+              {renderInlineWithCitations(segment, segKey, index)}
               {streaming && isLast && sIdx === segments.length - 1 && (
-                <span className="inline-block w-1.5 h-3.5 bg-zinc-300 ml-1 rounded-xs animate-pulse align-middle" />
+                <StreamingMark className="ml-1.5" />
               )}
             </div>
           );
@@ -364,216 +486,201 @@ export const ChatInterface: React.FC<ChatInterfaceProps> = ({
     );
   };
 
+  // Citations whose line range the check moved to fit the retrieved code.
+  const renderAdjustedNote = (msg: ChatMessage) => {
+    if (!msg.verified_citations || msg.verified_citations.length === 0) return null;
+    const index = getCitationIndex(msg);
+    const seen = new Set<number>();
+    const adjusted: { n: number; color: string }[] = [];
+    for (const c of msg.verified_citations) {
+      if (c.status !== STATUS_CLAMPED) continue;
+      const n = index.numbers.get(citationKey(c.file_path, c.start_line, c.end_line));
+      if (n === undefined || seen.has(n)) continue;
+      seen.add(n);
+      adjusted.push({
+        n,
+        color: index.colors[c.file_path.replace(/\\/g, "/")] ?? LINE_COLORS[0],
+      });
+    }
+    if (adjusted.length === 0) return null;
+
+    return (
+      <p className="mt-2 flex flex-wrap items-center gap-1.5 text-xs text-sub">
+        <span className="sr-only">
+          {adjusted.length === 1 ? "Citation" : "Citations"}{" "}
+          {adjusted.map((a) => a.n).join(", ")}:
+        </span>
+        {adjusted.map((a) => (
+          <Roundel key={a.n} n={a.n} color={a.color} variant="solid" />
+        ))}
+        <span>lines adjusted to the retrieved code</span>
+      </p>
+    );
+  };
+
+  // The benchmark questions the sample repository is known to answer.
   const sampleQueries = [
-    {
-      tag: "auth/jwt",
-      question:
-        "Where is JWT token verification implemented and what exception is thrown on expiration?",
-    },
-    {
-      tag: "scheduler",
-      question:
-        "How does the distributed scheduler handle retry backoff and concurrency limits?",
-    },
-    {
-      tag: "models/rbac",
-      question:
-        "How are user roles defined and how is administrative access verified?",
-    },
+    "Where is JWT token verification implemented and what exception is thrown on expiration?",
+    "How does the distributed scheduler handle retry backoff and concurrency limits?",
+    "How are user roles defined and how is administrative access verified?",
   ];
 
   return (
-    <div className="flex h-full flex-col bg-[#09090b] border-l border-white/[0.07]">
-      {/* Query Inspector Header */}
-      <div className="flex items-center justify-between border-b border-white/[0.07] bg-[#0c0c0e] px-4 py-2.5">
-        <div className="flex items-center gap-2">
-          <Terminal className="h-3.5 w-3.5 text-zinc-400" />
-          <span className="text-xs font-semibold text-zinc-100 font-mono tracking-tight">
-            Query Inspector
-          </span>
-          <span className="rounded border border-white/[0.08] bg-[#111113] px-1.5 py-0.5 font-mono text-[10px] font-medium text-zinc-400">
-            Strict [file:L-L]
-          </span>
+    <div className="flex h-full flex-col border-l border-rule bg-white">
+      <header className="flex items-start justify-between gap-3 border-b border-rule px-4 py-3">
+        <div className="min-w-0">
+          <h2 className="text-lg font-extrabold leading-tight text-ink">Ask</h2>
+          <p className="mt-0.5 text-sm text-sub">
+            Answers cite the file and lines they come from.
+          </p>
         </div>
 
         <button
+          type="button"
           onClick={handleResetChat}
           disabled={streaming || messages.length <= 1}
-          title="Start new conversation"
-          aria-label="Start new conversation"
-          className="cursor-pointer flex items-center gap-1 rounded border border-white/[0.08] bg-[#111113] px-2 py-1 text-[10px] font-medium text-zinc-400 hover:border-white/[0.16] hover:text-zinc-100 disabled:opacity-40 transition-colors focus-visible:ring-1 focus-visible:ring-zinc-400"
+          title="Start a new conversation"
+          aria-label="Start a new conversation"
+          className="btn-icon shrink-0"
         >
-          <RotateCcw className="h-3 w-3" />
-          <span>Reset</span>
+          <RotateCcw className="h-4 w-4" aria-hidden="true" />
         </button>
-      </div>
+      </header>
 
-      {/* Conversation Feed */}
-      <div className="flex-1 overflow-y-auto p-3.5 space-y-3">
-        {messages.map((msg, idx) => (
-          <div
-            key={idx}
-            className={cn(
-              "flex flex-col gap-2 rounded border p-3.5 text-xs transition-colors",
-              msg.role === "user"
-                ? "bg-[#0c0c0e] border-white/[0.08] text-zinc-100"
-                : "bg-[#111113] border-white/[0.08] text-zinc-200"
-            )}
-          >
-            {/* Message Role Header */}
-            <div className="flex items-center justify-between pb-1.5 mb-1 border-b border-white/[0.05]">
-              <span className="font-mono text-[10px] font-semibold uppercase tracking-wider text-zinc-500 flex items-center gap-1.5">
-                {msg.role === "user" ? (
-                  "QUERY"
-                ) : (
-                  <>
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                    VERIFIED GROUNDED OUTPUT
-                  </>
-                )}
-              </span>
-
-              {msg.role === "assistant" && msg.content && (
-                <div className="flex items-center gap-2">
-                  {typeof msg.latency_ms === "number" && msg.latency_ms > 0 && (
-                    <span className="flex items-center gap-1 font-mono text-[10px] text-zinc-500 tabular-nums">
-                      <Clock className="h-2.5 w-2.5" />
-                      {msg.latency_ms}ms
-                    </span>
-                  )}
+      {/* Conversation */}
+      <div className="flex-1 overflow-y-auto px-4 py-4">
+        {messages.length === 1 && (
+          <div>
+            <h3 className="text-lg font-bold text-ink">Ask about this repository</h3>
+            <p className="mt-1 text-sm text-sub">{INITIAL_ASSISTANT_MESSAGE.content}</p>
+            <ul className="mt-3">
+              {sampleQueries.map((question, idx) => (
+                <li key={idx}>
                   <button
+                    type="button"
+                    onClick={() => handleSend(question)}
+                    className="-mx-2 flex w-[calc(100%+1rem)] cursor-pointer items-center justify-between gap-3 border-b border-rule px-2 py-2.5 text-left text-sm text-ink transition-colors duration-150 hover:bg-wash active:bg-sunk"
+                  >
+                    <span>{question}</span>
+                    <ArrowRight className="h-4 w-4 shrink-0 text-sub" aria-hidden="true" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {messages.map((msg, idx) => {
+          if (msg === INITIAL_ASSISTANT_MESSAGE) return null;
+
+          if (msg.role === "user") {
+            return (
+              <h3
+                key={idx}
+                className={cn(
+                  "whitespace-pre-wrap break-words text-base font-bold text-ink",
+                  idx > 1 && "mt-5 border-t border-rule pt-4"
+                )}
+              >
+                {msg.content}
+              </h3>
+            );
+          }
+
+          if (msg.content.startsWith(ERROR_PREFIX)) {
+            return (
+              <div key={idx} role="alert" className="note note-error mt-3">
+                <p>
+                  The answer could not be generated. Check that the backend is
+                  running and try again.
+                </p>
+                <p className="mt-1 text-xs">
+                  Reported error: {msg.content.slice(ERROR_PREFIX.length)}
+                </p>
+              </div>
+            );
+          }
+
+          return (
+            <div key={idx} className="mt-2">
+              {msg.is_abstained && (
+                <p className="note note-warn mb-3">
+                  The repository does not contain enough to answer this.
+                </p>
+              )}
+
+              {renderMessageContent(msg, idx)}
+
+              {renderAdjustedNote(msg)}
+
+              {msg.content && (
+                <div className="mt-1 flex min-h-8 items-center justify-between gap-2 text-xs tabular-nums text-sub">
+                  <span>
+                    {typeof msg.latency_ms === "number" && msg.latency_ms > 0
+                      ? `answered in ${(msg.latency_ms / 1000).toFixed(1)} s`
+                      : ""}
+                  </span>
+                  <button
+                    type="button"
                     onClick={() => handleCopyText(msg.content, idx)}
-                    title="Copy response"
-                    aria-label="Copy assistant response text"
-                    className="cursor-pointer rounded p-1 text-zinc-500 hover:bg-white/[0.06] hover:text-zinc-200 transition-colors"
+                    title={copiedMsgIdx === idx ? "Copied" : "Copy answer"}
+                    aria-label={copiedMsgIdx === idx ? "Copied" : "Copy answer"}
+                    className="btn-icon -mr-2"
                   >
                     {copiedMsgIdx === idx ? (
-                      <Check className="h-3 w-3 text-emerald-400" />
+                      <Check className="h-4 w-4 text-line-green" aria-hidden="true" />
                     ) : (
-                      <Copy className="h-3 w-3" />
+                      <Copy className="h-4 w-4" aria-hidden="true" />
                     )}
                   </button>
                 </div>
               )}
+
+              {/* Route through the cited spans; numbered as in the text above */}
+              {!streaming && (
+                <ExecutionTraceStepper
+                  steps={getCitationIndex(msg).steps}
+                  onCitationClick={onCitationClick}
+                />
+              )}
             </div>
-
-            {/* Body */}
-            {renderMessageContent(msg.content, idx)}
-
-            {/* Interactive Multi-Hop Trace Stepper */}
-            {msg.role === "assistant" && !streaming && (
-              <ExecutionTraceStepper
-                steps={extractTraceSteps(msg)}
-                onCitationClick={onCitationClick}
-              />
-            )}
-
-            {/* Verified Citations Shelf */}
-            {msg.verified_citations && msg.verified_citations.length > 0 && (
-              <div className="mt-1.5 pt-2.5 border-t border-white/[0.07]">
-                <div className="flex items-center justify-between mb-1.5">
-                  <span className="flex items-center gap-1.5 font-mono text-[10px] font-semibold text-zinc-300 tabular-nums">
-                    <ShieldCheck className="h-3 w-3 text-emerald-400" />
-                    VERIFIED SOURCE SPANS ({msg.verified_citations.length})
-                  </span>
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {msg.verified_citations.map((c, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() =>
-                        onCitationClick(c.file_path, c.start_line, c.end_line)
-                      }
-                      title={`Jump to ${c.file_path} lines ${c.start_line}-${c.end_line}`}
-                      aria-label={`Jump to file ${c.file_path} lines ${c.start_line} through ${c.end_line}`}
-                      className="citation-pill cursor-pointer"
-                    >
-                      <FileCode2 className="h-3 w-3 text-zinc-400" />
-                      <span>
-                        {c.file_path}:{c.start_line}-{c.end_line}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Abstention Warning */}
-            {msg.is_abstained && (
-              <div className="mt-1.5 flex items-center gap-2 rounded border border-amber-500/25 bg-amber-500/[0.05] p-2.5 text-[11px] text-amber-200/90">
-                <AlertTriangle className="h-4 w-4 text-amber-400 shrink-0" />
-                <span>
-                  Grounding Gate Abstained: Insufficient evidence in indexed repository chunks to verify claims.
-                </span>
-              </div>
-            )}
-          </div>
-        ))}
+          );
+        })}
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Curated Starter Prompts */}
-      {messages.length === 1 && (
-        <div className="px-3.5 py-3 border-t border-white/[0.07] bg-[#0c0c0e]">
-          <div className="font-mono text-[10px] text-zinc-500 font-semibold uppercase tracking-wider mb-2">
-            Suggested Queries
-          </div>
-          <div className="space-y-1.5">
-            {sampleQueries.map((item, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleSend(item.question)}
-                aria-label={`Ask: ${item.question}`}
-                className="cursor-pointer group w-full flex items-center justify-between gap-2 text-left rounded border border-white/[0.07] bg-[#111113] hover:bg-[#16161a] hover:border-white/[0.14] px-3 py-2 text-[11px] text-zinc-300 transition-colors"
-              >
-                <div className="min-w-0 space-y-0.5">
-                  <span className="block font-mono text-[10px] text-zinc-400">
-                    [{item.tag}]
-                  </span>
-                  <span className="block line-clamp-2 leading-snug text-zinc-200">
-                    {item.question}
-                  </span>
-                </div>
-                <ArrowUpRight className="h-3.5 w-3.5 text-zinc-600 group-hover:text-zinc-300 shrink-0 transition-colors" />
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Input Composer */}
-      <div className="p-3 border-t border-white/[0.07] bg-[#0c0c0e]">
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSend();
+      {/* Composer */}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSend();
+        }}
+        className="flex items-end gap-2 border-t-[3px] border-ink p-3"
+      >
+        <textarea
+          ref={inputRef}
+          rows={1}
+          placeholder="Ask how something works, or where it lives"
+          aria-label="Question about this repository"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
+              e.preventDefault();
+              handleSend();
+            }
           }}
-          className="relative flex items-center gap-2"
+          disabled={streaming}
+          className="field h-auto max-h-40 min-h-[44px] flex-1 resize-none py-2.5 leading-6"
+        />
+        <button
+          type="submit"
+          disabled={streaming || !input.trim()}
+          className="btn btn-primary h-11 shrink-0"
         >
-          <input
-            type="text"
-            placeholder="Ask about functions, classes, or architecture..."
-            aria-label="Ask about codebase functions, classes, or architecture"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            disabled={streaming}
-            className="flex-1 rounded border border-white/[0.08] bg-[#111113] px-3.5 py-2 text-xs text-zinc-100 placeholder:text-zinc-500 focus:border-white/[0.24] focus:outline-none disabled:opacity-50 transition-colors font-mono"
-          />
-          <button
-            type="submit"
-            disabled={streaming || !input.trim()}
-            aria-label="Send question"
-            className="cursor-pointer flex h-8 w-8 shrink-0 items-center justify-center rounded bg-zinc-100 hover:bg-white text-zinc-950 disabled:opacity-30 transition-colors focus-visible:ring-2 focus-visible:ring-zinc-400"
-          >
-            {streaming ? (
-              <RefreshCw className="h-3.5 w-3.5 animate-spin" />
-            ) : (
-              <Send className="h-3.5 w-3.5" />
-            )}
-          </button>
-        </form>
-      </div>
+          Ask
+        </button>
+      </form>
     </div>
   );
 };

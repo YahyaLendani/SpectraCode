@@ -1,8 +1,8 @@
-# RepoLens System Architecture
+# SpectraCode System Architecture
 
 ## 1. Architectural Overview
 
-RepoLens is an AI-powered developer platform designed to analyze, parse, index, and explain complex source-code repositories with 100% grounded file and line number citations.
+SpectraCode is an AI-powered developer platform designed to analyze, parse, index, and explain complex source-code repositories with 100% grounded file and line number citations.
 
 ```
 +-----------------------------------------------------------------------------------+
@@ -33,7 +33,7 @@ RepoLens is an AI-powered developer platform designed to analyze, parse, index, 
 ## 2. Component Boundaries
 
 ### 2.1 Ingestion & Sandbox Layer (`app/ingestion/git_importer.py`)
-- **Untrusted Code Isolation**: External repositories are treated as untrusted inputs. RepoLens never compiles, executes, or runs hooks from imported repositories.
+- **Untrusted Code Isolation**: External repositories are treated as untrusted inputs. SpectraCode never compiles, executes, or runs hooks from imported repositories.
 - **Filtering**: Strips lockfiles, generated binaries, media, `.git/`, `node_modules/`, and ignores files exceeding 1 MB or containing binary null bytes (`\x00`).
 - **Deterministic Checksumming**: Computes SHA-256 digests for all indexed files to track commit diffs.
 

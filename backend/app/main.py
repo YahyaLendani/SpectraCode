@@ -47,7 +47,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="RepoLens API",
+    title=f"{settings.PROJECT_NAME} API",
     description="AI-Powered Codebase Intelligence Platform API with Grounded Citations & Hybrid Retrieval",
     version="1.0.0",
     lifespan=lifespan,
@@ -79,7 +79,7 @@ async def health_check():
 @app.get("/")
 async def root():
     return {
-        "name": "RepoLens API",
+        "name": f"{settings.PROJECT_NAME} API",
         "version": "1.0.0",
         "docs_url": "/docs",
         "health_url": "/health",

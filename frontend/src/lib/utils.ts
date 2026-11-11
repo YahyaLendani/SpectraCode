@@ -24,22 +24,22 @@ export function getLanguageColor(lang: string): string {
   switch ((lang || "").toLowerCase()) {
     case "python":
     case "py":
-      return "text-blue-300 bg-blue-500/10 border-blue-500/25";
+      return "text-line-blue bg-line-blue-soft border-line-blue/40";
     case "typescript":
     case "tsx":
     case "ts":
-      return "text-sky-300 bg-sky-500/10 border-sky-500/25";
+      return "text-line-teal bg-line-teal-soft border-line-teal/40";
     case "javascript":
     case "jsx":
     case "js":
-      return "text-amber-300 bg-amber-500/10 border-amber-500/25";
+      return "text-line-orange bg-line-orange-soft border-line-orange/40";
     case "rust":
     case "rs":
-      return "text-orange-300 bg-orange-500/10 border-orange-500/25";
+      return "text-line-red bg-line-red-soft border-line-red/40";
     case "go":
-      return "text-cyan-300 bg-cyan-500/10 border-cyan-500/25";
+      return "text-line-violet bg-line-violet-soft border-line-violet/40";
     default:
-      return "text-zinc-300 bg-white/[0.04] border-white/[0.09]";
+      return "text-ink-2 bg-wash border-rule-strong";
   }
 }
 
@@ -47,12 +47,38 @@ export function getSymbolBadgeStyle(kind: string): string {
   switch ((kind || "").toLowerCase()) {
     case "class":
     case "interface":
-      return "text-amber-300 bg-amber-500/10 border-amber-500/25";
+      return "text-line-violet bg-line-violet-soft border-line-violet/40";
     case "function":
-      return "text-blue-300 bg-blue-500/10 border-blue-500/25";
+      return "text-line-blue bg-line-blue-soft border-line-blue/40";
     case "method":
-      return "text-sky-300 bg-sky-500/10 border-sky-500/25";
+      return "text-line-teal bg-line-teal-soft border-line-teal/40";
     default:
-      return "text-zinc-300 bg-white/[0.05] border-white/[0.09]";
+      return "text-ink-2 bg-wash border-rule-strong";
   }
+}
+
+/**
+ * Line colours. In a route, each distinct file gets the next colour in
+ * this order, so the first file cited is always blue, the second red, and
+ * so on. All six hold white text at 4.5:1 or better.
+ */
+export const LINE_COLORS = [
+  "#0A5FD9",
+  "#E2231A",
+  "#007A41",
+  "#B84E00",
+  "#7A3DB8",
+  "#00788A",
+] as const;
+
+export function assignLineColors(filePaths: string[]): Record<string, string> {
+  const colors: Record<string, string> = {};
+  let next = 0;
+  for (const path of filePaths) {
+    if (!(path in colors)) {
+      colors[path] = LINE_COLORS[next % LINE_COLORS.length];
+      next += 1;
+    }
+  }
+  return colors;
 }
