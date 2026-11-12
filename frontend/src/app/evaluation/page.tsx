@@ -129,6 +129,7 @@ export default function EvaluationDashboardPage() {
       }
     } catch (err) {
       console.error(err);
+      setReport(null);
     } finally {
       setReportLoading(false);
     }
@@ -205,6 +206,17 @@ export default function EvaluationDashboardPage() {
     : [];
 
   const selectedRepo = repositories.find((r) => r.id === selectedRepoId);
+  const isSampleRepo = Boolean(
+    selectedRepo &&
+      (selectedRepo.clone_url === "sample:fastapi" ||
+        selectedRepo.clone_url.toLowerCase().includes("sample"))
+  );
+  const expectedSuiteLabel = selectedRepo
+    ? isSampleRepo
+      ? "SpectraCode Curated FastAPI Suite v1"
+      : `SpectraCode Tailored AST Suite v1 (${selectedRepo.github_name})`
+    : "Tailored Benchmark Suite";
+
   const reportRepo = report
     ? repositories.find((r) => r.id === report.repository_id) ?? selectedRepo
     : undefined;
@@ -221,7 +233,7 @@ export default function EvaluationDashboardPage() {
       {running && (
         <span aria-hidden="true" className="station-now block h-2.5 w-2.5 border border-ink bg-signal" />
       )}
-      {running ? "Running" : "Run benchmark"}
+      {running ? "Running" : "Run tailored benchmark"}
     </button>
   );
 
@@ -233,9 +245,9 @@ export default function EvaluationDashboardPage() {
         <header className="pb-8 pt-10 sm:pt-14">
           <h1 className="text-[2.5rem] font-extrabold leading-none tracking-[-0.025em]">Benchmarks</h1>
           <p className="mt-4 max-w-[62ch] text-lg leading-relaxed text-ink-2">
-            This page asks a repository a fixed set of questions, then scores whether
-            the search found the right code and whether each citation points at the
-            right lines.
+            This page asks a repository a benchmark suite tailored to its indexed
+            codebase, then scores whether the search found the right code and
+            whether each citation points at the right lines.
           </p>
         </header>
 
@@ -274,8 +286,10 @@ export default function EvaluationDashboardPage() {
                     id="benchmark-repo"
                     value={selectedRepoId}
                     onChange={(e) => {
-                      setSelectedRepoId(e.target.value);
-                      loadLatestEvaluation(e.target.value);
+                      const nextId = e.target.value;
+                      setSelectedRepoId(nextId);
+                      setReport(null);
+                      loadLatestEvaluation(nextId);
                     }}
                     className="field cursor-pointer"
                   >
@@ -298,7 +312,7 @@ export default function EvaluationDashboardPage() {
 
                 {running && (
                   <p role="status" className="basis-full text-sm text-sub sm:basis-auto sm:self-center">
-                    Running the benchmark. Scores appear below when it finishes.
+                    Running the tailored benchmark. Scores appear below when it finishes.
                   </p>
                 )}
               </div>
@@ -320,14 +334,6 @@ export default function EvaluationDashboardPage() {
                   </Link>
                 </p>
               )}
-
-              {selectedRepo && selectedRepo.clone_url !== "sample:fastapi" && (
-                <p className="note note-warn mt-4 max-w-2xl">
-                  The questions and expected spans were written for the bundled FastAPI
-                  sample. On another repository those files are not there, so the
-                  scores say little about it.
-                </p>
-              )}
             </section>
 
             {busy ? (
@@ -338,17 +344,44 @@ export default function EvaluationDashboardPage() {
                 <TableSkeleton label={running ? "Running the benchmark" : "Loading the latest run"} />
               </section>
             ) : !report ? (
-              <section className="border-t border-rule pt-6">
-                <h2 className="text-2xl font-extrabold tracking-[-0.01em]">
-                  No benchmark has been run for this repository
+              <section className="border-t-[3px] border-ink pt-6">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="tag h-6 px-2 font-mono text-xs">
+                    {expectedSuiteLabel}
+                  </span>
+                </div>
+                <h2 className="mt-3 text-2xl font-extrabold tracking-[-0.01em]">
+                  {selectedRepo
+                    ? `Run the tailored benchmark for ${selectedRepo.github_owner}/${selectedRepo.github_name}`
+                    : "No benchmark has been run for this workspace"}
                 </h2>
-                <p className="mt-1 max-w-[62ch] text-ink-2">
-                  A run asks each benchmark question, records the code the search
-                  returned and the lines the answer cited, and compares both with the
-                  expected spans. It needs an indexed repository. No API key is
-                  required: answers come from Gemini when{" "}
+                <p className="mt-2 max-w-[62ch] text-ink-2">
+                  {isSampleRepo ? (
+                    <>
+                      No benchmark run is saved for{" "}
+                      <span className="font-semibold text-ink">
+                        {selectedRepo?.github_owner}/{selectedRepo?.github_name}
+                      </span>{" "}
+                      yet. Start a run to evaluate the curated FastAPI suite against
+                      its expected code spans and abstention check.
+                    </>
+                  ) : (
+                    <>
+                      No benchmark run is saved for{" "}
+                      <span className="font-semibold text-ink">
+                        {selectedRepo
+                          ? `${selectedRepo.github_owner}/${selectedRepo.github_name}`
+                          : "this workspace"}
+                      </span>{" "}
+                      yet. Run the tailored benchmark to synthesize symbol-lookup
+                      questions directly from this workspace&apos;s indexed AST classes
+                      and functions—plus an out-of-scope abstention check—and score
+                      retrieval recall, citation accuracy, and faithfulness.
+                    </>
+                  )}{" "}
+                  No API key is required: answers come from Gemini when{" "}
                   <code className="text-[0.875rem] text-ink">GEMINI_API_KEY</code> is set
-                  on the backend, and from the built-in answer writer otherwise.
+                  on the backend, and from the built-in grounded answer writer otherwise.
                 </p>
                 <div className="mt-5">{runButton}</div>
               </section>
@@ -356,14 +389,26 @@ export default function EvaluationDashboardPage() {
               <>
                 {/* Scores */}
                 <section aria-labelledby="scores-heading" className="pb-14">
-                  <h2 id="scores-heading" className="text-2xl font-extrabold tracking-[-0.01em]">
-                    Scores
-                  </h2>
+                  <div className="flex flex-wrap items-center justify-between gap-3 pb-2">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <h2 id="scores-heading" className="text-2xl font-extrabold tracking-[-0.01em]">
+                        Scores
+                      </h2>
+                      {report.benchmark_name && (
+                        <span className="tag h-6 border-ink bg-signal-soft px-2.5 font-mono text-xs font-semibold text-ink">
+                          {report.benchmark_name}
+                        </span>
+                      )}
+                    </div>
+                  </div>
                   <table className="board mt-1">
                     <caption className="caption-top pb-3 text-left text-sm text-sub">
                       {reportRepo && (
                         <>
-                          {reportRepo.github_owner}/{reportRepo.github_name},{" "}
+                          <span className="font-semibold text-ink">
+                            {reportRepo.github_owner}/{reportRepo.github_name}
+                          </span>
+                          {" · "}
                         </>
                       )}
                       commit <span className="font-mono">{report.commit_sha.slice(0, 7)}</span>, run{" "}
