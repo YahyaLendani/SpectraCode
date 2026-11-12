@@ -57,7 +57,7 @@
   .btn:active { background: var(--sunk); }
   .btn-primary { background: var(--ink); color: #fff; }
   .btn-primary:hover { background: var(--ink-2); }
-  .btn-primary:active { background: #000; }
+  .btn-primary:active { background: var(--ink); }
 
   /* Hero */
   .hero { display: grid; gap: 2.5rem; padding-block: 2.5rem 3rem; }
@@ -70,7 +70,7 @@
   .sample { border-top: 3px solid var(--ink); padding-top: 0.875rem; }
   @media (min-width: 1024px) { .sample { border-top: 0; border-left: 3px solid var(--ink); padding: 0 0 0 1.5rem; } }
   .sample-from { font-size: 0.875rem; color: var(--sub); }
-  .sample h2 { margin-top: 0.25rem; font-size: 1.375rem; font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; }
+  .sample h2 { margin-top: 0.25rem; font-size: 1.5rem; font-weight: 800; line-height: 1.25; letter-spacing: -0.01em; }
   .sample p.answer { margin-top: 0.75rem; color: var(--ink-2); line-height: 1.7; }
   .sample code { font-weight: 600; color: var(--ink); font-size: 0.9375rem; }
   .nowrap { white-space: nowrap; }
@@ -80,7 +80,7 @@
   .route { margin-top: 1.25rem; }
   .route li { position: relative; display: flex; gap: 0.75rem; padding-bottom: 1rem; }
   .route li:last-child { padding-bottom: 0; }
-  .route li:not(:last-child)::before { content: ""; position: absolute; left: 7px; top: 0.75rem; width: 6px; height: 100%; border-radius: 3px; background: var(--c); }
+  .route li:not(:last-child)::before { content: ""; position: absolute; left: 7px; top: 0.75rem; width: 6px; height: 100%; border-radius: 4px; background: var(--c); }
   .route .path { display: block; font: 600 0.8125rem/1.4 var(--mono); }
   .route .span { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.125rem; font-size: 0.8125rem; color: var(--sub); font-variant-numeric: tabular-nums; }
   .route .bar { height: 4px; border-radius: 2px; background: var(--c); }
@@ -92,7 +92,7 @@
   .figures-note { margin-top: 0.5rem; font-size: 0.8125rem; color: var(--sub); }
 
   /* Sections */
-  section { padding-block: 3rem; border-top: 1px solid var(--rule); }
+  section { padding: 3rem 0; border-top: 1px solid var(--rule); }
   section > .wrap > h2 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.01em; }
   .section-lede { margin-top: 0.5rem; max-width: 40rem; color: var(--ink-2); }
 
@@ -130,7 +130,7 @@
   .run pre { margin-top: 0.625rem; padding: 0.875rem 1rem; background: var(--wash); border: 1px solid var(--rule); border-radius: 4px; font-size: 0.8125rem; line-height: 1.7; overflow-x: auto; }
   .run-note { margin-top: 1.25rem; max-width: 44rem; font-size: 0.9375rem; color: var(--ink-2); }
 
-  footer { border-top: 3px solid var(--ink); padding-block: 1.25rem 2rem; font-size: 0.875rem; color: var(--sub); }
+  footer { border-top: 3px solid var(--ink); padding: 1.25rem 0 2rem; font-size: 0.875rem; color: var(--sub); }
   footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; }
   footer a { font-weight: 600; color: var(--ink); }
 </style>
