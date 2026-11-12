@@ -196,7 +196,7 @@ High-performance asynchronous microservice for telemetry ingestion, token authen
 
 class AppSettings(BaseSettings):
     APP_NAME: str = "CloudFlow"
-    JWT_SECRET_KEY: str = "super-secret-key-repolens"
+    JWT_SECRET_KEY: str = "super-secret-key-spectracode"
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     MAX_CONCURRENT_JOBS: int = 16

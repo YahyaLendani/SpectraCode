@@ -123,8 +123,3 @@ class SpectraCodeBenchmarkEvaluator:
             citation_f1=cit_f1,
             faithfulness=faithfulness,
         )
-
-
-# Backward-compatible alias
-RepoLensBenchmarkEvaluator = SpectraCodeBenchmarkEvaluator
-

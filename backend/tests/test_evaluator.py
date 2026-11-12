@@ -13,12 +13,12 @@ from app.db.models import (
     SymbolKind,
 )
 from app.evaluation.benchmark_dataset import FASTAPI_BENCHMARK_SUITE
-from app.evaluation.evaluator import LineSpan, RepoLensBenchmarkEvaluator
+from app.evaluation.evaluator import LineSpan, SpectraCodeBenchmarkEvaluator
 from app.evaluation.suite_generator import DynamicBenchmarkGenerator
 
 
 def test_evaluator_metrics():
-    evaluator = RepoLensBenchmarkEvaluator(coverage_threshold=0.50)
+    evaluator = SpectraCodeBenchmarkEvaluator(coverage_threshold=0.50)
 
     gt_spans = [
         LineSpan(file_path="src/auth.py", start_line=10, end_line=30),
@@ -52,7 +52,7 @@ def test_evaluator_metrics():
 
 
 def test_evaluator_negative_abstention():
-    evaluator = RepoLensBenchmarkEvaluator()
+    evaluator = SpectraCodeBenchmarkEvaluator()
 
     # Query was negative/out-of-scope (no ground truth spans)
     res_correct_abstain = evaluator.evaluate_sample(

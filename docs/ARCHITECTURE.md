@@ -43,7 +43,7 @@ SpectraCode is an AI-powered developer platform designed to analyze, parse, inde
 - Preserves **1-indexed line intervals** `[start_line, end_line]` and byte offsets.
 - Prepends every chunk with a **Structural Context Header**:
   ```python
-  # [RepoLens AST Context] File: src/auth/jwt_manager.py | Lines: 12-35 | Lang: python
+  # [SpectraCode AST Context] File: src/auth/jwt_manager.py | Lines: 12-35 | Lang: python
   # Scope: TokenManager.verify_token (method) | Doc: Decodes and validates JWT claims.
   # Imports: jwt; datetime; src.config
   # --- BEGIN SOURCE ---

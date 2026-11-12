@@ -54,3 +54,6 @@ Thumbs.db
 .impeccable/
 backend/graphify-out/
 
+
+# Local preview of the product page
+_site/

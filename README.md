@@ -2,10 +2,11 @@
 
 > **Category:** Generative AI · LLM Engineering · Code RAG · Developer Tools  
 > **Status:** Production-Ready Foundation  
+> **Website:** [spectracode.tech](https://spectracode.tech)  
 > **Stack:** Next.js 14 (App Router), TypeScript, Tailwind CSS, FastAPI, PostgreSQL (`pgvector`) / SQLite, Tree-sitter, FastEmbed (ONNX), Pytest
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.136.3-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![Next.js](https://img.shields.io/badge/Next.js-14.2.15-000000.svg?logo=next.js&logoColor=white)](https://nextjs.org)
+[![Next.js](https://img.shields.io/badge/Next.js-14.2.35-000000.svg?logo=next.js&logoColor=white)](https://nextjs.org)
 [![Tree-sitter](https://img.shields.io/badge/Tree--sitter-AST%20Call--Graph-2b5b84.svg)](https://tree-sitter.github.io/tree-sitter/)
 [![Vector Search](https://img.shields.io/badge/RAG-Hybrid%20RRF%20%2B%201--Hop%20AST-indigo.svg)](#2--hybrid-rrf-retrieval--1-hop-ast-call-graph-expansion)
 [![Tests](https://img.shields.io/badge/Pytest-18%20Passed%20(100%25)-brightgreen.svg)](#-automated-testing)

@@ -42,7 +42,7 @@ def helper_function():
     for chunk in chunks:
         assert chunk.start_line >= 1
         assert chunk.end_line >= chunk.start_line
-        assert "# [RepoLens AST Context]" in chunk.contextualized_text
+        assert "# [SpectraCode AST Context]" in chunk.contextualized_text
         assert chunk.language == SupportedLanguage.PYTHON.value
 
 

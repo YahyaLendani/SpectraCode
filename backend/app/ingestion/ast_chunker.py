@@ -523,7 +523,7 @@ class CodeASTChunker:
             sub_raw = "".join(source_lines[line_num - 1 : end_num])
             if sub_raw.strip():
                 header = (
-                    f"# [RepoLens Context] File: {file_path} | Lines: {line_num}-{end_num}\n"
+                    f"# [SpectraCode Context] File: {file_path} | Lines: {line_num}-{end_num}\n"
                     f"# --- BEGIN SOURCE ---"
                 )
                 contextualized = f"{header}\n{sub_raw}"
@@ -593,7 +593,7 @@ class CodeASTChunker:
         imports_str = "; ".join(imports[:6]) if imports else "none"
         doc_summary = (docstring.splitlines()[0][:100] if docstring else "none")
         return (
-            f"# [RepoLens AST Context] File: {file_path} | Lines: {start_line}-{end_line} | Lang: {language}\n"
+            f"# [SpectraCode AST Context] File: {file_path} | Lines: {start_line}-{end_line} | Lang: {language}\n"
             f"# Scope: {scope_chain} ({symbol_kind or 'block'}) | Doc: {doc_summary}\n"
             f"# Imports: {imports_str}\n"
             f"# --- BEGIN SOURCE ---"
