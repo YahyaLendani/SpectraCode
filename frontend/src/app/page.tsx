@@ -9,8 +9,6 @@ import {
   Search,
   ArrowRight,
   Trash2,
-  AlertTriangle,
-  X,
 } from "lucide-react";
 import { api, Repository } from "@/lib/api";
 import { Navbar } from "@/components/Navbar";

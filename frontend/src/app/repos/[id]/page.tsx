@@ -7,8 +7,6 @@ import {
   PanelLeft,
   PanelRight,
   Trash2,
-  AlertTriangle,
-  X,
 } from "lucide-react";
 import Link from "next/link";
 import { api, FileDetail, Repository, TreeNode } from "@/lib/api";
