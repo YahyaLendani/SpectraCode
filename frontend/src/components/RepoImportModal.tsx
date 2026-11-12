@@ -214,11 +214,30 @@ export const RepoImportModal: React.FC<RepoImportModalProps> = ({
         }
       };
 
-      es.onerror = () => {
+      // The progress stream dropped. That says nothing about the import
+      // itself, so ask the server before reporting anything.
+      es.onerror = async () => {
         es.close();
-        onImportSuccess(repo);
-        resetForm();
-        onClose();
+        try {
+          const latest = await api.getRepository(repo.id);
+          if (latest.status === "failed") {
+            setError(
+              "Indexing failed on the server. Check the backend log, then try again."
+            );
+            setLoading(false);
+            return;
+          }
+          // Still indexing or already ready: the workspace list keeps
+          // polling and shows where it has got to.
+          onImportSuccess(latest);
+          resetForm();
+          onClose();
+        } catch {
+          setError(
+            "Lost the connection to the server, so the import's progress is unknown. Check that the backend is running, then look for the repository in the workspace list."
+          );
+          setLoading(false);
+        }
       };
     } catch (err: any) {
       setError(err.message || "The import could not start.");

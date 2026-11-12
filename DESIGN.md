@@ -1,5 +1,5 @@
 ---
-name: RepoLens
+name: SpectraCode
 description: Answers about code, with checked citations, drawn as a transit line map.
 colors:
   signal: "#FFD400"
@@ -165,13 +165,13 @@ components:
     padding: "8px 12px"
 ---
 
-# Design System: RepoLens
+# Design System: SpectraCode
 
 ## Overview
 
 **Creative North Star: "Line Map"**
 
-RepoLens is drawn as transit wayfinding. An answer is a route, each cited span is a numbered station, and each file is a line with its own colour. The reader rides the route from the sentence to the source. The surface is a white ground with ink type, a signal-yellow band across the top, heavy ink rules above tables, and round station markers; everything else is hairlines and plain text.
+SpectraCode is drawn as transit wayfinding. An answer is a route, each cited span is a numbered station, and each file is a line with its own colour. The reader rides the route from the sentence to the source. The surface is a white ground with ink type, a signal-yellow band across the top, heavy ink rules above tables, and round station markers; everything else is hairlines and plain text.
 
 The system is light only and flat. Depth is carried by rules and tinted grounds, not by shadow. Density changes by surface: the home and benchmarks pages are open reading pages inside a wide container, the workspace is a full-height three-pane tool. Diagrams are drawn from data: the four-stop indexing line reflects real status, and the bar beside a citation is as long as the span it stands for.
 

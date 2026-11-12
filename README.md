@@ -2,13 +2,13 @@
 
 > **Category:** Generative AI · LLM Engineering · Code RAG · Developer Tools  
 > **Status:** Production-Ready Foundation  
-> **Stack:** Next.js 14 (App Router), TypeScript, Tailwind CSS, Monaco Editor, FastAPI, PostgreSQL (`pgvector`) / SQLite, Tree-sitter, FastEmbed (ONNX), Pytest
+> **Stack:** Next.js 14 (App Router), TypeScript, Tailwind CSS, FastAPI, PostgreSQL (`pgvector`) / SQLite, Tree-sitter, FastEmbed (ONNX), Pytest
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.136.3-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![Next.js](https://img.shields.io/badge/Next.js-14.2.15-000000.svg?logo=next.js&logoColor=white)](https://nextjs.org)
 [![Tree-sitter](https://img.shields.io/badge/Tree--sitter-AST%20Call--Graph-2b5b84.svg)](https://tree-sitter.github.io/tree-sitter/)
 [![Vector Search](https://img.shields.io/badge/RAG-Hybrid%20RRF%20%2B%201--Hop%20AST-indigo.svg)](#2--hybrid-rrf-retrieval--1-hop-ast-call-graph-expansion)
-[![Tests](https://img.shields.io/badge/Pytest-15%20Passed%20(100%25)-brightgreen.svg)](#-automated-testing)
+[![Tests](https://img.shields.io/badge/Pytest-18%20Passed%20(100%25)-brightgreen.svg)](#-automated-testing)
 
 ---
 
@@ -17,6 +17,50 @@
 **SpectraCode** is an intelligent developer platform that analyzes source-code repositories and empowers engineers to rapidly understand unfamiliar codebases. Users can import public GitHub repositories with live Server-Sent Events (SSE) indexing telemetry, search source code via hybrid semantic and lexical retrieval, explore syntax trees and module dependency graphs, and chat with an AI assistant that answers technical questions with **strictly verified, clickable file and line number citations** (`[filepath:line_start-line_end]`) and an **interactive multi-file execution trace stepper**.
 
 Unlike naive RAG systems that suffer from hallucinated references, isolated single-file context windows, and broken line intervals, SpectraCode combines **Tree-sitter Concrete Syntax Tree (CST) chunking**, **Reciprocal Rank Fusion (RRF)**, **1-Hop AST Call-Graph Context Expansion**, and a **two-stage grounding verification gate** to ensure that every architectural claim is verifiable down to the exact line of code.
+
+---
+
+## 📸 Visual Walkthrough: How SpectraCode Works
+
+### 1. Developer Workspace with Grounded Citations & Multi-Hop Route Stepper
+The core workspace features a synchronized three-pane layout: the **AST File Explorer** with symbol counts on the left, the **Code Viewer** highlighting cited line spans (`lines 6-8 in JWTAuthenticationError`) in the center, and the **Grounded AI Assistant** on the right. When an answer spans multiple files or execution hops, the **Route Stepper** renders an interactive transit map (`1 → 2`) with an auto-walkthrough mode that steps through cited files and highlights matching code spans automatically.
+
+![SpectraCode Workspace](docs/images/workspace_code_view.png)
+
+---
+
+### 2. Clean Swiss Transit Dashboard & 4-Stage Indexing Line Map
+The home dashboard provides an at-a-glance view of all imported workspaces, indexed file counts, total code spans, and live 4-stage ingestion status (`Clone` $\rightarrow$ `Parse` $\rightarrow$ `Embed` $\rightarrow$ `Ready`). Users can import any public GitHub repository or load the bundled sample with a single click.
+
+![SpectraCode Dashboard](docs/images/dashboard.png)
+
+---
+
+### 3. Interactive Module Dependency Graph & Coupling Analysis
+Switch to the **Dependency Graph** tab to explore repository architecture, inter-module imports, third-party library dependencies, coupling degrees, and circular import detection rendered as a clear transit station network.
+
+![SpectraCode Dependency Graph](docs/images/dependency_graph.png)
+
+---
+
+### 4. Hybrid Search Modal (`Ctrl+K`)
+Instant keyboard-driven code discovery powered by reciprocal rank fusion (dense vector cosine similarity + sparse identifier token matching).
+
+![SpectraCode Search Modal](docs/images/search_modal.png)
+
+---
+
+### 5. Quantitative Benchmarking & Tailored AST Suites
+SpectraCode includes an automated evaluation harness measuring retrieval recall, MRR, citation precision, and faithfulness against published engineering targets. For custom repositories, the **Dynamic AST Suite Generator** synthesizes targeted ground-truth queries directly from indexed classes and functions, accompanied by out-of-scope negative control checks.
+
+![SpectraCode Benchmarks Dashboard](docs/images/evaluation_benchmarks.png)
+
+---
+
+### 6. Safe Workspace Deletion
+Workspaces can be safely removed with immediate optimistic UI updates, background polling safety gates, and transit-themed confirmation dialogs.
+
+![SpectraCode Delete Workspace Modal](docs/images/delete_modal.png)
 
 ---
 
@@ -42,7 +86,7 @@ Unlike naive RAG systems that suffer from hallucinated references, isolated sing
 - **Multi-Hop Flow Stepper (`ExecutionTraceStepper.tsx`)**: When an AI response cites multiple code spans across files or execution hops, an interactive visual trace timeline automatically renders beneath the answer:
   - **Step-by-Step Navigation**: Jump sequentially (`Previous` / `Next` or direct pill selection) across cited execution hops (`1 → 2 → 3`).
   - **Auto-Walkthrough Mode**: Toggle `Play` / `Pause` to automatically step through the multi-file execution trace on a 2.4-second cadence.
-  - **Monaco Editor Synchronization**: Clicking any citation badge or trace step immediately loads the target file in the Monaco Code Viewer, scrolls smoothly to the span, and highlights the exact line range.
+  - **Code Viewer Synchronization**: Clicking any citation badge or trace step immediately loads the target file in the code viewer, scrolls smoothly to the span, and highlights the exact line range.
 
 ### 4. 📡 Real-Time Indexing Progress via Server-Sent Events (SSE)
 - **Live 4-Stage Telemetry (`IndexingProgressTracker`)**: Streams real-time repository ingestion progress over `GET /api/v1/repositories/{repo_id}/progress-stream`.
@@ -69,7 +113,7 @@ Unlike naive RAG systems that suffer from hallucinated references, isolated sing
 ```text
 +---------------------------------------------------------------------------------------+
 |                                   NEXT.JS 14 FRONTEND                                 |
-|  - Developer Workspace & Monaco Code Viewer   - Multi-Hop ExecutionTraceStepper       |
+|  - Developer Workspace & code viewer   - Multi-Hop ExecutionTraceStepper       |
 |  - Streaming SSE AI Chat with Citations       - Live 4-Stage SSE Import Progress      |
 |  - Interactive Module Dependency Graph        - Quantitative Benchmark Dashboard      |
 +-------------------------------------------+-------------------------------------------+
@@ -105,7 +149,7 @@ Unlike naive RAG systems that suffer from hallucinated references, isolated sing
 | Component | Technology | Rationale |
 | :--- | :--- | :--- |
 | **Frontend** | Next.js 14 (App Router), React 18, TypeScript | High-performance developer workspace, SSE streaming, and trace UI |
-| **Code Viewer** | Monaco Editor (`@monaco-editor/react`), Tailwind CSS | IDE-grade syntax highlighting, line decorations, and smooth range scrolling |
+| **Code Viewer** | Custom React code viewer, Tailwind CSS | Syntax highlighting, cited-line highlights, and scrolling to the cited range |
 | **Backend** | Python 3.11+, FastAPI, Uvicorn | Asynchronous, high-throughput REST and Server-Sent Events (SSE) API |
 | **Source Parsing** | Tree-sitter (`python`, `typescript`, `javascript`) | C-compiled syntax tree analysis, symbol extraction, and 1-hop call-graph resolution |
 | **Embeddings** | FastEmbed (`BAAI/bge-small-en-v1.5`) | Zero-cost, low-latency local ONNX vector inference (384 dimensions) |
@@ -253,7 +297,7 @@ SpectraCode/
 │   │   ├── components/
 │   │   │   ├── Navbar.tsx
 │   │   │   ├── FileExplorer.tsx       # Tree file hierarchy with language badges
-│   │   │   ├── CodeViewer.tsx         # Monaco code viewer with line range highlights
+│   │   │   ├── CodeViewer.tsx         # Code viewer with line range highlights
 │   │   │   ├── ChatInterface.tsx      # Streaming AI chat with clickable citations
 │   │   │   ├── ExecutionTraceStepper.tsx # Interactive multi-hop flow stepper & auto-walkthrough
 │   │   │   ├── SearchModal.tsx        # Hybrid search modal (⌘K)
@@ -282,13 +326,13 @@ When presenting SpectraCode to recruiters, hiring managers, or engineering teams
    - Launch SpectraCode (`http://localhost:3000`) and open the **Import Repository** modal.
    - Import a repository or click **"Load Sample Repository"** (`fastapi-cloudflow`).
    - Watch the **4-Stage SSE Progress Tracker** animate smoothly through `Git Clone` $\rightarrow$ `AST Parsing` $\rightarrow$ `ONNX Vectors` $\rightarrow$ `Ready`, streaming the active file name and chunk count in real time.
-2. **AST Code Explorer & Monaco Viewer**:
+2. **AST Code Explorer & Code Viewer**:
    - Open the repository workspace. Browse the file tree (`src/auth/jwt_manager.py`, `src/services/job_scheduler.py`, `src/api/routes.py`).
-   - Click AST Symbol badges (`TokenManager`, `verify_token`, `DistributedScheduler`) to jump directly to symbol definitions inside the Monaco editor.
+   - Click AST Symbol badges (`TokenManager`, `verify_token`, `DistributedScheduler`) to jump directly to symbol definitions inside the code viewer.
 3. **Grounded Multi-Hop AI Chat & Flow Stepper**:
    - Ask a cross-file architectural question, e.g.: *"How does request authentication verify JWT tokens and schedule background jobs?"*
    - Watch the AI response stream in real time with verified citations (`[src/api/routes.py:15-38]`, `[src/auth/jwt_manager.py:11-34]`) powered by **1-Hop AST Call-Graph Context Expansion**.
-   - Use the **Multi-Hop Flow Stepper** (`ExecutionTraceStepper`) beneath the response: click **Play** (or step `1 → 2 → 3`) to automatically walk through each cited file and line span in the Monaco Code Viewer.
+   - Use the **Multi-Hop Flow Stepper** (`ExecutionTraceStepper`) beneath the response: click **Play** (or step `1 → 2 → 3`) to automatically walk through each cited file and line span in the code viewer.
 4. **Hybrid RRF Search (`⌘K`)**:
    - Press `⌘K` to launch the Hybrid Search modal.
    - Query `verify_token` or `schedule_job` and inspect the transparent score telemetry showing **Dense Vector Similarity**, **Sparse Lexical Match**, **RRF Fused Score**, and **1-Hop Linked Symbols**.

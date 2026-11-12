@@ -71,7 +71,7 @@ const TreeItem: React.FC<TreeItemProps> = ({
   if (node.type === "directory") {
     const FolderIcon = expanded ? FolderOpen : Folder;
     return (
-      <div role="treeitem" aria-expanded={expanded}>
+      <div role="treeitem" aria-expanded={expanded} aria-selected={false}>
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}

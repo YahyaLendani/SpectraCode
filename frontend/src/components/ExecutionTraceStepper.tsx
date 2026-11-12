@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
 import { assignLineColors } from "@/lib/utils";
 import { Route } from "@/components/LineMap";
@@ -36,6 +36,13 @@ export const ExecutionTraceStepper: React.FC<ExecutionTraceStepperProps> = ({
     onCitationClick(step.filePath, step.startLine, step.endLine);
   };
 
+  // The parent may pass a new function on every render; read it through a ref
+  // so the walk-through timer is not restarted each time.
+  const onCitationClickRef = useRef(onCitationClick);
+  useEffect(() => {
+    onCitationClickRef.current = onCitationClick;
+  }, [onCitationClick]);
+
   // Walk the route one stop at a time, then stop at the end of the line.
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
@@ -44,7 +51,7 @@ export const ExecutionTraceStepper: React.FC<ExecutionTraceStepperProps> = ({
         setActiveStep((prev) => {
           const next = (prev + 1) % steps.length;
           const s = steps[next];
-          onCitationClick(s.filePath, s.startLine, s.endLine);
+          onCitationClickRef.current(s.filePath, s.startLine, s.endLine);
           if (next === steps.length - 1) {
             setIsPlaying(false);
           }
@@ -55,7 +62,7 @@ export const ExecutionTraceStepper: React.FC<ExecutionTraceStepperProps> = ({
     return () => {
       if (timer) clearInterval(timer);
     };
-  }, [isPlaying, steps, onCitationClick]);
+  }, [isPlaying, steps]);
 
   const stops = useMemo(() => {
     const colors = assignLineColors(steps.map((s) => s.filePath));

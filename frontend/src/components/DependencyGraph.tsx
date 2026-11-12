@@ -306,7 +306,17 @@ export const DependencyGraph: React.FC<DependencyGraphProps> = ({
       return a.id.localeCompare(b.id);
     });
 
-    const selectedSlice = sorted.slice(0, maxVisibleNodes).map((n) => ({ ...n }));
+    // The selected file is sorted first only so it survives the cut. Lay the
+    // stations out in an order that ignores selection, or the map would
+    // reshuffle on every click.
+    const selectedSlice = sorted
+      .slice(0, maxVisibleNodes)
+      .sort((a, b) => {
+        if (a.inCycle !== b.inCycle) return a.inCycle ? -1 : 1;
+        if (b.total_degree !== a.total_degree) return b.total_degree - a.total_degree;
+        return a.id.localeCompare(b.id);
+      })
+      .map((n) => ({ ...n }));
     const visibleIds = new Set(selectedSlice.map((n) => n.id));
 
     const validEdges = data.edges

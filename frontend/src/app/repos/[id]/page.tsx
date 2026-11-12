@@ -82,6 +82,8 @@ export default function RepositoryWorkspacePage() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [loadFailed, setLoadFailed] = useState(false);
+  const [loadAttempt, setLoadAttempt] = useState(0);
 
   // On a narrow screen start with the file list closed; it opens over the code.
   useEffect(() => {
@@ -110,6 +112,7 @@ export default function RepositoryWorkspacePage() {
     if (!repoId) return;
 
     let isMounted = true;
+    setLoadFailed(false);
     Promise.all([api.getRepository(repoId), api.getRepositoryTree(repoId)])
       .then(([r, t]) => {
         if (!isMounted) return;
@@ -127,12 +130,25 @@ export default function RepositoryWorkspacePage() {
       })
       .catch((err) => {
         console.error(err);
+        if (isMounted) setLoadFailed(true);
       });
 
     return () => {
       isMounted = false;
     };
-  }, [repoId]);
+  }, [repoId, loadAttempt]);
+
+  // While the repository is still being indexed, keep its status current.
+  useEffect(() => {
+    if (!repo || repo.status === "ready" || repo.status === "failed") return;
+    const timer = setInterval(() => {
+      api
+        .getRepository(repoId)
+        .then(setRepo)
+        .catch(() => {});
+    }, 4500);
+    return () => clearInterval(timer);
+  }, [repo, repoId]);
 
   const findFirstFile = (node: TreeNode): TreeNode | null => {
     if (node.type === "file") return node;
@@ -362,6 +378,31 @@ export default function RepositoryWorkspacePage() {
       {/* Three panes */}
       {/* Below lg the side panes slide over the code instead of squeezing it. */}
       <div className="relative flex flex-1 overflow-hidden">
+        {loadFailed && (
+          <div className="absolute inset-0 z-30 bg-white p-6 sm:p-10">
+            <div className="max-w-[34rem]">
+              <h2 className="text-xl font-bold text-ink">
+                This workspace could not be loaded
+              </h2>
+              <p className="note note-error mt-4">
+                The server did not answer, or it has no repository with this
+                address. Check that the backend is running, then try again.
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => setLoadAttempt((n) => n + 1)}
+                >
+                  Try again
+                </button>
+                <Link href="/" className="btn">
+                  All workspaces
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
         {/* File list */}
         {showExplorer && (
           <div className="absolute inset-y-0 left-0 z-20 w-[min(18rem,85vw)] border-r border-rule bg-wash shadow-overlay lg:static lg:z-auto lg:w-60 lg:shrink-0 lg:shadow-none">

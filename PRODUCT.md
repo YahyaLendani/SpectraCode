@@ -15,7 +15,7 @@ Two audiences, weighted equally (confirmed by the owner, 2026-11-11):
 
 ## Product Purpose
 
-RepoLens indexes a source repository and answers questions about it with citations that point to a real file and line range. It exists so that an engineer can trust an answer about code they have not read, because every claim can be checked against the source in one click. Success is a reader who goes from question to the cited lines without doubting the reference.
+SpectraCode indexes a source repository and answers questions about it with citations that point to a real file and line range. It exists so that an engineer can trust an answer about code they have not read, because every claim can be checked against the source in one click. Success is a reader who goes from question to the cited lines without doubting the reference.
 
 ## Positioning
 
@@ -39,7 +39,7 @@ Answers are checked before they are shown. Every `[file:start-end]` citation is 
 
 ## Brand Commitments
 
-- Name: RepoLens.
+- Name: SpectraCode.
 - Copy is written in plain language. Technical facts stay accurate; no claim is added that the code or the evaluation report does not support (owner approved a plain-language rewrite, 2026-11-11).
 - The earlier dark graphite, all-monospace look is retired; the owner asked for a new identity that does not read as machine-generated.
 
