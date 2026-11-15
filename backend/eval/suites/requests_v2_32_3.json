@@ -6,7 +6,7 @@
     "ref": "v2.32.3",
     "commit_sha": "0e322af87745eff34caffe4df68456ebc20d9068"
   },
-  "notes": "Natural-language questions with hand-checked line ranges at the pinned commit. 'author' records who wrote each query: queries written by someone who had just read the function list leak symbol knowledge, so results should also be reported per author. Queries with author 'claude-heldout' were written after the BM25 change was decided and were not used to make it; they share the author bias of the first 31 (same writer, who has read the code). Queries with author 'stackoverflow' are real question titles, copied verbatim from the top-voted python-requests questions on Stack Overflow (id = question id). They were picked in vote order by a fixed rule (keep a question only if one place in the requests source implements what it asks about; skip install/environment errors, comparisons with other libraries and repeated topics; stop at 15), set before any retrieval run on them. Ground truth was chosen by Claude, who has read the code. 'docs_answers' (Stack Overflow queries only) lists user-docs sections that directly answer the question as asked; they count for the separate answered@k metric, not for code recall. Sections were chosen by heading from the docs table of contents, after the retrieval results for these queries had already been seen, so they may carry some bias. The two error-message questions (no connection adapters, max retries exceeded) have no docs section that explains them and get none.",
+  "notes": "Natural-language questions with hand-checked line ranges at the pinned commit. 'author' records who wrote each query: queries written by someone who had just read the function list leak symbol knowledge, so results should also be reported per author. Queries with author 'claude-heldout' were written after the BM25 change was decided and were not used to make it; they share the author bias of the first 31 (same writer, who has read the code). Queries with author 'stackoverflow' are real question titles, copied verbatim from the top-voted python-requests questions on Stack Overflow (id = question id). They were picked in vote order by a fixed rule (keep a question only if one place in the requests source implements what it asks about; skip install/environment errors, comparisons with other libraries and repeated topics; stop at 15), set before any retrieval run on them. Ground truth was chosen by Claude, who has read the code. 'docs_answers' (Stack Overflow queries only) lists user-docs sections that directly answer the question as asked; they count for the separate answered@k metric, not for code recall. Sections were chosen by heading from the docs table of contents, after the retrieval results for these queries had already been seen, so they may carry some bias. The two error-message questions (no connection adapters, max retries exceeded) have no docs section that explains them and get none. Queries with author 'stackoverflow-2' are a second, untouched set for the fusion test in eval/fusion_replication_preregistration.md. Same source and rule, continuing in vote order from rank 25 (the rank after the last of the first 15) in a list fetched on 2026-11-15 and saved as eval/sources/so_python_requests_by_votes_2026-11-15.json; so_vote_rank is the 0-based position in that list. Ranks 25-840 were examined and 40 kept. 'Topic already covered' was applied mechanically: a question is skipped if the function implementing it is already the ground truth of an earlier kept Stack Overflow question. Ground truth and docs_answers for these 40 were written before any retrieval run on them; 28 have a docs answer.",
   "queries": [
     {
       "id": "redirect_strip_auth",
@@ -932,6 +932,772 @@
           "start": 366,
           "end": 403,
           "section": "Response Status Codes"
+        }
+      ]
+    },
+    {
+      "id": "so_17011357",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 29,
+      "query": "What is the difference between 'content' and 'text'",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 890,
+          "end": 907
+        },
+        {
+          "file": "src/requests/models.py",
+          "start": 909,
+          "end": 945
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 84,
+          "end": 120,
+          "section": "Response Content"
+        },
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 121,
+          "end": 142,
+          "section": "Binary Response Content"
+        }
+      ]
+    },
+    {
+      "id": "so_7164679",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 32,
+      "query": "How to send cookies in a post request with the Python Requests library?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 610,
+          "end": 628
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 442,
+          "end": 476,
+          "section": "Cookies"
+        }
+      ]
+    },
+    {
+      "id": "so_12737740",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 34,
+      "query": "Python Requests and persistent sessions",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 390,
+          "end": 449
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 10,
+          "end": 86,
+          "section": "Session Objects"
+        }
+      ]
+    },
+    {
+      "id": "so_20475552",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 40,
+      "query": "Python Requests library redirect new url",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 159,
+          "end": 280
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 477,
+          "end": 525,
+          "section": "Redirection and History"
+        }
+      ]
+    },
+    {
+      "id": "so_26745462",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 43,
+      "query": "How do I use basic HTTP authentication with the Python Requests library?",
+      "ground_truth": [
+        {
+          "file": "src/requests/auth.py",
+          "start": 76,
+          "end": 96
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/authentication.rst",
+          "start": 13,
+          "end": 35,
+          "section": "Basic Authentication"
+        }
+      ]
+    },
+    {
+      "id": "so_12601316",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 47,
+      "query": "How to make python Requests work via SOCKS proxy",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 266,
+          "end": 302
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 671,
+          "end": 697,
+          "section": "SOCKS"
+        }
+      ]
+    },
+    {
+      "id": "so_42982143",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 49,
+      "query": "How can I use system CA certificates (Debian/Ubuntu) with Python's Requests?",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 750,
+          "end": 779
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 211,
+          "end": 253,
+          "section": "SSL Cert Verification"
+        }
+      ]
+    },
+    {
+      "id": "so_43252542",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 51,
+      "query": "How to measure server response time for Python requests POST-request",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 673,
+          "end": 748
+        }
+      ]
+    },
+    {
+      "id": "so_25091976",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 55,
+      "query": "python requests get cookies",
+      "ground_truth": [
+        {
+          "file": "src/requests/cookies.py",
+          "start": 124,
+          "end": 137
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 442,
+          "end": 476,
+          "section": "Cookies"
+        }
+      ]
+    },
+    {
+      "id": "so_28521535",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 62,
+      "query": "requests: how to disable / bypass proxy",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 765,
+          "end": 823
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 577,
+          "end": 670,
+          "section": "Proxies"
+        }
+      ]
+    },
+    {
+      "id": "so_31168819",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 71,
+      "query": "How to send an array using requests.post (Python)? \"Value Error: Too many values to unpack\"",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 106,
+          "end": 134
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 233,
+          "end": 301,
+          "section": "More complicated POST requests"
+        }
+      ]
+    },
+    {
+      "id": "so_14270698",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 85,
+      "query": "Get file size using python-requests, while only getting the header",
+      "ground_truth": [
+        {
+          "file": "src/requests/api.py",
+          "start": 88,
+          "end": 100
+        }
+      ]
+    },
+    {
+      "id": "so_11832639",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 89,
+      "query": "How to specify python requests http put body?",
+      "ground_truth": [
+        {
+          "file": "src/requests/api.py",
+          "start": 118,
+          "end": 130
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 20,
+          "end": 53,
+          "section": "Make a Request"
+        }
+      ]
+    },
+    {
+      "id": "so_40361308",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 93,
+      "query": "Create a functioning Response object",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 658,
+          "end": 703
+        }
+      ]
+    },
+    {
+      "id": "so_24718557",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 100,
+      "query": "Get the description of a status code in Python Requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 359,
+          "end": 394
+        }
+      ]
+    },
+    {
+      "id": "so_32986228",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 112,
+      "query": "Difference between using requests.get() and requests.session().get()?",
+      "ground_truth": [
+        {
+          "file": "src/requests/api.py",
+          "start": 14,
+          "end": 59
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 10,
+          "end": 86,
+          "section": "Session Objects"
+        }
+      ]
+    },
+    {
+      "id": "so_17777845",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 127,
+      "query": "Python requests arguments/dealing with api pagination",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 980,
+          "end": 995
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 945,
+          "end": 968,
+          "section": "Link Headers"
+        }
+      ]
+    },
+    {
+      "id": "so_6878418",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 133,
+      "query": "Putting a `Cookie` in a `CookieJar`",
+      "ground_truth": [
+        {
+          "file": "src/requests/cookies.py",
+          "start": 206,
+          "end": 223
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 442,
+          "end": 476,
+          "section": "Cookies"
+        }
+      ]
+    },
+    {
+      "id": "so_26149181",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 182,
+      "query": "Python Requests POST doing a GET?",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 333,
+          "end": 353
+        }
+      ]
+    },
+    {
+      "id": "so_22494794",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 200,
+      "query": "Does requests.codes.ok include a 304?",
+      "ground_truth": [
+        {
+          "file": "src/requests/status_codes.py",
+          "start": 23,
+          "end": 104
+        }
+      ]
+    },
+    {
+      "id": "so_37993624",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 220,
+      "query": "How to use requests to send a PATCH request with headers",
+      "ground_truth": [
+        {
+          "file": "src/requests/api.py",
+          "start": 133,
+          "end": 145
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 737,
+          "end": 926,
+          "section": "HTTP Verbs"
+        }
+      ]
+    },
+    {
+      "id": "so_42100488",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 241,
+      "query": "How do I sign a POST request using HMAC-SHA512 and the Python requests library?",
+      "ground_truth": [
+        {
+          "file": "src/requests/auth.py",
+          "start": 69,
+          "end": 73
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 487,
+          "end": 524,
+          "section": "Custom Authentication"
+        }
+      ]
+    },
+    {
+      "id": "so_57497833",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 244,
+      "query": "Python Requests Stream Data from API",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 857,
+          "end": 888
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 525,
+          "end": 576,
+          "section": "Streaming Requests"
+        }
+      ]
+    },
+    {
+      "id": "so_32330152",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 248,
+      "query": "How can I parse the value of Content-Type from an HTTP header response?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 514,
+          "end": 536
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 404,
+          "end": 441,
+          "section": "Response Headers"
+        }
+      ]
+    },
+    {
+      "id": "so_50939418",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 265,
+      "query": "What is the purpose of mounting a Session object?",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 799,
+          "end": 808
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 969,
+          "end": 1007,
+          "section": "Transport Adapters"
+        }
+      ]
+    },
+    {
+      "id": "so_34025964",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 333,
+      "query": "Python requests API using proxy for https request get 407 Proxy Authentication Required",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 592,
+          "end": 611
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 577,
+          "end": 670,
+          "section": "Proxies"
+        }
+      ]
+    },
+    {
+      "id": "so_34371866",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 334,
+      "query": "Python Requests: Invalid Header Name",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 1034,
+          "end": 1042
+        }
+      ]
+    },
+    {
+      "id": "so_49488119",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 347,
+      "query": "Python requests - check if a particular header exists",
+      "ground_truth": [
+        {
+          "file": "src/requests/structures.py",
+          "start": 13,
+          "end": 80
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 404,
+          "end": 441,
+          "section": "Response Headers"
+        }
+      ]
+    },
+    {
+      "id": "so_62985961",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 352,
+      "query": "how to use requests.session so that headers are presevred and reused in subsequent get requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 61,
+          "end": 88
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 10,
+          "end": 86,
+          "section": "Session Objects"
+        }
+      ]
+    },
+    {
+      "id": "so_14746857",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 383,
+      "query": "How to find the path to a SSL cert file?",
+      "ground_truth": [
+        {
+          "file": "src/requests/certs.py",
+          "start": 1,
+          "end": 17
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 279,
+          "end": 299,
+          "section": "CA Certificates"
+        },
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 577,
+          "end": 670,
+          "section": "Proxies"
+        }
+      ]
+    },
+    {
+      "id": "so_37453423",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 396,
+      "query": "Python requests view before sending",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 295,
+          "end": 310
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 121,
+          "end": 210,
+          "section": "Prepared Requests"
+        }
+      ]
+    },
+    {
+      "id": "so_23254013",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 441,
+      "query": "HTTP Digest/Basic Auth with Python Requests module",
+      "ground_truth": [
+        {
+          "file": "src/requests/auth.py",
+          "start": 126,
+          "end": 234
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/authentication.rst",
+          "start": 48,
+          "end": 59,
+          "section": "Digest Authentication"
+        }
+      ]
+    },
+    {
+      "id": "so_60358216",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 466,
+      "query": "Python requests: POST request dropping Authorization header",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 282,
+          "end": 300
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 206,
+          "end": 232,
+          "section": "Custom Headers"
+        }
+      ]
+    },
+    {
+      "id": "so_27043402",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 470,
+      "query": "Python requests remove the Content-Length header from POST",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 572,
+          "end": 586
+        }
+      ]
+    },
+    {
+      "id": "so_17773028",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 581,
+      "query": "Python Requests: Hook or no Hook?",
+      "ground_truth": [
+        {
+          "file": "src/requests/hooks.py",
+          "start": 22,
+          "end": 33
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 423,
+          "end": 486,
+          "section": "Event Hooks"
+        }
+      ]
+    },
+    {
+      "id": "so_27586779",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 722,
+      "query": "Requests - inability to handle two cookies with same name, different domain",
+      "ground_truth": [
+        {
+          "file": "src/requests/cookies.py",
+          "start": 386,
+          "end": 413
+        }
+      ]
+    },
+    {
+      "id": "so_64063235",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 728,
+      "query": "How to Use SSLContext with Python Requests Library?",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 240,
+          "end": 264
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 1008,
+          "end": 1034,
+          "section": "Example: Specific SSL Version"
+        }
+      ]
+    },
+    {
+      "id": "so_47461641",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 813,
+      "query": "Passing params into requests.Session.get raises TypeError",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 593,
+          "end": 602
+        }
+      ]
+    },
+    {
+      "id": "so_27526353",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 837,
+      "query": "Store python requests session in persistent storage",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 810,
+          "end": 812
+        },
+        {
+          "file": "src/requests/sessions.py",
+          "start": 814,
+          "end": 816
+        }
+      ]
+    },
+    {
+      "id": "so_65931275",
+      "author": "stackoverflow-2",
+      "so_vote_rank": 840,
+      "query": "Python Requests module - does it use system level (on windows) proxy settings?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 826,
+          "end": 835
         }
       ]
     }
