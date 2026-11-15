@@ -229,9 +229,15 @@ class HybridCodeRetriever:
                 c.rrf_score = (c.rrf_score - min_rrf) / span if span > 1e-9 else 1.0
 
         # 5. Rerank / Calibrate Score
+        # Cosine scores bunch together (about 0.70-0.81 on code), while BM25 is scaled to 0-1, so
+        # adding them raw lets BM25 decide the order. Min-max scale dense over all chunks first.
+        # Pre-registered and tested in eval/fusion_replication_preregistration.md.
+        dense_lo = min(c.dense_score for c in items)
+        dense_span = max(c.dense_score for c in items) - dense_lo
         reranked: List[RetrievedChunk] = []
         for c in items[: top_k * 3]:
-            c.rerank_score = (0.55 * c.dense_score) + (0.45 * c.sparse_score)
+            dense_scaled = (c.dense_score - dense_lo) / dense_span if dense_span > 1e-9 else 1.0
+            c.rerank_score = (0.55 * dense_scaled) + (0.45 * c.sparse_score)
             c.final_score = (self.rerank_weight * c.rerank_score) + ((1.0 - self.rerank_weight) * c.rrf_score)
             if c.final_score >= self.min_relevance_threshold:
                 reranked.append(c)

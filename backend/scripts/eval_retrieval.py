@@ -99,8 +99,9 @@ def _fusion_candidates(retriever, items, query: str, top_k: int) -> dict:
     """Ranks the same scored chunks with the two pre-registered fusion variants.
 
     rrf_only: weighted RRF order, with no final linear scoring step and no threshold.
-    dense_minmax: production's final scoring step, except dense scores are min-max normalised over
-    all chunks first, so they have the same 0-1 spread as the max-normalised BM25 scores.
+    dense_minmax: the final scoring step with dense scores min-max normalised over all chunks first.
+    Adopted into production on 2026-11-15 (eval/fusion_replication_preregistration.md), so it now
+    matches the hybrid mode and is kept to make the recorded comparison reproducible.
     """
     by_dense = sorted(items, key=lambda c: c.dense_score, reverse=True)
     by_sparse = sorted(items, key=lambda c: c.sparse_score, reverse=True)

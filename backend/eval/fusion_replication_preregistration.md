@@ -63,3 +63,26 @@ have a docs answer.
 5. The new queries are scored once. Results are reported whatever they show. If the change is
    adopted, the README says it fixes the scale mismatch without measurably hurting retrieval. It
    does not say the fix improves retrieval unless the Recall@10 CI is also above 0.
+
+## Result (scored once, 2026-11-15, after commit edd3a10)
+
+On the 40 `stackoverflow-2` queries, `dense_minmax` minus the current hybrid (95% CI):
+
+- Recall@10: +0.00 [0.00, 0.00]. No query changed in either direction.
+- MRR@10: +0.01 [−0.03, +0.05].
+- Answered@10 (reported, does not decide): −0.05 [−0.13, 0.00]. Two queries lost their docs
+  answer: `so_31168819` (array in POST) and `so_64063235` (SSLContext).
+
+Both lower bounds clear their margins (0.00 > −0.05 and −0.03 > −0.10), so by rule 2
+**`dense_minmax` is adopted**. By rule 5 the README may say only that it fixes the scale mismatch
+without measurably hurting retrieval. On fresh queries it brought no measurable gain: the
+improvements seen on the 62 earlier queries did not repeat.
+
+### Not pre-registered: dense-only beats the hybrid
+
+This comparison was not part of the plan and is reported as exploratory. On the same 40 queries,
+dense-only search has higher Recall@10 than the current hybrid: 0.39 vs 0.26, a difference of
++0.13 [+0.03, +0.25]. Dense found the code on 6 queries the hybrid missed, and the hybrid found it
+on 1 that dense missed. MRR@10 and Answered@10 intervals include 0. The hybrid is also no better
+than BM25 alone (−0.01 [−0.10, +0.06]). The Claude-written held-out set pointed the same way
+(0.84 vs 0.62). Confirming it needs another untouched query set and a plan written in advance.

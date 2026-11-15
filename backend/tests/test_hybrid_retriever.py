@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 from app.ingestion.ast_chunker import CodeQueryNormalizer
 from app.retrieval.embeddings import EmbeddingService
@@ -77,3 +78,50 @@ def login_handler(creds: Credentials):
     # Built-in or excluded symbols like raise, if, not are not in refs
     assert "login_handler" not in refs
     assert "self" not in refs
+
+
+@pytest.mark.asyncio
+async def test_final_scoring_scales_dense_before_blending_with_bm25(monkeypatch):
+    """Cosines bunch near 0.7-0.8; unscaled, the BM25 term alone would decide the order."""
+    import uuid
+
+    from app.retrieval.hybrid_retriever import RetrievedChunk
+
+    def chunk(name, dense, sparse):
+        return RetrievedChunk(
+            chunk_id=uuid.uuid4(),
+            file_path=f"{name}.py",
+            language="python",
+            start_line=1,
+            end_line=10,
+            raw_code="pass",
+            contextualized_text=name,
+            symbol_name=name,
+            symbol_kind="function",
+            dense_score=dense,
+            sparse_score=sparse,
+        )
+
+    # Best cosine but no keyword overlap, against a worse cosine with the best BM25 score.
+    semantic = chunk("semantic", dense=0.81, sparse=0.0)
+    lexical = chunk("lexical", dense=0.70, sparse=1.0)
+
+    async def fake_scores(*args, **kwargs):
+        return [semantic, lexical]
+
+    async def no_hops(*args, **kwargs):
+        return []
+
+    retriever = HybridCodeRetriever()
+    monkeypatch.setattr(retriever, "score_candidates", fake_scores)
+    monkeypatch.setattr(retriever, "_expand_one_hop_chunks", no_hops)
+
+    ranked = await retriever.retrieve(None, uuid.uuid4(), "how does it work", query_embedding=[0.0], top_k=2)
+
+    # Scaled: semantic 0.75*0.55 + 0.25*1 = 0.6625, lexical 0.75*0.45 + 0 = 0.3375.
+    # The old raw blend ranked lexical first (0.626 vs 0.584).
+    assert [c.file_path for c in ranked] == ["semantic.py", "lexical.py"]
+    assert ranked[0].final_score == pytest.approx(0.6625)
+    assert ranked[1].final_score == pytest.approx(0.3375)
+    # The raw cosine stays on the chunk for dense ranking and the search API.
+    assert ranked[0].dense_score == pytest.approx(0.81)
