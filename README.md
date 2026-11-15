@@ -261,7 +261,7 @@ python scripts/eval_retrieval.py eval/suites/requests_v2_32_3.json
 
 The script clones `psf/requests` at commit `0e322af8` (tag v2.32.3), indexes it with the normal pipeline into its own database under `backend/data/eval/` (never the dev database), and scores 31 hand-labelled questions. Indexing takes about 2–3 minutes the first time; later runs reuse it. Results are deterministic and saved to [`backend/eval/results/requests_v2_32_3.json`](backend/eval/results/requests_v2_32_3.json).
 
-761 chunks (source, tests and docs are all indexed). Mean over queries, with 95% bootstrap intervals:
+761 chunks (source, tests and docs are all indexed). The table covers the first 31 queries (held-out results are below). Mean over queries, with 95% bootstrap intervals:
 
 | Mode | Recall@5 | Recall@10 | MRR@10 |
 | :--- | :--- | :--- | :--- |
@@ -278,6 +278,34 @@ What this does and does not show:
 - 31 queries is small, hence the wide intervals. All of them were written by the same person who chose the ground truth after reading the function list, which favours lexical matching; queries are tagged by author so independently written ones can be reported separately.
 - The BM25 change below was judged on the same 31 queries that exposed the problem, so it still needs confirming on held-out queries.
 - Ground truth only counts implementation code, so a highly ranked docs page explaining the same behaviour is scored as a miss.
+
+#### Held-out check (16 queries)
+
+16 further queries (`author: claude-heldout`) were written after the BM25 change and not used to make it. They share the original queries' author bias. Means, with paired differences and 95% intervals:
+
+| Mode | Recall@5 | Recall@10 | MRR@10 |
+| :--- | :--- | :--- | :--- |
+| BM25 | 0.47 | 0.53 | 0.54 |
+| Dense only | 0.66 | 0.84 | 0.48 |
+| Hybrid before BM25 | 0.53 | 0.59 | 0.24 |
+| **Hybrid (production)** | 0.53 | 0.62 | 0.61 |
+
+- The BM25 change holds up for ranking: MRR@10 +0.36 [+0.19, +0.54] over the old hybrid, with no clear recall change (Recall@10 +0.03 [−0.16, +0.22]).
+- **The hybrid recalls less than dense-only** on these queries: Recall@10 −0.22 [−0.41, −0.06]. The fusion is dropping chunks that dense search alone finds; this is the next thing to investigate.
+
+#### Real user questions (15 Stack Overflow titles)
+
+15 question titles copied verbatim from the top-voted `python-requests` questions on Stack Overflow (picked by a fixed rule, recorded in the suite notes). Ground truth is the function that implements what the question asks about.
+
+| Mode | Recall@5 | Recall@10 | MRR@10 |
+| :--- | :--- | :--- | :--- |
+| BM25 | 0.13 | 0.27 | 0.15 |
+| Dense only | 0.33 | 0.40 | 0.25 |
+| **Hybrid (production)** | 0.27 | 0.40 | 0.21 |
+
+- **Real questions score far lower than the Claude-written ones** (Recall@10 0.40 vs 0.87). Treat the 0.87 as an upper bound, not as expected behaviour.
+- For "how do I…" questions the top hits are often docs, tests or `api.py`. These can be useful answers, but the benchmark counts only the implementing code as relevant.
+- Two fixes for the fusion step were written down before these queries were scored ([eval/fusion_preregistration.md](backend/eval/fusion_preregistration.md)). Both raised Recall@10 by +0.13, but the 95% interval [0.00, +0.33] does not exclude zero, so production fusion is unchanged.
 
 #### History: replacing the custom sparse score with BM25
 

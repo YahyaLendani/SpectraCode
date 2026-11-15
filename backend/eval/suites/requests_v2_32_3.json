@@ -6,69 +6,806 @@
     "ref": "v2.32.3",
     "commit_sha": "0e322af87745eff34caffe4df68456ebc20d9068"
   },
-  "notes": "Natural-language questions with hand-checked line ranges at the pinned commit. 'author' records who wrote each query: queries written by someone who had just read the function list leak symbol knowledge, so results should also be reported per author.",
+  "notes": "Natural-language questions with hand-checked line ranges at the pinned commit. 'author' records who wrote each query: queries written by someone who had just read the function list leak symbol knowledge, so results should also be reported per author. Queries with author 'claude-heldout' were written after the BM25 change was decided and were not used to make it; they share the author bias of the first 31 (same writer, who has read the code). Queries with author 'stackoverflow' are real question titles, copied verbatim from the top-voted python-requests questions on Stack Overflow (id = question id). They were picked in vote order by a fixed rule (keep a question only if one place in the requests source implements what it asks about; skip install/environment errors, comparisons with other libraries and repeated topics; stop at 15), set before any retrieval run on them. Ground truth was chosen by Claude, who has read the code.",
   "queries": [
-    {"id": "redirect_strip_auth", "author": "claude", "query": "When following a redirect to a different host, when are the authorization credentials dropped?",
-     "ground_truth": [{"file": "src/requests/sessions.py", "start": 127, "end": 157}, {"file": "src/requests/sessions.py", "start": 282, "end": 300}]},
-    {"id": "redirect_303_method", "author": "claude", "query": "How does a 303 See Other response change the HTTP verb of the follow-up request?",
-     "ground_truth": [{"file": "src/requests/sessions.py", "start": 333, "end": 353}]},
-    {"id": "redirect_limit", "author": "claude", "query": "What stops the client from following redirects forever?",
-     "ground_truth": [{"file": "src/requests/sessions.py", "start": 190, "end": 193}]},
-    {"id": "no_proxy_bypass", "author": "claude", "query": "How do environment variables decide that a host should skip the proxy?",
-     "ground_truth": [{"file": "src/requests/utils.py", "start": 765, "end": 823}]},
-    {"id": "select_proxy", "author": "claude", "query": "When several proxies are configured for schemes and specific hosts, which one is picked for a URL?",
-     "ground_truth": [{"file": "src/requests/utils.py", "start": 838, "end": 861}]},
-    {"id": "encoding_guess", "author": "claude", "query": "How is the text encoding of a response body guessed when the server does not declare a charset?",
-     "ground_truth": [{"file": "src/requests/models.py", "start": 790, "end": 797}, {"file": "src/requests/models.py", "start": 910, "end": 945}]},
-    {"id": "json_utf_detect", "author": "claude", "query": "How does it figure out whether raw JSON bytes are UTF-16 or UTF-32?",
-     "ground_truth": [{"file": "src/requests/utils.py", "start": 957, "end": 986}]},
-    {"id": "netrc_credentials", "author": "claude", "query": "Where are login credentials picked up from the user's netrc file?",
-     "ground_truth": [{"file": "src/requests/utils.py", "start": 204, "end": 258}]},
-    {"id": "digest_challenge", "author": "claude", "query": "How is a digest authentication challenge answered after the server replies 401?",
-     "ground_truth": [{"file": "src/requests/auth.py", "start": 241, "end": 283}, {"file": "src/requests/auth.py", "start": 126, "end": 234}]},
-    {"id": "basic_auth_header", "author": "claude", "query": "How is the username and password turned into the Basic authorization header value?",
-     "ground_truth": [{"file": "src/requests/auth.py", "start": 25, "end": 66}]},
-    {"id": "stream_chunks", "author": "claude", "query": "How is a streamed response body read in chunks, and what error happens if the body was already consumed?",
-     "ground_truth": [{"file": "src/requests/models.py", "start": 799, "end": 855}]},
-    {"id": "stream_lines", "author": "claude", "query": "How are lines split when reading a streaming response one line at a time?",
-     "ground_truth": [{"file": "src/requests/models.py", "start": 857, "end": 888}]},
-    {"id": "bad_status_exception", "author": "claude", "query": "Which status codes make the response raise an exception, and how is the error message built?",
-     "ground_truth": [{"file": "src/requests/models.py", "start": 997, "end": 1024}]},
-    {"id": "case_insensitive_headers", "author": "claude", "query": "How are header names looked up regardless of upper or lower case?",
-     "ground_truth": [{"file": "src/requests/structures.py", "start": 13, "end": 80}]},
-    {"id": "multipart_upload", "author": "claude", "query": "How are file uploads encoded into a multipart form body?",
-     "ground_truth": [{"file": "src/requests/models.py", "start": 137, "end": 203}]},
-    {"id": "content_length", "author": "claude", "query": "How is the length of the request body worked out for strings, files and other objects?",
-     "ground_truth": [{"file": "src/requests/models.py", "start": 572, "end": 586}, {"file": "src/requests/utils.py", "start": 135, "end": 201}]},
-    {"id": "adapter_for_url", "author": "claude", "query": "How does a session decide which transport handles a given URL prefix?",
-     "ground_truth": [{"file": "src/requests/sessions.py", "start": 781, "end": 808}]},
-    {"id": "merge_settings", "author": "claude", "query": "How are session-wide settings combined with per-request ones, and how can a request remove a session header?",
-     "ground_truth": [{"file": "src/requests/sessions.py", "start": 61, "end": 88}]},
-    {"id": "idna_hosts", "author": "claude", "query": "How are internationalized (non-ASCII) domain names converted when a URL is prepared?",
-     "ground_truth": [{"file": "src/requests/models.py", "start": 400, "end": 407}, {"file": "src/requests/models.py", "start": 448, "end": 456}]},
-    {"id": "missing_scheme", "author": "claude", "query": "What error does the user get when the URL has no http:// or https:// part, or no host?",
-     "ground_truth": [{"file": "src/requests/models.py", "start": 433, "end": 444}]},
-    {"id": "tls_verify", "author": "claude", "query": "How is TLS certificate checking configured on the connection, including a custom CA bundle or client certificate?",
-     "ground_truth": [{"file": "src/requests/adapters.py", "start": 304, "end": 357}]},
-    {"id": "timeouts", "author": "claude", "query": "How are separate connect and read timeouts passed down to the connection?",
-     "ground_truth": [{"file": "src/requests/adapters.py", "start": 652, "end": 664}]},
-    {"id": "error_translation", "author": "claude", "query": "How are low-level network errors from urllib3 translated into this library's own exceptions?",
-     "ground_truth": [{"file": "src/requests/adapters.py", "start": 681, "end": 719}]},
-    {"id": "build_response", "author": "claude", "query": "How is the raw HTTP response from the connection pool turned into the user-facing response object?",
-     "ground_truth": [{"file": "src/requests/adapters.py", "start": 359, "end": 394}]},
-    {"id": "store_response_cookies", "author": "claude", "query": "How are cookies set by a server response saved so later requests send them back?",
-     "ground_truth": [{"file": "src/requests/cookies.py", "start": 124, "end": 137}]},
-    {"id": "cookie_conflict", "author": "claude", "query": "What goes wrong when two cookies share a name across different domains and you look one up by name?",
-     "ground_truth": [{"file": "src/requests/cookies.py", "start": 386, "end": 413}]},
-    {"id": "env_settings", "author": "claude", "query": "How are proxy and certificate settings from environment variables applied to a request when trusting the environment?",
-     "ground_truth": [{"file": "src/requests/sessions.py", "start": 750, "end": 779}]},
-    {"id": "rewind_body", "author": "claude", "query": "How is a file-like request body moved back to its start before it is resent after a redirect?",
-     "ground_truth": [{"file": "src/requests/utils.py", "start": 1081, "end": 1096}]},
-    {"id": "header_injection", "author": "claude", "query": "How are header values checked to reject newlines or leading whitespace?",
-     "ground_truth": [{"file": "src/requests/utils.py", "start": 1034, "end": 1061}]},
-    {"id": "pagination_links", "author": "claude", "query": "How are pagination links in the Link response header parsed?",
-     "ground_truth": [{"file": "src/requests/utils.py", "start": 914, "end": 948}, {"file": "src/requests/models.py", "start": 981, "end": 995}]},
-    {"id": "user_agent", "author": "claude", "query": "What User-Agent string is sent by default?",
-     "ground_truth": [{"file": "src/requests/utils.py", "start": 891, "end": 897}]}
+    {
+      "id": "redirect_strip_auth",
+      "author": "claude",
+      "query": "When following a redirect to a different host, when are the authorization credentials dropped?",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 127,
+          "end": 157
+        },
+        {
+          "file": "src/requests/sessions.py",
+          "start": 282,
+          "end": 300
+        }
+      ]
+    },
+    {
+      "id": "redirect_303_method",
+      "author": "claude",
+      "query": "How does a 303 See Other response change the HTTP verb of the follow-up request?",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 333,
+          "end": 353
+        }
+      ]
+    },
+    {
+      "id": "redirect_limit",
+      "author": "claude",
+      "query": "What stops the client from following redirects forever?",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 190,
+          "end": 193
+        }
+      ]
+    },
+    {
+      "id": "no_proxy_bypass",
+      "author": "claude",
+      "query": "How do environment variables decide that a host should skip the proxy?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 765,
+          "end": 823
+        }
+      ]
+    },
+    {
+      "id": "select_proxy",
+      "author": "claude",
+      "query": "When several proxies are configured for schemes and specific hosts, which one is picked for a URL?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 838,
+          "end": 861
+        }
+      ]
+    },
+    {
+      "id": "encoding_guess",
+      "author": "claude",
+      "query": "How is the text encoding of a response body guessed when the server does not declare a charset?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 790,
+          "end": 797
+        },
+        {
+          "file": "src/requests/models.py",
+          "start": 910,
+          "end": 945
+        }
+      ]
+    },
+    {
+      "id": "json_utf_detect",
+      "author": "claude",
+      "query": "How does it figure out whether raw JSON bytes are UTF-16 or UTF-32?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 957,
+          "end": 986
+        }
+      ]
+    },
+    {
+      "id": "netrc_credentials",
+      "author": "claude",
+      "query": "Where are login credentials picked up from the user's netrc file?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 204,
+          "end": 258
+        }
+      ]
+    },
+    {
+      "id": "digest_challenge",
+      "author": "claude",
+      "query": "How is a digest authentication challenge answered after the server replies 401?",
+      "ground_truth": [
+        {
+          "file": "src/requests/auth.py",
+          "start": 241,
+          "end": 283
+        },
+        {
+          "file": "src/requests/auth.py",
+          "start": 126,
+          "end": 234
+        }
+      ]
+    },
+    {
+      "id": "basic_auth_header",
+      "author": "claude",
+      "query": "How is the username and password turned into the Basic authorization header value?",
+      "ground_truth": [
+        {
+          "file": "src/requests/auth.py",
+          "start": 25,
+          "end": 66
+        }
+      ]
+    },
+    {
+      "id": "stream_chunks",
+      "author": "claude",
+      "query": "How is a streamed response body read in chunks, and what error happens if the body was already consumed?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 799,
+          "end": 855
+        }
+      ]
+    },
+    {
+      "id": "stream_lines",
+      "author": "claude",
+      "query": "How are lines split when reading a streaming response one line at a time?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 857,
+          "end": 888
+        }
+      ]
+    },
+    {
+      "id": "bad_status_exception",
+      "author": "claude",
+      "query": "Which status codes make the response raise an exception, and how is the error message built?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 997,
+          "end": 1024
+        }
+      ]
+    },
+    {
+      "id": "case_insensitive_headers",
+      "author": "claude",
+      "query": "How are header names looked up regardless of upper or lower case?",
+      "ground_truth": [
+        {
+          "file": "src/requests/structures.py",
+          "start": 13,
+          "end": 80
+        }
+      ]
+    },
+    {
+      "id": "multipart_upload",
+      "author": "claude",
+      "query": "How are file uploads encoded into a multipart form body?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 137,
+          "end": 203
+        }
+      ]
+    },
+    {
+      "id": "content_length",
+      "author": "claude",
+      "query": "How is the length of the request body worked out for strings, files and other objects?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 572,
+          "end": 586
+        },
+        {
+          "file": "src/requests/utils.py",
+          "start": 135,
+          "end": 201
+        }
+      ]
+    },
+    {
+      "id": "adapter_for_url",
+      "author": "claude",
+      "query": "How does a session decide which transport handles a given URL prefix?",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 781,
+          "end": 808
+        }
+      ]
+    },
+    {
+      "id": "merge_settings",
+      "author": "claude",
+      "query": "How are session-wide settings combined with per-request ones, and how can a request remove a session header?",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 61,
+          "end": 88
+        }
+      ]
+    },
+    {
+      "id": "idna_hosts",
+      "author": "claude",
+      "query": "How are internationalized (non-ASCII) domain names converted when a URL is prepared?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 400,
+          "end": 407
+        },
+        {
+          "file": "src/requests/models.py",
+          "start": 448,
+          "end": 456
+        }
+      ]
+    },
+    {
+      "id": "missing_scheme",
+      "author": "claude",
+      "query": "What error does the user get when the URL has no http:// or https:// part, or no host?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 433,
+          "end": 444
+        }
+      ]
+    },
+    {
+      "id": "tls_verify",
+      "author": "claude",
+      "query": "How is TLS certificate checking configured on the connection, including a custom CA bundle or client certificate?",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 304,
+          "end": 357
+        }
+      ]
+    },
+    {
+      "id": "timeouts",
+      "author": "claude",
+      "query": "How are separate connect and read timeouts passed down to the connection?",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 652,
+          "end": 664
+        }
+      ]
+    },
+    {
+      "id": "error_translation",
+      "author": "claude",
+      "query": "How are low-level network errors from urllib3 translated into this library's own exceptions?",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 681,
+          "end": 719
+        }
+      ]
+    },
+    {
+      "id": "build_response",
+      "author": "claude",
+      "query": "How is the raw HTTP response from the connection pool turned into the user-facing response object?",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 359,
+          "end": 394
+        }
+      ]
+    },
+    {
+      "id": "store_response_cookies",
+      "author": "claude",
+      "query": "How are cookies set by a server response saved so later requests send them back?",
+      "ground_truth": [
+        {
+          "file": "src/requests/cookies.py",
+          "start": 124,
+          "end": 137
+        }
+      ]
+    },
+    {
+      "id": "cookie_conflict",
+      "author": "claude",
+      "query": "What goes wrong when two cookies share a name across different domains and you look one up by name?",
+      "ground_truth": [
+        {
+          "file": "src/requests/cookies.py",
+          "start": 386,
+          "end": 413
+        }
+      ]
+    },
+    {
+      "id": "env_settings",
+      "author": "claude",
+      "query": "How are proxy and certificate settings from environment variables applied to a request when trusting the environment?",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 750,
+          "end": 779
+        }
+      ]
+    },
+    {
+      "id": "rewind_body",
+      "author": "claude",
+      "query": "How is a file-like request body moved back to its start before it is resent after a redirect?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 1081,
+          "end": 1096
+        }
+      ]
+    },
+    {
+      "id": "header_injection",
+      "author": "claude",
+      "query": "How are header values checked to reject newlines or leading whitespace?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 1034,
+          "end": 1061
+        }
+      ]
+    },
+    {
+      "id": "pagination_links",
+      "author": "claude",
+      "query": "How are pagination links in the Link response header parsed?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 914,
+          "end": 948
+        },
+        {
+          "file": "src/requests/models.py",
+          "start": 981,
+          "end": 995
+        }
+      ]
+    },
+    {
+      "id": "user_agent",
+      "author": "claude",
+      "query": "What User-Agent string is sent by default?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 891,
+          "end": 897
+        }
+      ]
+    },
+    {
+      "id": "ho_url_credentials",
+      "author": "claude-heldout",
+      "query": "If the URL itself contains a username and password before the host, how are they turned into authentication?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 1018,
+          "end": 1031
+        },
+        {
+          "file": "src/requests/models.py",
+          "start": 588,
+          "end": 608
+        }
+      ]
+    },
+    {
+      "id": "ho_proxy_default_scheme",
+      "author": "claude-heldout",
+      "query": "When a proxy address is given without a scheme, which scheme is assumed?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 989,
+          "end": 1015
+        }
+      ]
+    },
+    {
+      "id": "ho_url_requote",
+      "author": "claude-heldout",
+      "query": "How are unsafe characters in a URL escaped without double-escaping parts that are already percent-encoded?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 636,
+          "end": 679
+        }
+      ]
+    },
+    {
+      "id": "ho_cookies_to_dict",
+      "author": "claude-heldout",
+      "query": "How can the cookies held by a session be turned into a plain dictionary?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 467,
+          "end": 475
+        },
+        {
+          "file": "src/requests/cookies.py",
+          "start": 306,
+          "end": 319
+        }
+      ]
+    },
+    {
+      "id": "ho_charset_from_header",
+      "author": "claude-heldout",
+      "query": "Where is the charset read from the content type header, and what default applies to text responses without one?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 539,
+          "end": 561
+        }
+      ]
+    },
+    {
+      "id": "ho_response_truthiness",
+      "author": "claude-heldout",
+      "query": "What does it mean when a response object is used in an if statement?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 730,
+          "end": 738
+        },
+        {
+          "file": "src/requests/models.py",
+          "start": 755,
+          "end": 767
+        }
+      ]
+    },
+    {
+      "id": "ho_close_connections",
+      "author": "claude-heldout",
+      "query": "How does closing a session release its pooled connections?",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 794,
+          "end": 797
+        },
+        {
+          "file": "src/requests/adapters.py",
+          "start": 536,
+          "end": 544
+        }
+      ]
+    },
+    {
+      "id": "ho_toplevel_get",
+      "author": "claude-heldout",
+      "query": "When calling the module-level get helper, is a session created behind the scenes and closed afterwards?",
+      "ground_truth": [
+        {
+          "file": "src/requests/api.py",
+          "start": 14,
+          "end": 59
+        }
+      ]
+    },
+    {
+      "id": "ho_method_normalise",
+      "author": "claude-heldout",
+      "query": "How is the HTTP verb normalised before the request is sent?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 393,
+          "end": 397
+        }
+      ]
+    },
+    {
+      "id": "ho_default_headers",
+      "author": "claude-heldout",
+      "query": "Which headers are attached to every request unless the user overrides them?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 900,
+          "end": 911
+        }
+      ]
+    },
+    {
+      "id": "ho_upload_filename",
+      "author": "claude-heldout",
+      "query": "When uploading a file object without naming it, how is the file name chosen?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 261,
+          "end": 265
+        }
+      ]
+    },
+    {
+      "id": "ho_cidr_no_proxy",
+      "author": "claude-heldout",
+      "query": "How are IP ranges written in CIDR notation in the proxy exclusion list matched against an address?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 682,
+          "end": 740
+        }
+      ]
+    },
+    {
+      "id": "ho_proxy_credentials",
+      "author": "claude-heldout",
+      "query": "How are credentials for an authenticating proxy sent along with requests that go through it?",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 592,
+          "end": 611
+        }
+      ]
+    },
+    {
+      "id": "ho_zipped_ca_bundle",
+      "author": "claude-heldout",
+      "query": "How is the certificate bundle found when the package is installed inside a zip archive?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 268,
+          "end": 302
+        }
+      ]
+    },
+    {
+      "id": "ho_attach_cookies",
+      "author": "claude-heldout",
+      "query": "How are stored cookies added to an outgoing request before it is sent?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 610,
+          "end": 628
+        }
+      ]
+    },
+    {
+      "id": "ho_invalid_json",
+      "author": "claude-heldout",
+      "query": "What error is raised when the response body is not valid JSON, and is it still compatible with the standard library's error?",
+      "ground_truth": [
+        {
+          "file": "src/requests/exceptions.py",
+          "start": 31,
+          "end": 52
+        },
+        {
+          "file": "src/requests/models.py",
+          "start": 947,
+          "end": 978
+        }
+      ]
+    },
+    {
+      "id": "so_9733638",
+      "author": "stackoverflow",
+      "query": "How can I POST JSON data with Python's Requests library?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 494,
+          "end": 570
+        }
+      ]
+    },
+    {
+      "id": "so_16511337",
+      "author": "stackoverflow",
+      "query": "Correct way to try/except using Python requests module?",
+      "ground_truth": [
+        {
+          "file": "src/requests/exceptions.py",
+          "start": 12,
+          "end": 26
+        }
+      ]
+    },
+    {
+      "id": "so_16694907",
+      "author": "stackoverflow",
+      "query": "Download a large file in Python with Requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 799,
+          "end": 855
+        }
+      ]
+    },
+    {
+      "id": "so_15445981",
+      "author": "stackoverflow",
+      "query": "How do I disable the security certificate check in Python's Requests?",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 304,
+          "end": 357
+        }
+      ]
+    },
+    {
+      "id": "so_16877422",
+      "author": "stackoverflow",
+      "query": "How to parse a JSON response from the requests library",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 947,
+          "end": 978
+        }
+      ]
+    },
+    {
+      "id": "so_12385179",
+      "author": "stackoverflow",
+      "query": "How to send a \"multipart/form-data\" with requests in python?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 137,
+          "end": 203
+        }
+      ]
+    },
+    {
+      "id": "so_15115328",
+      "author": "stackoverflow",
+      "query": "Python Requests - No connection adapters",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 781,
+          "end": 792
+        }
+      ]
+    },
+    {
+      "id": "so_21965484",
+      "author": "stackoverflow",
+      "query": "Timeout for Python requests.get() entire response",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 652,
+          "end": 664
+        }
+      ]
+    },
+    {
+      "id": "so_15431044",
+      "author": "stackoverflow",
+      "query": "Can I set max_retries for requests.request?",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 202,
+          "end": 222
+        }
+      ]
+    },
+    {
+      "id": "so_6260457",
+      "author": "stackoverflow",
+      "query": "Using headers with the Python 'Requests' library's get() method",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 483,
+          "end": 492
+        }
+      ]
+    },
+    {
+      "id": "so_10606133",
+      "author": "stackoverflow",
+      "query": "Sending \"User-agent\" using Requests library in Python",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 891,
+          "end": 911
+        }
+      ]
+    },
+    {
+      "id": "so_23013220",
+      "author": "stackoverflow",
+      "query": "Max retries exceeded with URL in requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 684,
+          "end": 700
+        }
+      ]
+    },
+    {
+      "id": "so_8287628",
+      "author": "stackoverflow",
+      "query": "Proxies with Python 'Requests' module",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 838,
+          "end": 861
+        }
+      ]
+    },
+    {
+      "id": "so_15900338",
+      "author": "stackoverflow",
+      "query": "Python 'Requests' POST with param data",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 409,
+          "end": 481
+        }
+      ]
+    },
+    {
+      "id": "so_15258728",
+      "author": "stackoverflow",
+      "query": "How to tell if you're getting a 404",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 997,
+          "end": 1024
+        }
+      ]
+    }
   ]
 }

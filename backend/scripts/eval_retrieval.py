@@ -28,7 +28,9 @@ BACKEND = Path(__file__).resolve().parents[1]
 # Running a file puts its own folder (scripts/) on sys.path, not backend/, so `app` must be added.
 sys.path.insert(0, str(BACKEND))
 EVAL_DATA = BACKEND / "data" / "eval"
-MODES = ("bm25", "sparse", "dense", "hybrid")
+MODES = ("bm25", "sparse", "dense", "hybrid", "rrf_only", "dense_minmax")
+# Candidate fusion fixes, fixed in eval/fusion_preregistration.md before the Stack Overflow queries were scored.
+CANDIDATES = ("rrf_only", "dense_minmax")
 K_VALUES = (5, 10)
 
 
@@ -91,6 +93,39 @@ async def _ensure_indexed(session, owner: str, name: str, clone_url: str, commit
     repo.last_indexed_commit_sha = commit_sha
     await session.commit()
     return repo, time.perf_counter() - started
+
+
+def _fusion_candidates(retriever, items, query: str, top_k: int) -> dict:
+    """Ranks the same scored chunks with the two pre-registered fusion variants.
+
+    rrf_only: weighted RRF order, with no final linear scoring step and no threshold.
+    dense_minmax: production's final scoring step, except dense scores are min-max normalised over
+    all chunks first, so they have the same 0-1 spread as the max-normalised BM25 scores.
+    """
+    by_dense = sorted(items, key=lambda c: c.dense_score, reverse=True)
+    by_sparse = sorted(items, key=lambda c: c.sparse_score, reverse=True)
+    dense_rank = {id(c): i for i, c in enumerate(by_dense, 1)}
+    sparse_rank = {id(c): i for i, c in enumerate(by_sparse, 1)}
+    alpha = retriever.compute_dynamic_alpha(query)
+    rrf = {
+        id(c): alpha / (retriever.rrf_k + dense_rank[id(c)]) + (1 - alpha) / (retriever.rrf_k + sparse_rank[id(c)])
+        for c in items
+    }
+    by_rrf = sorted(items, key=lambda c: rrf[id(c)], reverse=True)
+    lo, hi = rrf[id(by_rrf[-1])], rrf[id(by_rrf[0])]
+    d_lo, d_hi = by_dense[-1].dense_score, by_dense[0].dense_score
+
+    def norm(v, a, b):
+        return (v - a) / (b - a) if b - a > 1e-9 else 1.0
+
+    scored = []
+    for c in by_rrf[: top_k * 3]:
+        rerank = 0.55 * norm(c.dense_score, d_lo, d_hi) + 0.45 * c.sparse_score
+        final = retriever.rerank_weight * rerank + (1 - retriever.rerank_weight) * norm(rrf[id(c)], lo, hi)
+        if final >= retriever.min_relevance_threshold:
+            scored.append((final, c))
+    scored.sort(key=lambda t: t[0], reverse=True)
+    return {"rrf_only": by_rrf[:top_k], "dense_minmax": [c for _, c in scored[:top_k]]}
 
 
 def _spans(chunks):
@@ -165,6 +200,9 @@ async def run(suite_path: Path) -> dict:
             ranked["dense"] = _spans(sorted(items, key=lambda c: c.dense_score, reverse=True)[:k_max])
             timings["sparse"].append(scoring_time)
             timings["dense"].append(scoring_time)
+            for name, chunks in _fusion_candidates(retriever, items, q.query, k_max).items():
+                ranked[name] = _spans(chunks)
+                timings[name].append(scoring_time)
 
             t = time.perf_counter()
             hybrid = await retriever.retrieve(session, repo.id, q.query, query_embedding=embedding, top_k=k_max)
@@ -193,13 +231,18 @@ async def run(suite_path: Path) -> dict:
         return out
 
     authors = sorted({r["author"] for r in per_query})
-    comparisons = {}
-    for baseline in ("bm25", "dense", "sparse"):
-        for m in metric_names:
-            a = [r["modes"]["hybrid"][m] for r in per_query]
-            b = [r["modes"][baseline][m] for r in per_query]
-            diff, lo, hi = rm.paired_bootstrap_diff(a, b)
-            comparisons[f"hybrid_minus_{baseline}:{m}"] = {"mean": diff, "ci95": [lo, hi]}
+
+    def compare(rows_subset):
+        out = {}
+        for baseline in ("bm25", "dense", "sparse") + CANDIDATES:
+            for m in metric_names:
+                a = [r["modes"]["hybrid"][m] for r in rows_subset]
+                b = [r["modes"][baseline][m] for r in rows_subset]
+                diff, lo, hi = rm.paired_bootstrap_diff(a, b)
+                out[f"hybrid_minus_{baseline}:{m}"] = {"mean": diff, "ci95": [lo, hi]}
+        return out
+
+    comparisons = compare(per_query)
 
     return {
         "suite": suite.name,
@@ -224,6 +267,7 @@ async def run(suite_path: Path) -> dict:
         "overall": summarise(per_query),
         "by_author": {a: summarise([r for r in per_query if r["author"] == a]) for a in authors},
         "hybrid_vs_baselines": comparisons,
+        "hybrid_vs_baselines_by_author": {a: compare([r for r in per_query if r["author"] == a]) for a in authors},
         "per_query": per_query,
     }
 

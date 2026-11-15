@@ -1,7 +1,7 @@
 {
   "suite": "psf/requests v2.32.3 retrieval suite",
   "suite_file": "eval/suites/requests_v2_32_3.json",
-  "run_at": "2026-11-15T15:50:50+00:00",
+  "run_at": "2026-11-15T16:24:12+00:00",
   "repository": {
     "clone_url": "https://github.com/psf/requests.git",
     "ref": "v2.32.3",
@@ -21,105 +21,153 @@
       "seed": 0
     }
   },
-  "n_queries": 31,
+  "n_queries": 62,
   "n_chunks": 761,
   "index_seconds": 0.0,
   "mean_latency_ms": {
-    "bm25": 2.4,
-    "sparse": 335.6,
-    "dense": 335.6,
-    "hybrid": 319.4
+    "bm25": 2.6,
+    "sparse": 386.2,
+    "dense": 386.2,
+    "hybrid": 380.5,
+    "rrf_only": 386.2,
+    "dense_minmax": 386.2
   },
   "overall": {
     "bm25": {
       "recall@5": {
-        "mean": 0.6290322580645161,
+        "mean": 0.46774193548387094,
         "ci95": [
-          0.46774193548387094,
-          0.7903225806451613
+          0.3467741935483871,
+          0.5887096774193549
         ]
       },
       "recall@10": {
-        "mean": 0.7258064516129032,
+        "mean": 0.5645161290322581,
         "ci95": [
-          0.5806451612903226,
-          0.8709677419354839
+          0.4435483870967742,
+          0.6774193548387096
         ]
       },
       "mrr@10": {
-        "mean": 0.5072964669738863,
+        "mean": 0.42933947772657455,
         "ci95": [
-          0.36966205837173577,
-          0.6623655913978496
+          0.3164362519201229,
+          0.5373655913978496
         ]
       }
     },
     "sparse": {
       "recall@5": {
-        "mean": 0.6290322580645161,
+        "mean": 0.46774193548387094,
         "ci95": [
-          0.46774193548387094,
-          0.7903225806451613
+          0.3467741935483871,
+          0.5887096774193549
         ]
       },
       "recall@10": {
-        "mean": 0.7258064516129032,
+        "mean": 0.5645161290322581,
         "ci95": [
-          0.5806451612903226,
-          0.8709677419354839
+          0.45161290322580644,
+          0.6774193548387096
         ]
       },
       "mrr@10": {
-        "mean": 0.5039426523297491,
+        "mean": 0.42363031233998977,
         "ci95": [
-          0.3695340501792115,
-          0.6551971326164874
+          0.3131592421915002,
+          0.527905785970302
         ]
       }
     },
     "dense": {
       "recall@5": {
-        "mean": 0.7096774193548387,
+        "mean": 0.6048387096774194,
         "ci95": [
-          0.5483870967741935,
-          0.8548387096774194
+          0.49193548387096775,
+          0.717741935483871
         ]
       },
       "recall@10": {
-        "mean": 0.8548387096774194,
+        "mean": 0.7419354838709677,
         "ci95": [
-          0.7258064516129032,
-          0.967741935483871
+          0.6370967741935484,
+          0.8467741935483871
         ]
       },
       "mrr@10": {
-        "mean": 0.5725806451612904,
+        "mean": 0.47071812596006146,
         "ci95": [
-          0.4435483870967742,
-          0.7043010752688171
+          0.3743279569892473,
+          0.5720430107526882
         ]
       }
     },
     "hybrid": {
       "recall@5": {
-        "mean": 0.7741935483870968,
+        "mean": 0.5887096774193549,
         "ci95": [
-          0.6290322580645161,
-          0.9032258064516129
+          0.47580645161290325,
+          0.7016129032258065
         ]
       },
       "recall@10": {
-        "mean": 0.8709677419354839,
+        "mean": 0.6935483870967742,
         "ci95": [
-          0.7419354838709677,
-          0.967741935483871
+          0.5806451612903226,
+          0.7983870967741935
         ]
       },
       "mrr@10": {
-        "mean": 0.6666666666666667,
+        "mean": 0.5406554019457245,
         "ci95": [
-          0.5333333333333334,
-          0.8064516129032258
+          0.42903225806451617,
+          0.6506912442396313
+        ]
+      }
+    },
+    "rrf_only": {
+      "recall@5": {
+        "mean": 0.6209677419354839,
+        "ci95": [
+          0.5080645161290323,
+          0.7338709677419355
+        ]
+      },
+      "recall@10": {
+        "mean": 0.75,
+        "ci95": [
+          0.6451612903225806,
+          0.8467741935483871
+        ]
+      },
+      "mrr@10": {
+        "mean": 0.532110855094726,
+        "ci95": [
+          0.4243663594470046,
+          0.640316180235535
+        ]
+      }
+    },
+    "dense_minmax": {
+      "recall@5": {
+        "mean": 0.6451612903225806,
+        "ci95": [
+          0.532258064516129,
+          0.7580645161290323
+        ]
+      },
+      "recall@10": {
+        "mean": 0.7661290322580645,
+        "ci95": [
+          0.6612903225806451,
+          0.8629032258064516
+        ]
+      },
+      "mrr@10": {
+        "mean": 0.5336917562724014,
+        "ci95": [
+          0.4236559139784946,
+          0.6409498207885305
         ]
       }
     }
@@ -217,72 +265,763 @@
             0.8064516129032258
           ]
         }
+      },
+      "rrf_only": {
+        "recall@5": {
+          "mean": 0.7903225806451613,
+          "ci95": [
+            0.6451612903225806,
+            0.9193548387096774
+          ]
+        },
+        "recall@10": {
+          "mean": 0.8709677419354839,
+          "ci95": [
+            0.7580645161290323,
+            0.967741935483871
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.6457885304659499,
+          "ci95": [
+            0.5154121863799284,
+            0.7831541218637993
+          ]
+        }
+      },
+      "dense_minmax": {
+        "recall@5": {
+          "mean": 0.8387096774193549,
+          "ci95": [
+            0.7096774193548387,
+            0.9516129032258065
+          ]
+        },
+        "recall@10": {
+          "mean": 0.9032258064516129,
+          "ci95": [
+            0.8064516129032258,
+            0.9838709677419355
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.6422043010752688,
+          "ci95": [
+            0.5126344086021505,
+            0.7830645161290322
+          ]
+        }
+      }
+    },
+    "claude-heldout": {
+      "bm25": {
+        "recall@5": {
+          "mean": 0.46875,
+          "ci95": [
+            0.25,
+            0.6875
+          ]
+        },
+        "recall@10": {
+          "mean": 0.53125,
+          "ci95": [
+            0.3125,
+            0.75
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.5364583333333334,
+          "ci95": [
+            0.3125,
+            0.765625
+          ]
+        }
+      },
+      "sparse": {
+        "recall@5": {
+          "mean": 0.46875,
+          "ci95": [
+            0.25,
+            0.6875
+          ]
+        },
+        "recall@10": {
+          "mean": 0.53125,
+          "ci95": [
+            0.3125,
+            0.75
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.5208333333333334,
+          "ci95": [
+            0.3020833333333333,
+            0.7395833333333334
+          ]
+        }
+      },
+      "dense": {
+        "recall@5": {
+          "mean": 0.65625,
+          "ci95": [
+            0.4375,
+            0.84375
+          ]
+        },
+        "recall@10": {
+          "mean": 0.84375,
+          "ci95": [
+            0.65625,
+            1.0
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.4771577380952381,
+          "ci95": [
+            0.31480654761904764,
+            0.6479166666666667
+          ]
+        }
+      },
+      "hybrid": {
+        "recall@5": {
+          "mean": 0.53125,
+          "ci95": [
+            0.3125,
+            0.75
+          ]
+        },
+        "recall@10": {
+          "mean": 0.625,
+          "ci95": [
+            0.4375,
+            0.8125
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.6069444444444444,
+          "ci95": [
+            0.38263888888888886,
+            0.8256944444444444
+          ]
+        }
+      },
+      "rrf_only": {
+        "recall@5": {
+          "mean": 0.5625,
+          "ci95": [
+            0.34375,
+            0.78125
+          ]
+        },
+        "recall@10": {
+          "mean": 0.71875,
+          "ci95": [
+            0.5,
+            0.90625
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.5928571428571429,
+          "ci95": [
+            0.38571428571428573,
+            0.79375
+          ]
+        }
+      },
+      "dense_minmax": {
+        "recall@5": {
+          "mean": 0.625,
+          "ci95": [
+            0.4375,
+            0.8125
+          ]
+        },
+        "recall@10": {
+          "mean": 0.71875,
+          "ci95": [
+            0.5,
+            0.90625
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.6152777777777778,
+          "ci95": [
+            0.39861111111111114,
+            0.8375
+          ]
+        }
+      }
+    },
+    "stackoverflow": {
+      "bm25": {
+        "recall@5": {
+          "mean": 0.13333333333333333,
+          "ci95": [
+            0.0,
+            0.3333333333333333
+          ]
+        },
+        "recall@10": {
+          "mean": 0.26666666666666666,
+          "ci95": [
+            0.06666666666666667,
+            0.4666666666666667
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.15396825396825395,
+          "ci95": [
+            0.009523809523809523,
+            0.34444444444444444
+          ]
+        }
+      },
+      "sparse": {
+        "recall@5": {
+          "mean": 0.13333333333333333,
+          "ci95": [
+            0.0,
+            0.3333333333333333
+          ]
+        },
+        "recall@10": {
+          "mean": 0.26666666666666666,
+          "ci95": [
+            0.06666666666666667,
+            0.4666666666666667
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.15396825396825395,
+          "ci95": [
+            0.009523809523809523,
+            0.34444444444444444
+          ]
+        }
+      },
+      "dense": {
+        "recall@5": {
+          "mean": 0.3333333333333333,
+          "ci95": [
+            0.13333333333333333,
+            0.6
+          ]
+        },
+        "recall@10": {
+          "mean": 0.4,
+          "ci95": [
+            0.13333333333333333,
+            0.6666666666666666
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.2533333333333333,
+          "ci95": [
+            0.07666666666666667,
+            0.45
+          ]
+        }
+      },
+      "hybrid": {
+        "recall@5": {
+          "mean": 0.26666666666666666,
+          "ci95": [
+            0.06666666666666667,
+            0.4666666666666667
+          ]
+        },
+        "recall@10": {
+          "mean": 0.4,
+          "ci95": [
+            0.13333333333333333,
+            0.6666666666666666
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.20952380952380953,
+          "ci95": [
+            0.05238095238095238,
+            0.39841269841269844
+          ]
+        }
+      },
+      "rrf_only": {
+        "recall@5": {
+          "mean": 0.3333333333333333,
+          "ci95": [
+            0.13333333333333333,
+            0.6
+          ]
+        },
+        "recall@10": {
+          "mean": 0.5333333333333333,
+          "ci95": [
+            0.26666666666666666,
+            0.8
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.23238095238095238,
+          "ci95": [
+            0.08238095238095239,
+            0.40857142857142853
+          ]
+        }
+      },
+      "dense_minmax": {
+        "recall@5": {
+          "mean": 0.26666666666666666,
+          "ci95": [
+            0.06666666666666667,
+            0.4666666666666667
+          ]
+        },
+        "recall@10": {
+          "mean": 0.5333333333333333,
+          "ci95": [
+            0.26666666666666666,
+            0.8
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.22240740740740741,
+          "ci95": [
+            0.07129629629629629,
+            0.4
+          ]
+        }
       }
     }
   },
   "hybrid_vs_baselines": {
     "hybrid_minus_bm25:recall@5": {
-      "mean": 0.14516129032258066,
+      "mean": 0.12096774193548387,
       "ci95": [
-        0.03225806451612903,
-        0.27419354838709675
+        0.04838709677419355,
+        0.20967741935483872
       ]
     },
     "hybrid_minus_bm25:recall@10": {
-      "mean": 0.14516129032258066,
+      "mean": 0.12903225806451613,
       "ci95": [
-        0.04838709677419355,
-        0.25806451612903225
+        0.056451612903225805,
+        0.21774193548387097
       ]
     },
     "hybrid_minus_bm25:mrr@10": {
-      "mean": 0.15937019969278035,
+      "mean": 0.11131592421915003,
       "ci95": [
-        0.08602150537634408,
-        0.24162826420890937
+        0.06427291346646186,
+        0.16314644137224782
       ]
     },
     "hybrid_minus_dense:recall@5": {
-      "mean": 0.06451612903225806,
+      "mean": -0.016129032258064516,
       "ci95": [
-        -0.11290322580645161,
-        0.24193548387096775
+        -0.13709677419354838,
+        0.10483870967741936
       ]
     },
     "hybrid_minus_dense:recall@10": {
-      "mean": 0.016129032258064516,
+      "mean": -0.04838709677419355,
       "ci95": [
-        -0.0967741935483871,
-        0.12903225806451613
+        -0.1532258064516129,
+        0.056451612903225805
       ]
     },
     "hybrid_minus_dense:mrr@10": {
-      "mean": 0.09408602150537636,
+      "mean": 0.06993727598566309,
       "ci95": [
-        -0.02795698924731183,
-        0.2241935483870968
+        -0.024212749615975422,
+        0.16466973886328726
       ]
     },
     "hybrid_minus_sparse:recall@5": {
-      "mean": 0.14516129032258066,
+      "mean": 0.12096774193548387,
       "ci95": [
-        0.03225806451612903,
-        0.27419354838709675
+        0.04838709677419355,
+        0.20967741935483872
       ]
     },
     "hybrid_minus_sparse:recall@10": {
-      "mean": 0.14516129032258066,
+      "mean": 0.12903225806451613,
       "ci95": [
-        0.04838709677419355,
-        0.25806451612903225
+        0.056451612903225805,
+        0.20967741935483872
       ]
     },
     "hybrid_minus_sparse:mrr@10": {
-      "mean": 0.16272401433691755,
+      "mean": 0.11702508960573477,
       "ci95": [
-        0.0906810035842294,
-        0.23942652329749106
+        0.0695084485407066,
+        0.1681515616999488
       ]
+    },
+    "hybrid_minus_rrf_only:recall@5": {
+      "mean": -0.03225806451612903,
+      "ci95": [
+        -0.08870967741935484,
+        0.024193548387096774
+      ]
+    },
+    "hybrid_minus_rrf_only:recall@10": {
+      "mean": -0.056451612903225805,
+      "ci95": [
+        -0.13709677419354838,
+        0.008064516129032258
+      ]
+    },
+    "hybrid_minus_rrf_only:mrr@10": {
+      "mean": 0.008544546850998466,
+      "ci95": [
+        -0.029838709677419355,
+        0.053744239631336406
+      ]
+    },
+    "hybrid_minus_dense_minmax:recall@5": {
+      "mean": -0.056451612903225805,
+      "ci95": [
+        -0.11290322580645161,
+        -0.016129032258064516
+      ]
+    },
+    "hybrid_minus_dense_minmax:recall@10": {
+      "mean": -0.07258064516129033,
+      "ci95": [
+        -0.14516129032258066,
+        -0.016129032258064516
+      ]
+    },
+    "hybrid_minus_dense_minmax:mrr@10": {
+      "mean": 0.006963645673323094,
+      "ci95": [
+        -0.027060931899641576,
+        0.04761904761904763
+      ]
+    }
+  },
+  "hybrid_vs_baselines_by_author": {
+    "claude": {
+      "hybrid_minus_bm25:recall@5": {
+        "mean": 0.14516129032258066,
+        "ci95": [
+          0.03225806451612903,
+          0.27419354838709675
+        ]
+      },
+      "hybrid_minus_bm25:recall@10": {
+        "mean": 0.14516129032258066,
+        "ci95": [
+          0.04838709677419355,
+          0.25806451612903225
+        ]
+      },
+      "hybrid_minus_bm25:mrr@10": {
+        "mean": 0.15937019969278035,
+        "ci95": [
+          0.08602150537634408,
+          0.24162826420890937
+        ]
+      },
+      "hybrid_minus_dense:recall@5": {
+        "mean": 0.06451612903225806,
+        "ci95": [
+          -0.11290322580645161,
+          0.24193548387096775
+        ]
+      },
+      "hybrid_minus_dense:recall@10": {
+        "mean": 0.016129032258064516,
+        "ci95": [
+          -0.0967741935483871,
+          0.12903225806451613
+        ]
+      },
+      "hybrid_minus_dense:mrr@10": {
+        "mean": 0.09408602150537636,
+        "ci95": [
+          -0.02795698924731183,
+          0.2241935483870968
+        ]
+      },
+      "hybrid_minus_sparse:recall@5": {
+        "mean": 0.14516129032258066,
+        "ci95": [
+          0.03225806451612903,
+          0.27419354838709675
+        ]
+      },
+      "hybrid_minus_sparse:recall@10": {
+        "mean": 0.14516129032258066,
+        "ci95": [
+          0.04838709677419355,
+          0.25806451612903225
+        ]
+      },
+      "hybrid_minus_sparse:mrr@10": {
+        "mean": 0.16272401433691755,
+        "ci95": [
+          0.0906810035842294,
+          0.23942652329749106
+        ]
+      },
+      "hybrid_minus_rrf_only:recall@5": {
+        "mean": -0.016129032258064516,
+        "ci95": [
+          -0.04838709677419355,
+          0.0
+        ]
+      },
+      "hybrid_minus_rrf_only:recall@10": {
+        "mean": 0.0,
+        "ci95": [
+          -0.0967741935483871,
+          0.0967741935483871
+        ]
+      },
+      "hybrid_minus_rrf_only:mrr@10": {
+        "mean": 0.02087813620071685,
+        "ci95": [
+          -0.02007168458781362,
+          0.07759856630824374
+        ]
+      },
+      "hybrid_minus_dense_minmax:recall@5": {
+        "mean": -0.06451612903225806,
+        "ci95": [
+          -0.14516129032258066,
+          0.0
+        ]
+      },
+      "hybrid_minus_dense_minmax:recall@10": {
+        "mean": -0.03225806451612903,
+        "ci95": [
+          -0.0967741935483871,
+          0.0
+        ]
+      },
+      "hybrid_minus_dense_minmax:mrr@10": {
+        "mean": 0.02446236559139785,
+        "ci95": [
+          -0.012365591397849464,
+          0.0774193548387097
+        ]
+      }
+    },
+    "claude-heldout": {
+      "hybrid_minus_bm25:recall@5": {
+        "mean": 0.0625,
+        "ci95": [
+          0.0,
+          0.1875
+        ]
+      },
+      "hybrid_minus_bm25:recall@10": {
+        "mean": 0.09375,
+        "ci95": [
+          0.0,
+          0.25
+        ]
+      },
+      "hybrid_minus_bm25:mrr@10": {
+        "mean": 0.07048611111111111,
+        "ci95": [
+          0.006944444444444444,
+          0.16875
+        ]
+      },
+      "hybrid_minus_dense:recall@5": {
+        "mean": -0.125,
+        "ci95": [
+          -0.3125,
+          0.03125
+        ]
+      },
+      "hybrid_minus_dense:recall@10": {
+        "mean": -0.21875,
+        "ci95": [
+          -0.40625,
+          -0.0625
+        ]
+      },
+      "hybrid_minus_dense:mrr@10": {
+        "mean": 0.12978670634920636,
+        "ci95": [
+          -0.08740079365079365,
+          0.3428075396825397
+        ]
+      },
+      "hybrid_minus_sparse:recall@5": {
+        "mean": 0.0625,
+        "ci95": [
+          0.0,
+          0.1875
+        ]
+      },
+      "hybrid_minus_sparse:recall@10": {
+        "mean": 0.09375,
+        "ci95": [
+          0.0,
+          0.25
+        ]
+      },
+      "hybrid_minus_sparse:mrr@10": {
+        "mean": 0.08611111111111111,
+        "ci95": [
+          0.006944444444444444,
+          0.19791666666666669
+        ]
+      },
+      "hybrid_minus_rrf_only:recall@5": {
+        "mean": -0.03125,
+        "ci95": [
+          -0.09375,
+          0.0
+        ]
+      },
+      "hybrid_minus_rrf_only:recall@10": {
+        "mean": -0.09375,
+        "ci95": [
+          -0.21875,
+          0.0
+        ]
+      },
+      "hybrid_minus_rrf_only:mrr@10": {
+        "mean": 0.014087301587301588,
+        "ci95": [
+          -0.03432539682539683,
+          0.08978174603174603
+        ]
+      },
+      "hybrid_minus_dense_minmax:recall@5": {
+        "mean": -0.09375,
+        "ci95": [
+          -0.25,
+          0.0
+        ]
+      },
+      "hybrid_minus_dense_minmax:recall@10": {
+        "mean": -0.09375,
+        "ci95": [
+          -0.21875,
+          0.0
+        ]
+      },
+      "hybrid_minus_dense_minmax:mrr@10": {
+        "mean": -0.008333333333333333,
+        "ci95": [
+          -0.03680555555555556,
+          0.022222222222222227
+        ]
+      }
+    },
+    "stackoverflow": {
+      "hybrid_minus_bm25:recall@5": {
+        "mean": 0.13333333333333333,
+        "ci95": [
+          0.0,
+          0.3333333333333333
+        ]
+      },
+      "hybrid_minus_bm25:recall@10": {
+        "mean": 0.13333333333333333,
+        "ci95": [
+          0.0,
+          0.3333333333333333
+        ]
+      },
+      "hybrid_minus_bm25:mrr@10": {
+        "mean": 0.05555555555555555,
+        "ci95": [
+          0.0031746031746031746,
+          0.12380952380952381
+        ]
+      },
+      "hybrid_minus_dense:recall@5": {
+        "mean": -0.06666666666666667,
+        "ci95": [
+          -0.3333333333333333,
+          0.2
+        ]
+      },
+      "hybrid_minus_dense:recall@10": {
+        "mean": 0.0,
+        "ci95": [
+          -0.26666666666666666,
+          0.26666666666666666
+        ]
+      },
+      "hybrid_minus_dense:mrr@10": {
+        "mean": -0.04380952380952382,
+        "ci95": [
+          -0.2,
+          0.13619047619047617
+        ]
+      },
+      "hybrid_minus_sparse:recall@5": {
+        "mean": 0.13333333333333333,
+        "ci95": [
+          0.0,
+          0.3333333333333333
+        ]
+      },
+      "hybrid_minus_sparse:recall@10": {
+        "mean": 0.13333333333333333,
+        "ci95": [
+          0.0,
+          0.3333333333333333
+        ]
+      },
+      "hybrid_minus_sparse:mrr@10": {
+        "mean": 0.05555555555555555,
+        "ci95": [
+          0.0031746031746031746,
+          0.12380952380952381
+        ]
+      },
+      "hybrid_minus_rrf_only:recall@5": {
+        "mean": -0.06666666666666667,
+        "ci95": [
+          -0.26666666666666666,
+          0.13333333333333333
+        ]
+      },
+      "hybrid_minus_rrf_only:recall@10": {
+        "mean": -0.13333333333333333,
+        "ci95": [
+          -0.3333333333333333,
+          0.0
+        ]
+      },
+      "hybrid_minus_rrf_only:mrr@10": {
+        "mean": -0.022857142857142857,
+        "ci95": [
+          -0.12746031746031747,
+          0.11603174603174603
+        ]
+      },
+      "hybrid_minus_dense_minmax:recall@5": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "hybrid_minus_dense_minmax:recall@10": {
+        "mean": -0.13333333333333333,
+        "ci95": [
+          -0.3333333333333333,
+          0.0
+        ]
+      },
+      "hybrid_minus_dense_minmax:mrr@10": {
+        "mean": -0.01288359788359788,
+        "ci95": [
+          -0.11037037037037038,
+          0.11481481481481483
+        ]
+      }
     }
   },
   "per_query": [
@@ -330,6 +1069,26 @@
             "docs/user/quickstart.rst:221-280",
             "tests/test_requests.py:1853-1858"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/sessions.py:282-300",
+            "tests/test_requests.py:1853-1858",
+            "HISTORY.md:1156-1215"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/sessions.py:282-300",
+            "tests/test_requests.py:1853-1858",
+            "HISTORY.md:1156-1215"
+          ]
         }
       }
     },
@@ -369,6 +1128,26 @@
           ]
         },
         "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "tests/test_requests.py:301-306",
+            "src/requests/sessions.py:333-353",
+            "docs/api.rst:166-225"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "tests/test_requests.py:301-306",
+            "src/requests/sessions.py:333-353",
+            "docs/api.rst:166-225"
+          ]
+        },
+        "dense_minmax": {
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
@@ -424,6 +1203,26 @@
             "docs/api.rst:166-225",
             "HISTORY.md:1541-1600"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "docs/api.rst:166-225",
+            "tests/test_requests.py:250-263",
+            "src/requests/sessions.py:159-237"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
+          "top3": [
+            "docs/user/advanced.rst:1101-1141",
+            "docs/user/quickstart.rst:496-555",
+            "docs/api.rst:166-225"
+          ]
         }
       }
     },
@@ -463,6 +1262,26 @@
           ]
         },
         "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:765-823",
+            "src/requests/utils.py:104-125",
+            "tests/test_lowlevel.py:289-305"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:765-823",
+            "src/requests/utils.py:104-125",
+            "tests/test_lowlevel.py:289-305"
+          ]
+        },
+        "dense_minmax": {
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
@@ -518,6 +1337,26 @@
             "src/requests/adapters.py:546-576",
             "src/requests/utils.py:864-888"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:838-861",
+            "src/requests/utils.py:864-888",
+            "src/requests/adapters.py:546-576"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:838-861",
+            "src/requests/utils.py:864-888",
+            "src/requests/adapters.py:546-576"
+          ]
         }
       }
     },
@@ -565,6 +1404,26 @@
             "src/requests/models.py:947-978",
             "docs/user/quickstart.rst:111-170"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:909-945",
+            "docs/user/quickstart.rst:111-170",
+            "src/requests/models.py:947-978"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:909-945",
+            "src/requests/models.py:947-978",
+            "docs/user/quickstart.rst:111-170"
+          ]
         }
       }
     },
@@ -604,6 +1463,26 @@
           ]
         },
         "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:957-986",
+            "tests/test_utils.py:376-408",
+            "src/requests/models.py:947-978"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:957-986",
+            "src/requests/models.py:947-978",
+            "tests/test_utils.py:376-408"
+          ]
+        },
+        "dense_minmax": {
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
@@ -659,6 +1538,26 @@
             "docs/user/authentication.rst:1-60",
             "docs/user/quickstart.rst:221-280"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:204-258",
+            "docs/user/quickstart.rst:221-280",
+            "docs/user/authentication.rst:1-60"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:204-258",
+            "docs/user/authentication.rst:1-60",
+            "tests/test_requests.py:671-704"
+          ]
         }
       }
     },
@@ -698,6 +1597,26 @@
           ]
         },
         "hybrid": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "tests/test_lowlevel.py:192-235",
+            "tests/test_lowlevel.py:127-189",
+            "src/requests/auth.py:241-283"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "tests/test_lowlevel.py:192-235",
+            "tests/test_lowlevel.py:127-189",
+            "src/requests/auth.py:241-283"
+          ]
+        },
+        "dense_minmax": {
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 0.3333333333333333,
@@ -753,6 +1672,26 @@
             "tests/test_requests.py:542-558",
             "src/requests/auth.py:25-66"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "src/requests/auth.py:76-96",
+            "tests/test_requests.py:542-558",
+            "src/requests/auth.py:25-66"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "src/requests/auth.py:76-96",
+            "tests/test_requests.py:542-558",
+            "src/requests/auth.py:25-66"
+          ]
         }
       }
     },
@@ -799,6 +1738,26 @@
             "src/requests/models.py:799-855",
             "src/requests/models.py:890-907",
             "src/requests/exceptions.py:127-128"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:799-855",
+            "docs/user/advanced.rst:331-390",
+            "src/requests/exceptions.py:127-128"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:799-855",
+            "src/requests/exceptions.py:127-128",
+            "src/requests/models.py:890-907"
           ]
         }
       }
@@ -847,6 +1806,26 @@
             "docs/user/advanced.rst:1101-1141",
             "docs/user/advanced.rst:496-555"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:857-888",
+            "docs/user/quickstart.rst:166-225",
+            "docs/user/advanced.rst:1101-1141"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:857-888",
+            "docs/user/quickstart.rst:166-225",
+            "docs/user/advanced.rst:1101-1141"
+          ]
         }
       }
     },
@@ -893,6 +1872,26 @@
             "docs/user/quickstart.rst:551-570",
             "docs/user/quickstart.rst:331-390",
             "src/requests/models.py:754-767"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.125,
+          "top3": [
+            "docs/user/quickstart.rst:551-570",
+            "docs/user/quickstart.rst:386-445",
+            "src/requests/models.py:754-767"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
+          "top3": [
+            "docs/user/quickstart.rst:551-570",
+            "docs/user/quickstart.rst:331-390",
+            "docs/user/quickstart.rst:386-445"
           ]
         }
       }
@@ -941,6 +1940,26 @@
             "src/requests/status_codes.py:1-86",
             "src/requests/status_codes.py:109-125"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/structures.py:13-80",
+            "src/requests/utils.py:375-403",
+            "src/requests/status_codes.py:109-125"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/structures.py:13-80",
+            "src/requests/utils.py:375-403",
+            "src/requests/status_codes.py:1-86"
+          ]
         }
       }
     },
@@ -987,6 +2006,26 @@
             "docs/user/quickstart.rst:276-335",
             "docs/user/advanced.rst:331-390",
             "docs/user/advanced.rst:386-445"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.25,
+          "top3": [
+            "docs/user/quickstart.rst:276-335",
+            "docs/user/advanced.rst:386-445",
+            "src/requests/models.py:494-570"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
+          "top3": [
+            "docs/user/advanced.rst:386-445",
+            "docs/user/quickstart.rst:276-335",
+            "src/requests/models.py:494-570"
           ]
         }
       }
@@ -1035,6 +2074,26 @@
             "src/requests/models.py:494-570",
             "docs/user/quickstart.rst:331-390"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:135-201",
+            "src/requests/models.py:572-586",
+            "src/requests/models.py:494-570"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:135-201",
+            "src/requests/models.py:494-570",
+            "src/requests/models.py:572-586"
+          ]
         }
       }
     },
@@ -1077,6 +2136,26 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.16666666666666666,
+          "top3": [
+            "docs/user/advanced.rst:991-1050",
+            "tests/test_requests.py:1619-1641",
+            "tests/test_requests.py:1643-1651"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:991-1050",
+            "tests/test_requests.py:1619-1641",
+            "tests/test_requests.py:1643-1651"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.1,
           "top3": [
             "docs/user/advanced.rst:991-1050",
             "tests/test_requests.py:1619-1641",
@@ -1129,6 +2208,26 @@
             "src/requests/sessions.py:61-88",
             "docs/user/advanced.rst:166-225"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/advanced.rst:56-115",
+            "src/requests/sessions.py:61-88",
+            "src/requests/sessions.py:457-498"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/advanced.rst:56-115",
+            "src/requests/sessions.py:61-88",
+            "docs/user/advanced.rst:1-60"
+          ]
         }
       }
     },
@@ -1176,6 +2275,26 @@
             "HISTORY.md:716-775",
             "src/requests/utils.py:636-657"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:409-481",
+            "src/requests/utils.py:636-657",
+            "src/requests/sessions.py:107-125"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:409-481",
+            "src/requests/utils.py:636-657",
+            "HISTORY.md:716-775"
+          ]
         }
       }
     },
@@ -1215,6 +2334,26 @@
           ]
         },
         "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:409-481",
+            "HISTORY.md:1211-1270",
+            "src/requests/utils.py:765-823"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:409-481",
+            "HISTORY.md:1211-1270",
+            "src/requests/adapters.py:495-534"
+          ]
+        },
+        "dense_minmax": {
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
@@ -1270,6 +2409,26 @@
             "src/requests/adapters.py:304-357",
             "src/requests/adapters.py:396-444"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/advanced.rst:221-280",
+            "src/requests/adapters.py:304-357",
+            "src/requests/adapters.py:446-493"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/advanced.rst:221-280",
+            "src/requests/adapters.py:304-357",
+            "src/requests/adapters.py:396-444"
+          ]
         }
       }
     },
@@ -1316,6 +2475,26 @@
             "docs/user/advanced.rst:1101-1141",
             "src/requests/adapters.py:613-687",
             "src/requests/exceptions.py:80-84"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
+          "top3": [
+            "docs/user/advanced.rst:1101-1141",
+            "tests/test_requests.py:2442-2508",
+            "src/requests/exceptions.py:80-84"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.25,
+          "top3": [
+            "docs/user/advanced.rst:1101-1141",
+            "src/requests/exceptions.py:80-84",
+            "tests/test_requests.py:2442-2508"
           ]
         }
       }
@@ -1364,6 +2543,26 @@
             "docs/api.rst:166-225",
             "src/requests/adapters.py:1-89"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/__init__.py:105-184",
+            "src/requests/adapters.py:1-89",
+            "src/requests/exceptions.py:1-11"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/__init__.py:105-184",
+            "src/requests/adapters.py:1-89",
+            "src/requests/exceptions.py:1-11"
+          ]
         }
       }
     },
@@ -1411,6 +2610,26 @@
             "src/requests/models.py:1026-1037",
             "docs/user/quickstart.rst:166-225"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "src/requests/models.py:1026-1037",
+            "docs/user/quickstart.rst:166-225",
+            "src/requests/adapters.py:359-394"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "src/requests/models.py:1026-1037",
+            "docs/user/quickstart.rst:166-225",
+            "src/requests/adapters.py:359-394"
+          ]
         }
       }
     },
@@ -1450,6 +2669,26 @@
           ]
         },
         "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:441-500",
+            "docs/user/advanced.rst:56-115",
+            "docs/user/advanced.rst:1-60"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:441-500",
+            "docs/user/advanced.rst:56-115",
+            "docs/user/advanced.rst:1-60"
+          ]
+        },
+        "dense_minmax": {
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
@@ -1505,6 +2744,26 @@
             "src/requests/cookies.py:151-167",
             "src/requests/cookies.py:194-204"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.1111111111111111,
+          "top3": [
+            "src/requests/cookies.py:206-223",
+            "src/requests/cookies.py:194-204",
+            "tests/test_requests.py:1337-1356"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.125,
+          "top3": [
+            "src/requests/cookies.py:206-223",
+            "src/requests/cookies.py:151-167",
+            "src/requests/cookies.py:194-204"
+          ]
         }
       }
     },
@@ -1552,6 +2811,26 @@
             "docs/user/advanced.rst:606-665",
             "src/requests/sessions.py:750-779"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/advanced.rst:606-665",
+            "src/requests/sessions.py:750-779",
+            "docs/user/advanced.rst:166-225"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "docs/user/advanced.rst:606-665",
+            "docs/user/advanced.rst:166-225",
+            "src/requests/sessions.py:750-779"
+          ]
         }
       }
     },
@@ -1591,6 +2870,26 @@
           ]
         },
         "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:1081-1096",
+            "src/requests/auth.py:285-303",
+            "docs/user/advanced.rst:331-390"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:1081-1096",
+            "src/requests/auth.py:285-303",
+            "docs/user/advanced.rst:331-390"
+          ]
+        },
+        "dense_minmax": {
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
@@ -1646,6 +2945,26 @@
             "tests/test_requests.py:1745-1762",
             "src/requests/utils.py:1045-1061"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:1034-1042",
+            "tests/test_requests.py:1745-1762",
+            "src/requests/utils.py:1045-1061"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:1034-1042",
+            "tests/test_requests.py:1745-1762",
+            "src/requests/utils.py:1045-1061"
+          ]
         }
       }
     },
@@ -1693,6 +3012,26 @@
             "src/requests/utils.py:914-948",
             "docs/user/advanced.rst:936-995"
           ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:980-995",
+            "docs/user/advanced.rst:936-995",
+            "src/requests/utils.py:914-948"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:980-995",
+            "docs/user/advanced.rst:936-995",
+            "src/requests/utils.py:914-948"
+          ]
         }
       }
     },
@@ -1739,6 +3078,2103 @@
             "src/requests/utils.py:891-897",
             "tests/test_requests.py:512-517",
             "src/requests/utils.py:900-911"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:891-897",
+            "tests/test_requests.py:512-517",
+            "src/requests/utils.py:900-911"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:891-897",
+            "tests/test_requests.py:512-517",
+            "src/requests/utils.py:900-911"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_url_credentials",
+      "author": "claude-heldout",
+      "query": "If the URL itself contains a username and password before the host, how are they turned into authentication?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:1018-1031",
+            "src/requests/adapters.py:592-611",
+            "src/requests/sessions.py:302-331"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:1018-1031",
+            "src/requests/adapters.py:592-611",
+            "src/requests/sessions.py:302-331"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/authentication.rst:1-60",
+            "src/requests/utils.py:1018-1031",
+            "docs/user/advanced.rst:826-885"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:1018-1031",
+            "src/requests/auth.py:25-66",
+            "src/requests/auth.py:76-96"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:1018-1031",
+            "src/requests/auth.py:76-96",
+            "src/requests/auth.py:25-66"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:1018-1031",
+            "src/requests/auth.py:25-66",
+            "src/requests/auth.py:76-96"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_proxy_default_scheme",
+      "author": "claude-heldout",
+      "query": "When a proxy address is given without a scheme, which scheme is assumed?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:989-1015",
+            "src/requests/adapters.py:446-493",
+            "src/requests/adapters.py:546-576"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:989-1015",
+            "src/requests/adapters.py:446-493",
+            "src/requests/adapters.py:546-576"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "src/requests/utils.py:765-823",
+            "src/requests/utils.py:864-888",
+            "src/requests/utils.py:989-1015"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:989-1015",
+            "src/requests/adapters.py:546-576",
+            "src/requests/utils.py:765-823"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:989-1015",
+            "src/requests/utils.py:765-823",
+            "src/requests/utils.py:864-888"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:989-1015",
+            "src/requests/utils.py:765-823",
+            "src/requests/utils.py:864-888"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_url_requote",
+      "author": "claude-heldout",
+      "query": "How are unsafe characters in a URL escaped without double-escaping parts that are already percent-encoded?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:636-657",
+            "src/requests/utils.py:660-679",
+            "tests/test_requests.py:2666-2707"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:636-657",
+            "src/requests/utils.py:660-679",
+            "tests/test_requests.py:2666-2707"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:636-657",
+            "src/requests/utils.py:660-679",
+            "tests/test_utils.py:444-461"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:636-657",
+            "src/requests/utils.py:660-679",
+            "tests/test_requests.py:2666-2707"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:636-657",
+            "src/requests/utils.py:660-679",
+            "src/requests/models.py:409-481"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:636-657",
+            "src/requests/utils.py:660-679",
+            "tests/test_requests.py:2666-2707"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_cookies_to_dict",
+      "author": "claude-heldout",
+      "query": "How can the cookies held by a session be turned into a plain dictionary?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/cookies.py:306-319",
+            "docs/user/quickstart.rst:386-445",
+            "src/requests/api.py:14-59"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/quickstart.rst:386-445",
+            "src/requests/cookies.py:306-319",
+            "src/requests/api.py:14-59"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/cookies.py:306-319",
+            "docs/user/advanced.rst:56-115",
+            "src/requests/cookies.py:206-223"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/cookies.py:306-319",
+            "src/requests/cookies.py:542-561",
+            "docs/user/advanced.rst:56-115"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/cookies.py:306-319",
+            "docs/user/advanced.rst:56-115",
+            "docs/user/quickstart.rst:441-500"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/cookies.py:306-319",
+            "docs/user/advanced.rst:56-115",
+            "src/requests/cookies.py:542-561"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_charset_from_header",
+      "author": "claude-heldout",
+      "query": "Where is the charset read from the content type header, and what default applies to text responses without one?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:539-561",
+            "docs/user/advanced.rst:716-775",
+            "HISTORY.md:331-390"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:539-561",
+            "docs/user/advanced.rst:716-775",
+            "HISTORY.md:331-390"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "src/requests/models.py:909-945",
+            "src/requests/utils.py:591-627",
+            "src/requests/utils.py:539-561"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:539-561",
+            "docs/user/advanced.rst:716-775",
+            "src/requests/models.py:909-945"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:539-561",
+            "src/requests/models.py:909-945",
+            "src/requests/utils.py:591-627"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:539-561",
+            "src/requests/models.py:909-945",
+            "docs/user/advanced.rst:716-775"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_response_truthiness",
+      "author": "claude-heldout",
+      "query": "What does it mean when a response object is used in an if statement?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:166-225",
+            "LICENSE:1-60",
+            "docs/community/faq.rst:1-60"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:166-225",
+            "LICENSE:1-60",
+            "docs/community/faq.rst:1-60"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:754-767",
+            "src/requests/models.py:740-748",
+            "src/requests/models.py:730-738"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.5,
+          "mrr@10": 0.1,
+          "top3": [
+            "src/requests/sessions.py:333-353",
+            "src/requests/models.py:947-978",
+            "src/requests/adapters.py:359-394"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
+          "top3": [
+            "src/requests/adapters.py:359-394",
+            "src/requests/sessions.py:333-353",
+            "src/requests/models.py:658-703"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
+          "top3": [
+            "src/requests/sessions.py:333-353",
+            "src/requests/adapters.py:359-394",
+            "src/requests/models.py:947-978"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_close_connections",
+      "author": "claude-heldout",
+      "query": "How does closing a session release its pooled connections?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/adapters.py:536-544",
+            "src/requests/adapters.py:165-201",
+            "tests/test_requests.py:2096-2103"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/adapters.py:536-544",
+            "src/requests/adapters.py:165-201",
+            "docs/user/advanced.rst:991-1050"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "src/requests/models.py:1026-1037",
+            "src/requests/adapters.py:536-544",
+            "tests/test_requests.py:2655-2662"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/adapters.py:536-544",
+            "src/requests/adapters.py:165-201",
+            "tests/test_requests.py:2096-2103"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/adapters.py:536-544",
+            "tests/test_requests.py:2096-2103",
+            "src/requests/adapters.py:165-201"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/adapters.py:536-544",
+            "src/requests/adapters.py:165-201",
+            "tests/test_requests.py:2096-2103"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_toplevel_get",
+      "author": "claude-heldout",
+      "query": "When calling the module-level get helper, is a session created behind the scenes and closed afterwards?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:56-115",
+            "HISTORY.md:551-610",
+            "docs/user/advanced.rst:1-60"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:56-115",
+            "HISTORY.md:551-610",
+            "docs/user/advanced.rst:1-60"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/sessions.py:794-797",
+            "src/requests/sessions.py:454-455",
+            "src/requests/sessions.py:354-389"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:56-115",
+            "docs/user/advanced.rst:1-60",
+            "HISTORY.md:551-610"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:56-115",
+            "docs/user/advanced.rst:1-60",
+            "src/requests/sessions.py:354-389"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:56-115",
+            "docs/user/advanced.rst:1-60",
+            "HISTORY.md:551-610"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_method_normalise",
+      "author": "claude-heldout",
+      "query": "How is the HTTP verb normalised before the request is sent?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/adapters.py:137-164",
+            "src/requests/models.py:334-349",
+            "src/requests/adapters.py:546-576"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/adapters.py:137-164",
+            "src/requests/models.py:334-349",
+            "src/requests/adapters.py:546-576"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:111-170",
+            "src/requests/models.py:409-481",
+            "src/requests/sessions.py:673-748"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:111-170",
+            "src/requests/models.py:334-349",
+            "src/requests/adapters.py:137-164"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:111-170",
+            "src/requests/sessions.py:500-563",
+            "src/requests/models.py:334-349"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:111-170",
+            "src/requests/models.py:334-349",
+            "src/requests/sessions.py:500-563"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_default_headers",
+      "author": "claude-heldout",
+      "query": "Which headers are attached to every request unless the user overrides them?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:1046-1105",
+            "docs/user/authentication.rst:1-60",
+            "docs/user/advanced.rst:441-500"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:1046-1105",
+            "docs/user/authentication.rst:1-60",
+            "docs/user/advanced.rst:441-500"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.125,
+          "top3": [
+            "docs/user/quickstart.rst:221-280",
+            "docs/user/advanced.rst:111-170",
+            "docs/user/advanced.rst:936-995"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:221-280",
+            "docs/user/advanced.rst:936-995",
+            "docs/user/advanced.rst:441-500"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:221-280",
+            "docs/user/advanced.rst:936-995",
+            "docs/user/advanced.rst:111-170"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:221-280",
+            "docs/user/advanced.rst:936-995",
+            "docs/user/advanced.rst:111-170"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_upload_filename",
+      "author": "claude-heldout",
+      "query": "When uploading a file object without naming it, how is the file name chosen?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "HISTORY.md:881-940",
+            "src/requests/api.py:14-59",
+            "src/requests/sessions.py:500-563"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "HISTORY.md:881-940",
+            "src/requests/api.py:14-59",
+            "src/requests/sessions.py:500-563"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "tests/test_requests.py:1797-1803",
+            "src/requests/utils.py:261-265",
+            "tests/test_requests.py:1789-1795"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.1111111111111111,
+          "top3": [
+            "HISTORY.md:881-940",
+            "src/requests/api.py:14-59",
+            "src/requests/utils.py:135-201"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.14285714285714285,
+          "top3": [
+            "src/requests/api.py:14-59",
+            "src/requests/utils.py:135-201",
+            "HISTORY.md:881-940"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
+          "top3": [
+            "HISTORY.md:881-940",
+            "src/requests/api.py:14-59",
+            "src/requests/utils.py:135-201"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_cidr_no_proxy",
+      "author": "claude-heldout",
+      "query": "How are IP ranges written in CIDR notation in the proxy exclusion list matched against an address?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.25,
+          "top3": [
+            "src/requests/utils.py:765-823",
+            "HISTORY.md:1211-1270",
+            "HISTORY.md:771-830"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "src/requests/utils.py:765-823",
+            "src/requests/utils.py:682-694",
+            "HISTORY.md:1211-1270"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "tests/test_utils.py:191-253",
+            "src/requests/utils.py:719-740",
+            "src/requests/utils.py:765-823"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "src/requests/utils.py:765-823",
+            "src/requests/utils.py:682-694",
+            "src/requests/utils.py:719-740"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "src/requests/utils.py:765-823",
+            "src/requests/utils.py:682-694",
+            "src/requests/utils.py:719-740"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "src/requests/utils.py:765-823",
+            "tests/test_utils.py:191-253",
+            "src/requests/utils.py:682-694"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_proxy_credentials",
+      "author": "claude-heldout",
+      "query": "How are credentials for an authenticating proxy sent along with requests that go through it?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "HISTORY.md:716-775",
+            "HISTORY.md:56-115",
+            "src/requests/adapters.py:592-611"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "HISTORY.md:716-775",
+            "HISTORY.md:56-115",
+            "src/requests/adapters.py:592-611"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
+          "top3": [
+            "src/requests/auth.py:99-104",
+            "docs/user/authentication.rst:1-60",
+            "docs/user/advanced.rst:606-665"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/adapters.py:592-611",
+            "docs/user/authentication.rst:1-60",
+            "HISTORY.md:56-115"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/authentication.rst:1-60",
+            "src/requests/adapters.py:592-611",
+            "docs/user/authentication.rst:56-115"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/adapters.py:592-611",
+            "docs/user/authentication.rst:1-60",
+            "HISTORY.md:56-115"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_zipped_ca_bundle",
+      "author": "claude-heldout",
+      "query": "How is the certificate bundle found when the package is installed inside a zip archive?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:268-302",
+            "HISTORY.md:221-280",
+            "src/requests/certs.py:1-17"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:268-302",
+            "HISTORY.md:221-280",
+            "src/requests/certs.py:1-17"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/advanced.rst:276-335",
+            "src/requests/utils.py:268-302",
+            "tests/certs/expired/server/server.pem:1-41"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:268-302",
+            "src/requests/certs.py:1-17",
+            "docs/user/advanced.rst:221-280"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:268-302",
+            "docs/user/advanced.rst:276-335",
+            "docs/user/advanced.rst:221-280"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:268-302",
+            "src/requests/certs.py:1-17",
+            "docs/user/advanced.rst:221-280"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_attach_cookies",
+      "author": "claude-heldout",
+      "query": "How are stored cookies added to an outgoing request before it is sent?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "HISTORY.md:1266-1325",
+            "HISTORY.md:166-225",
+            "src/requests/adapters.py:137-164"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "HISTORY.md:1266-1325",
+            "HISTORY.md:166-225",
+            "tests/test_requests.py:146-161"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.14285714285714285,
+          "top3": [
+            "docs/user/quickstart.rst:441-500",
+            "docs/user/advanced.rst:56-115",
+            "tests/test_requests.py:413-417"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:56-115",
+            "docs/user/advanced.rst:111-170",
+            "HISTORY.md:1266-1325"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.14285714285714285,
+          "top3": [
+            "docs/user/advanced.rst:56-115",
+            "docs/user/advanced.rst:111-170",
+            "docs/user/advanced.rst:1-60"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.1111111111111111,
+          "top3": [
+            "docs/user/advanced.rst:56-115",
+            "docs/user/advanced.rst:111-170",
+            "HISTORY.md:1266-1325"
+          ]
+        }
+      }
+    },
+    {
+      "id": "ho_invalid_json",
+      "author": "claude-heldout",
+      "query": "What error is raised when the response body is not valid JSON, and is it still compatible with the standard library's error?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:947-978",
+            "docs/user/quickstart.rst:111-170",
+            "src/requests/exceptions.py:31-52"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:947-978",
+            "docs/user/quickstart.rst:111-170",
+            "HISTORY.md:166-225"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:947-978",
+            "tests/test_requests.py:2969-2976",
+            "src/requests/exceptions.py:103-104"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:947-978",
+            "HISTORY.md:166-225",
+            "src/requests/exceptions.py:31-52"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:947-978",
+            "HISTORY.md:166-225",
+            "src/requests/exceptions.py:31-52"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:947-978",
+            "HISTORY.md:166-225",
+            "src/requests/exceptions.py:31-52"
+          ]
+        }
+      }
+    },
+    {
+      "id": "so_9733638",
+      "author": "stackoverflow",
+      "query": "How can I POST JSON data with Python's Requests library?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "HISTORY.md:1376-1435",
+            "docs/user/advanced.rst:881-940",
+            "docs/user/quickstart.rst:1-60"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "HISTORY.md:1376-1435",
+            "docs/user/advanced.rst:881-940",
+            "docs/user/quickstart.rst:1-60"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/api.py:103-115",
+            "src/requests/sessions.py:626-637",
+            "src/requests/api.py:118-130"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/api.py:103-115",
+            "tests/test_requests.py:2799-2802",
+            "docs/user/quickstart.rst:276-335"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/api.py:103-115",
+            "docs/user/quickstart.rst:276-335",
+            "tests/test_requests.py:2799-2802"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/api.py:103-115",
+            "tests/test_requests.py:2799-2802",
+            "docs/user/quickstart.rst:276-335"
+          ]
+        }
+      }
+    },
+    {
+      "id": "so_16511337",
+      "author": "stackoverflow",
+      "query": "Correct way to try/except using Python requests module?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/help.py:1-33",
+            "src/requests/compat.py:18-27",
+            "docs/community/faq.rst:56-89"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/help.py:1-33",
+            "tests/compat.py:1-13",
+            "src/requests/__init__.py:1-57"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "tests/test_requests.py:2729-2763",
+            "tests/test_requests.py:888-890",
+            "tests/test_requests.py:1104-1110"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/__init__.py:1-57",
+            "src/requests/help.py:1-33",
+            "src/requests/cookies.py:194-204"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/__init__.py:1-57",
+            "src/requests/cookies.py:194-204",
+            "src/requests/models.py:409-481"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/__init__.py:1-57",
+            "src/requests/help.py:1-33",
+            "src/requests/cookies.py:194-204"
+          ]
+        }
+      }
+    },
+    {
+      "id": "so_16694907",
+      "author": "stackoverflow",
+      "query": "Download a large file in Python with Requests",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/install.rst:1-36",
+            "docs/conf.py:355-386",
+            "HISTORY.md:221-280"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/install.rst:1-36",
+            "docs/conf.py:355-386",
+            "HISTORY.md:221-280"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.25,
+          "top3": [
+            "src/requests/utils.py:135-201",
+            "docs/user/advanced.rst:331-390",
+            "src/requests/api.py:14-59"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:331-390",
+            "docs/user/advanced.rst:331-390",
+            "src/requests/api.py:14-59"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:331-390",
+            "docs/user/quickstart.rst:331-390",
+            "src/requests/api.py:14-59"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:331-390",
+            "docs/user/quickstart.rst:331-390",
+            "src/requests/api.py:14-59"
+          ]
+        }
+      }
+    },
+    {
+      "id": "so_15445981",
+      "author": "stackoverflow",
+      "query": "How do I disable the security certificate check in Python's Requests?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/community/faq.rst:56-89",
+            "docs/user/advanced.rst:881-940",
+            "docs/make.bat:1-60"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/community/faq.rst:56-89",
+            "docs/user/advanced.rst:881-940",
+            "docs/make.bat:1-60"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/community/faq.rst:56-89",
+            "docs/user/advanced.rst:166-225",
+            "HISTORY.md:276-335"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/community/faq.rst:56-89",
+            "docs/user/advanced.rst:166-225",
+            "HISTORY.md:276-335"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.14285714285714285,
+          "top3": [
+            "docs/community/faq.rst:56-89",
+            "docs/user/advanced.rst:166-225",
+            "HISTORY.md:276-335"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.1111111111111111,
+          "top3": [
+            "docs/community/faq.rst:56-89",
+            "docs/user/advanced.rst:166-225",
+            "HISTORY.md:276-335"
+          ]
+        }
+      }
+    },
+    {
+      "id": "so_16877422",
+      "author": "stackoverflow",
+      "query": "How to parse a JSON response from the requests library",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "HISTORY.md:1376-1435",
+            "src/requests/models.py:1-84",
+            "HISTORY.md:1101-1160"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "HISTORY.md:1376-1435",
+            "src/requests/models.py:1-84",
+            "HISTORY.md:1101-1160"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:947-978",
+            "src/requests/adapters.py:359-394",
+            "src/requests/models.py:980-995"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "HISTORY.md:1376-1435",
+            "src/requests/models.py:947-978",
+            "HISTORY.md:166-225"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:947-978",
+            "src/requests/adapters.py:359-394",
+            "HISTORY.md:166-225"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:947-978",
+            "src/requests/adapters.py:359-394",
+            "HISTORY.md:166-225"
+          ]
+        }
+      }
+    },
+    {
+      "id": "so_12385179",
+      "author": "stackoverflow",
+      "query": "How to send a \"multipart/form-data\" with requests in python?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.14285714285714285,
+          "top3": [
+            "tests/test_utils.py:547-608",
+            "tests/test_requests.py:1789-1795",
+            "tests/test_requests.py:1797-1803"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.14285714285714285,
+          "top3": [
+            "tests/test_utils.py:547-608",
+            "tests/test_requests.py:1789-1795",
+            "tests/test_requests.py:1797-1803"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.25,
+          "top3": [
+            "docs/user/advanced.rst:386-445",
+            "tests/test_requests.py:1789-1795",
+            "src/requests/models.py:230-310"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.16666666666666666,
+          "top3": [
+            "tests/test_requests.py:1789-1795",
+            "tests/test_requests.py:1797-1803",
+            "docs/user/advanced.rst:386-445"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.25,
+          "top3": [
+            "tests/test_requests.py:1789-1795",
+            "docs/user/advanced.rst:386-445",
+            "tests/test_requests.py:1797-1803"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.16666666666666666,
+          "top3": [
+            "tests/test_requests.py:1789-1795",
+            "docs/user/advanced.rst:386-445",
+            "tests/test_requests.py:1797-1803"
+          ]
+        }
+      }
+    },
+    {
+      "id": "so_15115328",
+      "author": "stackoverflow",
+      "query": "Python Requests - No connection adapters",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/sessions.py:781-792",
+            "src/requests/sessions.py:799-808",
+            "src/requests/adapters.py:240-264"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/sessions.py:781-792",
+            "src/requests/sessions.py:799-808",
+            "src/requests/adapters.py:240-264"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/sessions.py:781-792",
+            "src/requests/adapters.py:165-201",
+            "src/requests/adapters.py:578-590"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/sessions.py:781-792",
+            "src/requests/adapters.py:165-201",
+            "src/requests/adapters.py:495-534"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/sessions.py:781-792",
+            "src/requests/adapters.py:578-590",
+            "src/requests/adapters.py:495-534"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/sessions.py:781-792",
+            "src/requests/adapters.py:165-201",
+            "src/requests/adapters.py:495-534"
+          ]
+        }
+      }
+    },
+    {
+      "id": "so_21965484",
+      "author": "stackoverflow",
+      "query": "Timeout for Python requests.get() entire response",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:496-555",
+            "docs/user/advanced.rst:1101-1141",
+            "tests/test_requests.py:2442-2508"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:496-555",
+            "docs/user/advanced.rst:1101-1141",
+            "tests/test_requests.py:2442-2508"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "tests/test_requests.py:2442-2508",
+            "docs/user/quickstart.rst:496-555",
+            "src/requests/exceptions.py:71-77"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.14285714285714285,
+          "top3": [
+            "docs/user/quickstart.rst:496-555",
+            "tests/test_requests.py:2442-2508",
+            "docs/user/advanced.rst:1101-1141"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.14285714285714285,
+          "top3": [
+            "docs/user/quickstart.rst:496-555",
+            "tests/test_requests.py:2442-2508",
+            "docs/user/advanced.rst:1101-1141"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.125,
+          "top3": [
+            "docs/user/quickstart.rst:496-555",
+            "tests/test_requests.py:2442-2508",
+            "docs/user/advanced.rst:1101-1141"
+          ]
+        }
+      }
+    },
+    {
+      "id": "so_15431044",
+      "author": "stackoverflow",
+      "query": "Can I set max_retries for requests.request?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/adapters.py:202-222",
+            "src/requests/adapters.py:165-201",
+            "tests/test_requests.py:2645-2652"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/adapters.py:202-222",
+            "src/requests/adapters.py:165-201",
+            "tests/test_requests.py:2645-2652"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.1,
+          "top3": [
+            "docs/user/advanced.rst:1046-1105",
+            "tests/test_requests.py:2645-2652",
+            "src/requests/adapters.py:165-201"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/adapters.py:202-222",
+            "src/requests/adapters.py:165-201",
+            "tests/test_requests.py:2645-2652"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.25,
+          "top3": [
+            "src/requests/adapters.py:165-201",
+            "tests/test_requests.py:2645-2652",
+            "docs/user/advanced.rst:1046-1105"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "src/requests/adapters.py:165-201",
+            "tests/test_requests.py:2645-2652",
+            "src/requests/adapters.py:202-222"
+          ]
+        }
+      }
+    },
+    {
+      "id": "so_6260457",
+      "author": "stackoverflow",
+      "query": "Using headers with the Python 'Requests' library's get() method",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:1-60",
+            "docs/user/advanced.rst:881-940",
+            "docs/user/advanced.rst:716-775"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:1-60",
+            "docs/user/advanced.rst:881-940",
+            "docs/user/advanced.rst:716-775"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:111-170",
+            "src/requests/sessions.py:593-602",
+            "tests/test_requests.py:1764-1787"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:111-170",
+            "docs/user/advanced.rst:936-995",
+            "docs/user/quickstart.rst:386-445"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:111-170",
+            "docs/user/advanced.rst:936-995",
+            "docs/user/quickstart.rst:386-445"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:111-170",
+            "docs/user/advanced.rst:936-995",
+            "docs/user/quickstart.rst:386-445"
+          ]
+        }
+      }
+    },
+    {
+      "id": "so_10606133",
+      "author": "stackoverflow",
+      "query": "Sending \"User-agent\" using Requests library in Python",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.16666666666666666,
+          "top3": [
+            "tests/test_requests.py:512-517",
+            "tests/test_requests.py:356-362",
+            "tests/test_requests.py:2360-2372"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.16666666666666666,
+          "top3": [
+            "tests/test_requests.py:512-517",
+            "tests/test_requests.py:356-362",
+            "tests/test_requests.py:2360-2372"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:891-897",
+            "tests/test_requests.py:512-517",
+            "README.md:1-60"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "tests/test_requests.py:512-517",
+            "tests/test_requests.py:356-362",
+            "src/requests/utils.py:891-897"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "tests/test_requests.py:512-517",
+            "src/requests/utils.py:891-897",
+            "README.md:1-60"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "tests/test_requests.py:512-517",
+            "src/requests/utils.py:891-897",
+            "tests/test_requests.py:356-362"
+          ]
+        }
+      }
+    },
+    {
+      "id": "so_23013220",
+      "author": "stackoverflow",
+      "query": "Max retries exceeded with URL in requests",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/adapters.py:202-222",
+            "tests/test_requests.py:2645-2652",
+            "src/requests/adapters.py:165-201"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/adapters.py:202-222",
+            "tests/test_requests.py:2645-2652",
+            "src/requests/adapters.py:165-201"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "tests/test_requests.py:250-263",
+            "src/requests/adapters.py:165-201",
+            "tests/test_requests.py:2645-2652"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/adapters.py:202-222",
+            "tests/test_requests.py:2645-2652",
+            "src/requests/adapters.py:165-201"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/adapters.py:165-201",
+            "tests/test_requests.py:2645-2652",
+            "tests/test_requests.py:250-263"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "tests/test_requests.py:2645-2652",
+            "src/requests/adapters.py:165-201",
+            "src/requests/adapters.py:202-222"
+          ]
+        }
+      }
+    },
+    {
+      "id": "so_8287628",
+      "author": "stackoverflow",
+      "query": "Proxies with Python 'Requests' module",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/compat.py:1-17",
+            "HISTORY.md:221-280",
+            "docs/user/advanced.rst:606-665"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/compat.py:1-17",
+            "docs/user/advanced.rst:606-665",
+            "tests/test_utils.py:493-509"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
+          "top3": [
+            "src/requests/utils.py:864-888",
+            "docs/user/advanced.rst:606-665",
+            "tests/test_requests.py:650-669"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:606-665",
+            "docs/user/advanced.rst:551-610",
+            "tests/test_utils.py:493-509"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
+          "top3": [
+            "docs/user/advanced.rst:606-665",
+            "docs/user/advanced.rst:551-610",
+            "src/requests/utils.py:864-888"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.1,
+          "top3": [
+            "docs/user/advanced.rst:606-665",
+            "docs/user/advanced.rst:551-610",
+            "src/requests/utils.py:864-888"
+          ]
+        }
+      }
+    },
+    {
+      "id": "so_15900338",
+      "author": "stackoverflow",
+      "query": "Python 'Requests' POST with param data",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/api.py:103-115",
+            "src/requests/sessions.py:626-637",
+            "tests/test_requests.py:2072-2080"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/api.py:103-115",
+            "tests/test_requests.py:2072-2080",
+            "src/requests/sessions.py:626-637"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/api.py:103-115",
+            "src/requests/sessions.py:626-637",
+            "tests/test_requests.py:2072-2080"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/api.py:103-115",
+            "tests/test_requests.py:2072-2080",
+            "src/requests/sessions.py:626-637"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/api.py:103-115",
+            "src/requests/sessions.py:626-637",
+            "tests/test_requests.py:2072-2080"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/api.py:103-115",
+            "src/requests/sessions.py:626-637",
+            "tests/test_requests.py:2072-2080"
+          ]
+        }
+      }
+    },
+    {
+      "id": "so_15258728",
+      "author": "stackoverflow",
+      "query": "How to tell if you're getting a 404",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/dev/contributing.rst:1-60",
+            "docs/user/quickstart.rst:331-390",
+            "docs/dev/contributing.rst:56-115"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/dev/contributing.rst:1-60",
+            "docs/user/quickstart.rst:331-390",
+            "docs/dev/contributing.rst:56-115"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "HISTORY.md:1871-1930",
+            "tests/test_lowlevel.py:364-404",
+            "src/requests/sessions.py:333-353"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/dev/contributing.rst:56-115",
+            "docs/dev/contributing.rst:1-60",
+            "docs/user/quickstart.rst:496-555"
+          ]
+        },
+        "rrf_only": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/dev/contributing.rst:56-115",
+            "docs/user/quickstart.rst:496-555",
+            "HISTORY.md:1101-1160"
+          ]
+        },
+        "dense_minmax": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/dev/contributing.rst:56-115",
+            "docs/user/quickstart.rst:496-555",
+            "docs/user/quickstart.rst:331-390"
           ]
         }
       }
