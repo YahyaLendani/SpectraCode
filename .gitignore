@@ -4,6 +4,8 @@ __pycache__/
 *$py.class
 *.so
 .Python
+.venv/
+venv/
 env/
 build/
 develop-eggs/
@@ -22,6 +24,7 @@ wheels/
 *.egg
 .pytest_cache/
 .mypy_cache/
+.ruff_cache/
 .env
 
 # Database & Storage

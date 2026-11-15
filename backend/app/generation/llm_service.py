@@ -2,12 +2,34 @@ from __future__ import annotations
 
 import asyncio
 import json
-import os
+import logging
 import time
-from typing import AsyncGenerator, List
+from dataclasses import dataclass
+from typing import AsyncGenerator, List, Literal, Optional
 
+import httpx
+from google import genai
+from google.genai import errors as genai_errors
+
+from app.core.config import settings
 from app.generation.citation_engine import SYSTEM_PROMPT_TEMPLATE, GroundedCitationEngine, GroundedResponse
 from app.retrieval.hybrid_retriever import RetrievedChunk
+
+logger = logging.getLogger(__name__)
+
+# Errors that mean "Gemini could not answer this time": API rejections (bad key, quota,
+# safety block, server error) and network failures. Anything else is a bug in our code and
+# is allowed to raise instead of being hidden behind the template fallback.
+_GEMINI_FAILURES = (genai_errors.APIError, httpx.HTTPError, TimeoutError)
+
+
+@dataclass
+class GeneratedText:
+    """Raw answer text plus which generator produced it."""
+
+    text: str
+    source: Literal["gemini", "template"]
+    fallback_reason: Optional[str] = None
 
 
 class LLMService:
@@ -36,11 +58,11 @@ class LLMService:
             return
 
         # Attempt generation via Gemini / Vertex AI or local grounded generator
-        raw_text = await self._generate_grounded_text(query, retrieved_chunks)
+        generated = await self.generate_grounded_text(query, retrieved_chunks)
 
         # Verify citations against retrieved chunk intervals
         grounded_resp: GroundedResponse = self.citation_engine.verify_and_sanitize_response(
-            raw_text, retrieved_chunks, query
+            generated.text, retrieved_chunks, query
         )
 
         # Stream words/tokens to client
@@ -72,34 +94,58 @@ class LLMService:
 
         latency_ms = int((time.time() - start_time) * 1000)
         yield f"data: {json.dumps({'type': 'citations', 'citations': citations_data, 'rejected': rejected_data})}\n\n"
-        yield f"data: {json.dumps({'type': 'done', 'is_abstained': grounded_resp.is_abstained, 'citations': citations_data, 'latency_ms': latency_ms})}\n\n"
+        yield f"data: {json.dumps({'type': 'done', 'is_abstained': grounded_resp.is_abstained, 'citations': citations_data, 'latency_ms': latency_ms, 'generation_source': generated.source})}\n\n"
 
-    async def _generate_grounded_text(
-        self, query: str, retrieved_chunks: List[RetrievedChunk]
-    ) -> str:
-        """
-        Attempts external LLM (Gemini) if available; otherwise uses deterministic
-        high-fidelity code intelligence generation with accurate citations.
-        """
-        gemini_key = os.getenv("GEMINI_API_KEY")
-        if gemini_key:
-            try:
-                from google import genai
-                client = genai.Client(api_key=gemini_key)
-                prompt = self.citation_engine.compile_prompt(query, retrieved_chunks)
-                resp = await asyncio.to_thread(
-                    client.models.generate_content,
-                    model="gemini-2.5-flash",
-                    contents=prompt,
-                    config={"system_instruction": SYSTEM_PROMPT_TEMPLATE},
-                )
-                if resp and resp.text:
-                    return resp.text
-            except Exception:
-                pass
+    async def generate_grounded_text(self, query: str, retrieved_chunks: List[RetrievedChunk]) -> GeneratedText:
+        """Answer with Gemini when it is configured, otherwise with the extractive template.
 
-        # Deterministic Grounded Engine
-        return self._generate_deterministic_explanation(query, retrieved_chunks)
+        The result records which generator answered, so callers (the chat stream, the
+        evaluation harness) never mistake a template answer for a model answer.
+        """
+        if settings.LLM_PROVIDER != "gemini":
+            return self._template(query, retrieved_chunks, reason=f"LLM_PROVIDER={settings.LLM_PROVIDER}")
+        if not settings.GEMINI_API_KEY:
+            return self._template(query, retrieved_chunks, reason="GEMINI_API_KEY not set")
+
+        prompt = self.citation_engine.compile_prompt(query, retrieved_chunks)
+        started = time.perf_counter()
+        try:
+            client = genai.Client(api_key=settings.GEMINI_API_KEY)
+            resp = await asyncio.to_thread(
+                client.models.generate_content,
+                model=settings.GEMINI_MODEL,
+                contents=prompt,
+                config={"system_instruction": SYSTEM_PROMPT_TEMPLATE},
+            )
+        except _GEMINI_FAILURES as exc:
+            # Log the error type and message only, never the prompt: it contains the user's code.
+            return self._template(
+                query, retrieved_chunks, reason=f"{type(exc).__name__}: {exc}", level=logging.WARNING
+            )
+
+        if not (resp and resp.text):
+            return self._template(query, retrieved_chunks, reason="Gemini returned no text", level=logging.WARNING)
+
+        logger.info(
+            "llm_answer",
+            extra={
+                "provider": "gemini",
+                "model": settings.GEMINI_MODEL,
+                "latency_ms": int((time.perf_counter() - started) * 1000),
+                "chunks": len(retrieved_chunks),
+            },
+        )
+        return GeneratedText(text=resp.text, source="gemini")
+
+    def _template(
+        self, query: str, retrieved_chunks: List[RetrievedChunk], reason: str, level: int = logging.INFO
+    ) -> GeneratedText:
+        logger.log(level, "llm_fallback", extra={"provider": settings.LLM_PROVIDER, "reason": reason})
+        return GeneratedText(
+            text=self._generate_deterministic_explanation(query, retrieved_chunks),
+            source="template",
+            fallback_reason=reason,
+        )
 
     # Only chunks scoring within this fraction of the top chunk are cited by the deterministic generator.
     RELATIVE_CITATION_CUTOFF = 0.90

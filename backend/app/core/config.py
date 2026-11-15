@@ -37,9 +37,15 @@ class Settings(BaseSettings):
     DEFAULT_TOP_K: int = 8
     
     # LLM Settings
-    LLM_PROVIDER: str = "gemini"  # "gemini" | "openai" | "mock"
-    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
-    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    # "gemini" calls Gemini when GEMINI_API_KEY is set; "template" always uses the built-in
+    # extractive generator. Keys are read from the environment or backend/.env.
+    LLM_PROVIDER: str = "gemini"
+    GEMINI_API_KEY: str = ""
+    GEMINI_MODEL: str = "gemini-2.5-flash"
+    OPENAI_API_KEY: str = ""
+
+    # Logging
+    LOG_LEVEL: str = "INFO"
     
     # CORS
     CORS_ORIGINS: List[str] = [

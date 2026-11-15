@@ -146,7 +146,7 @@ async def run_evaluation_benchmark(
                 reason or "No relevant code found.", chunks
             )
         else:
-            grounded_text = await llm_service._generate_grounded_text(item.query_text, chunks)
+            grounded_text = (await llm_service.generate_grounded_text(item.query_text, chunks)).text
             verified_resp = citation_engine.verify_and_sanitize_response(
                 grounded_text, chunks, item.query_text
             )

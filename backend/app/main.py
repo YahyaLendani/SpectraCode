@@ -10,9 +10,11 @@ from sqlalchemy import select
 
 from app.api.router import api_router
 from app.core.config import settings
+from app.core.logging import configure_logging
 from app.db.models import IndexingStatus, Repository
 from app.db.session import AsyncSessionLocal, init_db
 
+configure_logging(settings.LOG_LEVEL)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):

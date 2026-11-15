@@ -242,8 +242,10 @@
           <h3><span class="roundel" aria-hidden="true">1</span> Start the backend</h3>
 <pre><code>git clone https://github.com/YahyaLendani/SpectraCode.git
 cd SpectraCode/backend
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000</code></pre>
+python -m venv .venv
+# PowerShell: .\.venv\Scripts\Activate.ps1  |  Unix: source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m uvicorn app.main:app --reload --port 8000</code></pre>
         </div>
         <div>
           <h3><span class="roundel" aria-hidden="true">2</span> Start the frontend</h3>

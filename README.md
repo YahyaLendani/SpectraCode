@@ -9,7 +9,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-14.2.35-000000.svg?logo=next.js&logoColor=white)](https://nextjs.org)
 [![Tree-sitter](https://img.shields.io/badge/Tree--sitter-AST%20Call--Graph-2b5b84.svg)](https://tree-sitter.github.io/tree-sitter/)
 [![Vector Search](https://img.shields.io/badge/RAG-Hybrid%20RRF%20%2B%201--Hop%20AST-indigo.svg)](#2--hybrid-rrf-retrieval--1-hop-ast-call-graph-expansion)
-[![Tests](https://img.shields.io/badge/Pytest-18%20Passed%20(100%25)-brightgreen.svg)](#-automated-testing)
+[![Tests](https://img.shields.io/badge/Pytest-28%20Passed%20(100%25)-brightgreen.svg)](#-automated-testing--benchmark-results)
 
 ---
 
@@ -155,7 +155,7 @@ Workspaces can be safely removed with immediate optimistic UI updates, backgroun
 | **Source Parsing** | Tree-sitter (`python`, `typescript`, `javascript`) | C-compiled syntax tree analysis, symbol extraction, and 1-hop call-graph resolution |
 | **Embeddings** | FastEmbed (`BAAI/bge-small-en-v1.5`) | Zero-cost, low-latency local ONNX vector inference (384 dimensions) |
 | **Database** | PostgreSQL 16 (`pgvector`) / SQLite (`aiosqlite`) | Production `pgvector` support with zero-config SQLite local development fallback |
-| **Testing** | Pytest, `pytest-asyncio`, HTTPX | 100% automated test pass rate (15 unit & integration tests) |
+| **Testing** | Pytest, `pytest-asyncio`, HTTPX | 100% automated test pass rate (28 unit & integration tests) |
 | **Deployment** | Docker, Docker Compose | Unified multi-container orchestration |
 
 ---
@@ -188,13 +188,20 @@ Workspaces can be safely removed with immediate optimistic UI updates, backgroun
 # Navigate to backend
 cd backend
 
+# Create and activate a virtual environment
+python -m venv .venv
+# PowerShell:
+.\.venv\Scripts\Activate.ps1
+# macOS / Linux:
+# source .venv/bin/activate
+
 # Install dependencies
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 
 # Run FastAPI server (runs on http://localhost:8000)
-uvicorn app.main:app --reload --port 8000
+python -m uvicorn app.main:app --reload --port 8000
 ```
-*Note: On first startup, SpectraCode automatically seeds and indexes the built-in `fastapi-cloudflow` microservice sample repository.*
+*Note: Running `python -m uvicorn` invokes Uvicorn directly through the active Python interpreter (preventing `PATH` lookup failures when global `Scripts` directories are not on `PATH`). On first startup, SpectraCode automatically seeds and indexes the built-in `fastapi-cloudflow` microservice sample repository.*
 
 #### 2. Frontend Setup
 ```bash
@@ -222,22 +229,23 @@ docker-compose up --build
 
 ## 🧪 Automated Testing & Benchmark Results
 
-SpectraCode includes a 15-test automated suite in `backend/tests/`:
+SpectraCode includes a 28-test automated suite in `backend/tests/`:
 
 ```bash
 cd backend
 python -m pytest tests/ -v
 ```
 
-### Test Suite Breakdown (15 Passed — 100% Pass Rate):
+### Test Suite Breakdown (28 Passed — 100% Pass Rate):
 - `test_ast_chunker.py`: Verifies Tree-sitter Python & TypeScript parsing, symbol extraction, docstring binding, and 1-indexed line intervals.
 - `test_hybrid_retriever.py`: Verifies `CodeQueryNormalizer` identifier splitting, dynamic $\alpha$ tuning, vectorized batch cosine similarity, and 1-hop AST symbol extraction (`_extract_referenced_symbols`).
 - `test_citation_engine.py`: Verifies exact interval containment, clamped boundary overlaps, hallucinated file rejection, and pre-/post-generation abstention gates.
-- `test_evaluator.py`: Verifies `Recall@K`, `MRR`, `Citation Precision`, `Citation Recall`, `Citation F1`, and `Faithfulness` metric formulas.
+- `test_evaluator.py`: Verifies `Recall@K`, `MRR`, `Citation Precision`, `Citation Recall`, `Citation F1`, `Faithfulness`, and dynamic AST benchmark suite generation.
+- `test_llm_service.py`: Verifies Gemini grounded generation, visible fallback to template responses on API/network failures without leaking source code to logs, SSE generation-source reporting, and JSON log formatting.
 - `test_api.py`: Verifies `/health`, `/`, and repository lifecycle API endpoints.
 
 ```text
-15 passed in 1.62s (100% pass rate)
+28 passed in 3.10s (100% pass rate)
 ```
 
 ### Quantitative Benchmark Ledger (`SpectraCode Core Codebase Benchmark v1`)
@@ -267,7 +275,9 @@ SpectraCode/
 │   │   │   │   ├── chat.py            # Streaming SSE chat with verified citations
 │   │   │   │   └── evaluation.py      # Quantitative benchmark runner & tuning
 │   │   │   └── router.py
-│   │   ├── core/config.py             # Pydantic settings & environment configuration
+│   │   ├── core/
+│   │   │   ├── config.py              # Pydantic settings & environment configuration
+│   │   │   └── logging.py             # Structured JSON logging formatter
 │   │   ├── db/
 │   │   │   ├── session.py             # Async engine & schema lifecycle
 │   │   │   └── models.py              # SQLAlchemy models (pgvector + SQLite)
@@ -286,7 +296,7 @@ SpectraCode/
 │   │   │   ├── benchmark_dataset.py   # Curated test queries with ground-truth spans
 │   │   │   └── evaluator.py           # Recall@K, MRR, Citation Precision/Recall/F1, Faithfulness
 │   │   └── main.py                    # FastAPI application entrypoint
-│   ├── tests/                         # 15 unit & integration tests (100% pass rate)
+│   ├── tests/                         # 28 unit & integration tests (100% pass rate)
 │   ├── Dockerfile
 │   └── requirements.txt
 ├── frontend/
