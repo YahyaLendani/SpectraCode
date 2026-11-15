@@ -31,6 +31,14 @@ class Settings(BaseSettings):
     MAX_CHUNK_CHARS: int = 3000
     MIN_CHUNK_CHARS: int = 100
     OVERLAP_LINES: int = 4
+
+    # Import limits: a repository over any of these fails with a clear message instead of
+    # filling the disk or tying up the indexing worker. Defaults come from measured local
+    # throughput (~5 chunks/s embedding on CPU), so MAX_CHUNKS is roughly 15-20 minutes.
+    MAX_CHECKOUT_MB: float = 250
+    MAX_INDEXED_FILES: int = 3000
+    MAX_CHUNKS: int = 5000
+    INDEXING_TIMEOUT_SECONDS: float = 1800
     
     # RAG & Citations
     MIN_RELEVANCE_SCORE: float = 0.18

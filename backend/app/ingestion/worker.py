@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
+import itertools
+import shutil
 import uuid
 from dataclasses import dataclass
 from pathlib import Path
@@ -21,7 +23,11 @@ from app.db.models import (
     SymbolKind,
 )
 from app.ingestion.ast_chunker import CodeASTChunker
-from app.ingestion.git_importer import GitRepositoryImporter, SampleRepositoryFactory
+from app.ingestion.git_importer import (
+    GitRepositoryImporter,
+    RepositoryLimitError,
+    SampleRepositoryFactory,
+)
 from app.retrieval.embeddings import EmbeddingService
 
 
@@ -100,6 +106,12 @@ class RepositoryIndexingWorker:
                         repo.clone_url,
                         repo_dir,
                     )
+                    try:
+                        GitRepositoryImporter.enforce_checkout_size(repo_dir)
+                    except RepositoryLimitError:
+                        # We created this checkout; don't leave an oversized one on disk.
+                        shutil.rmtree(repo_dir, ignore_errors=True)
+                        raise
                 repo.last_indexed_commit_sha = commit_sha
 
             # 3. AST Parsing & Chunking Stage (with idempotent cleanup of existing records)
@@ -123,7 +135,15 @@ class RepositoryIndexingWorker:
                 overlap_lines=settings.OVERLAP_LINES,
             )
 
-            discovered_files = list(GitRepositoryImporter.scan_files(repo_dir))
+            # islice stops the scan (and its in-memory file contents) one file past the limit.
+            discovered_files = list(
+                itertools.islice(GitRepositoryImporter.scan_files(repo_dir), settings.MAX_INDEXED_FILES + 1)
+            )
+            if len(discovered_files) > settings.MAX_INDEXED_FILES:
+                raise RepositoryLimitError(
+                    f"Repository has more than {settings.MAX_INDEXED_FILES} indexable files; "
+                    f"the limit is {settings.MAX_INDEXED_FILES}."
+                )
             repo.total_files = len(discovered_files)
 
             all_chunks_payloads = []
@@ -204,6 +224,10 @@ class RepositoryIndexingWorker:
                     all_db_chunks.append(db_chunk)
                     all_chunks_payloads.append((chunk_id, ch.contextualized_text))
 
+            if len(all_db_chunks) > settings.MAX_CHUNKS:
+                raise RepositoryLimitError(
+                    f"Repository produces {len(all_db_chunks)} code chunks; the limit is {settings.MAX_CHUNKS}."
+                )
             repo.total_chunks = len(all_db_chunks)
 
             # Persist files, symbols, chunks

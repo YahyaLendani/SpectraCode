@@ -9,7 +9,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-15.5.29-000000.svg?logo=next.js&logoColor=white)](https://nextjs.org)
 [![Tree-sitter](https://img.shields.io/badge/Tree--sitter-AST%20Call--Graph-2b5b84.svg)](https://tree-sitter.github.io/tree-sitter/)
 [![Vector Search](https://img.shields.io/badge/RAG-Hybrid%20RRF%20%2B%201--Hop%20AST-indigo.svg)](#2--hybrid-rrf-retrieval--1-hop-ast-call-graph-expansion)
-[![Tests](https://img.shields.io/badge/Pytest-50%20Passed-brightgreen.svg)](#-automated-testing--benchmark-results)
+[![Tests](https://img.shields.io/badge/Pytest-56%20Passed-brightgreen.svg)](#-automated-testing--benchmark-results)
 
 ---
 
@@ -75,7 +75,8 @@ Workspaces can be safely removed with immediate optimistic UI updates, backgroun
 
 ### 2. ⚡ Hybrid RRF Retrieval & 1-Hop AST Call-Graph Expansion
 - **Dense Vector Search**: Generates 384-dimensional embeddings via local ONNX runtime (`BAAI/bge-small-en-v1.5`), eliminating external latency and API token costs.
-- **Sparse Code Lexical Search**: Okapi BM25 over code-aware tokens: file path, symbol name and code, with `camelCase`, `PascalCase`, and `snake_case` identifiers expanded (`verifyJWTToken` $ightarrow$ `verify jwt token`).
+- **Sparse Code Lexical Search**: Okapi BM25 over code-aware tokens: file path, symbol name and code, with `camelCase`, `PascalCase`, and `snake_case` identifiers expanded (`verifyJWTToken` $
+ightarrow$ `verify jwt token`).
 - **Reciprocal Rank Fusion (RRF)**: Dynamically weights vector vs. keyword importance ($\alpha = 0.35$ for explicit code identifiers/paths, $\alpha = 0.55$ for conceptual architectural queries) followed by score calibration.
 - **1-Hop AST Call-Graph Context Expansion**:
   - Automatically extracts referenced function calls and type identifiers from top-ranked primary chunks (`_extract_referenced_symbols`).
@@ -148,7 +149,7 @@ Workspaces can be safely removed with immediate optimistic UI updates, backgroun
 | **Source Parsing** | Tree-sitter (`python`, `typescript`, `javascript`) | C-compiled syntax tree analysis, symbol extraction, and 1-hop call-graph resolution |
 | **Embeddings** | FastEmbed (`BAAI/bge-small-en-v1.5`) | Zero-cost, low-latency local ONNX vector inference (384 dimensions) |
 | **Database** | PostgreSQL 16 (`pgvector`) / SQLite (`aiosqlite`) | Production `pgvector` support with zero-config SQLite local development fallback |
-| **Testing** | Pytest, `pytest-asyncio`, HTTPX | 50 unit & integration tests, run in CI |
+| **Testing** | Pytest, `pytest-asyncio`, HTTPX | 56 unit & integration tests, run in CI |
 | **Deployment** | Docker, Docker Compose | Unified multi-container orchestration |
 
 ---
@@ -211,6 +212,17 @@ Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 
 ---
 
+### Import limits
+
+Imports that exceed any of these limits stop with a readable error shown on the dashboard, instead of filling the disk or tying up the indexing worker. Override them as environment variables or in `backend/.env`:
+
+| Setting | Default | What it bounds |
+| :--- | :--- | :--- |
+| `MAX_CHECKOUT_MB` | `250` | Working-tree size after cloning (`.git` excluded); an oversized checkout is deleted |
+| `MAX_INDEXED_FILES` | `3000` | Source files indexed (files over 1 MB, binaries, hidden folders and dependency or build folders such as `node_modules` and `dist` are already skipped) |
+| `MAX_CHUNKS` | `5000` | Code chunks embedded; roughly 15–20 minutes at the ~5 chunks/s measured on a laptop CPU |
+| `INDEXING_TIMEOUT_SECONDS` | `1800` | Wall-clock time for the whole indexing run |
+
 ### Option 2: Docker Compose (Full Production Stack)
 
 ```bash
@@ -222,7 +234,7 @@ docker-compose up --build
 
 ## 🧪 Automated Testing & Benchmark Results
 
-SpectraCode includes a 50-test automated suite in `backend/tests/` (run in CI on every push):
+SpectraCode includes a 56-test automated suite in `backend/tests/` (run in CI on every push):
 
 ```bash
 cd backend
@@ -236,6 +248,7 @@ python -m pytest tests/ -v
 - `test_evaluator.py`: Verifies `Recall@K`, `MRR`, `Citation Precision`, `Citation Recall`, `Citation F1`, citation grounding (`faithfulness`), and dynamic AST benchmark suite generation.
 - `test_llm_service.py`: Verifies Gemini grounded generation, visible fallback to template responses on API/network failures without leaking source code to logs, SSE generation-source reporting, and JSON log formatting.
 - `test_api.py`: Verifies `/health`, `/`, and repository lifecycle API endpoints.
+- `test_import_limits.py`: Checkout-size, file-count, chunk-count and indexing-timeout limits fail with a clear message.
 - `test_sample_identifier.py`: Only the exact `sample:fastapi` identifier selects the bundled demo repo.
 - `test_retrieval_eval.py`: BM25 baseline, Recall@K / MRR relevance rules, bootstrap intervals and suite validation.
 
@@ -308,7 +321,7 @@ SpectraCode/
 │   │   │   ├── benchmark_dataset.py   # Curated test queries with ground-truth spans
 │   │   │   └── evaluator.py           # Recall@K, MRR, Citation Precision/Recall/F1, citation grounding
 │   │   └── main.py                    # FastAPI application entrypoint
-│   ├── tests/                         # 50 unit & integration tests
+│   ├── tests/                         # 56 unit & integration tests
 │   ├── Dockerfile
 │   └── requirements.txt
 ├── frontend/

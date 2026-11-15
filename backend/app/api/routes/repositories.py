@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 import os
 import shutil
 import stat
@@ -31,9 +32,15 @@ from app.db.models import (
 )
 from app.db.session import AsyncSessionLocal, get_db
 from app.ingestion.dependency_analyzer import CodebaseDependencyAnalyzer
-from app.ingestion.git_importer import SAMPLE_REPO_ID, GitRepositoryImporter, is_sample_identifier
+from app.ingestion.git_importer import (
+    SAMPLE_REPO_ID,
+    GitRepositoryImporter,
+    RepositoryLimitError,
+    is_sample_identifier,
+)
 from app.ingestion.worker import IndexingProgressTracker, RepositoryIndexingWorker
 
+logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/repositories", tags=["Repositories"])
 
 DEPENDENCY_CACHE_VERSION = "dependency_graph_v2"
@@ -162,9 +169,40 @@ class SymbolResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
+async def _mark_indexing_failed(repo_id: uuid.UUID, message: str) -> None:
+    # Fresh session: the timed-out one may have been cancelled mid-transaction.
+    async with AsyncSessionLocal() as session:
+        await session.execute(
+            update(Repository)
+            .where(Repository.id == repo_id)
+            .values(status=IndexingStatus.FAILED, error_message=message)
+        )
+        await session.commit()
+    IndexingProgressTracker.update(repo_id, stage="failed", pct=0, error=message)
+
+
 async def run_indexing_task(repo_id: uuid.UUID) -> None:
     async with AsyncSessionLocal() as session:
-        await RepositoryIndexingWorker.index_repository(session, repo_id)
+        try:
+            await asyncio.wait_for(
+                RepositoryIndexingWorker.index_repository(session, repo_id),
+                timeout=settings.INDEXING_TIMEOUT_SECONDS,
+            )
+        except TimeoutError:
+            await _mark_indexing_failed(
+                repo_id,
+                f"Indexing took longer than {settings.INDEXING_TIMEOUT_SECONDS:g} seconds and was stopped.",
+            )
+            logger.warning("indexing_timeout", extra={"repository_id": str(repo_id)})
+            return
+        # The worker has already marked the repository FAILED with the message. Re-raising out
+        # of a background task would only add an unhandled-ASGI-error traceback to the logs.
+        except RepositoryLimitError as exc:
+            logger.warning("indexing_limit_exceeded", extra={"repository_id": str(repo_id), "reason": str(exc)})
+            return
+        except Exception:
+            logger.exception("indexing_failed", extra={"repository_id": str(repo_id)})
+            return
 
         # Pre-compute and persist dependency graph right after indexing finishes
         stmt_repo = (

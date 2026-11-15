@@ -8,8 +8,14 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, Generator, Set, Tuple
 
+from app.core.config import settings
+
 # Identifier (and stored clone_url) of the bundled demo repository.
 SAMPLE_REPO_ID = "sample:fastapi"
+
+
+class RepositoryLimitError(RuntimeError):
+    """A repository exceeds a configured import limit. The message is shown to the user."""
 
 
 def is_sample_identifier(value: str) -> bool:
@@ -88,6 +94,29 @@ class GitRepositoryImporter:
             return owner, name, f"https://github.com/{owner}/{name}.git"
 
         raise ValueError(f"Invalid GitHub repository identifier or URL: '{repo_input}'")
+
+    @staticmethod
+    def checkout_size_bytes(repo_dir: Path) -> int:
+        """Size of the working tree, excluding .git (history is not indexed)."""
+        total = 0
+        for root, dirs, files in os.walk(repo_dir):
+            dirs[:] = [d for d in dirs if d != ".git"]
+            for name in files:
+                try:
+                    total += (Path(root) / name).lstat().st_size
+                except OSError:
+                    continue
+        return total
+
+    @classmethod
+    def enforce_checkout_size(cls, repo_dir: Path) -> None:
+        size = cls.checkout_size_bytes(repo_dir)
+        limit = settings.MAX_CHECKOUT_MB * 1024 * 1024
+        if size > limit:
+            raise RepositoryLimitError(
+                f"Repository checkout is {size / 1024 / 1024:.1f} MB; "
+                f"the limit is {settings.MAX_CHECKOUT_MB:g} MB."
+            )
 
     @classmethod
     def clone_repository(cls, clone_url: str, target_dir: Path) -> str:
