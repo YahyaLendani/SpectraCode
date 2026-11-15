@@ -1,4 +1,3 @@
-import pytest
 from app.ingestion.ast_chunker import CodeASTChunker, SupportedLanguage
 
 

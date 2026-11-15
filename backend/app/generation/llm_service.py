@@ -4,9 +4,9 @@ import asyncio
 import json
 import os
 import time
-from typing import AsyncGenerator, Dict, List, Optional
-from app.core.config import settings
-from app.generation.citation_engine import GroundedCitationEngine, GroundedResponse, SYSTEM_PROMPT_TEMPLATE
+from typing import AsyncGenerator, List
+
+from app.generation.citation_engine import SYSTEM_PROMPT_TEMPLATE, GroundedCitationEngine, GroundedResponse
 from app.retrieval.hybrid_retriever import RetrievedChunk
 
 
@@ -139,7 +139,7 @@ class LLMService:
         for chunk in top_chunks:
             citation = f"[{chunk.file_path}:{chunk.start_line}-{chunk.end_line}]"
             symbol_desc = f"`{chunk.symbol_name}`" if chunk.symbol_name else "Code block"
-            lines_preview = [l.strip() for l in chunk.raw_code.splitlines() if l.strip() and not l.strip().startswith(("#", "//", "/*"))][:2]
+            lines_preview = [line.strip() for line in chunk.raw_code.splitlines() if line.strip() and not line.strip().startswith(("#", "//", "/*"))][:2]
             preview_str = f" (`{' '.join(lines_preview)}`)" if lines_preview else ""
             parts.append(
                 f"- **{chunk.file_path}**: {symbol_desc}{preview_str} handles this logic at {citation}."

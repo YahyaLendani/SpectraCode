@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
+import uuid
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional
-import uuid
+from typing import Any, Dict, Optional
 
 from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -20,7 +20,7 @@ from app.db.models import (
     RepositoryFile,
     SymbolKind,
 )
-from app.ingestion.ast_chunker import CodeASTChunker, ExtractedSymbol
+from app.ingestion.ast_chunker import CodeASTChunker
 from app.ingestion.git_importer import GitRepositoryImporter, SampleRepositoryFactory
 from app.retrieval.embeddings import EmbeddingService
 
@@ -242,7 +242,7 @@ class RepositoryIndexingWorker:
                     )
 
                 all_db_embeddings = []
-                for (chunk_id, _), vec in zip(all_chunks_payloads, embeddings_list):
+                for (chunk_id, _), vec in zip(all_chunks_payloads, embeddings_list, strict=True):
                     all_db_embeddings.append(
                         ChunkEmbedding(
                             id=uuid.uuid4(),

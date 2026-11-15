@@ -6,9 +6,7 @@ import shutil
 import subprocess
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Generator, List, Optional, Set, Tuple
-
-from app.core.config import settings
+from typing import Dict, Generator, Set, Tuple
 
 
 @dataclass
@@ -103,7 +101,7 @@ class GitRepositoryImporter:
         ]
 
         try:
-            res = subprocess.run(
+            subprocess.run(
                 cmd,
                 capture_output=True,
                 text=True,
@@ -111,9 +109,9 @@ class GitRepositoryImporter:
                 check=True,
             )
         except subprocess.CalledProcessError as e:
-            raise RuntimeError(f"Git clone failed: {e.stderr or e.stdout}")
-        except subprocess.TimeoutExpired:
-            raise RuntimeError(f"Git clone timed out after 120s for {clone_url}")
+            raise RuntimeError(f"Git clone failed: {e.stderr or e.stdout}") from e
+        except subprocess.TimeoutExpired as e:
+            raise RuntimeError(f"Git clone timed out after 120s for {clone_url}") from e
 
         # Get commit SHA
         try:

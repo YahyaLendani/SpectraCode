@@ -3,11 +3,11 @@ from __future__ import annotations
 import asyncio
 import json
 import os
-from pathlib import Path
 import shutil
 import stat
-from typing import Any, Dict, List, Optional, Sequence, Tuple
 import uuid
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
 from fastapi.responses import StreamingResponse
@@ -215,7 +215,7 @@ async def import_repository(
         try:
             owner, name, clone_url = GitRepositoryImporter.parse_repo_identifier(url_input)
         except ValueError as e:
-            raise HTTPException(status_code=400, detail=str(e))
+            raise HTTPException(status_code=400, detail=str(e)) from e
 
     # Check if already imported
     stmt = (

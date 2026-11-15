@@ -2,9 +2,9 @@ from __future__ import annotations
 
 import dataclasses
 import re
+import uuid
 from dataclasses import dataclass
 from typing import Dict, List, Optional
-import uuid
 
 import numpy as np
 from rapidfuzz import fuzz

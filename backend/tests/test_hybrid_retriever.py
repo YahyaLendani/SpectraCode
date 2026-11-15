@@ -1,5 +1,5 @@
 import numpy as np
-import pytest
+
 from app.ingestion.ast_chunker import CodeQueryNormalizer
 from app.retrieval.embeddings import EmbeddingService
 from app.retrieval.hybrid_retriever import HybridCodeRetriever
@@ -46,6 +46,7 @@ def test_batch_cosine_similarity():
 
 def test_extract_referenced_symbols():
     import uuid
+
     from app.retrieval.hybrid_retriever import RetrievedChunk
 
     retriever = HybridCodeRetriever()

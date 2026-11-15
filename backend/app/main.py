@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import asyncio
-from contextlib import asynccontextmanager
 import uuid
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,7 +12,6 @@ from app.api.router import api_router
 from app.core.config import settings
 from app.db.models import IndexingStatus, Repository
 from app.db.session import AsyncSessionLocal, init_db
-from app.ingestion.worker import RepositoryIndexingWorker
 
 
 @asynccontextmanager

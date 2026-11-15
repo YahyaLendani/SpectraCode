@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import re
-from typing import List, Tuple
 import uuid
+from typing import List, Tuple
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession

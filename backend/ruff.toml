@@ -1,0 +1,17 @@
+# Python lint and format settings for the backend.
+# Starts from ruff's default rule set (pyflakes plus core pycodestyle errors) and adds
+# import sorting and a few bug-catching rules. Widen the selection gradually rather than
+# reformatting the whole codebase in one change.
+target-version = "py311"   # matches the Docker image (python:3.11-slim)
+line-length = 120
+extend-exclude = ["data", "graphify-out"]
+
+[lint]
+extend-select = [
+    "I",    # import order
+    "B",    # likely bugs (mutable defaults, unused loop variables, ...)
+]
+
+[lint.flake8-bugbear]
+# FastAPI declares dependencies and parameters as default-argument calls; that is intended.
+extend-immutable-calls = ["fastapi.Depends", "fastapi.Query", "fastapi.Path", "fastapi.Header", "fastapi.Body"]

@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import re
+import uuid
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional, Sequence, Tuple
-import uuid
+from typing import Dict, List, Optional, Sequence, Tuple
 
 from app.retrieval.hybrid_retriever import RetrievedChunk
 

@@ -3,8 +3,10 @@ from __future__ import annotations
 import asyncio
 from collections import OrderedDict
 from typing import List, Sequence
+
 import numpy as np
 from fastembed import TextEmbedding
+
 from app.core.config import settings
 
 
