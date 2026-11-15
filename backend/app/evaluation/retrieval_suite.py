@@ -1,4 +1,5 @@
 """Loading and integrity checks for hand-labelled retrieval suites (eval/suites/*.json)."""
+
 from __future__ import annotations
 
 import json

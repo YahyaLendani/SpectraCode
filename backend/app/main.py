@@ -16,6 +16,7 @@ from app.db.session import AsyncSessionLocal, init_db
 
 configure_logging(settings.LOG_LEVEL)
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # 1. Initialize DB schema
@@ -42,6 +43,7 @@ async def lifespan(app: FastAPI):
 
             # Fire initial indexing in background task with dedicated session
             from app.api.routes.repositories import run_indexing_task
+
             asyncio.create_task(run_indexing_task(sample_repo.id))
 
     yield
@@ -90,5 +92,5 @@ async def root():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
 
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)

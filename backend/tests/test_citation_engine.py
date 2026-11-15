@@ -127,5 +127,3 @@ def test_citation_deduplication():
     assert not resp.is_abstained
     assert len(resp.verified_citations) == 1
     assert resp.verified_citations[0].canonical_marker == "[src/auth/jwt.py:15-30]"
-
-

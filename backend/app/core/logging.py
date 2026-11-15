@@ -9,6 +9,7 @@ One object per line is easy to grep locally and is what log collectors (Docker, 
 Grafana Loki, CloudWatch) parse without extra configuration. Put the facts in `extra={...}`
 rather than formatting them into the message, so they arrive as separate fields.
 """
+
 from __future__ import annotations
 
 import json
@@ -23,7 +24,9 @@ _STANDARD_ATTRS = set(logging.makeLogRecord({}).__dict__) | {"message", "asctime
 class JsonFormatter(logging.Formatter):
     def format(self, record: logging.LogRecord) -> str:
         payload = {
-            "ts": datetime.fromtimestamp(record.created, tz=timezone.utc).isoformat(timespec="milliseconds").replace("+00:00", "Z"),
+            "ts": datetime.fromtimestamp(record.created, tz=timezone.utc)
+            .isoformat(timespec="milliseconds")
+            .replace("+00:00", "Z"),
             "level": record.levelname,
             "logger": record.name,
             "msg": record.getMessage(),

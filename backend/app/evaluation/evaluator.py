@@ -109,9 +109,9 @@ class SpectraCodeBenchmarkEvaluator:
             faithfulness = 1.0 if is_abstained else 0.5
         else:
             grounded_cits = sum(
-                1 for c in emitted_citations if any(
-                    r.overlap_lines(c) >= (c.end_line - c.start_line + 1) * 0.8 for r in retrieved_spans
-                )
+                1
+                for c in emitted_citations
+                if any(r.overlap_lines(c) >= (c.end_line - c.start_line + 1) * 0.8 for r in retrieved_spans)
             )
             faithfulness = grounded_cits / len(emitted_citations)
 

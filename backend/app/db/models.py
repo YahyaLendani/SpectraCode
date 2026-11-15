@@ -155,9 +155,7 @@ class ASTSymbol(Base):
     end_byte: Mapped[int] = mapped_column(Integer, nullable=False)
 
     file: Mapped["RepositoryFile"] = relationship(back_populates="symbols")
-    parent_symbol: Mapped[Optional["ASTSymbol"]] = relationship(
-        remote_side=[id], backref="child_symbols"
-    )
+    parent_symbol: Mapped[Optional["ASTSymbol"]] = relationship(remote_side=[id], backref="child_symbols")
     chunks: Mapped[List["CodeChunk"]] = relationship(back_populates="symbol")
 
     __table_args__ = (
@@ -223,9 +221,7 @@ class ChunkEmbedding(Base):
 
     chunk: Mapped["CodeChunk"] = relationship(back_populates="embedding")
 
-    __table_args__ = (
-        Index("ix_chunk_embeddings_repo", "repository_id"),
-    )
+    __table_args__ = (Index("ix_chunk_embeddings_repo", "repository_id"),)
 
 
 class Conversation(Base):
@@ -268,9 +264,7 @@ class Message(Base):
 
     conversation: Mapped["Conversation"] = relationship(back_populates="messages")
 
-    __table_args__ = (
-        Index("ix_messages_conversation_created", "conversation_id", "created_at"),
-    )
+    __table_args__ = (Index("ix_messages_conversation_created", "conversation_id", "created_at"),)
 
 
 class EvaluationRun(Base):
@@ -321,4 +315,3 @@ class EvaluationSampleResult(Base):
     faithfulness: Mapped[float] = mapped_column(Float, nullable=False)
 
     evaluation_run: Mapped["EvaluationRun"] = relationship(back_populates="sample_results")
-

@@ -231,65 +231,15 @@ async def test_delete_repository():
 
     # Verify all DB child tables were cascade-cleaned
     async with AsyncSessionLocal() as session:
+        assert await session.scalar(select(Repository).where(Repository.id == repo_id)) is None
+        assert await session.scalar(select(RepositoryFile).where(RepositoryFile.repository_id == repo_id)) is None
+        assert await session.scalar(select(ASTSymbol).where(ASTSymbol.repository_id == repo_id)) is None
+        assert await session.scalar(select(CodeChunk).where(CodeChunk.repository_id == repo_id)) is None
+        assert await session.scalar(select(ChunkEmbedding).where(ChunkEmbedding.repository_id == repo_id)) is None
+        assert await session.scalar(select(Conversation).where(Conversation.repository_id == repo_id)) is None
+        assert await session.scalar(select(Message).where(Message.id == msg_id)) is None
+        assert await session.scalar(select(EvaluationRun).where(EvaluationRun.repository_id == repo_id)) is None
         assert (
-            await session.scalar(
-                select(Repository).where(Repository.id == repo_id)
-            )
-            is None
-        )
-        assert (
-            await session.scalar(
-                select(RepositoryFile).where(
-                    RepositoryFile.repository_id == repo_id
-                )
-            )
-            is None
-        )
-        assert (
-            await session.scalar(
-                select(ASTSymbol).where(ASTSymbol.repository_id == repo_id)
-            )
-            is None
-        )
-        assert (
-            await session.scalar(
-                select(CodeChunk).where(CodeChunk.repository_id == repo_id)
-            )
-            is None
-        )
-        assert (
-            await session.scalar(
-                select(ChunkEmbedding).where(
-                    ChunkEmbedding.repository_id == repo_id
-                )
-            )
-            is None
-        )
-        assert (
-            await session.scalar(
-                select(Conversation).where(
-                    Conversation.repository_id == repo_id
-                )
-            )
-            is None
-        )
-        assert (
-            await session.scalar(select(Message).where(Message.id == msg_id))
-            is None
-        )
-        assert (
-            await session.scalar(
-                select(EvaluationRun).where(
-                    EvaluationRun.repository_id == repo_id
-                )
-            )
-            is None
-        )
-        assert (
-            await session.scalar(
-                select(EvaluationSampleResult).where(
-                    EvaluationSampleResult.id == eval_sample_id
-                )
-            )
+            await session.scalar(select(EvaluationSampleResult).where(EvaluationSampleResult.id == eval_sample_id))
             is None
         )

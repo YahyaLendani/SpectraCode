@@ -113,14 +113,10 @@ class GroundedCitationEngine:
         from app.ingestion.ast_chunker import CodeQueryNormalizer
 
         expanded = CodeQueryNormalizer.expand_code_text(query).lower()
-        terms = sorted(
-            {t for t in self._TERM_RE.findall(expanded) if len(t) >= 2 and t not in self._STOPWORDS}
-        )
+        terms = sorted({t for t in self._TERM_RE.findall(expanded) if len(t) >= 2 and t not in self._STOPWORDS})
         if not terms:
             return 1.0, []
-        haystack_raw = " ".join(
-            f"{c.raw_code or ''} {c.file_path} {c.symbol_name or ''}" for c in chunks
-        )
+        haystack_raw = " ".join(f"{c.raw_code or ''} {c.file_path} {c.symbol_name or ''}" for c in chunks)
         haystack = CodeQueryNormalizer.expand_code_text(haystack_raw).lower()
         hay_tokens = set(self._TERM_RE.findall(haystack))
         hay_stems: set[str] = set()
@@ -352,18 +348,13 @@ class GroundedCitationEngine:
         return "\n".join(f"{start_line + idx:4d} | {line}" for idx, line in enumerate(lines))
 
     @staticmethod
-    def _build_fallback_response(
-        reason: str, chunks: Sequence[RetrievedChunk]
-    ) -> GroundedResponse:
+    def _build_fallback_response(reason: str, chunks: Sequence[RetrievedChunk]) -> GroundedResponse:
         refs = ""
         if chunks:
             ref_list = [f"- `{c.file_path}` (lines {c.start_line}-{c.end_line})" for c in chunks[:3]]
             refs = "\n\n**Closest inspected locations in codebase:**\n" + "\n".join(ref_list)
 
-        msg = (
-            f"**Cannot verify an answer from the indexed codebase.**\n\n"
-            f"**Reason:** {reason}{refs}"
-        )
+        msg = f"**Cannot verify an answer from the indexed codebase.**\n\n**Reason:** {reason}{refs}"
         return GroundedResponse(
             answer_markdown=msg,
             verified_citations=[],
@@ -371,4 +362,3 @@ class GroundedCitationEngine:
             is_abstained=True,
             abstention_reason=reason,
         )
-

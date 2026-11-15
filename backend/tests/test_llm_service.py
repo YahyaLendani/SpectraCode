@@ -5,6 +5,7 @@ or need a real key. What they check is our code around the call: that the key is
 settings, that a model answer is used when one arrives, that expected failures fall back to
 the template visibly (logged, and marked as a template answer), and that bugs are not hidden.
 """
+
 from __future__ import annotations
 
 import json

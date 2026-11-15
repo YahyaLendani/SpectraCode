@@ -1,4 +1,5 @@
 """Unit tests for the offline retrieval benchmark: BM25 baseline, metrics, suite loading."""
+
 import json
 from pathlib import Path
 
@@ -13,6 +14,7 @@ SUITES_DIR = Path(__file__).resolve().parents[1] / "eval" / "suites"
 
 
 # --- BM25 -------------------------------------------------------------------------
+
 
 def test_bm25_ranks_matching_document_first_and_splits_identifiers():
     docs = [
@@ -95,6 +97,7 @@ def test_paired_diff_detects_consistent_gap_and_rejects_mismatched_lengths():
 
 # --- suite loading -----------------------------------------------------------------
 
+
 def test_committed_suites_load_and_are_well_formed():
     paths = sorted(SUITES_DIR.glob("*.json"))
     assert paths, "no suites committed"
@@ -128,11 +131,16 @@ def test_validate_against_checkout_reports_missing_files_and_overlong_spans(tmp_
     repo = tmp_path / "repo"
     repo.mkdir()
     (repo / "a.py").write_text("1\n2\n3\n", encoding="utf-8")
-    suite = load_suite(_write_suite(tmp_path, [
-        {"id": "ok", "query": "q", "ground_truth": [{"file": "a.py", "start": 1, "end": 3}]},
-        {"id": "long", "query": "q", "ground_truth": [{"file": "a.py", "start": 1, "end": 9}]},
-        {"id": "gone", "query": "q", "ground_truth": [{"file": "b.py", "start": 1, "end": 1}]},
-    ]))
+    suite = load_suite(
+        _write_suite(
+            tmp_path,
+            [
+                {"id": "ok", "query": "q", "ground_truth": [{"file": "a.py", "start": 1, "end": 3}]},
+                {"id": "long", "query": "q", "ground_truth": [{"file": "a.py", "start": 1, "end": 9}]},
+                {"id": "gone", "query": "q", "ground_truth": [{"file": "b.py", "start": 1, "end": 1}]},
+            ],
+        )
+    )
     problems = validate_against_checkout(suite, repo)
     assert len(problems) == 2
     assert any(p.startswith("long:") for p in problems)

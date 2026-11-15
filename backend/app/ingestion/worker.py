@@ -306,4 +306,3 @@ class RepositoryIndexingWorker:
                 error=str(exc),
             )
             raise
-

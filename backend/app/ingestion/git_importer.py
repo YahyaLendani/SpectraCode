@@ -58,15 +58,44 @@ class GitRepositoryImporter:
     }
 
     EXCLUDED_EXTENSIONS: Set[str] = {
-        ".png", ".jpg", ".jpeg", ".gif", ".ico", ".svg", ".webp",
-        ".mp4", ".mp3", ".wav", ".avi",
-        ".zip", ".tar", ".gz", ".7z", ".rar",
-        ".exe", ".dll", ".so", ".dylib", ".bin",
-        ".pyc", ".pyo", ".pyd",
-        ".lock", ".map", ".min.js", ".min.css",
-        ".db", ".sqlite", ".sqlite3",
-        ".woff", ".woff2", ".ttf", ".eot",
-        ".pdf", ".docx", ".xlsx",
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".gif",
+        ".ico",
+        ".svg",
+        ".webp",
+        ".mp4",
+        ".mp3",
+        ".wav",
+        ".avi",
+        ".zip",
+        ".tar",
+        ".gz",
+        ".7z",
+        ".rar",
+        ".exe",
+        ".dll",
+        ".so",
+        ".dylib",
+        ".bin",
+        ".pyc",
+        ".pyo",
+        ".pyd",
+        ".lock",
+        ".map",
+        ".min.js",
+        ".min.css",
+        ".db",
+        ".sqlite",
+        ".sqlite3",
+        ".woff",
+        ".woff2",
+        ".ttf",
+        ".eot",
+        ".pdf",
+        ".docx",
+        ".xlsx",
     }
 
     MAX_FILE_SIZE_BYTES: int = 1024 * 1024  # 1 MB
@@ -114,8 +143,7 @@ class GitRepositoryImporter:
         limit = settings.MAX_CHECKOUT_MB * 1024 * 1024
         if size > limit:
             raise RepositoryLimitError(
-                f"Repository checkout is {size / 1024 / 1024:.1f} MB; "
-                f"the limit is {settings.MAX_CHECKOUT_MB:g} MB."
+                f"Repository checkout is {size / 1024 / 1024:.1f} MB; the limit is {settings.MAX_CHECKOUT_MB:g} MB."
             )
 
     @classmethod
@@ -131,7 +159,8 @@ class GitRepositoryImporter:
         cmd = [
             "git",
             "clone",
-            "--depth", "1",
+            "--depth",
+            "1",
             "--single-branch",
             clone_url,
             str(target_dir),

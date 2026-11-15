@@ -78,4 +78,3 @@ async def hybrid_search_repository(
     ]
 
     return SearchResponse(query=query, total_results=len(items), results=items)
-

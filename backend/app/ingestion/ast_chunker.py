@@ -26,7 +26,7 @@ class ExtractedSymbol:
     signature: str
     docstring: Optional[str]
     start_line: int  # 1-indexed inclusive
-    end_line: int    # 1-indexed inclusive
+    end_line: int  # 1-indexed inclusive
     start_byte: int
     end_byte: int
     parent_scope: Optional[str] = None
@@ -38,7 +38,7 @@ class CodeChunkPayload:
     language: str
     chunk_index: int
     start_line: int  # 1-indexed inclusive
-    end_line: int    # 1-indexed inclusive
+    end_line: int  # 1-indexed inclusive
     raw_code: str
     contextualized_text: str
     content_hash: str
@@ -54,9 +54,7 @@ class CodeChunkPayload:
 class CodeQueryNormalizer:
     """Expands camelCase, PascalCase, and snake_case identifiers for lexical matching."""
 
-    IDENTIFIER_SPLIT_RE = re.compile(
-        r"(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|[_./:\\-]+"
-    )
+    IDENTIFIER_SPLIT_RE = re.compile(r"(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])|[_./:\\-]+")
 
     @classmethod
     def expand_code_text(cls, raw_text: str) -> str:
@@ -112,9 +110,7 @@ class CodeASTChunker:
                 return lang
         return SupportedLanguage.GENERIC
 
-    def parse_and_chunk(
-        self, file_path: str, source_code: str
-    ) -> Tuple[List[ExtractedSymbol], List[CodeChunkPayload]]:
+    def parse_and_chunk(self, file_path: str, source_code: str) -> Tuple[List[ExtractedSymbol], List[CodeChunkPayload]]:
         language = self.detect_language(file_path)
         source_bytes = source_code.encode("utf-8")
         source_lines = source_code.splitlines(keepends=True)
@@ -156,9 +152,7 @@ class CodeASTChunker:
                 imports.append(re.sub(r"\s+", " ", stmt))
         return imports[:25]
 
-    def _walk_python_ast(
-        self, root: Node, source_bytes: bytes
-    ) -> Tuple[List[ExtractedSymbol], List[Dict[str, Any]]]:
+    def _walk_python_ast(self, root: Node, source_bytes: bytes) -> Tuple[List[ExtractedSymbol], List[Dict[str, Any]]]:
         symbols: List[ExtractedSymbol] = []
         intervals: List[Dict[str, Any]] = []
 
@@ -196,14 +190,16 @@ class CodeASTChunker:
                 is_small_class = node_char_len <= self.max_chunk_chars
 
                 if is_small_class and create_interval:
-                    intervals.append({
-                        "start_line": sym.start_line,
-                        "end_line": sym.end_line,
-                        "symbol_name": sym.name,
-                        "symbol_kind": "class",
-                        "parent_scope": parent_scope,
-                        "docstring": docstring,
-                    })
+                    intervals.append(
+                        {
+                            "start_line": sym.start_line,
+                            "end_line": sym.end_line,
+                            "symbol_name": sym.name,
+                            "symbol_kind": "class",
+                            "parent_scope": parent_scope,
+                            "docstring": docstring,
+                        }
+                    )
 
                 body_node = actual_node.child_by_field_name("body")
                 if body_node:
@@ -230,14 +226,16 @@ class CodeASTChunker:
                 )
                 symbols.append(sym)
                 if create_interval:
-                    intervals.append({
-                        "start_line": sym.start_line,
-                        "end_line": sym.end_line,
-                        "symbol_name": sym.name,
-                        "symbol_kind": kind,
-                        "parent_scope": parent_scope,
-                        "docstring": docstring,
-                    })
+                    intervals.append(
+                        {
+                            "start_line": sym.start_line,
+                            "end_line": sym.end_line,
+                            "symbol_name": sym.name,
+                            "symbol_kind": kind,
+                            "parent_scope": parent_scope,
+                            "docstring": docstring,
+                        }
+                    )
 
         for top_child in root.children:
             visit_node(top_child, parent_scope=None, create_interval=True)
@@ -267,9 +265,7 @@ class CodeASTChunker:
                 imports.append(re.sub(r"\s+", " ", stmt))
         return imports[:25]
 
-    def _walk_ts_ast(
-        self, root: Node, source_bytes: bytes
-    ) -> Tuple[List[ExtractedSymbol], List[Dict[str, Any]]]:
+    def _walk_ts_ast(self, root: Node, source_bytes: bytes) -> Tuple[List[ExtractedSymbol], List[Dict[str, Any]]]:
         symbols: List[ExtractedSymbol] = []
         intervals: List[Dict[str, Any]] = []
 
@@ -323,14 +319,16 @@ class CodeASTChunker:
                 is_small_unit = inner_node.type != "class_declaration" or node_len <= self.max_chunk_chars
 
                 if is_small_unit and create_interval:
-                    intervals.append({
-                        "start_line": sym.start_line,
-                        "end_line": sym.end_line,
-                        "symbol_name": sym.name,
-                        "symbol_kind": kind,
-                        "parent_scope": parent_scope,
-                        "docstring": jsdoc,
-                    })
+                    intervals.append(
+                        {
+                            "start_line": sym.start_line,
+                            "end_line": sym.end_line,
+                            "symbol_name": sym.name,
+                            "symbol_kind": kind,
+                            "parent_scope": parent_scope,
+                            "docstring": jsdoc,
+                        }
+                    )
 
                 body = inner_node.child_by_field_name("body")
                 if body:
@@ -357,14 +355,16 @@ class CodeASTChunker:
                 )
                 symbols.append(sym)
                 if create_interval:
-                    intervals.append({
-                        "start_line": sym.start_line,
-                        "end_line": sym.end_line,
-                        "symbol_name": sym.name,
-                        "symbol_kind": kind,
-                        "parent_scope": parent_scope,
-                        "docstring": jsdoc,
-                    })
+                    intervals.append(
+                        {
+                            "start_line": sym.start_line,
+                            "end_line": sym.end_line,
+                            "symbol_name": sym.name,
+                            "symbol_kind": kind,
+                            "parent_scope": parent_scope,
+                            "docstring": jsdoc,
+                        }
+                    )
 
             elif inner_node.type == "lexical_declaration":
                 for child in inner_node.children:
@@ -386,14 +386,16 @@ class CodeASTChunker:
                                 parent_scope=parent_scope,
                             )
                             symbols.append(sym)
-                            intervals.append({
-                                "start_line": sym.start_line,
-                                "end_line": sym.end_line,
-                                "symbol_name": sym.name,
-                                "symbol_kind": "function",
-                                "parent_scope": parent_scope,
-                                "docstring": jsdoc,
-                            })
+                            intervals.append(
+                                {
+                                    "start_line": sym.start_line,
+                                    "end_line": sym.end_line,
+                                    "symbol_name": sym.name,
+                                    "symbol_kind": "function",
+                                    "parent_scope": parent_scope,
+                                    "docstring": jsdoc,
+                                }
+                            )
 
         for top_child in root.children:
             visit_ts_node(top_child, parent_scope=None)
@@ -423,28 +425,32 @@ class CodeASTChunker:
             if item["start_line"] > cursor:
                 gap_text = "".join(source_lines[cursor - 1 : item["start_line"] - 1]).strip()
                 if len(gap_text) >= self.min_chunk_chars:
-                    complete_intervals.append({
-                        "start_line": cursor,
-                        "end_line": item["start_line"] - 1,
-                        "symbol_name": "<module_scope>",
-                        "symbol_kind": "module",
-                        "parent_scope": None,
-                        "docstring": None,
-                    })
+                    complete_intervals.append(
+                        {
+                            "start_line": cursor,
+                            "end_line": item["start_line"] - 1,
+                            "symbol_name": "<module_scope>",
+                            "symbol_kind": "module",
+                            "parent_scope": None,
+                            "docstring": None,
+                        }
+                    )
             complete_intervals.append(item)
             cursor = max(cursor, item["end_line"] + 1)
 
         if cursor <= total_lines:
             tail_text = "".join(source_lines[cursor - 1 : total_lines]).strip()
             if len(tail_text) >= self.min_chunk_chars or not complete_intervals:
-                complete_intervals.append({
-                    "start_line": cursor,
-                    "end_line": total_lines,
-                    "symbol_name": "<module_scope>",
-                    "symbol_kind": "module",
-                    "parent_scope": None,
-                    "docstring": None,
-                })
+                complete_intervals.append(
+                    {
+                        "start_line": cursor,
+                        "end_line": total_lines,
+                        "symbol_name": "<module_scope>",
+                        "symbol_kind": "module",
+                        "parent_scope": None,
+                        "docstring": None,
+                    }
+                )
 
         final_chunks: List[CodeChunkPayload] = []
         chunk_idx = 0
@@ -507,9 +513,7 @@ class CodeASTChunker:
 
         return final_chunks
 
-    def _fallback_line_chunk(
-        self, file_path: str, source_lines: Sequence[str]
-    ) -> List[CodeChunkPayload]:
+    def _fallback_line_chunk(self, file_path: str, source_lines: Sequence[str]) -> List[CodeChunkPayload]:
         """Simple line-based sliding window for generic configuration and non-AST files."""
         chunks: List[CodeChunkPayload] = []
         chunk_size_lines = 60
@@ -523,8 +527,7 @@ class CodeASTChunker:
             sub_raw = "".join(source_lines[line_num - 1 : end_num])
             if sub_raw.strip():
                 header = (
-                    f"# [SpectraCode Context] File: {file_path} | Lines: {line_num}-{end_num}\n"
-                    f"# --- BEGIN SOURCE ---"
+                    f"# [SpectraCode Context] File: {file_path} | Lines: {line_num}-{end_num}\n# --- BEGIN SOURCE ---"
                 )
                 contextualized = f"{header}\n{sub_raw}"
                 content_hash = hashlib.sha256(f"{file_path}:{line_num}-{end_num}".encode("utf-8")).hexdigest()
@@ -591,7 +594,7 @@ class CodeASTChunker:
     ) -> str:
         scope_chain = f"{parent_scope}.{symbol_name}" if parent_scope and symbol_name else (symbol_name or "module")
         imports_str = "; ".join(imports[:6]) if imports else "none"
-        doc_summary = (docstring.splitlines()[0][:100] if docstring else "none")
+        doc_summary = docstring.splitlines()[0][:100] if docstring else "none"
         return (
             f"# [SpectraCode AST Context] File: {file_path} | Lines: {start_line}-{end_line} | Lang: {language}\n"
             f"# Scope: {scope_chain} ({symbol_kind or 'block'}) | Doc: {doc_summary}\n"

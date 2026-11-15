@@ -50,10 +50,7 @@ _DEPENDENCY_GRAPH_CACHE: Dict[Tuple[str, str, int], Dict[str, Any]] = {}
 
 
 def _get_repo_storage_dir(repo: Repository) -> Path:
-    return (
-        settings.REPOS_STORAGE_DIR
-        / f"{repo.github_owner}_{repo.github_name}_{repo.id.hex[:8]}"
-    )
+    return settings.REPOS_STORAGE_DIR / f"{repo.github_owner}_{repo.github_name}_{repo.id.hex[:8]}"
 
 
 def _remove_repo_storage_dir_sync(repo_dir: Path) -> None:
@@ -87,9 +84,7 @@ def _read_file_text_sync(disk_path: Path) -> str:
     return disk_path.read_text(encoding="utf-8", errors="replace")
 
 
-def _compute_dependency_graph_sync(
-    repo_dir: Path, file_paths: Sequence[str]
-) -> Dict[str, Any]:
+def _compute_dependency_graph_sync(repo_dir: Path, file_paths: Sequence[str]) -> Dict[str, Any]:
     """
     Runs in a worker thread via asyncio.to_thread so synchronous disk I/O
     and CPU-bound static import analysis never block the asyncio event loop.
@@ -99,9 +94,7 @@ def _compute_dependency_graph_sync(
         disk_path = repo_dir / rel_path
         if disk_path.exists() and disk_path.is_file():
             try:
-                files_dict[rel_path] = disk_path.read_text(
-                    encoding="utf-8", errors="replace"
-                )
+                files_dict[rel_path] = disk_path.read_text(encoding="utf-8", errors="replace")
             except OSError:
                 continue
 
@@ -205,30 +198,18 @@ async def run_indexing_task(repo_id: uuid.UUID) -> None:
             return
 
         # Pre-compute and persist dependency graph right after indexing finishes
-        stmt_repo = (
-            select(Repository)
-            .where(Repository.id == repo_id)
-            .options(noload("*"))
-        )
+        stmt_repo = select(Repository).where(Repository.id == repo_id).options(noload("*"))
         res_repo = await session.execute(stmt_repo)
         repo = res_repo.scalar_one_or_none()
         if repo and repo.status == IndexingStatus.READY:
-            stmt_files = select(RepositoryFile.file_path).where(
-                RepositoryFile.repository_id == repo_id
-            )
+            stmt_files = select(RepositoryFile.file_path).where(RepositoryFile.repository_id == repo_id)
             res_files = await session.execute(stmt_files)
             file_paths = list(res_files.scalars().all())
             repo_dir = _get_repo_storage_dir(repo)
-            graph_payload = await asyncio.to_thread(
-                _compute_dependency_graph_sync, repo_dir, file_paths
-            )
+            graph_payload = await asyncio.to_thread(_compute_dependency_graph_sync, repo_dir, file_paths)
             updated_meta = dict(repo.metadata_json or {})
             updated_meta[DEPENDENCY_CACHE_VERSION] = graph_payload
-            await session.execute(
-                update(Repository)
-                .where(Repository.id == repo_id)
-                .values(metadata_json=updated_meta)
-            )
+            await session.execute(update(Repository).where(Repository.id == repo_id).values(metadata_json=updated_meta))
             await session.commit()
 
             cache_key = (
@@ -257,9 +238,7 @@ async def import_repository(
 
     # Check if already imported
     stmt = (
-        select(Repository)
-        .where(Repository.github_owner == owner, Repository.github_name == name)
-        .options(noload("*"))
+        select(Repository).where(Repository.github_owner == owner, Repository.github_name == name).options(noload("*"))
     )
     res = await db.execute(stmt)
     existing = res.scalar_one_or_none()
@@ -290,22 +269,14 @@ async def import_repository(
 
 @router.get("", response_model=List[RepositoryResponse])
 async def list_repositories(db: AsyncSession = Depends(get_db)):
-    stmt = (
-        select(Repository)
-        .options(noload("*"))
-        .order_by(Repository.created_at.desc())
-    )
+    stmt = select(Repository).options(noload("*")).order_by(Repository.created_at.desc())
     res = await db.execute(stmt)
     return res.scalars().all()
 
 
 @router.get("/{repo_id}", response_model=RepositoryResponse)
 async def get_repository(repo_id: uuid.UUID, db: AsyncSession = Depends(get_db)):
-    stmt = (
-        select(Repository)
-        .where(Repository.id == repo_id)
-        .options(noload("*"))
-    )
+    stmt = select(Repository).where(Repository.id == repo_id).options(noload("*"))
     res = await db.execute(stmt)
     repo = res.scalar_one_or_none()
     if not repo:
@@ -319,11 +290,7 @@ async def delete_repository(repo_id: uuid.UUID, db: AsyncSession = Depends(get_d
     Deletes a repository workspace including all database child records,
     cloned files on disk, and in-memory dependency and progress caches.
     """
-    stmt = (
-        select(Repository)
-        .where(Repository.id == repo_id)
-        .options(noload("*"))
-    )
+    stmt = select(Repository).where(Repository.id == repo_id).options(noload("*"))
     res = await db.execute(stmt)
     repo = res.scalar_one_or_none()
     if not repo:
@@ -332,48 +299,26 @@ async def delete_repository(repo_id: uuid.UUID, db: AsyncSession = Depends(get_d
     repo_dir = _get_repo_storage_dir(repo)
 
     # 1. Database cascade cleanup across all child relations
-    eval_run_ids_subq = select(EvaluationRun.id).where(
-        EvaluationRun.repository_id == repo_id
-    )
+    eval_run_ids_subq = select(EvaluationRun.id).where(EvaluationRun.repository_id == repo_id)
     await db.execute(
-        delete(EvaluationSampleResult).where(
-            EvaluationSampleResult.evaluation_run_id.in_(eval_run_ids_subq)
-        )
+        delete(EvaluationSampleResult).where(EvaluationSampleResult.evaluation_run_id.in_(eval_run_ids_subq))
     )
-    await db.execute(
-        delete(EvaluationRun).where(EvaluationRun.repository_id == repo_id)
-    )
+    await db.execute(delete(EvaluationRun).where(EvaluationRun.repository_id == repo_id))
 
-    conv_ids_subq = select(Conversation.id).where(
-        Conversation.repository_id == repo_id
-    )
-    await db.execute(
-        delete(Message).where(Message.conversation_id.in_(conv_ids_subq))
-    )
-    await db.execute(
-        delete(Conversation).where(Conversation.repository_id == repo_id)
-    )
+    conv_ids_subq = select(Conversation.id).where(Conversation.repository_id == repo_id)
+    await db.execute(delete(Message).where(Message.conversation_id.in_(conv_ids_subq)))
+    await db.execute(delete(Conversation).where(Conversation.repository_id == repo_id))
 
-    await db.execute(
-        delete(ChunkEmbedding).where(ChunkEmbedding.repository_id == repo_id)
-    )
-    await db.execute(
-        delete(CodeChunk).where(CodeChunk.repository_id == repo_id)
-    )
-    await db.execute(
-        delete(ASTSymbol).where(ASTSymbol.repository_id == repo_id)
-    )
-    await db.execute(
-        delete(RepositoryFile).where(RepositoryFile.repository_id == repo_id)
-    )
+    await db.execute(delete(ChunkEmbedding).where(ChunkEmbedding.repository_id == repo_id))
+    await db.execute(delete(CodeChunk).where(CodeChunk.repository_id == repo_id))
+    await db.execute(delete(ASTSymbol).where(ASTSymbol.repository_id == repo_id))
+    await db.execute(delete(RepositoryFile).where(RepositoryFile.repository_id == repo_id))
     await db.execute(delete(Repository).where(Repository.id == repo_id))
     await db.commit()
 
     # 2. Evict in-memory caches
     repo_id_str = str(repo_id)
-    stale_cache_keys = [
-        key for key in _DEPENDENCY_GRAPH_CACHE if key[0] == repo_id_str
-    ]
+    stale_cache_keys = [key for key in _DEPENDENCY_GRAPH_CACHE if key[0] == repo_id_str]
     for key in stale_cache_keys:
         _DEPENDENCY_GRAPH_CACHE.pop(key, None)
 
@@ -410,23 +355,21 @@ async def get_repository_tree(repo_id: uuid.UUID, db: AsyncSession = Depends(get
         for idx, part in enumerate(parts):
             is_file = idx == len(parts) - 1
             if is_file:
-                curr["children"].append({
-                    "name": part,
-                    "type": "file",
-                    "path": f_path,
-                    "id": str(f_id),
-                    "language": f_lang,
-                    "lines": f_lines,
-                    "size": f_size,
-                })
+                curr["children"].append(
+                    {
+                        "name": part,
+                        "type": "file",
+                        "path": f_path,
+                        "id": str(f_id),
+                        "language": f_lang,
+                        "lines": f_lines,
+                        "size": f_size,
+                    }
+                )
             else:
                 # Directory
                 found = next(
-                    (
-                        c
-                        for c in curr["children"]
-                        if c["name"] == part and c["type"] == "directory"
-                    ),
+                    (c for c in curr["children"] if c["name"] == part and c["type"] == "directory"),
                     None,
                 )
                 if not found:
@@ -438,9 +381,7 @@ async def get_repository_tree(repo_id: uuid.UUID, db: AsyncSession = Depends(get
 
 
 @router.get("/{repo_id}/files/{file_id}")
-async def get_file_content(
-    repo_id: uuid.UUID, file_id: uuid.UUID, db: AsyncSession = Depends(get_db)
-):
+async def get_file_content(repo_id: uuid.UUID, file_id: uuid.UUID, db: AsyncSession = Depends(get_db)):
     stmt = (
         select(RepositoryFile)
         .where(RepositoryFile.id == file_id, RepositoryFile.repository_id == repo_id)
@@ -454,11 +395,7 @@ async def get_file_content(
     if not file_obj:
         raise HTTPException(status_code=404, detail="File not found")
 
-    stmt_repo = (
-        select(Repository)
-        .where(Repository.id == repo_id)
-        .options(noload("*"))
-    )
+    stmt_repo = select(Repository).where(Repository.id == repo_id).options(noload("*"))
     res_repo = await db.execute(stmt_repo)
     repo = res_repo.scalar_one_or_none()
     if not repo:
@@ -535,11 +472,7 @@ async def get_repository_dependencies(
     refresh: bool = Query(False, description="Force recomputation of dependency graph"),
     db: AsyncSession = Depends(get_db),
 ):
-    stmt_repo = (
-        select(Repository)
-        .where(Repository.id == repo_id)
-        .options(noload("*"))
-    )
+    stmt_repo = select(Repository).where(Repository.id == repo_id).options(noload("*"))
     res_repo = await db.execute(stmt_repo)
     repo = res_repo.scalar_one_or_none()
     if not repo:
@@ -557,33 +490,23 @@ async def get_repository_dependencies(
             return _DEPENDENCY_GRAPH_CACHE[cache_key]
 
         # 2. Persistent DB metadata cache (zero disk I/O)
-        if repo.metadata_json and isinstance(
-            repo.metadata_json.get(DEPENDENCY_CACHE_VERSION), dict
-        ):
+        if repo.metadata_json and isinstance(repo.metadata_json.get(DEPENDENCY_CACHE_VERSION), dict):
             cached_graph = repo.metadata_json[DEPENDENCY_CACHE_VERSION]
             _DEPENDENCY_GRAPH_CACHE[cache_key] = cached_graph
             return cached_graph
 
     # 3. Compute in background worker thread without blocking asyncio event loop
-    stmt_files = select(RepositoryFile.file_path).where(
-        RepositoryFile.repository_id == repo_id
-    )
+    stmt_files = select(RepositoryFile.file_path).where(RepositoryFile.repository_id == repo_id)
     res_files = await db.execute(stmt_files)
     file_paths = list(res_files.scalars().all())
 
     repo_dir = _get_repo_storage_dir(repo)
-    graph_payload = await asyncio.to_thread(
-        _compute_dependency_graph_sync, repo_dir, file_paths
-    )
+    graph_payload = await asyncio.to_thread(_compute_dependency_graph_sync, repo_dir, file_paths)
 
     # Persist into Repository.metadata_json without triggering relationship cascades
     updated_meta = dict(repo.metadata_json or {})
     updated_meta[DEPENDENCY_CACHE_VERSION] = graph_payload
-    await db.execute(
-        update(Repository)
-        .where(Repository.id == repo_id)
-        .values(metadata_json=updated_meta)
-    )
+    await db.execute(update(Repository).where(Repository.id == repo_id).values(metadata_json=updated_meta))
     await db.commit()
 
     _DEPENDENCY_GRAPH_CACHE[cache_key] = graph_payload

@@ -26,9 +26,7 @@ FASTAPI_BENCHMARK_SUITE: List[BenchmarkQueryItem] = [
         query_id="q1_jwt_auth",
         query_text="Where is JWT token verification implemented and what exception is thrown on expiration?",
         category="debugging",
-        ground_truth_spans=[
-            BenchmarkGroundTruthSpan(file_path="src/auth/jwt_manager.py", start_line=11, end_line=34)
-        ],
+        ground_truth_spans=[BenchmarkGroundTruthSpan(file_path="src/auth/jwt_manager.py", start_line=11, end_line=34)],
         expected_answer_keywords=["verify_token", "JWTAuthenticationError", "ExpiredSignatureError"],
     ),
     BenchmarkQueryItem(
@@ -44,18 +42,14 @@ FASTAPI_BENCHMARK_SUITE: List[BenchmarkQueryItem] = [
         query_id="q3_user_roles",
         query_text="How are user roles defined and how is administrative access verified?",
         category="symbol_lookup",
-        ground_truth_spans=[
-            BenchmarkGroundTruthSpan(file_path="src/models/user.py", start_line=5, end_line=19)
-        ],
+        ground_truth_spans=[BenchmarkGroundTruthSpan(file_path="src/models/user.py", start_line=5, end_line=19)],
         expected_answer_keywords=["UserRole", "has_admin_access", "ADMIN"],
     ),
     BenchmarkQueryItem(
         query_id="q4_config_settings",
         query_text="What are the default configuration values for token expiry and concurrent jobs?",
         category="symbol_lookup",
-        ground_truth_spans=[
-            BenchmarkGroundTruthSpan(file_path="src/config.py", start_line=3, end_line=12)
-        ],
+        ground_truth_spans=[BenchmarkGroundTruthSpan(file_path="src/config.py", start_line=3, end_line=12)],
         expected_answer_keywords=["ACCESS_TOKEN_EXPIRE_MINUTES", "MAX_CONCURRENT_JOBS"],
     ),
     BenchmarkQueryItem(
@@ -66,4 +60,3 @@ FASTAPI_BENCHMARK_SUITE: List[BenchmarkQueryItem] = [
         expected_answer_keywords=["INSUFFICIENT_REPOSITORY_CONTEXT"],
     ),
 ]
-

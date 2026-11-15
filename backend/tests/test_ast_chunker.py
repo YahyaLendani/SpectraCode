@@ -46,7 +46,7 @@ def helper_function():
 
 
 def test_typescript_ast_chunker():
-    ts_code = '''import { Request, Response } from 'express';
+    ts_code = """import { Request, Response } from 'express';
 
 /**
  * Interface representing User details
@@ -63,7 +63,7 @@ export class UserController {
     return this.users.find(u => u.id === id);
   }
 }
-'''
+"""
     chunker = CodeASTChunker()
     symbols, chunks = chunker.parse_and_chunk("src/controllers/user.ts", ts_code)
 
@@ -80,4 +80,3 @@ export class UserController {
     for chunk in chunks:
         assert chunk.language == SupportedLanguage.TYPESCRIPT.value
         assert chunk.start_line >= 1
-

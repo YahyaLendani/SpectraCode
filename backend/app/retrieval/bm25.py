@@ -4,6 +4,7 @@ Deliberately simple and dependency-free. Tokenisation reuses the project's code-
 normaliser (snake_case / camelCase splitting), so the baseline is not handicapped by
 treating `get_netrc_auth` as one opaque word.
 """
+
 from __future__ import annotations
 
 import math
@@ -22,9 +23,7 @@ class BM25Index:
         self._build([tokenize(doc) for doc in documents], k1, b)
 
     @classmethod
-    def from_token_lists(
-        cls, token_lists: Sequence[Sequence[str]], k1: float = 1.5, b: float = 0.75
-    ) -> "BM25Index":
+    def from_token_lists(cls, token_lists: Sequence[Sequence[str]], k1: float = 1.5, b: float = 0.75) -> "BM25Index":
         """Builds from already-normalised tokens (e.g. CodeChunk.lexical_tokens.split())."""
         index = cls.__new__(cls)
         index._build(token_lists, k1, b)

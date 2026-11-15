@@ -10,6 +10,7 @@ commit, so later runs only re-score.
 
 Writes eval/results/<suite>.json and prints a summary table.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -128,17 +129,15 @@ async def run(suite_path: Path) -> dict:
     k_max = max(K_VALUES)
 
     async with AsyncSessionLocal() as session:
-        repo, index_seconds = await _ensure_indexed(
-            session, owner, name, suite.clone_url, suite.commit_sha, repo_dir
-        )
-        n_chunks = (
-            await session.execute(select(func.count()).where(CodeChunk.repository_id == repo.id))
-        ).scalar_one()
+        repo, index_seconds = await _ensure_indexed(session, owner, name, suite.clone_url, suite.commit_sha, repo_dir)
+        n_chunks = (await session.execute(select(func.count()).where(CodeChunk.repository_id == repo.id))).scalar_one()
 
         # BM25 over the exact chunk set the other modes see (path + code, like lexical_tokens).
         rows = (
             await session.execute(
-                select(CodeChunk.id, RepositoryFile.file_path, CodeChunk.start_line, CodeChunk.end_line, CodeChunk.raw_code)
+                select(
+                    CodeChunk.id, RepositoryFile.file_path, CodeChunk.start_line, CodeChunk.end_line, CodeChunk.raw_code
+                )
                 .join(RepositoryFile, CodeChunk.file_id == RepositoryFile.id)
                 .where(CodeChunk.repository_id == repo.id)
             )
@@ -234,9 +233,7 @@ def _print_report(report: dict) -> None:
     print(f"\n{report['suite']}  ({report['n_queries']} queries, {report['n_chunks']} chunks)")
     print(f"{'mode':<8}" + "".join(f"{m:>24}" for m in metrics))
     for mode, vals in report["overall"].items():
-        cells = "".join(
-            f"{v['mean']:>8.2f} [{v['ci95'][0]:.2f}, {v['ci95'][1]:.2f}]".rjust(24) for v in vals.values()
-        )
+        cells = "".join(f"{v['mean']:>8.2f} [{v['ci95'][0]:.2f}, {v['ci95'][1]:.2f}]".rjust(24) for v in vals.values())
         print(f"{mode:<8}{cells}")
     print("\nHybrid minus baseline (paired, 95% CI; an interval containing 0 means no clear difference):")
     for key, v in report["hybrid_vs_baselines"].items():

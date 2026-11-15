@@ -136,21 +136,16 @@ async def run_evaluation_benchmark(
         )
 
         retrieved_spans = [
-            LineSpan(file_path=c.file_path, start_line=c.start_line, end_line=c.end_line)
-            for c in chunks
+            LineSpan(file_path=c.file_path, start_line=c.start_line, end_line=c.end_line) for c in chunks
         ]
 
         # 2. Check Pre-generation Abstention & Generate Grounded Answer
         abstain, reason = citation_engine.should_abstain_pre_generation(chunks, item.query_text)
         if abstain:
-            verified_resp = citation_engine._build_fallback_response(
-                reason or "No relevant code found.", chunks
-            )
+            verified_resp = citation_engine._build_fallback_response(reason or "No relevant code found.", chunks)
         else:
             grounded_text = (await llm_service.generate_grounded_text(item.query_text, chunks)).text
-            verified_resp = citation_engine.verify_and_sanitize_response(
-                grounded_text, chunks, item.query_text
-            )
+            verified_resp = citation_engine.verify_and_sanitize_response(grounded_text, chunks, item.query_text)
 
         emitted_citations = [
             LineSpan(
@@ -192,8 +187,7 @@ async def run_evaluation_benchmark(
                 for g in item.ground_truth_spans
             ],
             retrieved_spans=[
-                {"file_path": r.file_path, "start_line": r.start_line, "end_line": r.end_line}
-                for r in retrieved_spans
+                {"file_path": r.file_path, "start_line": r.start_line, "end_line": r.end_line} for r in retrieved_spans
             ],
             emitted_citations=[
                 {"file_path": c.file_path, "start_line": c.start_line, "end_line": c.end_line}
@@ -244,9 +238,7 @@ async def run_evaluation_benchmark(
 
 
 @router.get("/{repo_id}/evaluations", response_model=List[EvaluationDetailResponse])
-async def list_repository_evaluations(
-    repo_id: uuid.UUID, db: AsyncSession = Depends(get_db)
-):
+async def list_repository_evaluations(repo_id: uuid.UUID, db: AsyncSession = Depends(get_db)):
     await cleanup_legacy_mismatched_runs(db)
 
     stmt = (

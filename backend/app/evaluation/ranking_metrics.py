@@ -8,6 +8,7 @@ Relevance rules (kept identical across every retrieval mode being compared):
   `coverage_threshold` of some ground-truth span, or at least half of the chunk lies
   inside one (so a small chunk inside a long function still counts).
 """
+
 from __future__ import annotations
 
 import random
@@ -20,9 +21,7 @@ def _span_len(span: LineSpan) -> int:
     return max(1, span.end_line - span.start_line + 1)
 
 
-def chunk_is_relevant(
-    chunk: LineSpan, ground_truth: Sequence[LineSpan], coverage_threshold: float = 0.4
-) -> bool:
+def chunk_is_relevant(chunk: LineSpan, ground_truth: Sequence[LineSpan], coverage_threshold: float = 0.4) -> bool:
     for gt in ground_truth:
         overlap = chunk.overlap_lines(gt)
         if overlap and (overlap >= coverage_threshold * _span_len(gt) or overlap >= 0.5 * _span_len(chunk)):

@@ -189,10 +189,7 @@ async def test_dynamic_benchmark_generator_tailored_ast_suite():
         "BillingLedger",
         "verify_signature",
     }
-    assert (
-        by_sym["OrderOrchestrator"].query_text
-        == "Where is class OrderOrchestrator defined and what is its role?"
-    )
+    assert by_sym["OrderOrchestrator"].query_text == "Where is class OrderOrchestrator defined and what is its role?"
     assert by_sym["OrderOrchestrator"].ground_truth_spans[0].file_path == "src/orders/orchestrator.py"
     assert by_sym["OrderOrchestrator"].ground_truth_spans[0].start_line == 10
     assert by_sym["OrderOrchestrator"].ground_truth_spans[0].end_line == 42
@@ -204,10 +201,7 @@ async def test_dynamic_benchmark_generator_tailored_ast_suite():
 
     # Verify negative test query at tail
     assert negative_item.query_id == "q_negative_helm"
-    assert (
-        negative_item.query_text
-        == "Where is the Kubernetes Helm chart deployment configuration defined?"
-    )
+    assert negative_item.query_text == "Where is the Kubernetes Helm chart deployment configuration defined?"
     assert negative_item.category == "negative_test"
     assert negative_item.ground_truth_spans == []
 

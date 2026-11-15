@@ -6,6 +6,7 @@ engine. Without this, the API tests would read and write the developer's real
 `repolens.db` and `data/repos/`, and their results would depend on whatever happens to
 be in those files.
 """
+
 from __future__ import annotations
 
 import atexit
@@ -45,5 +46,3 @@ async def _close_db_connections():
     from app.db.session import engine
 
     await engine.dispose()
-
-

@@ -67,9 +67,7 @@ async def list_conversations(repo_id: uuid.UUID, db: AsyncSession = Depends(get_
 
 
 @router.get("/{repo_id}/conversations/{conv_id}/messages")
-async def get_conversation_messages(
-    repo_id: uuid.UUID, conv_id: uuid.UUID, db: AsyncSession = Depends(get_db)
-):
+async def get_conversation_messages(repo_id: uuid.UUID, conv_id: uuid.UUID, db: AsyncSession = Depends(get_db)):
     stmt = (
         select(Conversation)
         .where(Conversation.id == conv_id, Conversation.repository_id == repo_id)

@@ -21,6 +21,7 @@ engine: AsyncEngine = create_async_engine(
 )
 
 if "sqlite" in settings.DATABASE_URL:
+
     @event.listens_for(engine.sync_engine, "connect")
     def _set_sqlite_pragmas(dbapi_connection, connection_record):
         cursor = dbapi_connection.cursor()
@@ -28,6 +29,7 @@ if "sqlite" in settings.DATABASE_URL:
         cursor.execute("PRAGMA busy_timeout=30000")
         cursor.execute("PRAGMA synchronous=NORMAL")
         cursor.close()
+
 
 AsyncSessionLocal = async_sessionmaker(
     bind=engine,
@@ -48,10 +50,11 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
 
 async def init_db() -> None:
     from app.db.models import Base
+
     async with engine.begin() as conn:
         # If postgresql and pgvector is available
         if "postgresql" in settings.DATABASE_URL:
             from sqlalchemy import text
+
             await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector;"))
         await conn.run_sync(Base.metadata.create_all)
-

@@ -76,9 +76,7 @@ class CodebaseDependencyAnalyzer:
         re.MULTILINE,
     )
     VALID_PY_MODULE_RE = re.compile(r"^\.*[A-Za-z_][A-Za-z0-9_.]*$")
-    VALID_PKG_NAME_RE = re.compile(
-        r"^(?:@[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+|[A-Za-z0-9_][A-Za-z0-9_.-]*)$"
-    )
+    VALID_PKG_NAME_RE = re.compile(r"^(?:@[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+|[A-Za-z0-9_][A-Za-z0-9_.-]*)$")
     IGNORED_EXTERNAL_MODULES: Set[str] = {"__future__", "__main__"}
 
     # Strip JS/TS comments before regex extraction to avoid matching inside comments
@@ -101,9 +99,7 @@ class CodebaseDependencyAnalyzer:
         graph = nx.DiGraph()
 
         # Normalize all file paths to POSIX format
-        normalized_files: Dict[str, str] = {
-            k.replace("\\", "/"): v for k, v in files_dict.items()
-        }
+        normalized_files: Dict[str, str] = {k.replace("\\", "/"): v for k, v in files_dict.items()}
         known_files: Set[str] = set(normalized_files.keys())
         external_pkgs: Set[str] = set()
 
@@ -123,9 +119,7 @@ class CodebaseDependencyAnalyzer:
             if file_path.endswith(".py"):
                 imports = cls._parse_python_imports(code)
                 for imp in imports:
-                    target = cls._resolve_python_import(
-                        imp, file_path, known_files, suffix_index
-                    )
+                    target = cls._resolve_python_import(imp, file_path, known_files, suffix_index)
                     if target:
                         if target != file_path:
                             graph.add_edge(file_path, target)
@@ -148,18 +142,12 @@ class CodebaseDependencyAnalyzer:
             elif file_path.endswith((".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs")):
                 imports = cls._parse_ts_imports(code)
                 for imp in imports:
-                    target = cls._resolve_ts_import(
-                        imp, file_path, known_files, suffix_index
-                    )
+                    target = cls._resolve_ts_import(imp, file_path, known_files, suffix_index)
                     if target:
                         if target != file_path:
                             graph.add_edge(file_path, target)
                     elif not imp.startswith((".", "/", "@/", "~/")):
-                        pkg_name = (
-                            "/".join(imp.split("/")[:2])
-                            if imp.startswith("@")
-                            else imp.split("/")[0]
-                        ).strip()
+                        pkg_name = ("/".join(imp.split("/")[:2]) if imp.startswith("@") else imp.split("/")[0]).strip()
                         if (
                             pkg_name
                             and pkg_name not in cls.IGNORED_EXTERNAL_MODULES
@@ -189,9 +177,7 @@ class CodebaseDependencyAnalyzer:
                 )
             )
 
-        edges: List[DependencyEdge] = [
-            DependencyEdge(source=u, target=v) for u, v in graph.edges()
-        ]
+        edges: List[DependencyEdge] = [DependencyEdge(source=u, target=v) for u, v in graph.edges()]
 
         return CodebaseDependencyGraph(
             nodes=nodes,
@@ -202,9 +188,7 @@ class CodebaseDependencyAnalyzer:
         )
 
     @classmethod
-    def _detect_cycles_bounded(
-        cls, graph: nx.DiGraph, known_files: Set[str]
-    ) -> List[List[str]]:
+    def _detect_cycles_bounded(cls, graph: nx.DiGraph, known_files: Set[str]) -> List[List[str]]:
         """
         Uses Tarjan's O(V + E) Strongly Connected Components to isolate non-trivial
         cycle clusters first, then performs bounded cycle extraction with strict
@@ -215,11 +199,7 @@ class CodebaseDependencyAnalyzer:
         deadline = time.perf_counter() + cls.CYCLE_SEARCH_TIMEOUT_SEC
 
         try:
-            sccs = [
-                scc
-                for scc in nx.strongly_connected_components(internal_subgraph)
-                if len(scc) > 1
-            ]
+            sccs = [scc for scc in nx.strongly_connected_components(internal_subgraph) if len(scc) > 1]
             sccs.sort(key=len)
 
             for scc in sccs:
@@ -228,19 +208,14 @@ class CodebaseDependencyAnalyzer:
 
                 scc_graph = internal_subgraph.subgraph(scc)
                 try:
-                    cycle_iter = nx.simple_cycles(
-                        scc_graph, length_bound=cls.MAX_CYCLE_LENGTH
-                    )
+                    cycle_iter = nx.simple_cycles(scc_graph, length_bound=cls.MAX_CYCLE_LENGTH)
                 except TypeError:
                     cycle_iter = nx.simple_cycles(scc_graph)
 
                 for cycle in cycle_iter:
                     if len(cycle) > 1:
                         cycles.append(list(cycle))
-                    if (
-                        len(cycles) >= cls.MAX_CYCLES
-                        or time.perf_counter() >= deadline
-                    ):
+                    if len(cycles) >= cls.MAX_CYCLES or time.perf_counter() >= deadline:
                         break
         except Exception:
             pass
@@ -367,11 +342,7 @@ class CodebaseDependencyAnalyzer:
 
             rel_path = remainder.replace(".", "/") if remainder else ""
             prefix = f"{base_dir}/{rel_path}".strip("/") if base_dir else rel_path
-            candidates = (
-                [f"{prefix}.py", f"{prefix}/__init__.py"]
-                if prefix
-                else [f"{base_dir}/__init__.py"]
-            )
+            candidates = [f"{prefix}.py", f"{prefix}/__init__.py"] if prefix else [f"{base_dir}/__init__.py"]
             for cand in candidates:
                 norm = posixpath.normpath(cand)
                 if norm in known_files:

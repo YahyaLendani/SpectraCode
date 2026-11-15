@@ -33,9 +33,7 @@ class DynamicBenchmarkGenerator:
     )
 
     @classmethod
-    async def generate(
-        cls, session: AsyncSession, repo_id: uuid.UUID
-    ) -> List[BenchmarkQueryItem]:
+    async def generate(cls, session: AsyncSession, repo_id: uuid.UUID) -> List[BenchmarkQueryItem]:
         stmt = (
             select(ASTSymbol, RepositoryFile.file_path)
             .join(RepositoryFile, ASTSymbol.file_id == RepositoryFile.id)
@@ -98,8 +96,7 @@ class DynamicBenchmarkGenerator:
                 if sym.id in selected_ids:
                     continue
                 overlaps = any(
-                    p == norm_path
-                    and min(s.end_line, sym.end_line) >= max(s.start_line, sym.start_line)
+                    p == norm_path and min(s.end_line, sym.end_line) >= max(s.start_line, sym.start_line)
                     for s, p in selected
                 )
                 if not overlaps:
@@ -130,9 +127,7 @@ class DynamicBenchmarkGenerator:
             if sym.kind == SymbolKind.CLASS:
                 query_text = f"Where is class {sym.name} defined and what is its role?"
             else:
-                query_text = (
-                    f"Where is function {sym.name} defined and what does its signature look like?"
-                )
+                query_text = f"Where is function {sym.name} defined and what does its signature look like?"
 
             suite.append(
                 BenchmarkQueryItem(
@@ -187,9 +182,7 @@ class DynamicBenchmarkGenerator:
         )
 
     @classmethod
-    async def _fallback_suite(
-        cls, session: AsyncSession, repo_id: uuid.UUID
-    ) -> List[BenchmarkQueryItem]:
+    async def _fallback_suite(cls, session: AsyncSession, repo_id: uuid.UUID) -> List[BenchmarkQueryItem]:
         """
         For repositories without Python/TS AST symbols (e.g., Markdown, shell, or config repos),
         synthesizes generic file/chunk lookup items if indexed chunks exist; otherwise falls back

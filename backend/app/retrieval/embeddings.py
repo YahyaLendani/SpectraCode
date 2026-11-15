@@ -77,9 +77,7 @@ class EmbeddingService:
         return float(np.dot(a, b) / (norm_a * norm_b))
 
     @staticmethod
-    def batch_cosine_similarity(
-        query_vec: Sequence[float], matrix: np.ndarray
-    ) -> np.ndarray:
+    def batch_cosine_similarity(query_vec: Sequence[float], matrix: np.ndarray) -> np.ndarray:
         """
         Vectorized cosine similarity between a 1D query vector and a 2D (N, D) chunk embedding matrix.
         Optimized single-pass computation with safe non-zero division.

@@ -47,17 +47,60 @@ class HybridCodeRetriever:
     CODE_TOKEN_PATTERN = re.compile(
         r"[a-zA-Z_][a-zA-Z0-9_]*\.[a-zA-Z_][a-zA-Z0-9_]*|[a-z]+[A-Z][a-zA-Z0-9]*|[a-zA-Z0-9]+_[a-zA-Z0-9_]+"
     )
-    CALL_OR_TYPE_RE = re.compile(
-        r"\b([A-Za-z_][A-Za-z0-9_]{2,})\s*\(|\b([A-Z][A-Za-z0-9_]{2,})\b"
+    CALL_OR_TYPE_RE = re.compile(r"\b([A-Za-z_][A-Za-z0-9_]{2,})\s*\(|\b([A-Z][A-Za-z0-9_]{2,})\b")
+    _IGNORED_SYMBOLS = frozenset(
+        {
+            "self",
+            "cls",
+            "super",
+            "init",
+            "__init__",
+            "len",
+            "str",
+            "int",
+            "float",
+            "bool",
+            "list",
+            "dict",
+            "set",
+            "tuple",
+            "max",
+            "min",
+            "sum",
+            "any",
+            "all",
+            "print",
+            "range",
+            "enumerate",
+            "zip",
+            "isinstance",
+            "getattr",
+            "setattr",
+            "List",
+            "Dict",
+            "Set",
+            "Tuple",
+            "Optional",
+            "Sequence",
+            "Any",
+            "Union",
+            "Callable",
+            "Promise",
+            "Array",
+            "Record",
+            "Error",
+            "Exception",
+            "ValueError",
+            "True",
+            "False",
+            "None",
+            "async",
+            "await",
+            "return",
+            "raise",
+            "yield",
+        }
     )
-    _IGNORED_SYMBOLS = frozenset({
-        "self", "cls", "super", "init", "__init__", "len", "str", "int", "float",
-        "bool", "list", "dict", "set", "tuple", "max", "min", "sum", "any", "all",
-        "print", "range", "enumerate", "zip", "isinstance", "getattr", "setattr",
-        "List", "Dict", "Set", "Tuple", "Optional", "Sequence", "Any", "Union",
-        "Callable", "Promise", "Array", "Record", "Error", "Exception", "ValueError",
-        "True", "False", "None", "async", "await", "return", "raise", "yield",
-    })
 
     def __init__(
         self,
@@ -189,9 +232,7 @@ class HybridCodeRetriever:
         reranked: List[RetrievedChunk] = []
         for c in items[: top_k * 3]:
             c.rerank_score = (0.55 * c.dense_score) + (0.45 * c.sparse_score)
-            c.final_score = (self.rerank_weight * c.rerank_score) + (
-                (1.0 - self.rerank_weight) * c.rrf_score
-            )
+            c.final_score = (self.rerank_weight * c.rerank_score) + ((1.0 - self.rerank_weight) * c.rrf_score)
             if c.final_score >= self.min_relevance_threshold:
                 reranked.append(c)
 
@@ -208,9 +249,7 @@ class HybridCodeRetriever:
         )
         return primary + hop_chunks
 
-    def _extract_referenced_symbols(
-        self, primary_chunks: List[RetrievedChunk]
-    ) -> Dict[str, str]:
+    def _extract_referenced_symbols(self, primary_chunks: List[RetrievedChunk]) -> Dict[str, str]:
         """Returns {candidate_symbol_name: source_chunk_symbol_or_file}."""
         existing_symbols = {c.symbol_name for c in primary_chunks if c.symbol_name}
         candidates: Dict[str, str] = {}
@@ -250,9 +289,7 @@ class HybridCodeRetriever:
                 if prev is None or item.final_score > prev.final_score:
                     by_symbol[item.symbol_name] = item
 
-        for sym_name, item in sorted(
-            by_symbol.items(), key=lambda kv: kv[1].final_score, reverse=True
-        )[:max_hops]:
+        for sym_name, item in sorted(by_symbol.items(), key=lambda kv: kv[1].final_score, reverse=True)[:max_hops]:
             matched_symbols.add(sym_name)
             hop_chunks.append(
                 dataclasses.replace(

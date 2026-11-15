@@ -50,9 +50,7 @@ class LLMService:
         # Check pre-generation abstention
         abstain, reason = self.citation_engine.should_abstain_pre_generation(retrieved_chunks, query)
         if abstain:
-            fallback = self.citation_engine._build_fallback_response(
-                reason or "Context insufficient", retrieved_chunks
-            )
+            fallback = self.citation_engine._build_fallback_response(reason or "Context insufficient", retrieved_chunks)
             yield f"data: {json.dumps({'type': 'token', 'content': fallback.answer_markdown})}\n\n"
             yield f"data: {json.dumps({'type': 'done', 'is_abstained': True, 'citations': [], 'latency_ms': int((time.time() - start_time) * 1000)})}\n\n"
             return
@@ -119,9 +117,7 @@ class LLMService:
             )
         except _GEMINI_FAILURES as exc:
             # Log the error type and message only, never the prompt: it contains the user's code.
-            return self._template(
-                query, retrieved_chunks, reason=f"{type(exc).__name__}: {exc}", level=logging.WARNING
-            )
+            return self._template(query, retrieved_chunks, reason=f"{type(exc).__name__}: {exc}", level=logging.WARNING)
 
         if not (resp and resp.text):
             return self._template(query, retrieved_chunks, reason="Gemini returned no text", level=logging.WARNING)
@@ -151,9 +147,7 @@ class LLMService:
     RELATIVE_CITATION_CUTOFF = 0.90
     MAX_CITED_CHUNKS = 3
 
-    def _generate_deterministic_explanation(
-        self, query: str, chunks: List[RetrievedChunk]
-    ) -> str:
+    def _generate_deterministic_explanation(self, query: str, chunks: List[RetrievedChunk]) -> str:
         """
         Produces grounded code explanations referencing exact line numbers.
         Cites only the strongest primary retrieved chunks to keep citation precision high,
@@ -172,7 +166,7 @@ class LLMService:
         top_chunks = [c for c in primary_chunks if c.final_score >= cutoff][: self.MAX_CITED_CHUNKS]
 
         parts = [
-            f"### Analysis for: *\"{query}\"*\n",
+            f'### Analysis for: *"{query}"*\n',
             f"Based on the indexed codebase analysis, the relevant implementation is located in `{primary.file_path}`.",
         ]
 
@@ -185,11 +179,13 @@ class LLMService:
         for chunk in top_chunks:
             citation = f"[{chunk.file_path}:{chunk.start_line}-{chunk.end_line}]"
             symbol_desc = f"`{chunk.symbol_name}`" if chunk.symbol_name else "Code block"
-            lines_preview = [line.strip() for line in chunk.raw_code.splitlines() if line.strip() and not line.strip().startswith(("#", "//", "/*"))][:2]
+            lines_preview = [
+                line.strip()
+                for line in chunk.raw_code.splitlines()
+                if line.strip() and not line.strip().startswith(("#", "//", "/*"))
+            ][:2]
             preview_str = f" (`{' '.join(lines_preview)}`)" if lines_preview else ""
-            parts.append(
-                f"- **{chunk.file_path}**: {symbol_desc}{preview_str} handles this logic at {citation}."
-            )
+            parts.append(f"- **{chunk.file_path}**: {symbol_desc}{preview_str} handles this logic at {citation}.")
 
         if len(top_chunks) > 1:
             second = top_chunks[1]
@@ -212,4 +208,3 @@ class LLMService:
             parts.append("\n**1-Hop AST Call-Graph Context:**\n" + "\n".join(hop_lines))
 
         return "\n".join(parts)
-
