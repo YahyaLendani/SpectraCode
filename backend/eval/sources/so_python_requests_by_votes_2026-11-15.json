@@ -7501,7 +7501,5007 @@
    "question_id": 49542986,
    "score": 4,
    "title": "Returning 403 Forbidden from simple get but loads okay in browser"
+  },
+  {
+   "question_id": 49508563,
+   "score": 4,
+   "title": "How to send Digitalocean outbound traffic over floating ip from a python script?"
+  },
+  {
+   "question_id": 49005177,
+   "score": 4,
+   "title": "SSL_CERT_DIR not avaluated by urrlib2"
+  },
+  {
+   "question_id": 48980029,
+   "score": 4,
+   "title": "Catch proxy errors on requests python"
+  },
+  {
+   "question_id": 47364740,
+   "score": 4,
+   "title": "SSLError in Python requests module"
+  },
+  {
+   "question_id": 47241845,
+   "score": 4,
+   "title": "Find a dot in a text file and add a newline to the file in Python?"
+  },
+  {
+   "question_id": 46608159,
+   "score": 4,
+   "title": "How to log AppEnginePlatformWarning as warning not as error"
+  },
+  {
+   "question_id": 46095622,
+   "score": 4,
+   "title": "Getting JSON parameter from requests, I get: 'method' object is not subscriptable"
+  },
+  {
+   "question_id": 45028580,
+   "score": 4,
+   "title": "urllib.request.urlretrieve ERROR trying to download jpeg in Python"
+  },
+  {
+   "question_id": 44294218,
+   "score": 4,
+   "title": "Python Requests throws SSL Error on certain site"
+  },
+  {
+   "question_id": 42946947,
+   "score": 4,
+   "title": "python - request url as mobile"
+  },
+  {
+   "question_id": 42801680,
+   "score": 4,
+   "title": "Python requests send multiple cookies"
+  },
+  {
+   "question_id": 41118030,
+   "score": 4,
+   "title": "How to get the exact url of the requests library in python"
+  },
+  {
+   "question_id": 40725155,
+   "score": 4,
+   "title": "json object returned by http response"
+  },
+  {
+   "question_id": 39968111,
+   "score": 4,
+   "title": "Unable to POST to Grafana using Python3 module requests"
+  },
+  {
+   "question_id": 38637249,
+   "score": 4,
+   "title": "Why is my Flask request object always empty?"
+  },
+  {
+   "question_id": 38537963,
+   "score": 4,
+   "title": "How can I use POST from requests module to login to Github?"
+  },
+  {
+   "question_id": 36375380,
+   "score": 4,
+   "title": "How to create a user in the Moodle Rest WS using the Python Requests module?"
+  },
+  {
+   "question_id": 34254642,
+   "score": 4,
+   "title": "curl statement `--form input=@./thefile.pdf` in python requests"
+  },
+  {
+   "question_id": 30024717,
+   "score": 4,
+   "title": "How to log out of Requests Session in Python"
+  },
+  {
+   "question_id": 26874749,
+   "score": 4,
+   "title": "Disable logging for a python module in one context but not another"
+  },
+  {
+   "question_id": 21040352,
+   "score": 4,
+   "title": "python requests module: what's the difference between head and get request method"
+  },
+  {
+   "question_id": 20830551,
+   "score": 4,
+   "title": "How to streaming upload with python requests module (include file and data)?"
+  },
+  {
+   "question_id": 20119258,
+   "score": 4,
+   "title": "Python 3 script for logging into a website using the Requests module"
+  },
+  {
+   "question_id": 19609703,
+   "score": 4,
+   "title": "POST Request in Python 'requests' module not working properly"
+  },
+  {
+   "question_id": 14552088,
+   "score": 4,
+   "title": "Using curl vs Python requests"
+  },
+  {
+   "question_id": 74129088,
+   "score": 4,
+   "title": "How to properly reuse a session while multiprocessing"
+  },
+  {
+   "question_id": 73260078,
+   "score": 4,
+   "title": "Send in-memory bytes (file) over multipart/form-data POST request. Python"
+  },
+  {
+   "question_id": 72250896,
+   "score": 4,
+   "title": "PowerShell Get request with body"
+  },
+  {
+   "question_id": 65783493,
+   "score": 4,
+   "title": "OpenSSL errors in python requests"
+  },
+  {
+   "question_id": 64575042,
+   "score": 4,
+   "title": "Artifactory AQL Query Using Python 3 'Requests'"
+  },
+  {
+   "question_id": 63014045,
+   "score": 4,
+   "title": "Decrypting python requests https traffic in wireshark"
+  },
+  {
+   "question_id": 62736631,
+   "score": 4,
+   "title": "How do I send a HTTP/2 pseudo-headers with requests?"
+  },
+  {
+   "question_id": 62168002,
+   "score": 4,
+   "title": "POST requests with JSON data, how to break it up into chunks"
+  },
+  {
+   "question_id": 60949010,
+   "score": 4,
+   "title": "Scraping an easy site with response post / get"
+  },
+  {
+   "question_id": 60118757,
+   "score": 4,
+   "title": "AttributeError: 'dict' object has no attribute 'encode'"
+  },
+  {
+   "question_id": 59654479,
+   "score": 4,
+   "title": "Trying to place an order on Oanda using Python Requests. Getting JSON error"
+  },
+  {
+   "question_id": 58011032,
+   "score": 4,
+   "title": "Docker python requests results in DH KEY TOO SMALL error"
+  },
+  {
+   "question_id": 55178483,
+   "score": 4,
+   "title": "Python requests module giving \"Please enable JavaScript to view the page content\" on local but working on AMI and Heroku server"
+  },
+  {
+   "question_id": 53728417,
+   "score": 4,
+   "title": "Parsing a JSON using specific key words using Python"
+  },
+  {
+   "question_id": 53139649,
+   "score": 4,
+   "title": "How to use the requests module to skip connection timeout urls"
+  },
+  {
+   "question_id": 52701411,
+   "score": 4,
+   "title": "SSLError( '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:777)'),)) in Python while accessing an url"
+  },
+  {
+   "question_id": 51431392,
+   "score": 4,
+   "title": "Upload excel file to SharePoint Online using Python"
+  },
+  {
+   "question_id": 51372698,
+   "score": 4,
+   "title": "How can I access a peer's cert chain from a python-requests response/exception object?"
+  },
+  {
+   "question_id": 49739827,
+   "score": 4,
+   "title": "How to pass date arguments for requests.get command for API data?"
+  },
+  {
+   "question_id": 49268359,
+   "score": 4,
+   "title": "Scrape Google Quick Answer Box in Python"
+  },
+  {
+   "question_id": 49234416,
+   "score": 4,
+   "title": "Getting [Errno 110] 'Connection timed out' when trying to do get requests in python"
+  },
+  {
+   "question_id": 49138415,
+   "score": 4,
+   "title": "Error with Python and XML"
+  },
+  {
+   "question_id": 49006224,
+   "score": 4,
+   "title": "Do Python 3.6 and Requests Module conform to RFC 6125 for wildcard reference identifiers?"
+  },
+  {
+   "question_id": 48732506,
+   "score": 4,
+   "title": "Python, threading, and requests: What happens when I make concurrent requests in one session?"
+  },
+  {
+   "question_id": 48677978,
+   "score": 4,
+   "title": "Python - Run multiple get requests in parallel and stop on first response"
+  },
+  {
+   "question_id": 47706382,
+   "score": 4,
+   "title": "Using session context manager and stream=True at the same time"
+  },
+  {
+   "question_id": 47076402,
+   "score": 4,
+   "title": "Requests not responding on long wait from other IP rather than localhost"
+  },
+  {
+   "question_id": 44157160,
+   "score": 4,
+   "title": "Creating a function using yield instead of return to generate frames from an http stream continuously"
+  },
+  {
+   "question_id": 43307472,
+   "score": 4,
+   "title": "Python Requests Refresh"
+  },
+  {
+   "question_id": 43301477,
+   "score": 4,
+   "title": "python requests return a different web page from browser or urllib"
+  },
+  {
+   "question_id": 43009769,
+   "score": 4,
+   "title": "How to upload a pdf by sending a POST Request to an API"
+  },
+  {
+   "question_id": 39068998,
+   "score": 4,
+   "title": "Reading CONNECT headers"
+  },
+  {
+   "question_id": 35569447,
+   "score": 4,
+   "title": "How to click submit button in a form?"
+  },
+  {
+   "question_id": 34644577,
+   "score": 4,
+   "title": "Python requests/urllib3 NewConnectionError only when script runs on a cronjob from the office"
+  },
+  {
+   "question_id": 34451685,
+   "score": 4,
+   "title": "Python requests, multipart without files"
+  },
+  {
+   "question_id": 32572691,
+   "score": 4,
+   "title": "How to get cookies as a string"
+  },
+  {
+   "question_id": 31589201,
+   "score": 4,
+   "title": "Programmatically Provide Secondary WiFi HotSpot Credentials with Python on Linux"
+  },
+  {
+   "question_id": 30878197,
+   "score": 4,
+   "title": "Python: How to handle excel data from web without saving file"
+  },
+  {
+   "question_id": 30588154,
+   "score": 4,
+   "title": "Fast way to check if image on remote URL exists in python"
+  },
+  {
+   "question_id": 26386198,
+   "score": 4,
+   "title": "Using lxml to process html from requests. TypeError: can't pickle _ElementUnicodeResult objects"
+  },
+  {
+   "question_id": 24401407,
+   "score": 4,
+   "title": "HTTP delete message using requests module"
+  },
+  {
+   "question_id": 18811958,
+   "score": 4,
+   "title": "Python: Cookies not persisting between requests"
+  },
+  {
+   "question_id": 78736182,
+   "score": 4,
+   "title": "How do I best send Pydantic model objects via put requests?"
+  },
+  {
+   "question_id": 73592665,
+   "score": 4,
+   "title": "Python requests - GET/POST with data over SSL truncates the response"
+  },
+  {
+   "question_id": 71426756,
+   "score": 4,
+   "title": "FastAPI POST request with List input raises 422 Unprocessable Entity error"
+  },
+  {
+   "question_id": 70616716,
+   "score": 4,
+   "title": "python requests unicode encode error while attaching cookies"
+  },
+  {
+   "question_id": 69850919,
+   "score": 4,
+   "title": "is there a way to manipulate image without saving to a file first?"
+  },
+  {
+   "question_id": 69220126,
+   "score": 4,
+   "title": "Getting SSL: CERTIFICATE_VERIFY_FAILED when using proxy with python requests"
+  },
+  {
+   "question_id": 66908549,
+   "score": 4,
+   "title": "requests.exceptions.HTTPError vs requests.HTTPError"
+  },
+  {
+   "question_id": 66599569,
+   "score": 4,
+   "title": "Log into a website using Selenium, but continue working (while logged in) with requests"
+  },
+  {
+   "question_id": 65695786,
+   "score": 4,
+   "title": "Gmail API: How to simply authenticate a User and get a list of their messages?"
+  },
+  {
+   "question_id": 65403238,
+   "score": 4,
+   "title": "Can't find the right way to grab part numbers from a webpage using requests"
+  },
+  {
+   "question_id": 63344359,
+   "score": 4,
+   "title": "How to change platform when scraping a website (Futbin) in Python?"
+  },
+  {
+   "question_id": 63157046,
+   "score": 4,
+   "title": "Python HTTP Request Exception: LineTooLong"
+  },
+  {
+   "question_id": 61283448,
+   "score": 4,
+   "title": "How to avoid \"Please Verify you are a Human\" with python webScraping?"
+  },
+  {
+   "question_id": 60191014,
+   "score": 4,
+   "title": "ValueError: Invalid file path or buffer object type: <class 'dict'> python"
+  },
+  {
+   "question_id": 60042697,
+   "score": 4,
+   "title": "Force a maximum time to download image from URL"
+  },
+  {
+   "question_id": 59928959,
+   "score": 4,
+   "title": "Sending images by POST using python requests"
+  },
+  {
+   "question_id": 59588358,
+   "score": 4,
+   "title": "sqlite multiple writes at same time"
+  },
+  {
+   "question_id": 59554404,
+   "score": 4,
+   "title": "How do I assert that an HTTP exception was raised?"
+  },
+  {
+   "question_id": 57298432,
+   "score": 4,
+   "title": "Safely handling potentially malicious URLs using Requests"
+  },
+  {
+   "question_id": 57122593,
+   "score": 4,
+   "title": "Web scraping with python how to get to the text"
+  },
+  {
+   "question_id": 55792005,
+   "score": 4,
+   "title": "How can I make a URL request with Python and return the URL I am redirected to?"
+  },
+  {
+   "question_id": 55258575,
+   "score": 4,
+   "title": "Insert data into sqlite3 database with API"
+  },
+  {
+   "question_id": 54174164,
+   "score": 4,
+   "title": "parsing/extracting nested JSON data with Python under Conditions"
+  },
+  {
+   "question_id": 53871768,
+   "score": 4,
+   "title": "Python Requests Stream Async"
+  },
+  {
+   "question_id": 52865169,
+   "score": 4,
+   "title": "How to read wikipedia table of 2018 in film using python pandas and BeautifulSoup"
+  },
+  {
+   "question_id": 52226567,
+   "score": 4,
+   "title": "Python Requests and clicking a button"
+  },
+  {
+   "question_id": 49944443,
+   "score": 4,
+   "title": "Parse element's tail with requests-html"
+  },
+  {
+   "question_id": 48300303,
+   "score": 4,
+   "title": "Selenium and BeautifulSoup: sharing and pulling session data resources to multiple libraries in python"
+  },
+  {
+   "question_id": 44025977,
+   "score": 4,
+   "title": "Using 'Requests' python module for POST request, receiving response as if it were GET"
+  },
+  {
+   "question_id": 42933035,
+   "score": 4,
+   "title": "How to mock requests methods called dynamically using getattr"
+  },
+  {
+   "question_id": 42613938,
+   "score": 4,
+   "title": "Python post request for USPTO site scraping"
+  },
+  {
+   "question_id": 42280133,
+   "score": 4,
+   "title": "How can I increase the speed of this python requests session?"
+  },
+  {
+   "question_id": 41902283,
+   "score": 4,
+   "title": "Python Multithreading a for loop with limited Threads"
+  },
+  {
+   "question_id": 41350762,
+   "score": 4,
+   "title": "Python Requests: Logging into website using POST and Cookies"
+  },
+  {
+   "question_id": 40234592,
+   "score": 4,
+   "title": "Unexpected response with Google Safe Browsing API v4 and Python requests"
+  },
+  {
+   "question_id": 40228587,
+   "score": 4,
+   "title": "Python requests.packages.urllib3.connection.VerifiedHTTPSConnection [Errno 11004]"
+  },
+  {
+   "question_id": 37888774,
+   "score": 4,
+   "title": "Python 3.51 Requests causes Proxy Error"
+  },
+  {
+   "question_id": 36875345,
+   "score": 4,
+   "title": "How to use Python requests module and TeamCity API to trigger a build?"
+  },
+  {
+   "question_id": 36102451,
+   "score": 4,
+   "title": "Python requests print used cipher for HTTPS"
+  },
+  {
+   "question_id": 35380977,
+   "score": 4,
+   "title": "How to get the server info of a website using python requests?"
+  },
+  {
+   "question_id": 35190088,
+   "score": 4,
+   "title": "How to send HTTP request in SSH?"
+  },
+  {
+   "question_id": 30817089,
+   "score": 4,
+   "title": "Retrieve access token for Yahoo API using OAuth 2.0 and Python requests"
+  },
+  {
+   "question_id": 25860105,
+   "score": 4,
+   "title": "Python Requests package: lost connection while streaming"
+  },
+  {
+   "question_id": 25319889,
+   "score": 4,
+   "title": "can mechanize be fully replaced with requests [python]"
+  },
+  {
+   "question_id": 24569428,
+   "score": 4,
+   "title": "How to specify \"socket_options\" in python-requests lib since urllib3 v1.8.3 has been added the \"socket_options\" feature?"
+  },
+  {
+   "question_id": 20792871,
+   "score": 4,
+   "title": "Google App Engine, serving files with Jquery and Python, 2 identical files are returned instead of 1"
+  },
+  {
+   "question_id": 17478572,
+   "score": 4,
+   "title": "Server always sends RST to some destinations and proper responses to others"
+  },
+  {
+   "question_id": 17152296,
+   "score": 4,
+   "title": "different results with python requests module and curl"
+  },
+  {
+   "question_id": 15765210,
+   "score": 4,
+   "title": "Python requests library pre_request hook"
+  },
+  {
+   "question_id": 14001188,
+   "score": 4,
+   "title": "Why does Python Requests throw this error when attempting to use it with Tumblr?"
+  },
+  {
+   "question_id": 79855475,
+   "score": 4,
+   "title": "How to fix \"requests.exceptions.ConnectionError\" when using requests library python?"
+  },
+  {
+   "question_id": 69238551,
+   "score": 4,
+   "title": "Retrieve data from web site after 2 POST queries"
+  },
+  {
+   "question_id": 68793171,
+   "score": 4,
+   "title": "Python TypeError: '_asyncio.Future' object is not subscriptable"
+  },
+  {
+   "question_id": 66472805,
+   "score": 4,
+   "title": "Works with curl, fails with requests; how can I fix my requests code?"
+  },
+  {
+   "question_id": 64729420,
+   "score": 4,
+   "title": "Web scraping company description from StackOverflow companies"
+  },
+  {
+   "question_id": 64658898,
+   "score": 4,
+   "title": "Python http requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+  },
+  {
+   "question_id": 63792435,
+   "score": 4,
+   "title": "requests session.close() does not close the session"
+  },
+  {
+   "question_id": 61713731,
+   "score": 4,
+   "title": "python how to get the final destination after redirections"
+  },
+  {
+   "question_id": 61445426,
+   "score": 4,
+   "title": "Alpha Vantage API Key returns invalid error in Python, and what is Response[200]?"
+  },
+  {
+   "question_id": 61088503,
+   "score": 4,
+   "title": "Why \"requests\" module timeout doesn't work in python3?"
+  },
+  {
+   "question_id": 61048116,
+   "score": 4,
+   "title": "Try to Scrape Instacart: Python"
+  },
+  {
+   "question_id": 60588584,
+   "score": 4,
+   "title": "Trouble choosing and uploading a pdf file using requests"
+  },
+  {
+   "question_id": 59193447,
+   "score": 4,
+   "title": "Requests http lib: include X-Request-ID"
+  },
+  {
+   "question_id": 58253867,
+   "score": 4,
+   "title": "How to get response URL in Python requests module?"
+  },
+  {
+   "question_id": 57547380,
+   "score": 4,
+   "title": "How to fix escape characters appearing in response while using python requests lib?"
+  },
+  {
+   "question_id": 56657291,
+   "score": 4,
+   "title": "How to generate oauth signature with hmac-sha1 with python?"
+  },
+  {
+   "question_id": 55899101,
+   "score": 4,
+   "title": "AttributeError: module 'urllib3' has no attribute '__version__' error while executing py file"
+  },
+  {
+   "question_id": 55882199,
+   "score": 4,
+   "title": "Multithreading Python Requests Through Tor"
+  },
+  {
+   "question_id": 55389127,
+   "score": 4,
+   "title": "What is a good way to call a python script from a Google Sheets spreadsheet?"
+  },
+  {
+   "question_id": 54777411,
+   "score": 4,
+   "title": "Calling Cloud Function from App Engine runtime Python 3.7"
+  },
+  {
+   "question_id": 54325867,
+   "score": 4,
+   "title": "requests.exceptions.MissingSchema: Invalid URL 'None': No schema supplied while trying to find broken links through Selenium and Python"
+  },
+  {
+   "question_id": 53745325,
+   "score": 4,
+   "title": "Module 'requests' doesn't go through with the login"
+  },
+  {
+   "question_id": 53311168,
+   "score": 4,
+   "title": "Python: HTTPS using a proxy server with requests"
+  },
+  {
+   "question_id": 52300837,
+   "score": 4,
+   "title": "Travis CI Python failed to import 'requests'"
+  },
+  {
+   "question_id": 52170647,
+   "score": 4,
+   "title": "How to download file from a page using python"
+  },
+  {
+   "question_id": 51740051,
+   "score": 4,
+   "title": "Using AWS Cognito access token in requests for API gateway in Python"
+  },
+  {
+   "question_id": 51315550,
+   "score": 4,
+   "title": "Using requests in a loop provides different HTML than using it outside of the loop"
+  },
+  {
+   "question_id": 51029223,
+   "score": 4,
+   "title": "Send XML with attachment to SOAP ws using Python"
+  },
+  {
+   "question_id": 50090122,
+   "score": 4,
+   "title": "MemoryError exception while trying to read large website file data"
+  },
+  {
+   "question_id": 49749498,
+   "score": 4,
+   "title": "Proper way to perform GET API Call with API key in header?"
+  },
+  {
+   "question_id": 46568969,
+   "score": 4,
+   "title": "python Requests SSL ERROR (certificate verify failed)"
+  },
+  {
+   "question_id": 44865265,
+   "score": 4,
+   "title": "requests.exceptions.SSLError: [SSL: TLSV1_ALERT_PROTOCOL_VERSION] tlsv1 alert protocol version (_ssl.c:590)"
+  },
+  {
+   "question_id": 44452143,
+   "score": 4,
+   "title": "python post request with certificate"
+  },
+  {
+   "question_id": 42814390,
+   "score": 4,
+   "title": "PyInstaller Hidden Imports"
+  },
+  {
+   "question_id": 42113041,
+   "score": 4,
+   "title": "Perform Download via download button in Python"
+  },
+  {
+   "question_id": 41533444,
+   "score": 4,
+   "title": "Can I get a virus by visiting an unknown website using python's requests package?"
+  },
+  {
+   "question_id": 40009167,
+   "score": 4,
+   "title": "How to Catch a 503 Error and retry request"
+  },
+  {
+   "question_id": 33994095,
+   "score": 4,
+   "title": "LocationValueError when using python requests module"
+  },
+  {
+   "question_id": 32910093,
+   "score": 4,
+   "title": "Python requests gets TLSV1_ALERT_INTERNAL_ERROR"
+  },
+  {
+   "question_id": 32221851,
+   "score": 4,
+   "title": "unable to log in to a website with requests"
+  },
+  {
+   "question_id": 27955978,
+   "score": 4,
+   "title": "Python Requests URL with Unicode Parameters"
+  },
+  {
+   "question_id": 20608443,
+   "score": 4,
+   "title": "Python requests multithreading \"Max Retries exceeded with url\" Caused by <class 'socket.gaierror'>"
+  },
+  {
+   "question_id": 20437753,
+   "score": 4,
+   "title": "Python Requests library can't handle redirects for HTTPS URLs when behind a proxy"
+  },
+  {
+   "question_id": 16941601,
+   "score": 4,
+   "title": "How can I get json.loads(json-string) to return a dictionary instead of a string or list of strings?"
+  },
+  {
+   "question_id": 74803278,
+   "score": 4,
+   "title": "python request and MSL is not working with azure protected URL"
+  },
+  {
+   "question_id": 74049084,
+   "score": 4,
+   "title": "Why am I getting a 403 Forbidden when scraping with python?"
+  },
+  {
+   "question_id": 72859355,
+   "score": 4,
+   "title": "How to login into Instagram using Python Requests?"
+  },
+  {
+   "question_id": 69994407,
+   "score": 4,
+   "title": "Can I download images from Selenium WITHOUT another URL request?"
+  },
+  {
+   "question_id": 68950645,
+   "score": 4,
+   "title": "Unable to get response from FreshDesk API in proxy mode {\"code\" : \"invalid_credentials\", \"message\" : \"You need to be logged in to perform action\"}"
+  },
+  {
+   "question_id": 67486574,
+   "score": 4,
+   "title": "Create KB article via ServiceNow Table API"
+  },
+  {
+   "question_id": 64869645,
+   "score": 4,
+   "title": "Python requests timeout in AWS Lambda"
+  },
+  {
+   "question_id": 64473359,
+   "score": 4,
+   "title": "Setting Azure EnvironmentCredential()"
+  },
+  {
+   "question_id": 63056166,
+   "score": 4,
+   "title": "SharePlumRequestError: SharePlum HTTP Post Failed"
+  },
+  {
+   "question_id": 61493298,
+   "score": 4,
+   "title": "Flask App Response Not Received Client Side"
+  },
+  {
+   "question_id": 61480802,
+   "score": 4,
+   "title": "Python requests library creates new connection each time"
+  },
+  {
+   "question_id": 60899318,
+   "score": 4,
+   "title": "How to stream a file in a request?"
+  },
+  {
+   "question_id": 59851207,
+   "score": 4,
+   "title": "ConnectionResetError with requests module raises exception inside of exception, crashing program"
+  },
+  {
+   "question_id": 59476797,
+   "score": 4,
+   "title": "Python - requests, lmxl and xpath not working"
+  },
+  {
+   "question_id": 59162353,
+   "score": 4,
+   "title": "python requests keep connection alive for indefinite time"
+  },
+  {
+   "question_id": 58823137,
+   "score": 4,
+   "title": "Is this python36 version issue? How to resolve it?"
+  },
+  {
+   "question_id": 58303338,
+   "score": 4,
+   "title": "Get timestamp of sent and received data using Python requests library"
+  },
+  {
+   "question_id": 58206470,
+   "score": 4,
+   "title": "Seeking explanation of aiohttp response/connection closing behavior"
+  },
+  {
+   "question_id": 58014372,
+   "score": 4,
+   "title": "Stream a large file from URL straight into a gzip file"
+  },
+  {
+   "question_id": 56553467,
+   "score": 4,
+   "title": "how to get webpage window data with python?"
+  },
+  {
+   "question_id": 54737088,
+   "score": 4,
+   "title": "Count the number of times multiple substrings appear in a string at once"
+  },
+  {
+   "question_id": 53614624,
+   "score": 4,
+   "title": "Make a python 3 request using proxy"
+  },
+  {
+   "question_id": 49513035,
+   "score": 4,
+   "title": "How to remove Http 401 Unauthorized error using python3"
+  },
+  {
+   "question_id": 49247924,
+   "score": 4,
+   "title": "Python Requests OAuth2Session() passing multiple scope arguments"
+  },
+  {
+   "question_id": 48410064,
+   "score": 4,
+   "title": "Login website with python requests"
+  },
+  {
+   "question_id": 47665944,
+   "score": 4,
+   "title": "What are the drawbacks for making the connection pool size for the Python 'requests' module very large?"
+  },
+  {
+   "question_id": 47378635,
+   "score": 4,
+   "title": "Ridiculously low download speed with Python requests module"
+  },
+  {
+   "question_id": 47196100,
+   "score": 4,
+   "title": "BadStatusLine Error in using Python, Requests"
+  },
+  {
+   "question_id": 45995955,
+   "score": 4,
+   "title": "Requests.get showing different HTML than Chrome's Developer Tool"
+  },
+  {
+   "question_id": 45718173,
+   "score": 4,
+   "title": "How can I log in this specific website using Python Requests?"
+  },
+  {
+   "question_id": 42366913,
+   "score": 4,
+   "title": "How to scrape a website that requires login with Python"
+  },
+  {
+   "question_id": 42320031,
+   "score": 4,
+   "title": "Logging in using Python's Requests"
+  },
+  {
+   "question_id": 41387207,
+   "score": 4,
+   "title": "Trouble using python request module to make API post call within AWS lambda"
+  },
+  {
+   "question_id": 40563414,
+   "score": 4,
+   "title": "website visit using python requests doesn't count in google analytics"
+  },
+  {
+   "question_id": 40154027,
+   "score": 4,
+   "title": "How to download a file from an url and keep its name and metadata with python requests"
+  },
+  {
+   "question_id": 37211963,
+   "score": 4,
+   "title": "Need help figuring out how to send POST login info in python"
+  },
+  {
+   "question_id": 36406318,
+   "score": 4,
+   "title": "urlopen/requests.get not working in threads created in imported modules"
+  },
+  {
+   "question_id": 33632231,
+   "score": 4,
+   "title": "Django not accepting data from python-requests.patch()"
+  },
+  {
+   "question_id": 32671802,
+   "score": 4,
+   "title": "POST without reloading entire webpage"
+  },
+  {
+   "question_id": 31477660,
+   "score": 4,
+   "title": "Python submit tags with requests"
+  },
+  {
+   "question_id": 30221881,
+   "score": 4,
+   "title": "Signing into Google Accounts with Requests"
+  },
+  {
+   "question_id": 29588214,
+   "score": 4,
+   "title": "Working with Python Requests response raw file-like object (process pcap file without saving it to disk)"
+  },
+  {
+   "question_id": 23289602,
+   "score": 4,
+   "title": "Create mime/multipart request containing multiple HTTP requests"
+  },
+  {
+   "question_id": 22702289,
+   "score": 4,
+   "title": "Python Requests: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:547)"
+  },
+  {
+   "question_id": 21275072,
+   "score": 4,
+   "title": "Python requests.exceptions.ConnectionError: HTTPSConnectionPool : Max retries exceeded with url: [Errno 111] Connection refused)"
+  },
+  {
+   "question_id": 20802108,
+   "score": 4,
+   "title": "How to submit a javascript-form using Python requests library?"
+  },
+  {
+   "question_id": 19733659,
+   "score": 4,
+   "title": "Upload without memory - stream file not possible with python-requests"
+  },
+  {
+   "question_id": 18950119,
+   "score": 4,
+   "title": "Python requests.get proxy not working?"
+  },
+  {
+   "question_id": 17432983,
+   "score": 4,
+   "title": "How to log in to Google with Python Requests module?"
+  },
+  {
+   "question_id": 9026016,
+   "score": 4,
+   "title": "Python requests library combine HTTPProxyAuth with HTTPBasicAuth"
+  },
+  {
+   "question_id": 78304128,
+   "score": 4,
+   "title": "Python requests retry adapter with multiple sequential requests"
+  },
+  {
+   "question_id": 76994728,
+   "score": 4,
+   "title": "Error with Python + requests: TLS/SSL connection has been closed (EOF) (_ssl.c:1006)"
+  },
+  {
+   "question_id": 76543403,
+   "score": 4,
+   "title": "Python - requests.exceptions.SSLError - dh key too small (new version)"
+  },
+  {
+   "question_id": 75564803,
+   "score": 4,
+   "title": "python requests ChunkedEncodingError when receiving and writing some data from a server"
+  },
+  {
+   "question_id": 73290348,
+   "score": 4,
+   "title": "Failed to decode basic authentication token Python 3.10"
+  },
+  {
+   "question_id": 72690927,
+   "score": 4,
+   "title": "Why is Python requests.PreparedRequest's body type bytes when json is specified and str when data is specified is passed?"
+  },
+  {
+   "question_id": 71924965,
+   "score": 4,
+   "title": "Requesting kubernetes service by name sometimes fails"
+  },
+  {
+   "question_id": 70808977,
+   "score": 4,
+   "title": "Python Requests 403 Forbidden using Requests IP Rotator & Random User Agent libraries"
+  },
+  {
+   "question_id": 69458458,
+   "score": 4,
+   "title": "aiohttp check headers on every request and set them again if not correct"
+  },
+  {
+   "question_id": 68814035,
+   "score": 4,
+   "title": "HTTP3 version with python-requests"
+  },
+  {
+   "question_id": 68406723,
+   "score": 4,
+   "title": "use python requests module to access asp.net core localhost pages with self signed https certificate"
+  },
+  {
+   "question_id": 66636267,
+   "score": 4,
+   "title": "Python POST request doesn't send request until after waiting for duration of timeout period on google app engine"
+  },
+  {
+   "question_id": 66055356,
+   "score": 4,
+   "title": "How to continue intercepting requests with pyppeteer?"
+  },
+  {
+   "question_id": 63614396,
+   "score": 4,
+   "title": "Debug output for 'requests' in ansible module"
+  },
+  {
+   "question_id": 63595233,
+   "score": 4,
+   "title": "Python 3.6 Beautiful Soup - Trouble to Get Embedded Video URL during Web Scraping"
+  },
+  {
+   "question_id": 60010695,
+   "score": 4,
+   "title": "Login a website which uses OAuth 2.0 using Python"
+  },
+  {
+   "question_id": 59761511,
+   "score": 4,
+   "title": "Python script returning youtube livechat messages with youtube API returns weird KeyError and NoneType errors after some time"
+  },
+  {
+   "question_id": 59462677,
+   "score": 4,
+   "title": "Python requests response is very slow and not equal to cURL"
+  },
+  {
+   "question_id": 59421237,
+   "score": 4,
+   "title": "Bearer token not working in requests.post authorization header?"
+  },
+  {
+   "question_id": 58888132,
+   "score": 4,
+   "title": "Python requests missing cookies after redirect"
+  },
+  {
+   "question_id": 57962230,
+   "score": 4,
+   "title": "Metabase API request for query with parameters is constrained to 2000 rows"
+  },
+  {
+   "question_id": 56565081,
+   "score": 4,
+   "title": "File uploaded to Flask is empty when sending to other API with requests"
+  },
+  {
+   "question_id": 56528946,
+   "score": 4,
+   "title": "How to fix ‘AttributeError: cffi library '_constant_time' has no function, constant or global variable named '__spec__'’ error in django”"
+  },
+  {
+   "question_id": 56385873,
+   "score": 4,
+   "title": "Logging into Google account with Python requests"
+  },
+  {
+   "question_id": 56153142,
+   "score": 4,
+   "title": "Python `requests` to get a generator object for JSON response"
+  },
+  {
+   "question_id": 54322329,
+   "score": 4,
+   "title": "How to get the web data using requests and pyqt5?"
+  },
+  {
+   "question_id": 53532488,
+   "score": 4,
+   "title": "Python html-requests render() doesn't render javascript elements"
+  },
+  {
+   "question_id": 52650938,
+   "score": 4,
+   "title": "Failed to establish a new connection error using Python requests Errno -2 Name or service unknown"
+  },
+  {
+   "question_id": 50664558,
+   "score": 4,
+   "title": "Python 3 log in to website and download file"
+  },
+  {
+   "question_id": 50030865,
+   "score": 4,
+   "title": "Is that benchmark reliable - aiohttp vs requests"
+  },
+  {
+   "question_id": 50002958,
+   "score": 4,
+   "title": "python upload string with https post"
+  },
+  {
+   "question_id": 49736889,
+   "score": 4,
+   "title": "Python Requests fails to get successful response with (converted) client cert"
+  },
+  {
+   "question_id": 49493307,
+   "score": 4,
+   "title": "Correct way to handle custom API error messages in Requests?"
+  },
+  {
+   "question_id": 49298342,
+   "score": 4,
+   "title": "Python requests zip upload makes zipfile unreadable in Windows"
+  },
+  {
+   "question_id": 49155808,
+   "score": 4,
+   "title": "json.load() VS request.json()"
+  },
+  {
+   "question_id": 49138153,
+   "score": 4,
+   "title": "Adding Multiple .xls files to a Single .xls file, using the file name to name tabs"
+  },
+  {
+   "question_id": 48904495,
+   "score": 4,
+   "title": "In Python 3, requests.get() gives incomplete json response"
+  },
+  {
+   "question_id": 48903757,
+   "score": 4,
+   "title": "Python3 SimpleHTTPServer error"
+  },
+  {
+   "question_id": 48358921,
+   "score": 4,
+   "title": "Windows 10 pro and IIS concurrent request limitation"
+  },
+  {
+   "question_id": 47767596,
+   "score": 4,
+   "title": "Python: Correct way to not block a GTK UI while doing HTTP requests"
+  },
+  {
+   "question_id": 45558511,
+   "score": 4,
+   "title": "Python Requests: Check if Login was successful"
+  },
+  {
+   "question_id": 45115719,
+   "score": 4,
+   "title": "How to add values to built in entities like 'wit$location' in wit.ai"
+  },
+  {
+   "question_id": 44908357,
+   "score": 4,
+   "title": "Using urllib to get the final redirect of a webpage in Python 3.5"
+  },
+  {
+   "question_id": 43898191,
+   "score": 4,
+   "title": "How to use Python requests to simultaneously download and upload a file"
+  },
+  {
+   "question_id": 42006196,
+   "score": 4,
+   "title": "SSL Bad Handshake - AWS - Requests"
+  },
+  {
+   "question_id": 41156339,
+   "score": 4,
+   "title": "Missing certain part of Cookies using requests.get()?"
+  },
+  {
+   "question_id": 39838616,
+   "score": 4,
+   "title": "Why is Python logging framework losing messages?"
+  },
+  {
+   "question_id": 39289489,
+   "score": 4,
+   "title": "HTTPS request using DES-CBC-SHA and latest version of Python?"
+  },
+  {
+   "question_id": 39159439,
+   "score": 4,
+   "title": "SSL certificate error X509_load_cert_crl_file"
+  },
+  {
+   "question_id": 38310650,
+   "score": 4,
+   "title": "How to use python requests with a server that has two IP addresses"
+  },
+  {
+   "question_id": 36602672,
+   "score": 4,
+   "title": "Python requests - Session , define a default website for following relative url requests"
+  },
+  {
+   "question_id": 36465408,
+   "score": 4,
+   "title": "Python: async requests with grequests not significantly faster than requests"
+  },
+  {
+   "question_id": 36139027,
+   "score": 4,
+   "title": "Python \"requests\" module does not respect http_proxy environment variable when target URL uses an ip address?"
+  },
+  {
+   "question_id": 35968209,
+   "score": 4,
+   "title": "Most efficient way to check if a session is still valid/handle connectionError?"
+  },
+  {
+   "question_id": 35652914,
+   "score": 4,
+   "title": "How to use grequests in flask?"
+  },
+  {
+   "question_id": 35146733,
+   "score": 4,
+   "title": "Is urllib2 slower than requests in python3"
+  },
+  {
+   "question_id": 34953043,
+   "score": 4,
+   "title": "Stream parsing of big HTML"
+  },
+  {
+   "question_id": 33877491,
+   "score": 4,
+   "title": "python multiprocessing Process is killed by http request if ipdb is imported"
+  },
+  {
+   "question_id": 30192033,
+   "score": 4,
+   "title": "Python/peewee script stops responding after a while"
+  },
+  {
+   "question_id": 29414717,
+   "score": 4,
+   "title": "issue with aiohttp POST for a binary file upload"
+  },
+  {
+   "question_id": 29278723,
+   "score": 4,
+   "title": "How to robustly debug gevent 'This operation would block forever' exception?"
+  },
+  {
+   "question_id": 27068453,
+   "score": 4,
+   "title": "Python Rest API test case"
+  },
+  {
+   "question_id": 22366433,
+   "score": 4,
+   "title": "Python Flask: Download a file generated on the fly AND print a response"
+  },
+  {
+   "question_id": 21778885,
+   "score": 4,
+   "title": "Python3 progress bar and download with gzip"
+  },
+  {
+   "question_id": 21235416,
+   "score": 4,
+   "title": "Python, Catch timeout during stream request"
+  },
+  {
+   "question_id": 18950358,
+   "score": 4,
+   "title": "Authenticating Google account in python script"
+  },
+  {
+   "question_id": 74574427,
+   "score": 4,
+   "title": "Python HTTPS requests slow with openssl 3"
+  },
+  {
+   "question_id": 72858917,
+   "score": 4,
+   "title": "Python requests throws SSLCertVerificationError with Let's Encrypt certificates"
+  },
+  {
+   "question_id": 70531198,
+   "score": 4,
+   "title": "Python Requests: Generating a specific token (__cf_bm)"
+  },
+  {
+   "question_id": 60712771,
+   "score": 4,
+   "title": "Attribute error: module 'requests' has no attribute 'Session' in pandas-DataReader"
+  },
+  {
+   "question_id": 41524217,
+   "score": 4,
+   "title": "Requesting data from a website isn't working/loading python3"
+  },
+  {
+   "question_id": 10134690,
+   "score": 3,
+   "title": "Using Requests python library to connect Django app failed on authentication"
+  },
+  {
+   "question_id": 36446657,
+   "score": 3,
+   "title": "Requests - Multiple proxies python"
+  },
+  {
+   "question_id": 42971622,
+   "score": 3,
+   "title": "Fetching a .onion domain with requests"
+  },
+  {
+   "question_id": 69782728,
+   "score": 3,
+   "title": "urllib.error.HTTPError: HTTP Error 403: Forbidden with urllib.requests"
+  },
+  {
+   "question_id": 61140863,
+   "score": 3,
+   "title": "Python Downloading twitter video using python (without using twitter api)"
+  },
+  {
+   "question_id": 50401755,
+   "score": 3,
+   "title": "requests library with googleapiclient"
+  },
+  {
+   "question_id": 49973049,
+   "score": 3,
+   "title": "How to re-gridding xarray from higher to lower resolution using IDW"
+  },
+  {
+   "question_id": 45721350,
+   "score": 3,
+   "title": "Python Flask: Send file and variable"
+  },
+  {
+   "question_id": 36453359,
+   "score": 3,
+   "title": "Requests module encoding provides different encode then HTML encode"
+  },
+  {
+   "question_id": 35049736,
+   "score": 3,
+   "title": "How can I stop Python's Requests library from stripping out escape characters?"
+  },
+  {
+   "question_id": 17427507,
+   "score": 3,
+   "title": "Zendesk: Authenticating using Python 3.2.2 'requests' module and API token"
+  },
+  {
+   "question_id": 52128880,
+   "score": 3,
+   "title": "Python requests: how to handle status code 304"
+  },
+  {
+   "question_id": 47800065,
+   "score": 3,
+   "title": "How to GET file and stream it into a POST request with Python Requests?"
+  },
+  {
+   "question_id": 37068513,
+   "score": 3,
+   "title": "How to use Splash with python-requests?"
+  },
+  {
+   "question_id": 29996001,
+   "score": 3,
+   "title": "Using Python requests.get to parse html code that does not load at once"
+  },
+  {
+   "question_id": 22480865,
+   "score": 3,
+   "title": "InvalidSchema when trying to connect to localhost"
+  },
+  {
+   "question_id": 70052068,
+   "score": 3,
+   "title": "Python - Requests Library - How to ensure HTTPS requests"
+  },
+  {
+   "question_id": 70043665,
+   "score": 3,
+   "title": "FastAPI/Unvicorn request hanging during invocation of call_next (path operation function) in middleware"
+  },
+  {
+   "question_id": 62326253,
+   "score": 3,
+   "title": "How do I post curl command as a python request?"
+  },
+  {
+   "question_id": 40140412,
+   "score": 3,
+   "title": "POST XML file with requests"
+  },
+  {
+   "question_id": 31840451,
+   "score": 3,
+   "title": "x-auth token in requests module"
+  },
+  {
+   "question_id": 25500563,
+   "score": 3,
+   "title": "Set new cookie between requests with Python Requests"
+  },
+  {
+   "question_id": 16204690,
+   "score": 3,
+   "title": "Python requests: How to PUT a string in body?"
+  },
+  {
+   "question_id": 14550050,
+   "score": 3,
+   "title": "Using requests module to export csv"
+  },
+  {
+   "question_id": 57936399,
+   "score": 3,
+   "title": "Python request loop, retry if status code not 200"
+  },
+  {
+   "question_id": 55435400,
+   "score": 3,
+   "title": "Handling pound sign (#) in python requests"
+  },
+  {
+   "question_id": 53462955,
+   "score": 3,
+   "title": "Robotframework.request - How to make a POST request with content \"multipart/form-data\""
+  },
+  {
+   "question_id": 51034490,
+   "score": 3,
+   "title": "Unable to send `multipart/form-data` request with python requests module"
+  },
+  {
+   "question_id": 34839584,
+   "score": 3,
+   "title": "Why does `requests` use the `with` statement?"
+  },
+  {
+   "question_id": 34051500,
+   "score": 3,
+   "title": "Python Requests, getting back: Unexpected character encountered while parsing value: L. Path"
+  },
+  {
+   "question_id": 28015146,
+   "score": 3,
+   "title": "Python Requests module doesn't handle timeout if streams=True?"
+  },
+  {
+   "question_id": 19321912,
+   "score": 3,
+   "title": "Python Grequests xml responses"
+  },
+  {
+   "question_id": 71805528,
+   "score": 3,
+   "title": "how to persist sessions in httpx python"
+  },
+  {
+   "question_id": 56608480,
+   "score": 3,
+   "title": "Parsing leetcode question content with requests and BeautifulSoup"
+  },
+  {
+   "question_id": 55345244,
+   "score": 3,
+   "title": "Querying Log Analytics So That It Returns a List of All Table Names"
+  },
+  {
+   "question_id": 45151473,
+   "score": 3,
+   "title": "Returning JSON using a GET request from server"
+  },
+  {
+   "question_id": 32313623,
+   "score": 3,
+   "title": "Passing comma separated values in request.get python"
+  },
+  {
+   "question_id": 31840232,
+   "score": 3,
+   "title": "Logging into a forum using Python Requests"
+  },
+  {
+   "question_id": 25254340,
+   "score": 3,
+   "title": "Python: Must non-built-in exceptions be imported in order to catch them?"
+  },
+  {
+   "question_id": 23474711,
+   "score": 3,
+   "title": "BeautifulSoup changes HTML"
+  },
+  {
+   "question_id": 15409132,
+   "score": 3,
+   "title": "TypeError : 'NoneType' object not callable when using split in Python with BeautifulSoup"
+  },
+  {
+   "question_id": 14089238,
+   "score": 3,
+   "title": "Iterating and printing JSON objects in Python"
+  },
+  {
+   "question_id": 72188214,
+   "score": 3,
+   "title": "Connection error with `requests` on localhost with Docker"
+  },
+  {
+   "question_id": 71548899,
+   "score": 3,
+   "title": "Cloudscraper returns AttributeError: 'SSLContext' object has no attribute 'orig_wrap_socket'"
+  },
+  {
+   "question_id": 70927568,
+   "score": 3,
+   "title": "Downloading images with selenium and requests: why does the .get_attribute() method of a WebElement returns a URL in base64?"
+  },
+  {
+   "question_id": 66462283,
+   "score": 3,
+   "title": "Adding another var to URL of get request?"
+  },
+  {
+   "question_id": 65448909,
+   "score": 3,
+   "title": "Max retries exceeded with url in Requests Python"
+  },
+  {
+   "question_id": 63430614,
+   "score": 3,
+   "title": "How to send image to Strapi with Python Requests?"
+  },
+  {
+   "question_id": 61074952,
+   "score": 3,
+   "title": "Whats the rate limit of google"
+  },
+  {
+   "question_id": 56913577,
+   "score": 3,
+   "title": "Python-Django [SSL: WRONG_VERSION_NUMBER] Error"
+  },
+  {
+   "question_id": 55203791,
+   "score": 3,
+   "title": "Python requests using certificate value instead of path"
+  },
+  {
+   "question_id": 49869769,
+   "score": 3,
+   "title": "How do I *properly* run an asyncio/aiohttp request in a loop?"
+  },
+  {
+   "question_id": 45818881,
+   "score": 3,
+   "title": "Python Requests response decode"
+  },
+  {
+   "question_id": 41741290,
+   "score": 3,
+   "title": "Getting multiple URLs from request"
+  },
+  {
+   "question_id": 39737820,
+   "score": 3,
+   "title": "requests.exceptions.SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:600)"
+  },
+  {
+   "question_id": 39551502,
+   "score": 3,
+   "title": "Python POST request error \"image format unsupported\" using Microsoft Face API"
+  },
+  {
+   "question_id": 38562888,
+   "score": 3,
+   "title": "How to make GET request with python-requests without downloading content"
+  },
+  {
+   "question_id": 36389508,
+   "score": 3,
+   "title": "python - requests, using data parametres with same name"
+  },
+  {
+   "question_id": 31554704,
+   "score": 3,
+   "title": "How to get first child table row from a table in BeautifulSoup ( Python )"
+  },
+  {
+   "question_id": 28323508,
+   "score": 3,
+   "title": "Challenge: How to send > 1000 HTTP requests in one second with Python"
+  },
+  {
+   "question_id": 28125932,
+   "score": 3,
+   "title": "How to find not null variables from URL query string? or can we get the variable in URL query string from request in python"
+  },
+  {
+   "question_id": 23717547,
+   "score": 3,
+   "title": "Wrong encoding when displaying an HTML Request in Python"
+  },
+  {
+   "question_id": 14998006,
+   "score": 3,
+   "title": "requests via a SOCKs proxy"
+  },
+  {
+   "question_id": 70488856,
+   "score": 3,
+   "title": "Python sockets and requests"
+  },
+  {
+   "question_id": 67697668,
+   "score": 3,
+   "title": "How to write a unit test code for functions which make API requests to web?"
+  },
+  {
+   "question_id": 67375006,
+   "score": 3,
+   "title": "How to send BytesIO using requests post"
+  },
+  {
+   "question_id": 66580265,
+   "score": 3,
+   "title": "Why is the requests module not installed according to the google-auth library?"
+  },
+  {
+   "question_id": 65919546,
+   "score": 3,
+   "title": "Saving a byte stream PDF as file in python"
+  },
+  {
+   "question_id": 65232087,
+   "score": 3,
+   "title": "How to modify a yarl.URL object?"
+  },
+  {
+   "question_id": 62799145,
+   "score": 3,
+   "title": "How to get instagram sessionid using python + requests"
+  },
+  {
+   "question_id": 61531824,
+   "score": 3,
+   "title": "Convert cURL command Into Python using requests"
+  },
+  {
+   "question_id": 60720282,
+   "score": 3,
+   "title": "Error : OSError: libmediainfo.so.0: cannot open shared object file: No such file or directory"
+  },
+  {
+   "question_id": 54365153,
+   "score": 3,
+   "title": "Python tips for working with an unstable `API`"
+  },
+  {
+   "question_id": 53501357,
+   "score": 3,
+   "title": "Python change instagram profile-picture with requests"
+  },
+  {
+   "question_id": 47968108,
+   "score": 3,
+   "title": "Extract html div class using BeautifulSoup"
+  },
+  {
+   "question_id": 47629594,
+   "score": 3,
+   "title": "requests.post with Authentication giving error 415 for jira rest api in python"
+  },
+  {
+   "question_id": 47338274,
+   "score": 3,
+   "title": "Python requests fails when tryign to connect to .onion site"
+  },
+  {
+   "question_id": 46754742,
+   "score": 3,
+   "title": "Python HTML POST with requests"
+  },
+  {
+   "question_id": 44421113,
+   "score": 3,
+   "title": "How to use HTML formatting with telegra.ph API"
+  },
+  {
+   "question_id": 41024252,
+   "score": 3,
+   "title": "Why is python requests throwing this BadStatusLine exception"
+  },
+  {
+   "question_id": 36458634,
+   "score": 3,
+   "title": "How not to let python requests calculate content-length and use the provided one?"
+  },
+  {
+   "question_id": 36357369,
+   "score": 3,
+   "title": "How to Get the IP address of the URL in requests module in Python 3.5.1"
+  },
+  {
+   "question_id": 36116295,
+   "score": 3,
+   "title": "What is the python requests equivalent of the following curl command"
+  },
+  {
+   "question_id": 32651986,
+   "score": 3,
+   "title": "Decode JSON File Upload in Falcon REST"
+  },
+  {
+   "question_id": 31713444,
+   "score": 3,
+   "title": "Return utf-8 from XPath using lxml and requests"
+  },
+  {
+   "question_id": 79818221,
+   "score": 3,
+   "title": "Python requests.request returning garbage"
+  },
+  {
+   "question_id": 77652094,
+   "score": 3,
+   "title": "How to post JSON data that include unicode characters to FastAPI using Python requests?"
+  },
+  {
+   "question_id": 76434987,
+   "score": 3,
+   "title": "Why does this simple Python HTTPS request throw an SSL error even when given an SSL certificate?"
+  },
+  {
+   "question_id": 73598825,
+   "score": 3,
+   "title": "How to get file from url in python?"
+  },
+  {
+   "question_id": 68510550,
+   "score": 3,
+   "title": "ModuleNotFoundError: No module named 'urllib.request'; 'urllib' is not a package"
+  },
+  {
+   "question_id": 68222409,
+   "score": 3,
+   "title": "How to POST multipart/form-data in Python with requests"
+  },
+  {
+   "question_id": 65496549,
+   "score": 3,
+   "title": "Sending post request with both data and JSON parameters"
+  },
+  {
+   "question_id": 63541601,
+   "score": 3,
+   "title": "Intermittent BeautifulSoup with Amazon Book ISBN"
+  },
+  {
+   "question_id": 62205493,
+   "score": 3,
+   "title": "Flask request.args.get not getting all params (Python)"
+  },
+  {
+   "question_id": 61279249,
+   "score": 3,
+   "title": "python requests not able to make connection to NSE india, Connection error"
+  },
+  {
+   "question_id": 58614515,
+   "score": 3,
+   "title": "Azure DevOps REST API returning HTTP Status 203 when using Python Requests"
+  },
+  {
+   "question_id": 57125660,
+   "score": 3,
+   "title": "How does Python's Requests treat multiple cookies in a header"
+  },
+  {
+   "question_id": 56996346,
+   "score": 3,
+   "title": "Python Requests library post interpreted by Django as GET for some reason"
+  },
+  {
+   "question_id": 56912082,
+   "score": 3,
+   "title": "Getting bad request error when posting file to server using python requests library"
+  },
+  {
+   "question_id": 56528868,
+   "score": 3,
+   "title": "log all http requests in python"
+  },
+  {
+   "question_id": 55536933,
+   "score": 3,
+   "title": "Getting encoded csv from url into Pandas"
+  },
+  {
+   "question_id": 54101781,
+   "score": 3,
+   "title": "How can I use Python requests to paginate api calls with offset parameter"
+  },
+  {
+   "question_id": 53980890,
+   "score": 3,
+   "title": "Python: Beautifulsoup returning None or [ ]"
+  },
+  {
+   "question_id": 53791833,
+   "score": 3,
+   "title": "How do I get checkbox \"on\" using Python Flask without causing a 400 bad request error?"
+  },
+  {
+   "question_id": 53726512,
+   "score": 3,
+   "title": "Python Requests - Uploading a Zip file"
+  },
+  {
+   "question_id": 52143842,
+   "score": 3,
+   "title": "Creating an API to execute a python script"
+  },
+  {
+   "question_id": 50485530,
+   "score": 3,
+   "title": "Python WhiteNoise not gzip compressing in Flask application"
+  },
+  {
+   "question_id": 48066225,
+   "score": 3,
+   "title": "Python: retrieve several URLs via select.epoll()"
+  },
+  {
+   "question_id": 47675138,
+   "score": 3,
+   "title": "How to override BACKOFF_MAX while working with requests retry"
+  },
+  {
+   "question_id": 47359847,
+   "score": 3,
+   "title": "PyQt5 loading spinner halts on post request"
+  },
+  {
+   "question_id": 47190980,
+   "score": 3,
+   "title": "Is there way to see active queries/requests running in Apache Cassandra?"
+  },
+  {
+   "question_id": 45060160,
+   "score": 3,
+   "title": "How to get around \"MissingSchema\" error in Python?"
+  },
+  {
+   "question_id": 44307957,
+   "score": 3,
+   "title": "Requests.get not working with & character"
+  },
+  {
+   "question_id": 44122802,
+   "score": 3,
+   "title": "Parse requests.get() output into a pandas dataframe"
+  },
+  {
+   "question_id": 44036473,
+   "score": 3,
+   "title": "SSLError: unknown error (_ssl.c:2825). While verifying .cer file in python"
+  },
+  {
+   "question_id": 41740361,
+   "score": 3,
+   "title": "Is it safe to disable SSL certificate verification in pythons's requests lib?"
+  },
+  {
+   "question_id": 37009692,
+   "score": 3,
+   "title": "SSL Error: Bad handshake"
+  },
+  {
+   "question_id": 34443198,
+   "score": 3,
+   "title": "Python requests not responding"
+  },
+  {
+   "question_id": 30491339,
+   "score": 3,
+   "title": "Python 2.7 download images"
+  },
+  {
+   "question_id": 28580182,
+   "score": 3,
+   "title": "How to POST this API code in Python 3 with Requests module? Keep getting 405 error"
+  },
+  {
+   "question_id": 24790258,
+   "score": 3,
+   "title": "Encoding issue of a character in utf-8"
+  },
+  {
+   "question_id": 23018521,
+   "score": 3,
+   "title": "POST Binary (video) File Using Python Requests"
+  },
+  {
+   "question_id": 22324947,
+   "score": 3,
+   "title": "Uploading an image from python client to a flask server"
+  },
+  {
+   "question_id": 10659124,
+   "score": 3,
+   "title": "Python Requests and CAS"
+  },
+  {
+   "question_id": 10631077,
+   "score": 3,
+   "title": "Python mechanize connection failed issue"
+  },
+  {
+   "question_id": 79527000,
+   "score": 3,
+   "title": "Download large file from URL using Python"
+  },
+  {
+   "question_id": 73097598,
+   "score": 3,
+   "title": "Using request to scrape a webpage does not return all the data"
+  },
+  {
+   "question_id": 71418546,
+   "score": 3,
+   "title": "Beautiful Soup not working on this website"
+  },
+  {
+   "question_id": 70455932,
+   "score": 3,
+   "title": "Python function to print a dot to console while HTTP call executes"
+  },
+  {
+   "question_id": 68997058,
+   "score": 3,
+   "title": "How to retry requests on specific exception"
+  },
+  {
+   "question_id": 68744736,
+   "score": 3,
+   "title": "bs4 discard all HTML before a specific tag"
+  },
+  {
+   "question_id": 66710047,
+   "score": 3,
+   "title": "Python requests library. Get the status code without downloading the target"
+  },
+  {
+   "question_id": 66117488,
+   "score": 3,
+   "title": "how to get response data from a python post request"
+  },
+  {
+   "question_id": 65438638,
+   "score": 3,
+   "title": "How to correctly requests.put in Python 3.7"
+  },
+  {
+   "question_id": 64268498,
+   "score": 3,
+   "title": "Failed to fetch tabular content from a webpage using requests"
+  },
+  {
+   "question_id": 63632554,
+   "score": 3,
+   "title": "how to find out if string is in the dictionary"
+  },
+  {
+   "question_id": 63510577,
+   "score": 3,
+   "title": "Spotify API returns a 404 not found when trying to fetch information for podcasts"
+  },
+  {
+   "question_id": 63064651,
+   "score": 3,
+   "title": "Python \"responses\" mock - unable to call one URL multiple times"
+  },
+  {
+   "question_id": 62438593,
+   "score": 3,
+   "title": "Python Requests Unable to Handle 403 Error"
+  },
+  {
+   "question_id": 62422172,
+   "score": 3,
+   "title": "Error: You don't have permission to access \"url\" on this server. in Beautiful soup"
+  },
+  {
+   "question_id": 62120779,
+   "score": 3,
+   "title": "How to extract attached credentials from a url?"
+  },
+  {
+   "question_id": 60766889,
+   "score": 3,
+   "title": "Flask Session does not hold any value between Requests"
+  },
+  {
+   "question_id": 60698351,
+   "score": 3,
+   "title": "vscode can't find python's requests library"
+  },
+  {
+   "question_id": 58520305,
+   "score": 3,
+   "title": "Python Instagram login using requests"
+  },
+  {
+   "question_id": 54636399,
+   "score": 3,
+   "title": "How to search in website html via python-3.6?"
+  },
+  {
+   "question_id": 54447889,
+   "score": 3,
+   "title": "getting past ReadTimeout from Python Requests"
+  },
+  {
+   "question_id": 52370401,
+   "score": 3,
+   "title": "How to get full server response message in Requests (or urllib3.response)?"
+  },
+  {
+   "question_id": 51843791,
+   "score": 3,
+   "title": "requests fails to download any image from a certain site although all image there is downloadable?"
+  },
+  {
+   "question_id": 50473534,
+   "score": 3,
+   "title": "Requests library - get TLS version used"
+  },
+  {
+   "question_id": 50173582,
+   "score": 3,
+   "title": "Read image from URL and keep it in memory"
+  },
+  {
+   "question_id": 49887395,
+   "score": 3,
+   "title": "pip install errors out: SyntaxError: invalid syntax"
+  },
+  {
+   "question_id": 49757135,
+   "score": 3,
+   "title": "Extracting a specific section of a URL"
+  },
+  {
+   "question_id": 47586741,
+   "score": 3,
+   "title": "How to get large size JSON files using requests module in Python"
+  },
+  {
+   "question_id": 46889283,
+   "score": 3,
+   "title": "Python Improper Update of JSON string in sql"
+  },
+  {
+   "question_id": 45980396,
+   "score": 3,
+   "title": "POST request file python-requests"
+  },
+  {
+   "question_id": 45902118,
+   "score": 3,
+   "title": "Does Python requests really connect to http proxy?"
+  },
+  {
+   "question_id": 45682073,
+   "score": 3,
+   "title": "Create new webdriver session manually"
+  },
+  {
+   "question_id": 45166334,
+   "score": 3,
+   "title": "Python Requests doesnt work for https proxy"
+  },
+  {
+   "question_id": 44344585,
+   "score": 3,
+   "title": "Linkedin authentication giving invalid redirect_uri"
+  },
+  {
+   "question_id": 43526243,
+   "score": 3,
+   "title": "Python Requests Proxy error 'Failed to parse'"
+  },
+  {
+   "question_id": 41686536,
+   "score": 3,
+   "title": "Querying PatentsView for patents of multiple assignee organization"
+  },
+  {
+   "question_id": 41218751,
+   "score": 3,
+   "title": "What type of exception is a urllib3 connection failure?"
+  },
+  {
+   "question_id": 40729122,
+   "score": 3,
+   "title": "Authenticating Yelp Fusion API with Python requests"
+  },
+  {
+   "question_id": 40698143,
+   "score": 3,
+   "title": "Is Jython a liability in my codebase?"
+  },
+  {
+   "question_id": 40154664,
+   "score": 3,
+   "title": "How to retrieve text from response made from Requests python"
+  },
+  {
+   "question_id": 39885322,
+   "score": 3,
+   "title": "Python error \"Connection reset by peer\" in requests module"
+  },
+  {
+   "question_id": 38093751,
+   "score": 3,
+   "title": "How to find a row ID or column ID in smartsheet?"
+  },
+  {
+   "question_id": 38014426,
+   "score": 3,
+   "title": "XHR request fails in Scrapy but works in python-requests"
+  },
+  {
+   "question_id": 36216274,
+   "score": 3,
+   "title": "Uploading a 0 bytes file to owncloud with python requests hangs"
+  },
+  {
+   "question_id": 35355988,
+   "score": 3,
+   "title": "How to extract link from <a> inside the <h2 class=section-heading>:BeautifulSoup"
+  },
+  {
+   "question_id": 33847243,
+   "score": 3,
+   "title": "Python \"requests\" library: HTTP basic authentication for each request"
+  },
+  {
+   "question_id": 33338486,
+   "score": 3,
+   "title": "Scraping second page in Python Yields Different Data Than Browsing to Second Page"
+  },
+  {
+   "question_id": 31660722,
+   "score": 3,
+   "title": "login to phpBB programmatically"
+  },
+  {
+   "question_id": 29478225,
+   "score": 3,
+   "title": "python-requests making a GET instead of POST request"
+  },
+  {
+   "question_id": 28687536,
+   "score": 3,
+   "title": "GET parameters with inequalities"
+  },
+  {
+   "question_id": 28311735,
+   "score": 3,
+   "title": "Download content-disposition from http response header (Python 3)"
+  },
+  {
+   "question_id": 26759577,
+   "score": 3,
+   "title": "Python Requests library throws exceptions in logging"
+  },
+  {
+   "question_id": 25714473,
+   "score": 3,
+   "title": "JSON ValueError: Unterminated string"
+  },
+  {
+   "question_id": 17722006,
+   "score": 3,
+   "title": "Login and upload file using Python 'requests'"
+  },
+  {
+   "question_id": 10730487,
+   "score": 3,
+   "title": "How to create titled Imgur Albums via the API?"
+  },
+  {
+   "question_id": 9267987,
+   "score": 3,
+   "title": "How to request an already quoted URL?"
+  },
+  {
+   "question_id": 9031275,
+   "score": 3,
+   "title": "Facebook graph GET request using python requests module- certificate verification failure"
+  },
+  {
+   "question_id": 75514573,
+   "score": 3,
+   "title": "Where can I find Python requests library functions **kwargs parameters documented?"
+  },
+  {
+   "question_id": 74108902,
+   "score": 3,
+   "title": "How to pass a retry strategy to a session in python requests"
+  },
+  {
+   "question_id": 74023492,
+   "score": 3,
+   "title": "Netsuite Rest API returns \"No Content\" status (204) when completed successfully"
+  },
+  {
+   "question_id": 73087518,
+   "score": 3,
+   "title": "Send message to discord using requests not working"
+  },
+  {
+   "question_id": 71300839,
+   "score": 3,
+   "title": "Difference between Python \"requests\" and Linux \"curl\""
+  },
+  {
+   "question_id": 68974641,
+   "score": 3,
+   "title": "pass ip address in python requests instead of url link"
+  },
+  {
+   "question_id": 68693855,
+   "score": 3,
+   "title": "aiohttp / Getting response object out of context manager"
+  },
+  {
+   "question_id": 68039452,
+   "score": 3,
+   "title": "How can I prevent requests.Response.iter_content() from repeatedly printing the chunk size?"
+  },
+  {
+   "question_id": 67871777,
+   "score": 3,
+   "title": "Why am I getting an empty body tag content when trying to use web scraping using the requests library?"
+  },
+  {
+   "question_id": 67201485,
+   "score": 3,
+   "title": "Accomplishing Oauth2.0 authorization with refresh token through Python (Google API service creation)"
+  },
+  {
+   "question_id": 66688858,
+   "score": 3,
+   "title": "use headers and basic authentication in python requests"
+  },
+  {
+   "question_id": 66420899,
+   "score": 3,
+   "title": "Multiprocessing: optimize CPU usage for concurrent HTTP async requests"
+  },
+  {
+   "question_id": 66108822,
+   "score": 3,
+   "title": "Download zipped csv file from server link and read into pandas"
+  },
+  {
+   "question_id": 65978980,
+   "score": 3,
+   "title": "Load a JSON File from a URL request"
+  },
+  {
+   "question_id": 65617646,
+   "score": 3,
+   "title": "Can a single machine make requests from multiple different IP Addresses?"
+  },
+  {
+   "question_id": 65575601,
+   "score": 3,
+   "title": "Python requests.get vs Session.get"
+  },
+  {
+   "question_id": 64516527,
+   "score": 3,
+   "title": "`_csv.Error: line contains NUL` from a downloaded csv"
+  },
+  {
+   "question_id": 64000857,
+   "score": 3,
+   "title": "How to Scrape Answer from Quizlet Flashcard? BS4 and Requests"
+  },
+  {
+   "question_id": 63119210,
+   "score": 3,
+   "title": "No results in scraping bing search"
+  },
+  {
+   "question_id": 62157733,
+   "score": 3,
+   "title": "Open a PDF, from a URL, with pdfminer.six"
+  },
+  {
+   "question_id": 61991164,
+   "score": 3,
+   "title": "Python requests: missing content-length response"
+  },
+  {
+   "question_id": 61484573,
+   "score": 3,
+   "title": "How can one write to a publicly available Google sheet (without authorization) in Python?"
+  },
+  {
+   "question_id": 60899761,
+   "score": 3,
+   "title": "Client certificate works in curl but not in Python"
+  },
+  {
+   "question_id": 59867297,
+   "score": 3,
+   "title": "Trouble returning web scraping output as dictionary"
+  },
+  {
+   "question_id": 58977728,
+   "score": 3,
+   "title": "How would I track progress on a large batch of grequests?"
+  },
+  {
+   "question_id": 58902311,
+   "score": 3,
+   "title": "parsing site with beautifulsoup"
+  },
+  {
+   "question_id": 58716393,
+   "score": 3,
+   "title": "Can't parse different product links from a webpage"
+  },
+  {
+   "question_id": 58596790,
+   "score": 3,
+   "title": "Setting host and port for requests.Session() objects"
+  },
+  {
+   "question_id": 58468678,
+   "score": 3,
+   "title": "Extracting follower count from Instagram"
+  },
+  {
+   "question_id": 58255753,
+   "score": 3,
+   "title": "How to handle with rate limiting with requests_futures?"
+  },
+  {
+   "question_id": 57409431,
+   "score": 3,
+   "title": "POST pdf-file is not received by API, Python, Requests"
+  },
+  {
+   "question_id": 56795227,
+   "score": 3,
+   "title": "How do I make progress bar while downloading file in python"
+  },
+  {
+   "question_id": 56746226,
+   "score": 3,
+   "title": "How to login using requests in Python?"
+  },
+  {
+   "question_id": 56384652,
+   "score": 3,
+   "title": "What makes the 'Request Entity Too Large' error when sending an image to Telegram?"
+  },
+  {
+   "question_id": 55787049,
+   "score": 3,
+   "title": "Why does my Gitlab Requests always return a Error 400"
+  },
+  {
+   "question_id": 55766638,
+   "score": 3,
+   "title": "Python login to chess.com with requests"
+  },
+  {
+   "question_id": 55724199,
+   "score": 3,
+   "title": "Webscraping: output different to original data"
+  },
+  {
+   "question_id": 55587160,
+   "score": 3,
+   "title": "Conversion of CURL to Python requests Elastic search"
+  },
+  {
+   "question_id": 54829882,
+   "score": 3,
+   "title": "Using Python to log into a tricky website"
+  },
+  {
+   "question_id": 54010716,
+   "score": 3,
+   "title": "How can you reduce/limit bandwidth during scraping of large images?"
+  },
+  {
+   "question_id": 52965280,
+   "score": 3,
+   "title": "Updating Zapier Storage programmatically"
+  },
+  {
+   "question_id": 52796113,
+   "score": 3,
+   "title": "OS dependent behavior of requests post"
+  },
+  {
+   "question_id": 52044489,
+   "score": 3,
+   "title": "How to get content length for google drive download ?"
+  },
+  {
+   "question_id": 52017598,
+   "score": 3,
+   "title": "Python Requests library to fill out option list"
+  },
+  {
+   "question_id": 51826961,
+   "score": 3,
+   "title": "Error accessing ftp website with BeautifulSoup and ftlib"
+  },
+  {
+   "question_id": 51574998,
+   "score": 3,
+   "title": "Django Rest Framework - Send multipart/form-data with file and other data to API"
+  },
+  {
+   "question_id": 50434046,
+   "score": 3,
+   "title": "How to get a request that is not the last in HttPretty?"
+  },
+  {
+   "question_id": 50027585,
+   "score": 3,
+   "title": "How to translate curl POST to requests POST in Python?"
+  },
+  {
+   "question_id": 49388892,
+   "score": 3,
+   "title": "Zapier frequently 10.01 seconds timeout"
+  },
+  {
+   "question_id": 48835661,
+   "score": 3,
+   "title": "Instagram Authentification with python and requests"
+  },
+  {
+   "question_id": 47745133,
+   "score": 3,
+   "title": "python requests post to url query parameter requires special character"
+  },
+  {
+   "question_id": 47062314,
+   "score": 3,
+   "title": "requests declines certificate"
+  },
+  {
+   "question_id": 46882276,
+   "score": 3,
+   "title": "Monkey patching _ssl_wrap_socket in Python requests library isn't executing"
+  },
+  {
+   "question_id": 46446904,
+   "score": 3,
+   "title": "Encoding an HTTP request in Python"
+  },
+  {
+   "question_id": 45512019,
+   "score": 3,
+   "title": "Python requests, PUT empty data"
+  },
+  {
+   "question_id": 44145990,
+   "score": 3,
+   "title": "Using Mautic API, how do I send the parameter \"lists\" when creating an email?"
+  },
+  {
+   "question_id": 44141655,
+   "score": 3,
+   "title": "Requests failing to connect to a TLS server"
+  },
+  {
+   "question_id": 43421026,
+   "score": 3,
+   "title": "How to deal with <TooManyRedirects: Exceeded 30 redirects.> exception using requests in Python?"
+  },
+  {
+   "question_id": 43298496,
+   "score": 3,
+   "title": "Scrape entire scrolling-load page with Python Requests"
+  },
+  {
+   "question_id": 42813855,
+   "score": 3,
+   "title": "requests UnicodeEncodeError: error"
+  },
+  {
+   "question_id": 39869366,
+   "score": 3,
+   "title": "Curl and Laravel, always redirects"
+  },
+  {
+   "question_id": 39103039,
+   "score": 3,
+   "title": "How to download file with default name and type in Python"
+  },
+  {
+   "question_id": 38370124,
+   "score": 3,
+   "title": "python requests: can I use s.mount() consecutively?"
+  },
+  {
+   "question_id": 38365799,
+   "score": 3,
+   "title": "Beautiful Soup won't return full table in from HTML object"
+  },
+  {
+   "question_id": 38071633,
+   "score": 3,
+   "title": "Requests/urllib3 Retry warning when downloading image"
+  },
+  {
+   "question_id": 37816596,
+   "score": 3,
+   "title": "Restrict request to only ask for HTTP/1.0 [to prevent chunking error]"
+  },
+  {
+   "question_id": 37532409,
+   "score": 3,
+   "title": "python request | construct POST request body"
+  },
+  {
+   "question_id": 37419362,
+   "score": 3,
+   "title": "Python requests: ignore exceptions and errors while connecting to proxy server"
+  },
+  {
+   "question_id": 36472371,
+   "score": 3,
+   "title": "Extract a json field from request query result in python"
+  },
+  {
+   "question_id": 35197419,
+   "score": 3,
+   "title": "python POST request and null value"
+  },
+  {
+   "question_id": 35137724,
+   "score": 3,
+   "title": "Python Requests Client Error: Bad Request, but works after website has been opened in browser"
+  },
+  {
+   "question_id": 32319845,
+   "score": 3,
+   "title": "python requests gives 'None' response, where json data is expected"
+  },
+  {
+   "question_id": 32044506,
+   "score": 3,
+   "title": "407 response from proxy using python requests"
+  },
+  {
+   "question_id": 31369633,
+   "score": 3,
+   "title": "Adding server certificates to CA_BUNDLE in python"
+  },
+  {
+   "question_id": 29828734,
+   "score": 3,
+   "title": "requests vs. request futures - response times inaccurate?"
+  },
+  {
+   "question_id": 29499920,
+   "score": 3,
+   "title": "Python Downloading Data File from Web-Scraped URL"
+  },
+  {
+   "question_id": 29186580,
+   "score": 3,
+   "title": "Unittesting Pyramid/Cornice resource with query string in a URL"
+  },
+  {
+   "question_id": 27621689,
+   "score": 3,
+   "title": "Not getting a 304 response even after adding ETag header"
+  },
+  {
+   "question_id": 27458204,
+   "score": 3,
+   "title": "Python - Using requests sends post message"
+  },
+  {
+   "question_id": 27248521,
+   "score": 3,
+   "title": "Python HTTP Request URL End Slash"
+  },
+  {
+   "question_id": 25584908,
+   "score": 3,
+   "title": "Python-requests how to call js function to calculate some value before post?"
+  },
+  {
+   "question_id": 25024087,
+   "score": 3,
+   "title": "Mimic curl in python"
+  },
+  {
+   "question_id": 24439556,
+   "score": 3,
+   "title": "XML Parsing with ElementTree and Requests"
+  },
+  {
+   "question_id": 23594515,
+   "score": 3,
+   "title": "Python request for Google Drive"
+  },
+  {
+   "question_id": 23302695,
+   "score": 3,
+   "title": "Python requests, keep getting 401 error when accessing an API"
+  },
+  {
+   "question_id": 22733527,
+   "score": 3,
+   "title": "How to mock Session.request without losing auth?"
+  },
+  {
+   "question_id": 21170518,
+   "score": 3,
+   "title": "Generate authorization digest header with urllib2 or requests"
+  },
+  {
+   "question_id": 15009332,
+   "score": 3,
+   "title": "Convert post request performed by curl to python request based on requests module"
+  },
+  {
+   "question_id": 13446680,
+   "score": 3,
+   "title": "Fetching cookie enabled page in python"
+  },
+  {
+   "question_id": 12443988,
+   "score": 3,
+   "title": "Make pylint tolerate Requests"
+  },
+  {
+   "question_id": 9900887,
+   "score": 3,
+   "title": "Displaying stackOverflow API JSON data using Flask"
+  },
+  {
+   "question_id": 78932957,
+   "score": 3,
+   "title": "Accessing pokeapi - taking a long time"
+  },
+  {
+   "question_id": 78219802,
+   "score": 3,
+   "title": "Use truststore's SSLContext with Python requests Session object"
+  },
+  {
+   "question_id": 77336619,
+   "score": 3,
+   "title": "Python Requests getting Error 403 - but works fine in Chrome"
+  },
+  {
+   "question_id": 76187515,
+   "score": 3,
+   "title": "How to parse the result of requests.get to produce the needed data"
+  },
+  {
+   "question_id": 76012206,
+   "score": 3,
+   "title": "How do I properly handle all possible exceptions by the requests module if a site is not reachable?"
+  },
+  {
+   "question_id": 75716967,
+   "score": 3,
+   "title": "Where is this University website pulling its data from?"
+  },
+  {
+   "question_id": 75713961,
+   "score": 3,
+   "title": "Python requests returns 403 even with headers"
+  },
+  {
+   "question_id": 75181193,
+   "score": 3,
+   "title": "Code works incorrectly after Exception - even with loop/try+except etc"
+  },
+  {
+   "question_id": 74890978,
+   "score": 3,
+   "title": "How to consume SOAP web services using Node.js"
+  },
+  {
+   "question_id": 74631487,
+   "score": 3,
+   "title": "How to send POST request using Julia lang HTTP library to a Django RESTFUL API (DRF)"
+  },
+  {
+   "question_id": 74388909,
+   "score": 3,
+   "title": "Is there a way of sending an multipart/form-data array using python requests?"
+  },
+  {
+   "question_id": 73971058,
+   "score": 3,
+   "title": "Set up Get New Access Token with OAuth2 credentials using python"
+  },
+  {
+   "question_id": 73629133,
+   "score": 3,
+   "title": "How to extract hidden table data from job-postings using BeautifulSoup?"
+  },
+  {
+   "question_id": 72406550,
+   "score": 3,
+   "title": "Getting LinkedIn company shares Python"
+  },
+  {
+   "question_id": 72165840,
+   "score": 3,
+   "title": "Salesforce Bulk Upsert with Python Requests library returns ClientInputError : LineEnding is invalid on user data"
+  },
+  {
+   "question_id": 71337116,
+   "score": 3,
+   "title": "Root cause found in openSSL due to AKI DirName extension: Python [SSL: CERTIFICATE_VERIFY_FAILED] ...: unable to get local issuer certificate"
+  },
+  {
+   "question_id": 71215761,
+   "score": 3,
+   "title": "Does Session object in request pakage support status code?"
+  },
+  {
+   "question_id": 69323728,
+   "score": 3,
+   "title": "Max retries exceeded with url Caused by NewConnectionError Failed to establish a new connection: [Errno -3] Temporary failure in name resolution"
+  },
+  {
+   "question_id": 68411497,
+   "score": 3,
+   "title": "Can't log in to facebook using requests module"
+  },
+  {
+   "question_id": 67395220,
+   "score": 3,
+   "title": "C#, IronPython error: IronPython.Runtime.Exceptions.ImportException - No module named requests"
+  },
+  {
+   "question_id": 66898119,
+   "score": 3,
+   "title": "Python get http trailers"
+  },
+  {
+   "question_id": 66470932,
+   "score": 3,
+   "title": "Create object on startup and share across requests"
+  },
+  {
+   "question_id": 65677906,
+   "score": 3,
+   "title": "Average word length of a column using Python"
+  },
+  {
+   "question_id": 65584011,
+   "score": 3,
+   "title": "How to reconnect in requests to continue a download"
+  },
+  {
+   "question_id": 65311228,
+   "score": 3,
+   "title": "how to send file through urlRequest from iOS(client-end)"
+  },
+  {
+   "question_id": 63875997,
+   "score": 3,
+   "title": "Upload file via POST multipart form-data using Python"
+  },
+  {
+   "question_id": 63644025,
+   "score": 3,
+   "title": "Always getting result as None while web scraping using bs4"
+  },
+  {
+   "question_id": 63596897,
+   "score": 3,
+   "title": "How can I get the next child in BeautifulSoup"
+  },
+  {
+   "question_id": 63485593,
+   "score": 3,
+   "title": "Python - How is it possible to get SSL Error (Max retries exceeded with url) at first request?"
+  },
+  {
+   "question_id": 63290582,
+   "score": 3,
+   "title": "Unable To Scrape Myntra"
+  },
+  {
+   "question_id": 63001250,
+   "score": 3,
+   "title": "Is there a way to access the contents of a NetCDF stored in a URL on Google Cloud Storage without downloading the file?"
+  },
+  {
+   "question_id": 62508831,
+   "score": 3,
+   "title": "How can I get size of file while downloading it in Python"
+  },
+  {
+   "question_id": 62009874,
+   "score": 3,
+   "title": "Google's Geocoding API Closing Connection without Response"
+  },
+  {
+   "question_id": 61532103,
+   "score": 3,
+   "title": "How to get JSON data from a Python POST request"
+  },
+  {
+   "question_id": 61346381,
+   "score": 3,
+   "title": "response 503 python requests"
+  },
+  {
+   "question_id": 61093893,
+   "score": 3,
+   "title": "Authentication Failed - 'Authorization' header is missing - Python HTTP request to Azure"
+  },
+  {
+   "question_id": 59702539,
+   "score": 3,
+   "title": "How can I see in debug logs which IP address is used for connection by Python's request?"
+  },
+  {
+   "question_id": 59612425,
+   "score": 3,
+   "title": "CSRF token not set in Django with Python Request"
+  },
+  {
+   "question_id": 59558486,
+   "score": 3,
+   "title": "Python BeautifulSoup and requests webscraping"
+  },
+  {
+   "question_id": 59551276,
+   "score": 3,
+   "title": "Unable to make python requests over tor ConnectionRefusedError: [WinError 10061]"
+  },
+  {
+   "question_id": 59470305,
+   "score": 3,
+   "title": "Django refuses request from Python requests"
+  },
+  {
+   "question_id": 58686962,
+   "score": 3,
+   "title": "How to make `requests` use a different hostname for TLS validation than DNS resolution?"
+  },
+  {
+   "question_id": 58325338,
+   "score": 3,
+   "title": "Python3 Requests Proxy (Socks5)"
+  },
+  {
+   "question_id": 58032252,
+   "score": 3,
+   "title": "How sending files via Python Requests library is different to Curl?"
+  },
+  {
+   "question_id": 57121649,
+   "score": 3,
+   "title": "Get JavaScript Web by requests-html given OpenSSL.SSL.Error'SSL routines', 'tls_process_server_certificate', 'certificate verify failed"
+  },
+  {
+   "question_id": 56570598,
+   "score": 3,
+   "title": "Unable to resolve 'requests'. IntelliSense may be missing for this module. Visual Studio/Python"
+  },
+  {
+   "question_id": 56324178,
+   "score": 3,
+   "title": "How to call get or any method of requests library of python by passing a method name to function argument?"
+  },
+  {
+   "question_id": 55821047,
+   "score": 3,
+   "title": "Download an SSRS report in Python using requests"
+  },
+  {
+   "question_id": 55642466,
+   "score": 3,
+   "title": "Why am I getting only part of the page when I'm requesting it?"
+  },
+  {
+   "question_id": 55561449,
+   "score": 3,
+   "title": "GET request with postman is working, but it does not work with python (HTTPSConnectionPool)"
+  },
+  {
+   "question_id": 55535126,
+   "score": 3,
+   "title": "getting elements of a one item find FindALL list"
+  },
+  {
+   "question_id": 55346142,
+   "score": 3,
+   "title": "Getting full html back from a website request using Python"
+  },
+  {
+   "question_id": 55329489,
+   "score": 3,
+   "title": "Data is missing while scraping using beautifulsoup4"
+  },
+  {
+   "question_id": 54893040,
+   "score": 3,
+   "title": "Python requests library in AWS Glue"
+  },
+  {
+   "question_id": 54789508,
+   "score": 3,
+   "title": "Using Python Requests Module with Dropdown Options"
+  },
+  {
+   "question_id": 54083191,
+   "score": 3,
+   "title": "How to import requests_toolbelt correctly in google app engine?"
+  },
+  {
+   "question_id": 53750324,
+   "score": 3,
+   "title": "curl --noproxy \"*\" equivalent in Python's request module"
+  },
+  {
+   "question_id": 53435774,
+   "score": 3,
+   "title": "Received response with content-encoding: gzip, but failed to decode it"
+  },
+  {
+   "question_id": 52717282,
+   "score": 3,
+   "title": "Requests HTTPConnectionPool Read timeout never recovers"
+  },
+  {
+   "question_id": 51414752,
+   "score": 3,
+   "title": "How do I create a sample IPSec packet using python scapy"
+  },
+  {
+   "question_id": 50154804,
+   "score": 3,
+   "title": "Python append to array and for loop for it"
+  },
+  {
+   "question_id": 50059239,
+   "score": 3,
+   "title": "Issues with saving an Excel.Writer file to new path"
+  },
+  {
+   "question_id": 49513214,
+   "score": 3,
+   "title": "Link with status code 200 redirects"
+  },
+  {
+   "question_id": 49481461,
+   "score": 3,
+   "title": "Access the next page of list results in Reddit API"
+  },
+  {
+   "question_id": 49081632,
+   "score": 3,
+   "title": "How to resolve TypeError get() takes exactly 2 arguments (3 given) in Python request using get method"
+  },
+  {
+   "question_id": 49053267,
+   "score": 3,
+   "title": "Using Python Requests to maintain a session"
+  },
+  {
+   "question_id": 48887367,
+   "score": 3,
+   "title": "Python Requests: POST form-data with empty file field"
+  },
+  {
+   "question_id": 46760228,
+   "score": 3,
+   "title": "Retry failed http requests with a randomized backoff delay in Python?"
+  },
+  {
+   "question_id": 46746085,
+   "score": 3,
+   "title": "Requests vs Selenium Python in Youtube"
+  },
+  {
+   "question_id": 46166950,
+   "score": 3,
+   "title": "Invalid Post: 400 - Bad Request with Python requests"
+  },
+  {
+   "question_id": 45768567,
+   "score": 3,
+   "title": "How to avoid InValidClientError with requests-oauthlib token fetching?"
+  },
+  {
+   "question_id": 45414277,
+   "score": 3,
+   "title": "Data Scraping from pogdesign.co.uk/cat/"
+  },
+  {
+   "question_id": 45001932,
+   "score": 3,
+   "title": "Login to website using http.client"
+  },
+  {
+   "question_id": 44463768,
+   "score": 3,
+   "title": "Python3 Requests \"Post\" Ignoring Filename when using BytesIO?"
+  },
+  {
+   "question_id": 43932410,
+   "score": 3,
+   "title": "AttributeError: 'module' object has no attribute 'packages'"
+  },
+  {
+   "question_id": 42985834,
+   "score": 3,
+   "title": "Looping through scraping multiple URLs using Python but data isn't changing when I iterate through site page numbers?"
+  },
+  {
+   "question_id": 41274956,
+   "score": 3,
+   "title": "Different web site response with RoboBrowser"
+  },
+  {
+   "question_id": 40499173,
+   "score": 3,
+   "title": "Beautiful Soup Grabbing next element"
+  },
+  {
+   "question_id": 40298464,
+   "score": 3,
+   "title": "Python requests to fill form"
+  },
+  {
+   "question_id": 39191187,
+   "score": 3,
+   "title": "Sending nested json data with Python requests and in x-www-form-urlencoded"
+  },
+  {
+   "question_id": 38707394,
+   "score": 3,
+   "title": "Handling bad URLs with requests"
+  },
+  {
+   "question_id": 38155206,
+   "score": 3,
+   "title": "Scrape a table class in Python"
+  },
+  {
+   "question_id": 37376470,
+   "score": 3,
+   "title": "Why can't I loop through a `payload` in `requests` to iterate my web scrape?"
+  },
+  {
+   "question_id": 37215999,
+   "score": 3,
+   "title": "web crawling Google - getting different results"
+  },
+  {
+   "question_id": 37147755,
+   "score": 3,
+   "title": "FB Messenger can't receive messages"
+  },
+  {
+   "question_id": 35594141,
+   "score": 3,
+   "title": "Session timeout in Python"
+  },
+  {
+   "question_id": 35236560,
+   "score": 3,
+   "title": "Parsing HTML in Python - Some pages work and some don't...?"
+  },
+  {
+   "question_id": 34421474,
+   "score": 3,
+   "title": "Getting mp4 file size before downloading with python requests"
+  },
+  {
+   "question_id": 33429453,
+   "score": 3,
+   "title": "Python requests SSL Hostname doesn't match error"
+  },
+  {
+   "question_id": 33426717,
+   "score": 3,
+   "title": "Setting HTTP User-Agent header with requests-oauthlib"
+  },
+  {
+   "question_id": 33039907,
+   "score": 3,
+   "title": "Read only the headers of Excel files"
+  },
+  {
+   "question_id": 32585800,
+   "score": 3,
+   "title": "Convert cURL request to Python-Requests request"
+  },
+  {
+   "question_id": 32539464,
+   "score": 3,
+   "title": "Double auth with requests"
+  },
+  {
+   "question_id": 32508787,
+   "score": 3,
+   "title": "Django REMOTE_USER does not exist but HTTP_REMOTE_USER does"
+  },
+  {
+   "question_id": 31868095,
+   "score": 3,
+   "title": "Python requests not closing TCP connection after timeout"
+  },
+  {
+   "question_id": 31116820,
+   "score": 3,
+   "title": "API request works from local machine, not on server"
+  },
+  {
+   "question_id": 31041994,
+   "score": 3,
+   "title": "python requests equivalent to curl -H"
+  },
+  {
+   "question_id": 30042429,
+   "score": 3,
+   "title": "Python requests vs. urllib2"
+  },
+  {
+   "question_id": 27691147,
+   "score": 3,
+   "title": "Exception Handling with requests_futures in python"
+  },
+  {
+   "question_id": 27690808,
+   "score": 3,
+   "title": "Login to a website using python requests"
+  },
+  {
+   "question_id": 25835554,
+   "score": 3,
+   "title": "SSL certificate verification failure in python on Mavericks"
+  },
+  {
+   "question_id": 25620819,
+   "score": 3,
+   "title": "AttributeError: read in Python"
+  },
+  {
+   "question_id": 25225700,
+   "score": 3,
+   "title": "Can't log in to website with Python requests session module"
+  },
+  {
+   "question_id": 22621259,
+   "score": 3,
+   "title": "Compile custom module for Kivy-ios"
+  },
+  {
+   "question_id": 21055479,
+   "score": 3,
+   "title": "Using Request, HttpNtlmAuth to make a system call with authentication"
+  },
+  {
+   "question_id": 21032337,
+   "score": 3,
+   "title": "What's the fastest way to check a webpage's status?"
+  },
+  {
+   "question_id": 19863139,
+   "score": 3,
+   "title": "bad request error 400 while using python requests.post function"
+  },
+  {
+   "question_id": 19455810,
+   "score": 3,
+   "title": "Automatic download from sciencedirect"
+  },
+  {
+   "question_id": 18857938,
+   "score": 3,
+   "title": "Python Requests: follow a link"
+  },
+  {
+   "question_id": 18353891,
+   "score": 3,
+   "title": "handling [Errno 111] Connection refused return by requests in flask"
+  },
+  {
+   "question_id": 17947906,
+   "score": 3,
+   "title": "python, send many HTTP requests through one network connection"
+  },
+  {
+   "question_id": 16578635,
+   "score": 3,
+   "title": "python requests chunked response"
+  },
+  {
+   "question_id": 76907660,
+   "score": 3,
+   "title": "SSLError when accessing SIDRA (IBGE) API using Python - [SSL: UNSAFE_LEGACY_RENEGOTIATION_DISABLED"
+  },
+  {
+   "question_id": 76063646,
+   "score": 3,
+   "title": "How can I have redirection link from google news link using requests?"
+  },
+  {
+   "question_id": 76046907,
+   "score": 3,
+   "title": "Python, Web scraping data from an interactive chart"
+  },
+  {
+   "question_id": 75925524,
+   "score": 3,
+   "title": "Accessing the `chrome://` pages inside Python without Selenium"
+  },
+  {
+   "question_id": 75402627,
+   "score": 3,
+   "title": "How to handle python TypeError NoneType object is not subscriptable on dict value to continue executing"
+  },
+  {
+   "question_id": 75078073,
+   "score": 3,
+   "title": "Request.get suddenly started hitting \"Temporary failure in name resolution\" error"
+  },
+  {
+   "question_id": 74300051,
+   "score": 3,
+   "title": "uplad file to google drive with progress bar with python requests"
+  },
+  {
+   "question_id": 73088404,
+   "score": 3,
+   "title": "What are passed to *args and **kwargs in hooks of requests"
+  },
+  {
+   "question_id": 72624886,
+   "score": 3,
+   "title": "API - Web Scrape"
+  },
+  {
+   "question_id": 72527412,
+   "score": 3,
+   "title": "Scraping data when there is onclick event button"
+  },
+  {
+   "question_id": 71764301,
+   "score": 3,
+   "title": "How to bypass Cloudflare with Python on GET requests?"
+  },
+  {
+   "question_id": 71698390,
+   "score": 3,
+   "title": "Python requests application/x-www-form-urlencoded non json body"
+  },
+  {
+   "question_id": 70607987,
+   "score": 3,
+   "title": "Requests. __init__() got an unexpected keyword argument 'strict'"
+  },
+  {
+   "question_id": 70030497,
+   "score": 3,
+   "title": "How to check whether a html form has a specific key in Flask?"
+  },
+  {
+   "question_id": 69598150,
+   "score": 3,
+   "title": "Apple Mac Book Pro M1 Chip segmentation Error when using python requests library"
+  },
+  {
+   "question_id": 68710047,
+   "score": 3,
+   "title": "Python multi connection downloader resuming after pausing makes download run endlessly"
+  },
+  {
+   "question_id": 68170062,
+   "score": 3,
+   "title": "Bad request in multipart/form-data Mirakl API request"
+  },
+  {
+   "question_id": 68148503,
+   "score": 3,
+   "title": "python requests 403 for json, however in browsers works fine"
+  },
+  {
+   "question_id": 67961268,
+   "score": 3,
+   "title": "Fast api TestClient post list of files"
+  },
+  {
+   "question_id": 67845226,
+   "score": 3,
+   "title": "beautifulsoup4 find_all not finding any data on Walmart grocery website"
+  },
+  {
+   "question_id": 67672927,
+   "score": 3,
+   "title": "How to read non json data from request in FastApi"
+  },
+  {
+   "question_id": 67630412,
+   "score": 3,
+   "title": "413 Request Entity too Large - how to split up multiple files using python"
+  },
+  {
+   "question_id": 67539086,
+   "score": 3,
+   "title": "Find a string in python beautifulsoup that shares the same class as other string"
+  },
+  {
+   "question_id": 66802576,
+   "score": 3,
+   "title": "How to read Values from a web page using python?"
+  },
+  {
+   "question_id": 66283679,
+   "score": 3,
+   "title": "python script to fetch xml data in json using API"
+  },
+  {
+   "question_id": 66228831,
+   "score": 3,
+   "title": "Python LXML Getting Data from Steam Bundle Page - List out of the index error"
+  },
+  {
+   "question_id": 65700408,
+   "score": 3,
+   "title": "Python3 UnboundLocalError: local variable referenced before assignment"
+  },
+  {
+   "question_id": 65642966,
+   "score": 3,
+   "title": "Get response/return value after a POST request (python requests)"
+  },
+  {
+   "question_id": 65570703,
+   "score": 3,
+   "title": "2Captcha + python + selenium ERROR_ZERO_CAPTCHA_FILESIZE"
+  },
+  {
+   "question_id": 64857388,
+   "score": 3,
+   "title": "How to pass a nested params object for post method of requests library in python3?"
+  },
+  {
+   "question_id": 64681401,
+   "score": 3,
+   "title": "Maintain a client-side http cache with aiohttp"
+  },
+  {
+   "question_id": 64520644,
+   "score": 3,
+   "title": "Can't scrape the value of a certain field from a webpage using requests"
+  },
+  {
+   "question_id": 63829869,
+   "score": 3,
+   "title": "Send \"\\r\\n\" symbols in python requests data"
+  },
+  {
+   "question_id": 63700789,
+   "score": 3,
+   "title": "How to Extract Data from Graph from a web Page?"
+  },
+  {
+   "question_id": 63531321,
+   "score": 3,
+   "title": "Is it possible to get eBay item description with requests and BeautifulSoup?"
+  },
+  {
+   "question_id": 62956953,
+   "score": 3,
+   "title": "Not able to decode base64 encoded image"
+  },
+  {
+   "question_id": 62038350,
+   "score": 3,
+   "title": "Can't get required response using json parameters within get requests"
+  },
+  {
+   "question_id": 61914180,
+   "score": 3,
+   "title": "Python web-scraping misses an element from the list of searched objects"
+  },
+  {
+   "question_id": 61431090,
+   "score": 3,
+   "title": "How to get all the questions asked by a specific user from the Stack Exchange API?"
+  },
+  {
+   "question_id": 59746125,
+   "score": 3,
+   "title": "Memory keep growing when using mutil thread download file"
+  },
+  {
+   "question_id": 59645753,
+   "score": 3,
+   "title": "Web Scraping Error: Request and No Connection"
+  },
+  {
+   "question_id": 59437967,
+   "score": 3,
+   "title": "Python get info from API / Oauth Authentication"
+  },
+  {
+   "question_id": 58252631,
+   "score": 3,
+   "title": "Assigning a list into constructor"
+  },
+  {
+   "question_id": 57876752,
+   "score": 3,
+   "title": "How to click \"Next\" button until it no longer exists - Python, Selenium, Requests"
+  },
+  {
+   "question_id": 57469112,
+   "score": 3,
+   "title": "Trying to scrape a website for frames of videos. Getting 403: Forbidden and 'wrong cookie'"
+  },
+  {
+   "question_id": 57387427,
+   "score": 3,
+   "title": "I can't get a response from a GET request using urllib3 for a particular URL, but I can do it with requests and urllib?"
+  },
+  {
+   "question_id": 56920375,
+   "score": 3,
+   "title": "Extremely long response time using requests"
+  },
+  {
+   "question_id": 56910038,
+   "score": 3,
+   "title": "How to make multiple api calls with python requests"
+  },
+  {
+   "question_id": 56836841,
+   "score": 3,
+   "title": "Identifying and breaking on exception: 'OpenSSL.SSL.Error' using python's requests module"
+  },
+  {
+   "question_id": 56096798,
+   "score": 3,
+   "title": "Python-requests + Django changing the parameters structure in URL"
+  },
+  {
+   "question_id": 55773917,
+   "score": 3,
+   "title": "Is there any solution for fetching metadata of Crossref using DOIs (Rest API calls)"
+  },
+  {
+   "question_id": 55713906,
+   "score": 3,
+   "title": "How can I get HTML element coordinates?"
+  },
+  {
+   "question_id": 55425627,
+   "score": 3,
+   "title": "How to parse requests.session cookie attributes in python"
+  },
+  {
+   "question_id": 55375001,
+   "score": 3,
+   "title": "How to fix '415 Unsupported Media Type' error in Python using requests"
+  },
+  {
+   "question_id": 54857776,
+   "score": 3,
+   "title": "concatenate JSON paginated response with python requests"
+  },
+  {
+   "question_id": 54602592,
+   "score": 3,
+   "title": "How to search google with requests in Python"
+  },
+  {
+   "question_id": 54396828,
+   "score": 3,
+   "title": "Robot Framework “multipart/form-data” REST request with multiple parameters"
+  },
+  {
+   "question_id": 54221704,
+   "score": 3,
+   "title": "web scraping vaadin python"
+  },
+  {
+   "question_id": 53946600,
+   "score": 3,
+   "title": "Multithreading crawler get slower and slower after running for some time"
+  },
+  {
+   "question_id": 53797784,
+   "score": 3,
+   "title": "python - login a page and get cookies"
+  },
+  {
+   "question_id": 53048654,
+   "score": 3,
+   "title": "Using the same ClientSession to get multiple different urls"
+  },
+  {
+   "question_id": 52769321,
+   "score": 3,
+   "title": "Why asyncio's run_in_executor gives so little parallelization when making HTTP requests?"
+  },
+  {
+   "question_id": 52318884,
+   "score": 3,
+   "title": "How to scrape review data present in Read more in Flipkart reviews"
+  },
+  {
+   "question_id": 52217591,
+   "score": 3,
+   "title": "Sending data in GET request Python"
+  },
+  {
+   "question_id": 51832475,
+   "score": 3,
+   "title": "request and urllib2 get error from XBRL page. 'The browser mode you are running is not compatible with this application'"
+  },
+  {
+   "question_id": 51715711,
+   "score": 3,
+   "title": "How can I use requests_mock to unit test a file upload?"
+  },
+  {
+   "question_id": 51085665,
+   "score": 3,
+   "title": "Mocking the requests for testing in Scrapy Spider"
+  },
+  {
+   "question_id": 50632089,
+   "score": 3,
+   "title": "python3 HTTP request taking a long time"
+  },
+  {
+   "question_id": 50261869,
+   "score": 3,
+   "title": "Python requests 422 error on post"
+  },
+  {
+   "question_id": 50218268,
+   "score": 3,
+   "title": "pip install failing with NewConnectionError on debian"
+  },
+  {
+   "question_id": 48859410,
+   "score": 3,
+   "title": "Python: How do I iterate through an HTML Element Object with LXML/Requests?"
+  },
+  {
+   "question_id": 48454161,
+   "score": 3,
+   "title": "ModuleNotFoundError: No module named 'requests_kerberos'"
+  },
+  {
+   "question_id": 48151306,
+   "score": 3,
+   "title": "SOAP requests with Python"
+  },
+  {
+   "question_id": 48135938,
+   "score": 3,
+   "title": "Save a PDF of a webpage that requires login"
+  },
+  {
+   "question_id": 46571740,
+   "score": 3,
+   "title": "Will a request.Session close automatically when my script exits"
+  },
+  {
+   "question_id": 44844319,
+   "score": 3,
+   "title": "Inexplicable formatting magic on API Endpoint"
+  },
+  {
+   "question_id": 44445376,
+   "score": 3,
+   "title": "How to SEND multiple requests ASYNC from Flask server?"
+  },
+  {
+   "question_id": 43681229,
+   "score": 3,
+   "title": "Python request POST json data using content-type=x-www-form-urlencoded"
+  },
+  {
+   "question_id": 42752194,
+   "score": 3,
+   "title": "Python Requests library not working with Flask app own routes"
+  },
+  {
+   "question_id": 41108868,
+   "score": 3,
+   "title": "ImportError: No module named requests while running spark"
+  },
+  {
+   "question_id": 40692514,
+   "score": 3,
+   "title": "Python3, Requests: How to merge CookieJars"
+  },
+  {
+   "question_id": 40612391,
+   "score": 3,
+   "title": "Python2.7 Get the content of an iframe with requests"
+  },
+  {
+   "question_id": 39478865,
+   "score": 3,
+   "title": "BeautifulSoup, findAll after findAll?"
+  },
+  {
+   "question_id": 38857883,
+   "score": 3,
+   "title": "How to catch requests.get() exceptions"
+  },
+  {
+   "question_id": 36943604,
+   "score": 3,
+   "title": "converting curl call to python requests"
+  },
+  {
+   "question_id": 36822031,
+   "score": 3,
+   "title": "SSL error using python(2.7) requests"
+  },
+  {
+   "question_id": 35558812,
+   "score": 3,
+   "title": "How to send Multipart/related requests in Python to SOAP server?"
+  },
+  {
+   "question_id": 35353313,
+   "score": 3,
+   "title": "Use python request to login website"
+  },
+  {
+   "question_id": 34909458,
+   "score": 3,
+   "title": "Why PyInstaller doesn't detect request module?"
+  },
+  {
+   "question_id": 34711724,
+   "score": 3,
+   "title": "Requests with retries"
+  },
+  {
+   "question_id": 34618784,
+   "score": 3,
+   "title": "Telegram bot API - Inline bot getting Error 400 while trying to answer inline query"
+  },
+  {
+   "question_id": 34298108,
+   "score": 3,
+   "title": "Python requests module using TLSv1.2 even though I am specifying TLSv1.1"
+  },
+  {
+   "question_id": 34126768,
+   "score": 3,
+   "title": "Is there a way to erase or separate web scraping data? in Python"
+  },
+  {
+   "question_id": 34085552,
+   "score": 3,
+   "title": "SSLError: bad handshake, Python requests"
+  },
+  {
+   "question_id": 33853033,
+   "score": 3,
+   "title": "Get length of MP3 file handle in Python"
+  },
+  {
+   "question_id": 33566152,
+   "score": 3,
+   "title": "TypeError('not a valid non-string sequence or mapping object',)"
+  },
+  {
+   "question_id": 33535153,
+   "score": 3,
+   "title": "Can't GET past pagination with Requests"
+  },
+  {
+   "question_id": 32662854,
+   "score": 3,
+   "title": "Post method with Requests"
+  },
+  {
+   "question_id": 32063693,
+   "score": 3,
+   "title": "Downloading text file from __doPostBack using requests in Python"
+  },
+  {
+   "question_id": 30946370,
+   "score": 3,
+   "title": "using requests to login to a website that has javascript login form"
+  },
+  {
+   "question_id": 30708967,
+   "score": 3,
+   "title": "Python Requests just got very slow, better alternative?"
+  },
+  {
+   "question_id": 29105989,
+   "score": 3,
+   "title": "Python requests + proxy + 302 redirect, why incorrect request?"
+  },
+  {
+   "question_id": 28623889,
+   "score": 3,
+   "title": "Login to a website with a radio button using python's request module"
+  },
+  {
+   "question_id": 28143395,
+   "score": 3,
+   "title": "python requests.get() InvalidSchema error"
+  },
+  {
+   "question_id": 27789145,
+   "score": 3,
+   "title": "Python Requests: how to GET and POST a picture without saving to drive?"
+  },
+  {
+   "question_id": 26242011,
+   "score": 3,
+   "title": "getting instagram access token"
+  },
+  {
+   "question_id": 25857856,
+   "score": 3,
+   "title": "python ssl eof occurred in violation of protocol, wantwriteerror, zeroreturnerror"
+  },
+  {
+   "question_id": 25233595,
+   "score": 3,
+   "title": "How can I load all of a site's resources, including AJAX requests, etc.. in Python?"
+  },
+  {
+   "question_id": 24190324,
+   "score": 3,
+   "title": "Requests Proxy not Working"
+  },
+  {
+   "question_id": 22439396,
+   "score": 3,
+   "title": "Requests is encoding POST parameters when this is not desired"
+  },
+  {
+   "question_id": 18959046,
+   "score": 3,
+   "title": "Python web scraping requests follow redirect"
+  },
+  {
+   "question_id": 17483975,
+   "score": 3,
+   "title": "Requests package python is not imported"
+  },
+  {
+   "question_id": 17412510,
+   "score": 3,
+   "title": "Coinbase send_money API always returns \"amount is below the current minimum\" error"
+  },
+  {
+   "question_id": 15891549,
+   "score": 3,
+   "title": "Requests body empty"
+  },
+  {
+   "question_id": 12537805,
+   "score": 3,
+   "title": "Python can't get requests installed on Ubuntu for Python 2.7"
+  },
+  {
+   "question_id": 11432592,
+   "score": 3,
+   "title": "access https site python (urllib2, requests)"
+  },
+  {
+   "question_id": 79708407,
+   "score": 3,
+   "title": "Can't scrape all the titles from the map on the webpage using the requests module"
+  },
+  {
+   "question_id": 79360599,
+   "score": 3,
+   "title": "How to avoid copy and paste hardcoded cookies from the network panel to make dynamic requests?"
+  },
+  {
+   "question_id": 78315840,
+   "score": 3,
+   "title": "Unable to find category and price for tickets in requests"
+  },
+  {
+   "question_id": 77578047,
+   "score": 3,
+   "title": "How to extract text from HTML with BeautifulSoup?"
+  },
+  {
+   "question_id": 77229808,
+   "score": 3,
+   "title": "GET Request works on Postman but not in Python"
+  },
+  {
+   "question_id": 76593825,
+   "score": 3,
+   "title": "How to fix 'None' result whilst using bs4 for web scraping"
+  },
+  {
+   "question_id": 75929920,
+   "score": 3,
+   "title": "Redact sensitive info from urllib3 logger"
+  },
+  {
+   "question_id": 75106834,
+   "score": 3,
+   "title": "Scrape shopee using request is getting error type 2"
+  },
+  {
+   "question_id": 74881972,
+   "score": 3,
+   "title": "Making a POST request with python fails while making the same request with curl succeeds. What am I missing?"
+  },
+  {
+   "question_id": 73980461,
+   "score": 3,
+   "title": "How to pass body into aiohttp get request?"
+  },
+  {
+   "question_id": 73732556,
+   "score": 3,
+   "title": "How to write StreamReader type to an image file in python?"
+  },
+  {
+   "question_id": 72826994,
+   "score": 3,
+   "title": "Translating Python (requests) API call to R (httr)"
+  },
+  {
+   "question_id": 71921602,
+   "score": 3,
+   "title": "How to get desktop version of the site?"
+  },
+  {
+   "question_id": 71609018,
+   "score": 3,
+   "title": "How to use roblox auth api to user login using username and password"
+  },
+  {
+   "question_id": 71231615,
+   "score": 3,
+   "title": "Calling API through requests Library to get access token"
+  },
+  {
+   "question_id": 70913431,
+   "score": 3,
+   "title": "Making requests from a docker container a service running on localhost"
+  },
+  {
+   "question_id": 70572704,
+   "score": 3,
+   "title": "how to get text from a downloadable .doc file without saving?"
+  },
+  {
+   "question_id": 70181379,
+   "score": 3,
+   "title": "How to correctly make Create DM request in Discord API?"
+  },
+  {
+   "question_id": 69430949,
+   "score": 3,
+   "title": "I keep getting '[Errno 101] Connection timed out' when running python script on Airflow"
+  },
+  {
+   "question_id": 68985077,
+   "score": 3,
+   "title": "Python webscrape from company sharepoint"
+  },
+  {
+   "question_id": 68135638,
+   "score": 3,
+   "title": "Pull Table from Webpage Behind Login Using Requests?"
+  },
+  {
+   "question_id": 66673389,
+   "score": 3,
+   "title": "ReadTimeout on a url in requests get?"
+  },
+  {
+   "question_id": 65574746,
+   "score": 3,
+   "title": "Tensorflow Serving returns 400 Bad Request error"
+  },
+  {
+   "question_id": 65311568,
+   "score": 3,
+   "title": "How can i use web scraping with Python to download multiple images? So far I've only manage to make it work with one image"
+  },
+  {
+   "question_id": 65261998,
+   "score": 3,
+   "title": "Does Python throttle individual bandwidth by default?"
+  },
+  {
+   "question_id": 64908049,
+   "score": 3,
+   "title": "Problem with PDF download that I cannot open"
+  },
+  {
+   "question_id": 64841751,
+   "score": 3,
+   "title": "Unable to rectify the logic of grabbing next page links to make the execution faster"
+  },
+  {
+   "question_id": 64720038,
+   "score": 3,
+   "title": "Why am I getting \"Request is missing required authentication credential\" when making POST request to YouTube API v3 with Python Requests module?"
+  },
+  {
+   "question_id": 64476984,
+   "score": 3,
+   "title": "How do I scrape data from investing.com?"
+  },
+  {
+   "question_id": 64214192,
+   "score": 3,
+   "title": "How do I format my GET request to the Spotify Web API in Python?"
+  },
+  {
+   "question_id": 63792646,
+   "score": 3,
+   "title": "Can't let a script built upon requests produce all the image links from a webpage"
+  },
+  {
+   "question_id": 63045920,
+   "score": 3,
+   "title": "What is the fastest way to send 100,000 requests to a given url?"
+  },
+  {
+   "question_id": 62924126,
+   "score": 3,
+   "title": "How to fill the null values with the average of all the preceeding values before null and first succeeding value after null in python?"
+  },
+  {
+   "question_id": 62870862,
+   "score": 3,
+   "title": "How to upload a bunch of files with Python requests module"
+  },
+  {
+   "question_id": 62612956,
+   "score": 3,
+   "title": "Python requests module crashing when fed URL with emoji in it. Why?"
+  },
+  {
+   "question_id": 62503861,
+   "score": 3,
+   "title": "To get redirected URL with requests"
+  },
+  {
+   "question_id": 62110824,
+   "score": 3,
+   "title": "Bittrex REST API for Python, I want to create an order using API v3 https://api.bittrex.com/v3/orders"
+  },
+  {
+   "question_id": 62095446,
+   "score": 3,
+   "title": "I tried to send a python request to a proxy but it failed"
+  },
+  {
+   "question_id": 61847364,
+   "score": 3,
+   "title": "python requests not responding to this code in google colab"
+  },
+  {
+   "question_id": 61438529,
+   "score": 3,
+   "title": "Python requests failing to decode text"
+  },
+  {
+   "question_id": 61194340,
+   "score": 3,
+   "title": "How to make the TQDM progress bar update automatically between KB and MB"
+  },
+  {
+   "question_id": 61158133,
+   "score": 3,
+   "title": "Scraping the URLs of dynamically changing images from a website"
+  },
+  {
+   "question_id": 59503317,
+   "score": 3,
+   "title": "How to make Python Requests follow a POST redirect?"
+  },
+  {
+   "question_id": 59285284,
+   "score": 3,
+   "title": "How do I pass the updated page content to another function?"
+  },
+  {
+   "question_id": 58940986,
+   "score": 3,
+   "title": "grequests ignore ssl errors"
+  },
+  {
+   "question_id": 58269903,
+   "score": 3,
+   "title": "requests.get() throws an exception in aws lambda"
+  },
+  {
+   "question_id": 57953651,
+   "score": 3,
+   "title": "Getting the wrong response from a GET request"
+  },
+  {
+   "question_id": 57838316,
+   "score": 3,
+   "title": "How to use image hash as filename for downloaded images?"
+  },
+  {
+   "question_id": 57734353,
+   "score": 3,
+   "title": "Need Help Sending Data As 'POST' Request"
+  },
+  {
+   "question_id": 57720937,
+   "score": 3,
+   "title": "How to extract data in columns from page using soup"
+  },
+  {
+   "question_id": 57583766,
+   "score": 3,
+   "title": "How to add a cookie to existing cookies in MechanicalSoup"
+  },
+  {
+   "question_id": 57452400,
+   "score": 3,
+   "title": "duplicate requests post to scrapy FormRequest"
+  },
+  {
+   "question_id": 56827219,
+   "score": 3,
+   "title": "Grabbing the value of a HTML form input field?"
+  },
+  {
+   "question_id": 56518780,
+   "score": 3,
+   "title": "Python BS4 Table Parsing Returning Empty List"
+  },
+  {
+   "question_id": 56143983,
+   "score": 3,
+   "title": "Scraping data from individual results in a list of providers"
+  },
+  {
+   "question_id": 55409836,
+   "score": 3,
+   "title": "Download CSV with Callback in Python"
+  },
+  {
+   "question_id": 54907281,
+   "score": 3,
+   "title": "Robot Framework: send binary data in POST request body with"
+  },
+  {
+   "question_id": 54517726,
+   "score": 3,
+   "title": "How to convert a cURL request to Python request"
+  },
+  {
+   "question_id": 54468784,
+   "score": 3,
+   "title": "Python Requests using PFX certificate wont work ! - OpenSSL.SSL.Error: [('PEM routines'] - PFX to PEM conversion necessary?"
+  },
+  {
+   "question_id": 54098787,
+   "score": 3,
+   "title": "Failing to call hindi voice API due to UnicodeEncodeError"
+  },
+  {
+   "question_id": 53724164,
+   "score": 3,
+   "title": "Replace Selenium with Requests in dynamic form"
+  },
+  {
+   "question_id": 53683537,
+   "score": 3,
+   "title": "Python Error SSL: ssl.SSLError: [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] sslv3 alert handshake failure (_ssl.c:726)"
+  },
+  {
+   "question_id": 52918592,
+   "score": 3,
+   "title": "how to send a plain http request to a url?"
+  },
+  {
+   "question_id": 52771402,
+   "score": 3,
+   "title": "Python 3 get child elements (lxml)"
+  },
+  {
+   "question_id": 52501232,
+   "score": 3,
+   "title": "OpenSSL.SSL.SysCallError: (10054, 'WSAECONNRESET') during GET request to ArcGIS API"
+  },
+  {
+   "question_id": 50920242,
+   "score": 3,
+   "title": "Python Requests/BeautifulSoup access to pagination"
+  },
+  {
+   "question_id": 50269036,
+   "score": 3,
+   "title": "Asynchronous download of files with twisted and (tx)requests"
+  },
+  {
+   "question_id": 50091130,
+   "score": 3,
+   "title": "py2app error running app"
+  },
+  {
+   "question_id": 48325908,
+   "score": 3,
+   "title": "Speeding up Pandas Apply for API Calls with Requests"
+  },
+  {
+   "question_id": 48210851,
+   "score": 3,
+   "title": "Python requests SSL authentication issue (and curl)"
+  },
+  {
+   "question_id": 48176377,
+   "score": 3,
+   "title": "Scraping a webpage that uses ajax"
+  },
+  {
+   "question_id": 48043907,
+   "score": 3,
+   "title": "Cannot get web page with \"Content-Disposition: attachment;\" using python-requests"
+  },
+  {
+   "question_id": 47966110,
+   "score": 3,
+   "title": "Python-requests, how to login to website"
+  },
+  {
+   "question_id": 47811129,
+   "score": 3,
+   "title": "'requests' in python is not downloading file completely"
+  },
+  {
+   "question_id": 46962418,
+   "score": 3,
+   "title": "How to loop in dropdown menu in Aspx dynamic websites using python requests and BeautifulSoup and scrape data"
+  },
+  {
+   "question_id": 46184137,
+   "score": 3,
+   "title": "Python/Requests: requests.exceptions.SSLError: [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE]"
+  },
+  {
+   "question_id": 45649513,
+   "score": 3,
+   "title": "Create a service in Python that reads from the STDIO and writes to the STDOUT in a loop"
+  },
+  {
+   "question_id": 44846319,
+   "score": 3,
+   "title": "Different behavior of json.dump() on Windows and Linux"
+  },
+  {
+   "question_id": 43499556,
+   "score": 3,
+   "title": "Python Requests: verify using self-signed cert"
+  },
+  {
+   "question_id": 43399626,
+   "score": 3,
+   "title": "Python requests posting json containing nan"
+  },
+  {
+   "question_id": 43208645,
+   "score": 3,
+   "title": "Why is difference between form sent from browser and Requests when catched by SimpleHttpServer"
+  },
+  {
+   "question_id": 43199803,
+   "score": 3,
+   "title": "bypass ssl cert verification in python"
+  },
+  {
+   "question_id": 41171931,
+   "score": 3,
+   "title": "Data payloads in requests module?"
+  },
+  {
+   "question_id": 40756106,
+   "score": 3,
+   "title": "Decompress Python requests response with zlib"
+  },
+  {
+   "question_id": 40489016,
+   "score": 3,
+   "title": "Python requests code snippet from Postman"
+  },
+  {
+   "question_id": 40118133,
+   "score": 3,
+   "title": "Library `requests` getting different results unpredictably"
+  },
+  {
+   "question_id": 39318631,
+   "score": 3,
+   "title": "Get short version of error message with requests"
+  },
+  {
+   "question_id": 38604506,
+   "score": 3,
+   "title": "Scraping Yahoo Finance Balance Sheet with Python"
+  },
+  {
+   "question_id": 38110760,
+   "score": 3,
+   "title": "How to use Python Requests to login to website, store cookie, then access another page on the website?"
+  },
+  {
+   "question_id": 37326337,
+   "score": 3,
+   "title": "Requests library and validator.w3.org/nu"
+  },
+  {
+   "question_id": 37021747,
+   "score": 3,
+   "title": "Missing html in response using python requests and beautifulsoup4"
+  },
+  {
+   "question_id": 36671936,
+   "score": 3,
+   "title": "Posting to FB group with requests, allow youtube video to load"
+  },
+  {
+   "question_id": 36651856,
+   "score": 3,
+   "title": "Django CSRF validation fails on POST requests : referer checking failed - no Referer"
+  },
+  {
+   "question_id": 36260647,
+   "score": 3,
+   "title": "strange silent crash in python with combination of: OSX, requests, sqlite3, multiprocessing"
+  },
+  {
+   "question_id": 36046230,
+   "score": 3,
+   "title": "get auth code from URL response - Python"
+  },
+  {
+   "question_id": 35369697,
+   "score": 3,
+   "title": "Create a ticket with an attachment on Sourceforge"
+  },
+  {
+   "question_id": 35295706,
+   "score": 3,
+   "title": "How could I convert this curl into Python request"
+  },
+  {
+   "question_id": 33189971,
+   "score": 3,
+   "title": "Numpy loadtxt works with urllib2 response but not requests response"
+  },
+  {
+   "question_id": 32894740,
+   "score": 3,
+   "title": "Sending Push Through Parse API Results in 401 Unauthorized"
+  },
+  {
+   "question_id": 32786418,
+   "score": 3,
+   "title": "Openstack Rest API send a file with python to a openstack container"
+  },
+  {
+   "question_id": 32760507,
+   "score": 3,
+   "title": "python requests and percent encoding of path"
+  },
+  {
+   "question_id": 32425990,
+   "score": 3,
+   "title": "How to handle javascript content and redirects after successful weblogin SSO authentication?"
+  },
+  {
+   "question_id": 32234983,
+   "score": 3,
+   "title": "Trying to download page in python with urllib2 and requests but keep getting redirected"
+  },
+  {
+   "question_id": 31757499,
+   "score": 3,
+   "title": "Python 3 - Can't print using the re library"
+  },
+  {
+   "question_id": 31335888,
+   "score": 3,
+   "title": "Reusing the same connection used within a session with a loop"
+  },
+  {
+   "question_id": 30820194,
+   "score": 3,
+   "title": "Dropbox /delta ignoring cursor"
+  },
+  {
+   "question_id": 30240370,
+   "score": 3,
+   "title": "Python Flask - image proxy"
+  },
+  {
+   "question_id": 30233406,
+   "score": 3,
+   "title": "Caching python web requests for offline use"
+  },
+  {
+   "question_id": 30047542,
+   "score": 3,
+   "title": "Google API Quota on Google API place autocomplete"
+  },
+  {
+   "question_id": 28928437,
+   "score": 3,
+   "title": "python requests login post get response code 500"
+  },
+  {
+   "question_id": 28143154,
+   "score": 3,
+   "title": "display non-English characters in python response"
+  },
+  {
+   "question_id": 27678522,
+   "score": 3,
+   "title": "Threading slowing down response time - python"
+  },
+  {
+   "question_id": 27121799,
+   "score": 3,
+   "title": "Python Requests Create Cookie Failure"
+  },
+  {
+   "question_id": 24254442,
+   "score": 3,
+   "title": "Python Requests Post is Stuck at Starting New HTTP Connection"
+  },
+  {
+   "question_id": 23391850,
+   "score": 3,
+   "title": "Python requests library - get SSL certificate information"
+  },
+  {
+   "question_id": 21049152,
+   "score": 3,
+   "title": "passing parameters without escaping in python3 requests"
+  },
+  {
+   "question_id": 20915264,
+   "score": 3,
+   "title": "Using Twitter Stream API with Python"
+  },
+  {
+   "question_id": 20360868,
+   "score": 3,
+   "title": "python, collecting links / script values from page"
+  },
+  {
+   "question_id": 19845503,
+   "score": 3,
+   "title": "python-requests hook similar to pycurl.WRITEFUNCTION?"
+  },
+  {
+   "question_id": 19780147,
+   "score": 3,
+   "title": "Python Requests POST returning incomplete content"
+  },
+  {
+   "question_id": 19400174,
+   "score": 3,
+   "title": "Empty response from server when connecting with python socket"
+  },
+  {
+   "question_id": 18148319,
+   "score": 3,
+   "title": "How to download file from website"
+  },
+  {
+   "question_id": 17743212,
+   "score": 3,
+   "title": "Python grequests takes a long time to finish"
+  },
+  {
+   "question_id": 11580874,
+   "score": 3,
+   "title": "PUTing files into S3 using Python requests"
+  },
+  {
+   "question_id": 10507169,
+   "score": 3,
+   "title": "Using Python Requests to Select Forms"
+  },
+  {
+   "question_id": 79712006,
+   "score": 3,
+   "title": "Python requests library refusing to accept correct verify certificate"
+  },
+  {
+   "question_id": 79137785,
+   "score": 3,
+   "title": "How to extract data using LeetCode GraphQL query"
+  },
+  {
+   "question_id": 78821828,
+   "score": 3,
+   "title": "Intellisense issue when importing requests module in vscode"
+  },
+  {
+   "question_id": 78393146,
+   "score": 3,
+   "title": "Python Script Stuck in a For Loop"
+  },
+  {
+   "question_id": 77189937,
+   "score": 3,
+   "title": "Corrupt file after using request.get() in Python"
+  },
+  {
+   "question_id": 76764462,
+   "score": 3,
+   "title": "Is there a way to access the history of API requests/calls made to my openAI account?"
+  },
+  {
+   "question_id": 76646420,
+   "score": 3,
+   "title": "Twitter website gives a different response when sending a request using python-requests"
+  },
+  {
+   "question_id": 76449738,
+   "score": 3,
+   "title": "KeyError: 'response_data' in FastAPI application"
+  },
+  {
+   "question_id": 76319199,
+   "score": 3,
+   "title": "Getting the price of the game from EGS"
+  },
+  {
+   "question_id": 76001521,
+   "score": 3,
+   "title": "Unable to access some tags on a site for Web-Scraping"
+  },
+  {
+   "question_id": 75939470,
+   "score": 3,
+   "title": "Send image to MS Teams Channel via Webhook url using Python?"
+  },
+  {
+   "question_id": 75891771,
+   "score": 3,
+   "title": "Send NiceGUI upload to FastAPI using requests"
+  },
+  {
+   "question_id": 75303753,
+   "score": 3,
+   "title": "How do I force HTTP connections to use IPv4 instead of IPv6 in Python?"
+  },
+  {
+   "question_id": 74811521,
+   "score": 3,
+   "title": "429 Too many request error despite using proxies"
+  },
+  {
+   "question_id": 74094463,
+   "score": 3,
+   "title": "requests/urllib module not working on company laptop"
+  },
+  {
+   "question_id": 74053447,
+   "score": 3,
+   "title": "Blob URLs with python requests"
+  },
+  {
+   "question_id": 73938709,
+   "score": 3,
+   "title": "How to generate an Oauth1 signature and cookie in python"
+  },
+  {
+   "question_id": 73920993,
+   "score": 3,
+   "title": "gcloud cli and custom cert path"
+  },
+  {
+   "question_id": 73664674,
+   "score": 3,
+   "title": "Cannot get response headers into JSON format"
+  },
+  {
+   "question_id": 73532044,
+   "score": 3,
+   "title": "Public API of Signal Chat App to send and receive messages using python"
+  },
+  {
+   "question_id": 72088811,
+   "score": 3,
+   "title": "How to download a large zip file > 25 GB using Python?"
+  },
+  {
+   "question_id": 71965048,
+   "score": 3,
+   "title": "asyncio.run() cannot be called from an event loop"
+  },
+  {
+   "question_id": 71626574,
+   "score": 3,
+   "title": "What is the exact Tiktok API endpoint to get list of video ids (aweme_ids) using user id (uid)?"
+  },
+  {
+   "question_id": 71616036,
+   "score": 3,
+   "title": "How to get progress of file upload using requests.post() if the file was just uploaded via form-data? (Not sure whether this is a streaming process)"
+  },
+  {
+   "question_id": 71540505,
+   "score": 3,
+   "title": "Python Script Returns 403 but returns 200 in Postman & Browser"
+  },
+  {
+   "question_id": 71372274,
+   "score": 3,
+   "title": "httpx python request to webpage wont redirect"
+  },
+  {
+   "question_id": 71372130,
+   "score": 3,
+   "title": "How to set height and width dimensions when sending a request with Requests-HTML"
+  },
+  {
+   "question_id": 71166122,
+   "score": 3,
+   "title": "FastAPI/Mangum JSON decode error when uploading multiple files"
+  },
+  {
+   "question_id": 70949597,
+   "score": 3,
+   "title": "Unpacking nested data from Rapid API"
+  },
+  {
+   "question_id": 70815346,
+   "score": 3,
+   "title": "AlphaVantage API call returns error \"Invalid API call\""
+  },
+  {
+   "question_id": 70490709,
+   "score": 3,
+   "title": "Constant Error Trying to Use Proxy to Request IP via httpbin.org"
+  },
+  {
+   "question_id": 70318369,
+   "score": 3,
+   "title": "Django request.body returning data but not request.POST using forms"
+  },
+  {
+   "question_id": 70250577,
+   "score": 3,
+   "title": "Python Telegram Bot Job won't get back on execution after network fluctuation"
+  },
+  {
+   "question_id": 70198240,
+   "score": 3,
+   "title": "python https requests failing with TLSV1_ALERT_INTERNAL_ERROR"
+  },
+  {
+   "question_id": 70174370,
+   "score": 3,
+   "title": "Curl works but python request fails with SSLError"
+  },
+  {
+   "question_id": 70079781,
+   "score": 3,
+   "title": "How to overcome connection reset by peer error in Python requests?"
+  },
+  {
+   "question_id": 69982651,
+   "score": 3,
+   "title": "TLS adapter for extentions with Python3 requests"
+  },
+  {
+   "question_id": 69981038,
+   "score": 3,
+   "title": "Python SSL Cert error despite no browser expiry"
+  },
+  {
+   "question_id": 69771711,
+   "score": 3,
+   "title": "How to get the continent given the coordinates (latitude and longitude) in Python?"
+  },
+  {
+   "question_id": 69597084,
+   "score": 3,
+   "title": "Download large number of byte ranges from file using Python requests"
+  },
+  {
+   "question_id": 69173680,
+   "score": 3,
+   "title": "How to send a POST request to chrome using selenium?"
+  },
+  {
+   "question_id": 68999361,
+   "score": 3,
+   "title": "requests-html - Unable to render() html with cookies"
+  },
+  {
+   "question_id": 68951697,
+   "score": 3,
+   "title": "Airflow Long (time) URL request not receiving response"
+  },
+  {
+   "question_id": 68644531,
+   "score": 3,
+   "title": "Zipfile can't open a file-like object streaming in request.raw"
+  },
+  {
+   "question_id": 68518028,
+   "score": 3,
+   "title": "Python requests not working on heroku as it worked on local host"
+  },
+  {
+   "question_id": 68402258,
+   "score": 3,
+   "title": "MS Graph API v1.0 cannot filter by onPremisesSamAccountName using Python requests"
+  },
+  {
+   "question_id": 68379725,
+   "score": 3,
+   "title": "Downloading multiple files with asyncio and tqdm"
+  },
+  {
+   "question_id": 67675645,
+   "score": 3,
+   "title": "Python Requests gives Invalid Return Character or Leading Space in Header On Line Breaks"
+  },
+  {
+   "question_id": 66930900,
+   "score": 3,
+   "title": "How to upload file stored in memory?"
+  },
+  {
+   "question_id": 66778586,
+   "score": 3,
+   "title": "Python requests library giving error \"Remote end closed connection without response\""
+  },
+  {
+   "question_id": 66534027,
+   "score": 3,
+   "title": "Python requests/httpx repsonses and garbage collection"
+  },
+  {
+   "question_id": 66299245,
+   "score": 3,
+   "title": "Setting Proxy on Google Cloud Instance"
+  },
+  {
+   "question_id": 66222815,
+   "score": 3,
+   "title": "APIError(code=-1099): Not found, unauthenticated, or unauthorized"
+  },
+  {
+   "question_id": 66150054,
+   "score": 3,
+   "title": "Python-requests send certificate"
+  },
+  {
+   "question_id": 65901466,
+   "score": 3,
+   "title": "Is there a way to use vcrpy for requests made from a different process?"
+  },
+  {
+   "question_id": 65667231,
+   "score": 3,
+   "title": "RuntimeError: Event loop is closed 'Launcher.killChrome' was never awaited, how to fix?"
+  },
+  {
+   "question_id": 65250991,
+   "score": 3,
+   "title": "python - With urllib3 Retry add solution for retries based on response content"
+  },
+  {
+   "question_id": 64922664,
+   "score": 3,
+   "title": "Streaming upload of a slice of a (large) file using python-requests"
+  },
+  {
+   "question_id": 64841002,
+   "score": 3,
+   "title": "Interact with local HTML file with python"
+  },
+  {
+   "question_id": 64834457,
+   "score": 3,
+   "title": "Authorization in web.whatsapp using python requests"
+  },
+  {
+   "question_id": 64703915,
+   "score": 3,
+   "title": "Aiohttp issues 400 Bad Request. But requests are working fine"
+  },
+  {
+   "question_id": 64516109,
+   "score": 3,
+   "title": "How to use nordvpn servers as proxy for python requests?"
+  },
+  {
+   "question_id": 64486083,
+   "score": 3,
+   "title": "Determine URL associated with POST request sent in Python"
+  },
+  {
+   "question_id": 64178569,
+   "score": 3,
+   "title": "Best way to use httpx async client and tenacity?"
+  },
+  {
+   "question_id": 64159735,
+   "score": 3,
+   "title": "python-requests: is it possible to bypass HTTPS for speed"
+  },
+  {
+   "question_id": 64110020,
+   "score": 3,
+   "title": "How can i send a post request with python & dynamic values?"
+  },
+  {
+   "question_id": 63967341,
+   "score": 3,
+   "title": "Proxy output does not change even if there is proxies argument in request html"
+  },
+  {
+   "question_id": 63779035,
+   "score": 3,
+   "title": "How to create a simple HTTPS server in Python?"
+  },
+  {
+   "question_id": 63673292,
+   "score": 3,
+   "title": "How can I use httpx to upload a file to S3 using a presigned url (PUT method)"
+  },
+  {
+   "question_id": 63643430,
+   "score": 3,
+   "title": "What will happen if set a minimum timeout value?"
+  },
+  {
+   "question_id": 63242396,
+   "score": 3,
+   "title": "Requests module ideal chunk size for large files?"
+  },
+  {
+   "question_id": 62984037,
+   "score": 3,
+   "title": "Cannot scrape top selling products from shopee.com"
+  },
+  {
+   "question_id": 62776360,
+   "score": 3,
+   "title": "Django lazy load images"
+  },
+  {
+   "question_id": 62681635,
+   "score": 3,
+   "title": "scraping google featured snippets using python"
+  },
+  {
+   "question_id": 62438914,
+   "score": 3,
+   "title": "Why Handled Requests/Second Differs on Different Machines: Nginx Load Balancer + Python Twisted Server"
+  },
+  {
+   "question_id": 62090645,
+   "score": 3,
+   "title": "How to scrape a closed facebook group that I have credentials for with facebook_scraper"
+  },
+  {
+   "question_id": 61902218,
+   "score": 3,
+   "title": "uploading video with vimeo and django"
+  },
+  {
+   "question_id": 61544633,
+   "score": 3,
+   "title": "How to paginate asyncio requests in python where total is provided in header"
+  },
+  {
+   "question_id": 61468212,
+   "score": 3,
+   "title": "Python requests .post hangs on large HTTPS payload"
+  },
+  {
+   "question_id": 61216318,
+   "score": 3,
+   "title": "Download directory from Nextcloud with python requests (WebDav)"
+  },
+  {
+   "question_id": 61204954,
+   "score": 3,
+   "title": "Python requests get content from streaminghttpresponse"
+  },
+  {
+   "question_id": 60978163,
+   "score": 3,
+   "title": "Delivery and location problem when i try to scrape using request module/ python in Amazon"
+  },
+  {
+   "question_id": 60773653,
+   "score": 3,
+   "title": "Python3 - \"UseDefaultCredentials\" to access SSO protected Website with requests.get"
+  },
+  {
+   "question_id": 60689761,
+   "score": 3,
+   "title": "Python requests with bearer token returns 401"
+  },
+  {
+   "question_id": 60680528,
+   "score": 3,
+   "title": "Max retries exceeded with url, Failed to establish a new connect [Errno 60] Operation timed out'"
+  },
+  {
+   "question_id": 60523979,
+   "score": 3,
+   "title": "Python: How can I combine requests and windows certificate store for Client Side Certificates"
+  },
+  {
+   "question_id": 60341891,
+   "score": 3,
+   "title": "Implementing the curl --resolve flag in python"
+  },
+  {
+   "question_id": 60213313,
+   "score": 3,
+   "title": "Can't replicate a POST request"
+  },
+  {
+   "question_id": 60044385,
+   "score": 3,
+   "title": "ValueError: Attempt to convert a value (<PIL.PngImagePlugin.PngImageFile image mode=RGB size=519x600 at 0x7F95AD916518>) with an unsupported type"
+  },
+  {
+   "question_id": 59672052,
+   "score": 3,
+   "title": "Requests - Failed to establish a new connection: [Errno 8] nodename nor servname provided, or not known'"
+  },
+  {
+   "question_id": 59479538,
+   "score": 3,
+   "title": "Passing data to Django view using Python requests"
+  },
+  {
+   "question_id": 59161283,
+   "score": 3,
+   "title": "wrap_socket() got an unexpected keyword argument '_context'"
   }
  ],
- "note": "Pages 1-10 fetched 2026-11-15 for the second set; pages 11-15 fetched the same day for the third set."
+ "note": "Pages 1-10 fetched 2026-11-15 for the second set; pages 11-15 fetched the same day for the third set; pages 16-25 fetched the same day for the fourth set (scope_gate test)."
 }

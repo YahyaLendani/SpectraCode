@@ -17,6 +17,7 @@ import argparse
 import asyncio
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -28,12 +29,22 @@ BACKEND = Path(__file__).resolve().parents[1]
 # Running a file puts its own folder (scripts/) on sys.path, not backend/, so `app` must be added.
 sys.path.insert(0, str(BACKEND))
 EVAL_DATA = BACKEND / "data" / "eval"
-MODES = ("bm25", "sparse", "dense", "hybrid", "rrf_only", "dense_minmax", "route_dense")
+MODES = ("bm25", "sparse", "dense", "hybrid", "rrf_only", "dense_minmax", "route_dense", "scope_gate")
 # Candidate fusion fixes, fixed in eval/fusion_preregistration.md before the Stack Overflow queries were scored.
 CANDIDATES = ("rrf_only", "dense_minmax")
 # Routing candidate and its two query sets, fixed in eval/routing_preregistration.md before scoring.
 ROUTING_CANDIDATES = ("route_dense",)
 ROUTING_AUTHORS = ("stackoverflow-3", "github-issues")
+# File-kind gate and its trigger words, fixed in eval/scope_gate_preregistration.md before scoring.
+SCOPE_CANDIDATES = ("scope_gate",)
+TEST_TRIGGER = re.compile(r"\btests?\b|\btesting\b|pytest|unittest|\bmock|conftest|test_", re.I)
+PROJECT_TRIGGER = re.compile(
+    r"changelog|\bhistory\b|release|\bversions?\b|upgrad|\bchanged?\b|deprecat|regression|breaking|\bsince\b"
+    r"|install|dependenc|requirement|setup\.py|pyproject|\b\d+\.\d+(\.\d+)?\b",
+    re.I,
+)
+CHANGELOG_STEMS = {"HISTORY", "CHANGELOG", "CHANGES", "NEWS"}
+PROJECT_FILES = {"setup.py", "setup.cfg", "pyproject.toml", "tox.ini", "Makefile", "MANIFEST.in"}
 K_VALUES = (5, 10)
 
 
@@ -137,6 +148,69 @@ def _is_identifier_question(retriever, query: str) -> bool:
     return retriever.compute_dynamic_alpha(query) != retriever.compute_dynamic_alpha("")
 
 
+def _file_kind(path: str) -> str:
+    """test, project (changelog, licence, packaging and tool config at the root) or other."""
+    parts = path.split("/")
+    name = parts[-1]
+    if any(p in ("tests", "test") for p in parts[:-1]) or re.fullmatch(r"test_.*\.py|.*_test\.py|conftest\.py", name):
+        return "test"
+    if len(parts) == 1:
+        stem = name.split(".")[0].upper()
+        if (
+            stem in CHANGELOG_STEMS
+            or stem.startswith(("AUTHORS", "LICENSE"))
+            or name in PROJECT_FILES
+            or (name.startswith("requirements") and name.endswith(".txt"))
+            or name.startswith(".")
+        ):
+            return "project"
+    return "other"
+
+
+def _scope_gate(retriever, items, query: str, top_k: int):
+    """Production scoring, with test and project chunks left out of the candidate pool unless asked for.
+
+    Scores are computed exactly as HybridCodeRetriever.retrieve does, over all chunks, so the chunks
+    that remain keep their production order. Removing the blocked kinds before the top_k * 3 cut lets
+    the pool refill from deeper in the RRF order. Returns (chunks, triggers that fired).
+    """
+    blocked = set()
+    fired = []
+    if TEST_TRIGGER.search(query):
+        fired.append("tests")
+    else:
+        blocked.add("test")
+    if PROJECT_TRIGGER.search(query):
+        fired.append("project")
+    else:
+        blocked.add("project")
+    by_dense = sorted(items, key=lambda c: c.dense_score, reverse=True)
+    by_sparse = sorted(items, key=lambda c: c.sparse_score, reverse=True)
+    dense_rank = {id(c): i for i, c in enumerate(by_dense, 1)}
+    sparse_rank = {id(c): i for i, c in enumerate(by_sparse, 1)}
+    alpha = retriever.compute_dynamic_alpha(query)
+    rrf = {
+        id(c): alpha / (retriever.rrf_k + dense_rank[id(c)]) + (1 - alpha) / (retriever.rrf_k + sparse_rank[id(c)])
+        for c in items
+    }
+    by_rrf = sorted(items, key=lambda c: rrf[id(c)], reverse=True)
+    lo, hi = rrf[id(by_rrf[-1])], rrf[id(by_rrf[0])]
+    d_lo, d_hi = by_dense[-1].dense_score, by_dense[0].dense_score
+
+    def norm(v, a, b):
+        return (v - a) / (b - a) if b - a > 1e-9 else 1.0
+
+    pool = [c for c in by_rrf if _file_kind(c.file_path) not in blocked][: top_k * 3]
+    scored = []
+    for c in pool:
+        rerank = 0.55 * norm(c.dense_score, d_lo, d_hi) + 0.45 * c.sparse_score
+        final = retriever.rerank_weight * rerank + (1 - retriever.rerank_weight) * norm(rrf[id(c)], lo, hi)
+        if final >= retriever.min_relevance_threshold:
+            scored.append((final, c))
+    scored.sort(key=lambda t: t[0], reverse=True)
+    return [c for _, c in scored[:top_k]], fired
+
+
 def _spans(chunks):
     from app.evaluation.evaluator import LineSpan
 
@@ -223,12 +297,17 @@ async def run(suite_path: Path) -> dict:
             ranked["route_dense"] = ranked["hybrid"] if identifier else ranked["dense"]
             timings["route_dense"].append(timings["hybrid"][-1] if identifier else scoring_time)
 
+            gated, scope_triggers = _scope_gate(retriever, items, q.query, k_max)
+            ranked["scope_gate"] = _spans(gated)
+            timings["scope_gate"].append(scoring_time)
+
             accepted = q.ground_truth + q.docs_answers
             row = {
                 "id": q.id,
                 "author": q.author,
                 "query": q.query,
                 "question_type": "identifier" if identifier else "plain",
+                "scope_triggers": scope_triggers,
                 "modes": {},
             }
             for mode in MODES:
@@ -257,7 +336,7 @@ async def run(suite_path: Path) -> dict:
 
     def compare(rows_subset):
         out = {}
-        for baseline in ("bm25", "dense", "sparse") + CANDIDATES + ROUTING_CANDIDATES:
+        for baseline in ("bm25", "dense", "sparse") + CANDIDATES + ROUTING_CANDIDATES + SCOPE_CANDIDATES:
             for m in metric_names:
                 a = [r["modes"]["hybrid"][m] for r in rows_subset]
                 b = [r["modes"][baseline][m] for r in rows_subset]

@@ -6,7 +6,7 @@
     "ref": "v2.32.3",
     "commit_sha": "0e322af87745eff34caffe4df68456ebc20d9068"
   },
-  "notes": "Natural-language questions with hand-checked line ranges at the pinned commit. 'author' records who wrote each query: queries written by someone who had just read the function list leak symbol knowledge, so results should also be reported per author. Queries with author 'claude-heldout' were written after the BM25 change was decided and were not used to make it; they share the author bias of the first 31 (same writer, who has read the code). Queries with author 'stackoverflow' are real question titles, copied verbatim from the top-voted python-requests questions on Stack Overflow (id = question id). They were picked in vote order by a fixed rule (keep a question only if one place in the requests source implements what it asks about; skip install/environment errors, comparisons with other libraries and repeated topics; stop at 15), set before any retrieval run on them. Ground truth was chosen by Claude, who has read the code. 'docs_answers' (Stack Overflow queries only) lists user-docs sections that directly answer the question as asked; they count for the separate answered@k metric, not for code recall. Sections were chosen by heading from the docs table of contents, after the retrieval results for these queries had already been seen, so they may carry some bias. The two error-message questions (no connection adapters, max retries exceeded) have no docs section that explains them and get none. Queries with author 'stackoverflow-2' are a second, untouched set for the fusion test in eval/fusion_replication_preregistration.md. Same source and rule, continuing in vote order from rank 25 (the rank after the last of the first 15) in a list fetched on 2026-11-15 and saved as eval/sources/so_python_requests_by_votes_2026-11-15.json; so_vote_rank is the 0-based position in that list. Ranks 25-840 were examined and 40 kept. 'Topic already covered' was applied mechanically: a question is skipped if the function implementing it is already the ground truth of an earlier kept Stack Overflow question. Ground truth and docs_answers for these 40 were written before any retrieval run on them; 28 have a docs answer. Queries with authors 'stackoverflow-3' and 'github-issues' are the two untouched sets for the routing test in eval/routing_preregistration.md, split by the production router (HybridCodeRetriever.compute_dynamic_alpha): every 'stackoverflow-3' title is a plain question and every 'github-issues' title is an identifier question. 'stackoverflow-3': same Stack Overflow list and rule, continuing from rank 841 (pages 11-15 were appended to the saved list for this); ranks 841-1352 were examined and 40 kept. 'github-issues': issue titles, verbatim, from psf/requests issues sorted by comments, saved as eval/sources/psf_requests_issues_by_comments_2026-11-15.json; issue_comment_rank is the 0-based position in that list and id is gh_<issue number>. Ranks 0-408 were examined and 30 kept. The repeat rule applies within each set only. Ground truth and docs_answers for all 70 were written before any retrieval run on them; 33 of the 40 plain and 16 of the 30 identifier questions have a docs answer.",
+  "notes": "Natural-language questions with hand-checked line ranges at the pinned commit. 'author' records who wrote each query: queries written by someone who had just read the function list leak symbol knowledge, so results should also be reported per author. Queries with author 'claude-heldout' were written after the BM25 change was decided and were not used to make it; they share the author bias of the first 31 (same writer, who has read the code). Queries with author 'stackoverflow' are real question titles, copied verbatim from the top-voted python-requests questions on Stack Overflow (id = question id). They were picked in vote order by a fixed rule (keep a question only if one place in the requests source implements what it asks about; skip install/environment errors, comparisons with other libraries and repeated topics; stop at 15), set before any retrieval run on them. Ground truth was chosen by Claude, who has read the code. 'docs_answers' (Stack Overflow queries only) lists user-docs sections that directly answer the question as asked; they count for the separate answered@k metric, not for code recall. Sections were chosen by heading from the docs table of contents, after the retrieval results for these queries had already been seen, so they may carry some bias. The two error-message questions (no connection adapters, max retries exceeded) have no docs section that explains them and get none. Queries with author 'stackoverflow-2' are a second, untouched set for the fusion test in eval/fusion_replication_preregistration.md. Same source and rule, continuing in vote order from rank 25 (the rank after the last of the first 15) in a list fetched on 2026-11-15 and saved as eval/sources/so_python_requests_by_votes_2026-11-15.json; so_vote_rank is the 0-based position in that list. Ranks 25-840 were examined and 40 kept. 'Topic already covered' was applied mechanically: a question is skipped if the function implementing it is already the ground truth of an earlier kept Stack Overflow question. Ground truth and docs_answers for these 40 were written before any retrieval run on them; 28 have a docs answer. Queries with authors 'stackoverflow-3' and 'github-issues' are the two untouched sets for the routing test in eval/routing_preregistration.md, split by the production router (HybridCodeRetriever.compute_dynamic_alpha): every 'stackoverflow-3' title is a plain question and every 'github-issues' title is an identifier question. 'stackoverflow-3': same Stack Overflow list and rule, continuing from rank 841 (pages 11-15 were appended to the saved list for this); ranks 841-1352 were examined and 40 kept. 'github-issues': issue titles, verbatim, from psf/requests issues sorted by comments, saved as eval/sources/psf_requests_issues_by_comments_2026-11-15.json; issue_comment_rank is the 0-based position in that list and id is gh_<issue number>. Ranks 0-408 were examined and 30 kept. The repeat rule applies within each set only. Ground truth and docs_answers for all 70 were written before any retrieval run on them; 33 of the 40 plain and 16 of the 30 identifier questions have a docs answer. Queries with authors 'stackoverflow-4' and 'github-history' are the two untouched sets for the scope_gate test in eval/scope_gate_preregistration.md. 'stackoverflow-4': same Stack Overflow list and rule, continuing from rank 1353 (pages 16-25 were appended to the saved list); ranks 1353-2395 were examined and 60 kept, plain and identifier questions alike; ground truth is source code. 'github-history': issue titles from the saved psf/requests list that report behaviour changed between versions or name a test, kept only if HISTORY.md at v2.32.3 has an entry describing the change (ground truth = that bullet's lines) or the test exists (ground truth = that test function). For these, docs_answers holds the implementing code where one function implements it, so answered@k also counts finding the code. All 1,000 listed issues were examined and 23 qualified (21 changelog entries, 2 tests). Labels for all 83 were written before any retrieval run on them.",
   "queries": [
     {
       "id": "redirect_strip_auth",
@@ -3036,6 +3036,1596 @@
           "file": "src/requests/auth.py",
           "start": 116,
           "end": 124
+        }
+      ]
+    },
+    {
+      "id": "so_20019600",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1354,
+      "query": "Submit form and upload file with requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 136,
+          "end": 203
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 302,
+          "end": 365,
+          "section": "POST a Multipart-Encoded File"
+        }
+      ]
+    },
+    {
+      "id": "so_46303885",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1363,
+      "query": "Send Json (contains boolean/numbers) data in python GET(Method) requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 494,
+          "end": 570
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 233,
+          "end": 301,
+          "section": "More complicated POST requests"
+        }
+      ]
+    },
+    {
+      "id": "so_40170935",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1364,
+      "query": "Python requests: URL with percent character",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 660,
+          "end": 679
+        }
+      ]
+    },
+    {
+      "id": "so_59491690",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1389,
+      "query": "TypeError: request() got an unexpected keyword argument 'header' - when i use header,403 error - without header",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 500,
+          "end": 591
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 206,
+          "end": 232,
+          "section": "Custom Headers"
+        }
+      ]
+    },
+    {
+      "id": "so_41107837",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1391,
+      "query": "Converting JSON object from requests.get() to dict",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 947,
+          "end": 978
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 143,
+          "end": 166,
+          "section": "JSON Response Content"
+        }
+      ]
+    },
+    {
+      "id": "so_16994044",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1395,
+      "query": "Using python requests library to login to website",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 390,
+          "end": 449
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 10,
+          "end": 86,
+          "section": "Session Objects"
+        }
+      ]
+    },
+    {
+      "id": "so_59303814",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1396,
+      "query": "What are the implications of ignoring SSL certificate verification?",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 304,
+          "end": 357
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 211,
+          "end": 253,
+          "section": "SSL Cert Verification"
+        }
+      ]
+    },
+    {
+      "id": "so_49099313",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1403,
+      "query": "How to get the exception string from requests.exceptions.RequestException",
+      "ground_truth": [
+        {
+          "file": "src/requests/exceptions.py",
+          "start": 12,
+          "end": 24
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 549,
+          "end": 570,
+          "section": "Errors and Exceptions"
+        }
+      ]
+    },
+    {
+      "id": "so_40145631",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1408,
+      "query": "Precisely catch DNS error with Python requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 613,
+          "end": 719
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 549,
+          "end": 570,
+          "section": "Errors and Exceptions"
+        }
+      ]
+    },
+    {
+      "id": "so_30265670",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1410,
+      "query": "python requests handle error 302?",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 159,
+          "end": 280
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 477,
+          "end": 525,
+          "section": "Redirection and History"
+        }
+      ]
+    },
+    {
+      "id": "so_70059457",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1417,
+      "query": "What does stream=true do?",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 673,
+          "end": 748
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 300,
+          "end": 335,
+          "section": "Body Content Workflow"
+        },
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 525,
+          "end": 576,
+          "section": "Streaming Requests"
+        }
+      ]
+    },
+    {
+      "id": "so_67344438",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1419,
+      "query": "Python Requests - send null as query params value",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 106,
+          "end": 134
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 54,
+          "end": 83,
+          "section": "Passing Parameters In URLs"
+        }
+      ]
+    },
+    {
+      "id": "so_67281120",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1420,
+      "query": "Updating requests Response content in Python",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 890,
+          "end": 907
+        }
+      ]
+    },
+    {
+      "id": "so_53868528",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1426,
+      "query": "python requests fails to decode utf-8 API response",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 909,
+          "end": 945
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 84,
+          "end": 120,
+          "section": "Response Content"
+        },
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 706,
+          "end": 736,
+          "section": "Encodings"
+        }
+      ]
+    },
+    {
+      "id": "so_27495252",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1437,
+      "query": "python: how to tell if a link redirects to another?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 769,
+          "end": 774
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 477,
+          "end": 525,
+          "section": "Redirection and History"
+        }
+      ]
+    },
+    {
+      "id": "so_17953210",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1440,
+      "query": "can python-requests fetch url directly to file handle on disk like curl?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 799,
+          "end": 855
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 167,
+          "end": 205,
+          "section": "Raw Response Content"
+        }
+      ]
+    },
+    {
+      "id": "so_12237587",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1443,
+      "query": "How to use python-requests and event hooks to write a web crawler with a callback function?",
+      "ground_truth": [
+        {
+          "file": "src/requests/hooks.py",
+          "start": 22,
+          "end": 33
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 423,
+          "end": 486,
+          "section": "Event Hooks"
+        }
+      ]
+    },
+    {
+      "id": "so_56943114",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1456,
+      "query": "How to follow 30x redirections using python requests.head method",
+      "ground_truth": [
+        {
+          "file": "src/requests/api.py",
+          "start": 88,
+          "end": 100
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 477,
+          "end": 525,
+          "section": "Redirection and History"
+        }
+      ]
+    },
+    {
+      "id": "so_56719749",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1457,
+      "query": "Why am I getting the error: AtributeError: __enter__ when using requests.get() in `with` statement",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 705,
+          "end": 706
+        }
+      ]
+    },
+    {
+      "id": "so_54698153",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1459,
+      "query": "urllib3 part of requests package?",
+      "ground_truth": [
+        {
+          "file": "src/requests/packages.py",
+          "start": 1,
+          "end": 23
+        }
+      ]
+    },
+    {
+      "id": "so_53103482",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1463,
+      "query": "Requests/aiohttp: closing response objects",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 1026,
+          "end": 1037
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 300,
+          "end": 335,
+          "section": "Body Content Workflow"
+        }
+      ]
+    },
+    {
+      "id": "so_69457949",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1480,
+      "query": "Python CURL delete request function",
+      "ground_truth": [
+        {
+          "file": "src/requests/api.py",
+          "start": 148,
+          "end": 157
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 20,
+          "end": 53,
+          "section": "Make a Request"
+        }
+      ]
+    },
+    {
+      "id": "so_68447597",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1482,
+      "query": "How to retry 104 connection reset by peer connection errors in python requests library without try except",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 202,
+          "end": 222
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 1035,
+          "end": 1061,
+          "section": "Example: Automatic Retries"
+        }
+      ]
+    },
+    {
+      "id": "so_49694126",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1498,
+      "query": "Python 3 - requests library - iter_lines - Handling possible server stalls when reading chunk of streamed data",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 857,
+          "end": 888
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 525,
+          "end": 576,
+          "section": "Streaming Requests"
+        }
+      ]
+    },
+    {
+      "id": "so_42801680",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1510,
+      "query": "Python requests send multiple cookies",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 610,
+          "end": 628
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 442,
+          "end": 476,
+          "section": "Cookies"
+        }
+      ]
+    },
+    {
+      "id": "so_41118030",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1511,
+      "query": "How to get the exact url of the requests library in python",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 409,
+          "end": 481
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 54,
+          "end": 83,
+          "section": "Passing Parameters In URLs"
+        }
+      ]
+    },
+    {
+      "id": "so_18811958",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1566,
+      "query": "Python: Cookies not persisting between requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/cookies.py",
+          "start": 124,
+          "end": 137
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 10,
+          "end": 86,
+          "section": "Session Objects"
+        }
+      ]
+    },
+    {
+      "id": "so_66908549",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1573,
+      "query": "requests.exceptions.HTTPError vs requests.HTTPError",
+      "ground_truth": [
+        {
+          "file": "src/requests/exceptions.py",
+          "start": 55,
+          "end": 56
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 549,
+          "end": 570,
+          "section": "Errors and Exceptions"
+        }
+      ]
+    },
+    {
+      "id": "so_59554404",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1584,
+      "query": "How do I assert that an HTTP exception was raised?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 997,
+          "end": 1024
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 366,
+          "end": 403,
+          "section": "Response Status Codes"
+        }
+      ]
+    },
+    {
+      "id": "so_44025977",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1595,
+      "query": "Using 'Requests' python module for POST request, receiving response as if it were GET",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 333,
+          "end": 353
+        }
+      ]
+    },
+    {
+      "id": "so_35380977",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1606,
+      "query": "How to get the server info of a website using python requests?",
+      "ground_truth": [
+        {
+          "file": "src/requests/structures.py",
+          "start": 13,
+          "end": 80
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 404,
+          "end": 441,
+          "section": "Response Headers"
+        }
+      ]
+    },
+    {
+      "id": "so_24569428",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1611,
+      "query": "How to specify \"socket_options\" in python-requests lib since urllib3 v1.8.3 has been added the \"socket_options\" feature?",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 240,
+          "end": 264
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 969,
+          "end": 1007,
+          "section": "Transport Adapters"
+        }
+      ]
+    },
+    {
+      "id": "so_63792435",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1623,
+      "query": "requests session.close() does not close the session",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 794,
+          "end": 797
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 10,
+          "end": 86,
+          "section": "Session Objects"
+        }
+      ]
+    },
+    {
+      "id": "so_59193447",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1629,
+      "query": "Requests http lib: include X-Request-ID",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 483,
+          "end": 492
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 206,
+          "end": 232,
+          "section": "Custom Headers"
+        }
+      ]
+    },
+    {
+      "id": "so_58253867",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1630,
+      "query": "How to get response URL in Python requests module?",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 359,
+          "end": 394
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 477,
+          "end": 525,
+          "section": "Redirection and History"
+        }
+      ]
+    },
+    {
+      "id": "so_55899101",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1633,
+      "query": "AttributeError: module 'urllib3' has no attribute '__version__' error while executing py file",
+      "ground_truth": [
+        {
+          "file": "src/requests/__init__.py",
+          "start": 58,
+          "end": 90
+        }
+      ]
+    },
+    {
+      "id": "so_53311168",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1639,
+      "query": "Python: HTTPS using a proxy server with requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 838,
+          "end": 861
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 577,
+          "end": 670,
+          "section": "Proxies"
+        }
+      ]
+    },
+    {
+      "id": "so_20437753",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1659,
+      "query": "Python Requests library can't handle redirects for HTTPS URLs when behind a proxy",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 302,
+          "end": 331
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 577,
+          "end": 670,
+          "section": "Proxies"
+        }
+      ]
+    },
+    {
+      "id": "so_61480802",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1671,
+      "query": "Python requests library creates new connection each time",
+      "ground_truth": [
+        {
+          "file": "src/requests/api.py",
+          "start": 14,
+          "end": 59
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 10,
+          "end": 86,
+          "section": "Session Objects"
+        }
+      ]
+    },
+    {
+      "id": "so_33632231",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1698,
+      "query": "Django not accepting data from python-requests.patch()",
+      "ground_truth": [
+        {
+          "file": "src/requests/api.py",
+          "start": 133,
+          "end": 145
+        }
+      ]
+    },
+    {
+      "id": "so_9026016",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1710,
+      "query": "Python requests library combine HTTPProxyAuth with HTTPBasicAuth",
+      "ground_truth": [
+        {
+          "file": "src/requests/auth.py",
+          "start": 99,
+          "end": 104
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 577,
+          "end": 670,
+          "section": "Proxies"
+        }
+      ]
+    },
+    {
+      "id": "so_73290348",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1715,
+      "query": "Failed to decode basic authentication token Python 3.10",
+      "ground_truth": [
+        {
+          "file": "src/requests/auth.py",
+          "start": 25,
+          "end": 66
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/authentication.rst",
+          "start": 13,
+          "end": 35,
+          "section": "Basic Authentication"
+        }
+      ]
+    },
+    {
+      "id": "so_36139027",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1763,
+      "query": "Python \"requests\" module does not respect http_proxy environment variable when target URL uses an ip address?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 765,
+          "end": 823
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 577,
+          "end": 670,
+          "section": "Proxies"
+        }
+      ]
+    },
+    {
+      "id": "so_22480865",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1797,
+      "query": "InvalidSchema when trying to connect to localhost",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 781,
+          "end": 792
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 969,
+          "end": 1007,
+          "section": "Transport Adapters"
+        }
+      ]
+    },
+    {
+      "id": "so_25500563",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1803,
+      "query": "Set new cookie between requests with Python Requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/cookies.py",
+          "start": 206,
+          "end": 223
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 442,
+          "end": 476,
+          "section": "Cookies"
+        }
+      ]
+    },
+    {
+      "id": "so_16204690",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1804,
+      "query": "Python requests: How to PUT a string in body?",
+      "ground_truth": [
+        {
+          "file": "src/requests/api.py",
+          "start": 118,
+          "end": 130
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 20,
+          "end": 53,
+          "section": "Make a Request"
+        }
+      ]
+    },
+    {
+      "id": "so_34839584",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1810,
+      "query": "Why does `requests` use the `with` statement?",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 451,
+          "end": 452
+        },
+        {
+          "file": "src/requests/sessions.py",
+          "start": 454,
+          "end": 455
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 10,
+          "end": 86,
+          "section": "Session Objects"
+        }
+      ]
+    },
+    {
+      "id": "so_14998006",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1844,
+      "query": "requests via a SOCKs proxy",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 266,
+          "end": 302
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 671,
+          "end": 697,
+          "section": "SOCKS"
+        }
+      ]
+    },
+    {
+      "id": "so_36458634",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1862,
+      "query": "How not to let python requests calculate content-length and use the provided one?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 572,
+          "end": 586
+        }
+      ]
+    },
+    {
+      "id": "so_62120779",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1922,
+      "query": "How to extract attached credentials from a url?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 1018,
+          "end": 1031
+        }
+      ]
+    },
+    {
+      "id": "so_33847243",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1952,
+      "query": "Python \"requests\" library: HTTP basic authentication for each request",
+      "ground_truth": [
+        {
+          "file": "src/requests/auth.py",
+          "start": 76,
+          "end": 96
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/authentication.rst",
+          "start": 13,
+          "end": 35,
+          "section": "Basic Authentication"
+        }
+      ]
+    },
+    {
+      "id": "so_74108902",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 1965,
+      "query": "How to pass a retry strategy to a session in python requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 799,
+          "end": 808
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 969,
+          "end": 1007,
+          "section": "Transport Adapters"
+        },
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 1035,
+          "end": 1061,
+          "section": "Example: Automatic Retries"
+        }
+      ]
+    },
+    {
+      "id": "so_32044506",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 2036,
+      "query": "407 response from proxy using python requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 592,
+          "end": 611
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 577,
+          "end": 670,
+          "section": "Proxies"
+        }
+      ]
+    },
+    {
+      "id": "so_31369633",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 2037,
+      "query": "Adding server certificates to CA_BUNDLE in python",
+      "ground_truth": [
+        {
+          "file": "src/requests/certs.py",
+          "start": 1,
+          "end": 17
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 279,
+          "end": 299,
+          "section": "CA Certificates"
+        },
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 211,
+          "end": 253,
+          "section": "SSL Cert Verification"
+        }
+      ]
+    },
+    {
+      "id": "so_21170518",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 2050,
+      "query": "Generate authorization digest header with urllib2 or requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/auth.py",
+          "start": 126,
+          "end": 234
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/authentication.rst",
+          "start": 48,
+          "end": 59,
+          "section": "Digest Authentication"
+        }
+      ]
+    },
+    {
+      "id": "so_49081632",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 2119,
+      "query": "How to resolve TypeError get() takes exactly 2 arguments (3 given) in Python request using get method",
+      "ground_truth": [
+        {
+          "file": "src/requests/api.py",
+          "start": 62,
+          "end": 73
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 54,
+          "end": 83,
+          "section": "Passing Parameters In URLs"
+        }
+      ]
+    },
+    {
+      "id": "so_44463768",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 2128,
+      "query": "Python3 Requests \"Post\" Ignoring Filename when using BytesIO?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 261,
+          "end": 265
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 302,
+          "end": 365,
+          "section": "POST a Multipart-Encoded File"
+        }
+      ]
+    },
+    {
+      "id": "so_40692514",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 2247,
+      "query": "Python3, Requests: How to merge CookieJars",
+      "ground_truth": [
+        {
+          "file": "src/requests/cookies.py",
+          "start": 542,
+          "end": 561
+        }
+      ]
+    },
+    {
+      "id": "so_62612956",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 2317,
+      "query": "Python requests module crashing when fed URL with emoji in it. Why?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 399,
+          "end": 407
+        }
+      ]
+    },
+    {
+      "id": "so_27121799",
+      "author": "stackoverflow-4",
+      "so_vote_rank": 2395,
+      "query": "Python Requests Create Cookie Failure",
+      "ground_truth": [
+        {
+          "file": "src/requests/cookies.py",
+          "start": 455,
+          "end": 489
+        }
+      ]
+    },
+    {
+      "id": "gh_2455",
+      "author": "github-history",
+      "issue_comment_rank": 2,
+      "query": "CERTIFICATE_VERIFY_FAILED with 2.5.2, works with 2.5.1",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 1029,
+          "end": 1030
+        }
+      ]
+    },
+    {
+      "id": "gh_6432",
+      "author": "github-history",
+      "issue_comment_rank": 46,
+      "query": "The latest version of requests (2.29.0) does not support urllib3 2.0.0",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 116,
+          "end": 122
+        }
+      ]
+    },
+    {
+      "id": "gh_1879",
+      "author": "github-history",
+      "issue_comment_rank": 104,
+      "query": "params no longer work for non-http URLs",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 1266,
+          "end": 1266
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "src/requests/models.py",
+          "start": 409,
+          "end": 481
+        }
+      ]
+    },
+    {
+      "id": "gh_6715",
+      "author": "github-history",
+      "issue_comment_rank": 139,
+      "query": "SSLV3_ALERT_HANDSHAKE_FAILURE after upgrade from 2.31.0 to 2.32.2",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 13,
+          "end": 14
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 396,
+          "end": 444
+        }
+      ]
+    },
+    {
+      "id": "gh_6711",
+      "author": "github-history",
+      "issue_comment_rank": 162,
+      "query": "breaking aws s3 usage with requests 2.32.0",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 63,
+          "end": 64
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 546,
+          "end": 576
+        }
+      ]
+    },
+    {
+      "id": "gh_2411",
+      "author": "github-history",
+      "issue_comment_rank": 189,
+      "query": "Requests 2.5.1 doesn't recognize unicode filenames for uploads",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 1051,
+          "end": 1051
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "src/requests/models.py",
+          "start": 136,
+          "end": 203
+        }
+      ]
+    },
+    {
+      "id": "gh_3734",
+      "author": "github-history",
+      "issue_comment_rank": 202,
+      "query": "docker-py breaks with some configurations of Requests v2.12.2",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 705,
+          "end": 711
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "src/requests/models.py",
+          "start": 409,
+          "end": 481
+        }
+      ]
+    },
+    {
+      "id": "gh_2840",
+      "author": "github-history",
+      "issue_comment_rank": 206,
+      "query": "test_response_iter_lines_reentrant failing with python 2.7 and urllib 1.12",
+      "ground_truth": [
+        {
+          "file": "tests/test_requests.py",
+          "start": 2105,
+          "end": 2112
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "src/requests/models.py",
+          "start": 857,
+          "end": 888
+        }
+      ]
+    },
+    {
+      "id": "gh_6159",
+      "author": "github-history",
+      "issue_comment_rank": 228,
+      "query": "Breaking change in 2.28.0 when using string enums as Headers (working in v2.27.1)",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 168,
+          "end": 169
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 1045,
+          "end": 1061
+        }
+      ]
+    },
+    {
+      "id": "gh_6707",
+      "author": "github-history",
+      "issue_comment_rank": 265,
+      "query": "Requests 2.32.0 Not supported URL scheme http+docker",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 22,
+          "end": 30
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 446,
+          "end": 493
+        }
+      ]
+    },
+    {
+      "id": "gh_3687",
+      "author": "github-history",
+      "issue_comment_rank": 382,
+      "query": "because of idna2008 enforcement some real urls that work in the browser are now broken",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 718,
+          "end": 724
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "src/requests/models.py",
+          "start": 399,
+          "end": 407
+        }
+      ]
+    },
+    {
+      "id": "gh_4069",
+      "author": "github-history",
+      "issue_comment_rank": 441,
+      "query": "2.16.0 Release Breaking Changes if you relied on Vendored packages",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 583,
+          "end": 583
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "src/requests/packages.py",
+          "start": 1,
+          "end": 23
+        }
+      ]
+    },
+    {
+      "id": "gh_1703",
+      "author": "github-history",
+      "issue_comment_rank": 470,
+      "query": "proxy with authentication fails in requests 2.0",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 1260,
+          "end": 1260
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 592,
+          "end": 611
+        }
+      ]
+    },
+    {
+      "id": "gh_2811",
+      "author": "github-history",
+      "issue_comment_rank": 509,
+      "query": "2.8.0 release raise ConnectTimeout on not known url",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 916,
+          "end": 917
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 613,
+          "end": 719
+        }
+      ]
+    },
+    {
+      "id": "gh_2192",
+      "author": "github-history",
+      "issue_comment_rank": 525,
+      "query": "[regression] urllib3.exceptions.ProtocolError not wrapped",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 1164,
+          "end": 1164
+        }
+      ]
+    },
+    {
+      "id": "gh_3491",
+      "author": "github-history",
+      "issue_comment_rank": 562,
+      "query": "Requests is no longer converting Boolean values in headers to strings",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 828,
+          "end": 829
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 1034,
+          "end": 1042
+        }
+      ]
+    },
+    {
+      "id": "gh_3753",
+      "author": "github-history",
+      "issue_comment_rank": 657,
+      "query": "Basic auth with integer username broken in 2.12.2",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 695,
+          "end": 698
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "src/requests/auth.py",
+          "start": 25,
+          "end": 66
+        }
+      ]
+    },
+    {
+      "id": "gh_5846",
+      "author": "github-history",
+      "issue_comment_rank": 681,
+      "query": "TestRequests.test_pyopenssl_redirect is broken in CI",
+      "ground_truth": [
+        {
+          "file": "tests/test_requests.py",
+          "start": 924,
+          "end": 925
+        }
+      ]
+    },
+    {
+      "id": "gh_2462",
+      "author": "github-history",
+      "issue_comment_rank": 706,
+      "query": "Error in `requests.packages.__init__` (version > 2.5.1)",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 985,
+          "end": 985
+        }
+      ]
+    },
+    {
+      "id": "gh_2568",
+      "author": "github-history",
+      "issue_comment_rank": 707,
+      "query": "Keep-alive broken in 2.6.1 and 2.6.2 with chunked transfer-encoding",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 969,
+          "end": 970
+        }
+      ]
+    },
+    {
+      "id": "gh_5561",
+      "author": "github-history",
+      "issue_comment_rank": 788,
+      "query": "Requests 2.24.0 removed necessary namespace for other modules",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 316,
+          "end": 320
+        }
+      ]
+    },
+    {
+      "id": "gh_2561",
+      "author": "github-history",
+      "issue_comment_rank": 822,
+      "query": "Content-Encoding: Gzip not automatically decoded in 2.6.1",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 977,
+          "end": 978
+        }
+      ]
+    },
+    {
+      "id": "gh_1715",
+      "author": "github-history",
+      "issue_comment_rank": 985,
+      "query": "Redirection breaks on oddly cased protocols",
+      "ground_truth": [
+        {
+          "file": "HISTORY.md",
+          "start": 1283,
+          "end": 1283
         }
       ]
     }
