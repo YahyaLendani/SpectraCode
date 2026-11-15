@@ -19,9 +19,21 @@ def tokenize(text: str) -> List[str]:
 
 class BM25Index:
     def __init__(self, documents: Sequence[str], k1: float = 1.5, b: float = 0.75) -> None:
+        self._build([tokenize(doc) for doc in documents], k1, b)
+
+    @classmethod
+    def from_token_lists(
+        cls, token_lists: Sequence[Sequence[str]], k1: float = 1.5, b: float = 0.75
+    ) -> "BM25Index":
+        """Builds from already-normalised tokens (e.g. CodeChunk.lexical_tokens.split())."""
+        index = cls.__new__(cls)
+        index._build(token_lists, k1, b)
+        return index
+
+    def _build(self, token_lists: Sequence[Sequence[str]], k1: float, b: float) -> None:
         self.k1 = k1
         self.b = b
-        self._term_freqs: List[Counter[str]] = [Counter(tokenize(doc)) for doc in documents]
+        self._term_freqs: List[Counter[str]] = [Counter(tokens) for tokens in token_lists]
         self._lengths = [sum(tf.values()) for tf in self._term_freqs]
         self._avg_len = (sum(self._lengths) / len(self._lengths)) if self._lengths else 0.0
         doc_freq: Dict[str, int] = Counter()

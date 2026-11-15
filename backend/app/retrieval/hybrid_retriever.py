@@ -7,13 +7,12 @@ from dataclasses import dataclass
 from typing import Dict, List, Optional
 
 import numpy as np
-from rapidfuzz import fuzz
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import noload, selectinload
 
 from app.db.models import ASTSymbol, ChunkEmbedding, CodeChunk, RepositoryFile
-from app.ingestion.ast_chunker import CodeQueryNormalizer
+from app.retrieval.bm25 import BM25Index
 from app.retrieval.embeddings import EmbeddingService
 
 
@@ -109,12 +108,15 @@ class HybridCodeRetriever:
         if not rows:
             return []
 
-        # 2. Vectorized Dense Similarity + Fast-Path Sparse Lexical Overlap
+        # 2. Vectorized Dense Similarity + BM25 Sparse Lexical Scoring
         items: List[RetrievedChunk] = []
 
-        query_expanded = CodeQueryNormalizer.expand_code_text(query).lower()
-        query_terms = set(query_expanded.split())
-        num_terms = max(1, len(query_terms))
+        # BM25 over the stored code-aware tokens (path + symbol + code). Scaled by the query's
+        # best score into [0, 1] so it stays comparable with cosine similarity downstream.
+        bm25_scores = BM25Index.from_token_lists(
+            [(chunk.lexical_tokens or "").lower().split() for chunk, _, _ in rows]
+        ).score(query)
+        bm25_max = max(bm25_scores, default=0.0)
 
         q_dim = len(query_embedding)
         emb_matrix = np.zeros((len(rows), q_dim), dtype=np.float32)
@@ -126,23 +128,7 @@ class HybridCodeRetriever:
 
         for idx, (chunk, file_obj, _) in enumerate(rows):
             dense_score = float(dense_scores[idx])
-
-            # Sparse score: fast token overlap + selective fuzzy match
-            lex_text = (chunk.lexical_tokens or "").lower()
-            file_path_lower = file_obj.file_path.lower()
-
-            overlap_hits = sum(
-                1 for term in query_terms if term in lex_text or term in file_path_lower
-            )
-            overlap_ratio = overlap_hits / num_terms
-
-            # Optimization: Only compute expensive partial Levenshtein ratio when there are lexical hits or high dense score
-            if overlap_hits > 0 or dense_score > 0.35:
-                fuzzy_ratio = fuzz.partial_ratio(query_expanded, lex_text) / 100.0
-            else:
-                fuzzy_ratio = 0.0
-
-            sparse_score = (0.6 * overlap_ratio) + (0.4 * fuzzy_ratio)
+            sparse_score = (bm25_scores[idx] / bm25_max) if bm25_max > 0 else 0.0
 
             item = RetrievedChunk(
                 chunk_id=chunk.id,

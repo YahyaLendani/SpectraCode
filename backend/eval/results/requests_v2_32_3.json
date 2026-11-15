@@ -1,7 +1,7 @@
 {
   "suite": "psf/requests v2.32.3 retrieval suite",
   "suite_file": "eval/suites/requests_v2_32_3.json",
-  "run_at": "2026-11-15T15:44:18+00:00",
+  "run_at": "2026-11-15T15:50:50+00:00",
   "repository": {
     "clone_url": "https://github.com/psf/requests.git",
     "ref": "v2.32.3",
@@ -23,12 +23,12 @@
   },
   "n_queries": 31,
   "n_chunks": 761,
-  "index_seconds": 145.1,
+  "index_seconds": 0.0,
   "mean_latency_ms": {
-    "bm25": 2.7,
-    "sparse": 392.5,
-    "dense": 392.5,
-    "hybrid": 385.0
+    "bm25": 2.4,
+    "sparse": 335.6,
+    "dense": 335.6,
+    "hybrid": 319.4
   },
   "overall": {
     "bm25": {
@@ -56,24 +56,24 @@
     },
     "sparse": {
       "recall@5": {
-        "mean": 0.3225806451612903,
+        "mean": 0.6290322580645161,
         "ci95": [
-          0.1774193548387097,
-          0.46774193548387094
+          0.46774193548387094,
+          0.7903225806451613
         ]
       },
       "recall@10": {
-        "mean": 0.5,
+        "mean": 0.7258064516129032,
         "ci95": [
-          0.3387096774193548,
-          0.6612903225806451
+          0.5806451612903226,
+          0.8709677419354839
         ]
       },
       "mrr@10": {
-        "mean": 0.18726318484383,
+        "mean": 0.5039426523297491,
         "ci95": [
-          0.1136968766001024,
-          0.27507680491551456
+          0.3695340501792115,
+          0.6551971326164874
         ]
       }
     },
@@ -102,24 +102,24 @@
     },
     "hybrid": {
       "recall@5": {
-        "mean": 0.6774193548387096,
+        "mean": 0.7741935483870968,
         "ci95": [
-          0.5161290322580645,
-          0.8225806451612904
+          0.6290322580645161,
+          0.9032258064516129
         ]
       },
       "recall@10": {
-        "mean": 0.8225806451612904,
+        "mean": 0.8709677419354839,
         "ci95": [
-          0.6935483870967742,
-          0.9354838709677419
+          0.7419354838709677,
+          0.967741935483871
         ]
       },
       "mrr@10": {
-        "mean": 0.5536610343061956,
+        "mean": 0.6666666666666667,
         "ci95": [
-          0.42375832053251405,
-          0.6934459805427547
+          0.5333333333333334,
+          0.8064516129032258
         ]
       }
     }
@@ -151,24 +151,24 @@
       },
       "sparse": {
         "recall@5": {
-          "mean": 0.3225806451612903,
+          "mean": 0.6290322580645161,
           "ci95": [
-            0.1774193548387097,
-            0.46774193548387094
+            0.46774193548387094,
+            0.7903225806451613
           ]
         },
         "recall@10": {
-          "mean": 0.5,
+          "mean": 0.7258064516129032,
           "ci95": [
-            0.3387096774193548,
-            0.6612903225806451
+            0.5806451612903226,
+            0.8709677419354839
           ]
         },
         "mrr@10": {
-          "mean": 0.18726318484383,
+          "mean": 0.5039426523297491,
           "ci95": [
-            0.1136968766001024,
-            0.27507680491551456
+            0.3695340501792115,
+            0.6551971326164874
           ]
         }
       },
@@ -197,24 +197,24 @@
       },
       "hybrid": {
         "recall@5": {
-          "mean": 0.6774193548387096,
+          "mean": 0.7741935483870968,
           "ci95": [
-            0.5161290322580645,
-            0.8225806451612904
+            0.6290322580645161,
+            0.9032258064516129
           ]
         },
         "recall@10": {
-          "mean": 0.8225806451612904,
+          "mean": 0.8709677419354839,
           "ci95": [
-            0.6935483870967742,
-            0.9354838709677419
+            0.7419354838709677,
+            0.967741935483871
           ]
         },
         "mrr@10": {
-          "mean": 0.5536610343061956,
+          "mean": 0.6666666666666667,
           "ci95": [
-            0.42375832053251405,
-            0.6934459805427547
+            0.5333333333333334,
+            0.8064516129032258
           ]
         }
       }
@@ -222,66 +222,66 @@
   },
   "hybrid_vs_baselines": {
     "hybrid_minus_bm25:recall@5": {
-      "mean": 0.04838709677419355,
+      "mean": 0.14516129032258066,
       "ci95": [
-        -0.04838709677419355,
-        0.16129032258064516
+        0.03225806451612903,
+        0.27419354838709675
       ]
     },
     "hybrid_minus_bm25:recall@10": {
-      "mean": 0.0967741935483871,
+      "mean": 0.14516129032258066,
       "ci95": [
-        -0.03225806451612903,
-        0.24193548387096775
+        0.04838709677419355,
+        0.25806451612903225
       ]
     },
     "hybrid_minus_bm25:mrr@10": {
-      "mean": 0.04636456733230927,
+      "mean": 0.15937019969278035,
       "ci95": [
-        -0.051536098310291864,
-        0.13904249871991806
+        0.08602150537634408,
+        0.24162826420890937
       ]
     },
     "hybrid_minus_dense:recall@5": {
-      "mean": -0.03225806451612903,
+      "mean": 0.06451612903225806,
       "ci95": [
-        -0.20967741935483872,
-        0.14516129032258066
+        -0.11290322580645161,
+        0.24193548387096775
       ]
     },
     "hybrid_minus_dense:recall@10": {
-      "mean": -0.03225806451612903,
+      "mean": 0.016129032258064516,
       "ci95": [
-        -0.12903225806451613,
-        0.06451612903225806
+        -0.0967741935483871,
+        0.12903225806451613
       ]
     },
     "hybrid_minus_dense:mrr@10": {
-      "mean": -0.018919610855094724,
+      "mean": 0.09408602150537636,
       "ci95": [
-        -0.15227854582693293,
-        0.1196620583717358
+        -0.02795698924731183,
+        0.2241935483870968
       ]
     },
     "hybrid_minus_sparse:recall@5": {
-      "mean": 0.3548387096774194,
+      "mean": 0.14516129032258066,
       "ci95": [
-        0.1935483870967742,
-        0.5161290322580645
+        0.03225806451612903,
+        0.27419354838709675
       ]
     },
     "hybrid_minus_sparse:recall@10": {
-      "mean": 0.3225806451612903,
+      "mean": 0.14516129032258066,
       "ci95": [
-        0.1774193548387097,
-        0.4838709677419355
+        0.04838709677419355,
+        0.25806451612903225
       ]
     },
     "hybrid_minus_sparse:mrr@10": {
-      "mean": 0.36639784946236564,
+      "mean": 0.16272401433691755,
       "ci95": [
-        0.27549923195084486,
-        0.46632104454685097
+        0.0906810035842294,
+        0.23942652329749106
       ]
     }
   },
@@ -303,12 +303,12 @@
         },
         "sparse": {
           "recall@5": 0.5,
-          "recall@10": 1.0,
-          "mrr@10": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 0.3333333333333333,
           "top3": [
             "HISTORY.md:56-115",
-            "src/requests/sessions.py:282-300",
-            "docs/user/quickstart.rst:221-280"
+            "docs/user/quickstart.rst:221-280",
+            "src/requests/sessions.py:282-300"
           ]
         },
         "dense": {
@@ -322,13 +322,13 @@
           ]
         },
         "hybrid": {
-          "recall@5": 1.0,
+          "recall@5": 0.5,
           "recall@10": 1.0,
           "mrr@10": 1.0,
           "top3": [
             "src/requests/sessions.py:282-300",
             "docs/user/quickstart.rst:221-280",
-            "src/requests/sessions.py:127-157"
+            "tests/test_requests.py:1853-1858"
           ]
         }
       }
@@ -349,13 +349,13 @@
           ]
         },
         "sparse": {
-          "recall@5": 0.0,
-          "recall@10": 0.0,
-          "mrr@10": 0.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
           "top3": [
-            "docs/api.rst:166-225",
-            "docs/user/advanced.rst:716-775",
-            "docs/user/advanced.rst:771-830"
+            "tests/test_requests.py:301-306",
+            "docs/user/authentication.rst:56-115",
+            "src/requests/sessions.py:333-353"
           ]
         },
         "dense": {
@@ -373,9 +373,9 @@
           "recall@10": 1.0,
           "mrr@10": 0.5,
           "top3": [
-            "docs/api.rst:166-225",
+            "tests/test_requests.py:301-306",
             "src/requests/sessions.py:333-353",
-            "docs/api.rst:111-170"
+            "docs/api.rst:166-225"
           ]
         }
       }
@@ -402,7 +402,7 @@
           "top3": [
             "docs/user/advanced.rst:1101-1141",
             "src/requests/adapters.py:396-444",
-            "docs/user/advanced.rst:716-775"
+            "docs/api.rst:166-225"
           ]
         },
         "dense": {
@@ -416,13 +416,13 @@
           ]
         },
         "hybrid": {
-          "recall@5": 0.0,
-          "recall@10": 0.0,
-          "mrr@10": 0.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
           "top3": [
-            "tests/test_requests.py:2191-2233",
             "docs/user/advanced.rst:1101-1141",
-            "docs/api.rst:166-225"
+            "docs/api.rst:166-225",
+            "HISTORY.md:1541-1600"
           ]
         }
       }
@@ -445,11 +445,11 @@
         "sparse": {
           "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.5,
+          "mrr@10": 1.0,
           "top3": [
-            "docs/user/advanced.rst:606-665",
             "src/requests/utils.py:765-823",
-            "HISTORY.md:771-830"
+            "src/requests/utils.py:104-125",
+            "tests/test_lowlevel.py:289-305"
           ]
         },
         "dense": {
@@ -468,8 +468,8 @@
           "mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:765-823",
-            "docs/user/advanced.rst:606-665",
-            "src/requests/utils.py:104-125"
+            "src/requests/utils.py:104-125",
+            "tests/test_lowlevel.py:289-305"
           ]
         }
       }
@@ -490,13 +490,13 @@
           ]
         },
         "sparse": {
-          "recall@5": 0.0,
-          "recall@10": 0.0,
-          "mrr@10": 0.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
           "top3": [
-            "HISTORY.md:881-940",
-            "HISTORY.md:716-775",
-            "HISTORY.md:771-830"
+            "src/requests/utils.py:838-861",
+            "src/requests/adapters.py:546-576",
+            "src/requests/utils.py:864-888"
           ]
         },
         "dense": {
@@ -512,11 +512,11 @@
         "hybrid": {
           "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.5,
+          "mrr@10": 1.0,
           "top3": [
-            "src/requests/utils.py:864-888",
             "src/requests/utils.py:838-861",
-            "src/requests/adapters.py:546-576"
+            "src/requests/adapters.py:546-576",
+            "src/requests/utils.py:864-888"
           ]
         }
       }
@@ -537,12 +537,12 @@
           ]
         },
         "sparse": {
-          "recall@5": 0.0,
-          "recall@10": 0.0,
-          "mrr@10": 0.0,
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
           "top3": [
+            "src/requests/models.py:909-945",
             "docs/user/quickstart.rst:56-115",
-            "docs/user/advanced.rst:661-720",
             "src/requests/models.py:947-978"
           ]
         },
@@ -558,12 +558,12 @@
         },
         "hybrid": {
           "recall@5": 0.5,
-          "recall@10": 0.5,
-          "mrr@10": 0.5,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
           "top3": [
-            "docs/user/quickstart.rst:111-170",
             "src/requests/models.py:909-945",
-            "src/requests/models.py:947-978"
+            "src/requests/models.py:947-978",
+            "docs/user/quickstart.rst:111-170"
           ]
         }
       }
@@ -586,11 +586,11 @@
         "sparse": {
           "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.25,
+          "mrr@10": 0.5,
           "top3": [
-            "docs/user/advanced.rst:716-775",
-            "src/requests/api.py:14-59",
-            "src/requests/sessions.py:500-563"
+            "tests/test_utils.py:376-408",
+            "src/requests/utils.py:957-986",
+            "src/requests/models.py:947-978"
           ]
         },
         "dense": {
@@ -609,8 +609,8 @@
           "mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:957-986",
-            "src/requests/models.py:947-978",
-            "HISTORY.md:661-720"
+            "tests/test_utils.py:376-408",
+            "src/requests/models.py:947-978"
           ]
         }
       }
@@ -631,13 +631,13 @@
           ]
         },
         "sparse": {
-          "recall@5": 0.0,
-          "recall@10": 0.0,
-          "mrr@10": 0.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
           "top3": [
             "docs/user/authentication.rst:1-60",
-            "HISTORY.md:716-775",
-            "HISTORY.md:1321-1380"
+            "src/requests/utils.py:204-258",
+            "docs/user/quickstart.rst:221-280"
           ]
         },
         "dense": {
@@ -653,10 +653,10 @@
         "hybrid": {
           "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.5,
+          "mrr@10": 1.0,
           "top3": [
-            "docs/user/authentication.rst:1-60",
             "src/requests/utils.py:204-258",
+            "docs/user/authentication.rst:1-60",
             "docs/user/quickstart.rst:221-280"
           ]
         }
@@ -678,13 +678,13 @@
           ]
         },
         "sparse": {
-          "recall@5": 0.0,
-          "recall@10": 0.0,
-          "mrr@10": 0.0,
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 0.2,
           "top3": [
-            "HISTORY.md:1376-1435",
+            "tests/test_lowlevel.py:192-235",
             "tests/test_lowlevel.py:127-189",
-            "HISTORY.md:1046-1105"
+            "docs/user/authentication.rst:1-60"
           ]
         },
         "dense": {
@@ -698,13 +698,13 @@
           ]
         },
         "hybrid": {
-          "recall@5": 0.0,
+          "recall@5": 0.5,
           "recall@10": 0.5,
-          "mrr@10": 0.16666666666666666,
+          "mrr@10": 0.3333333333333333,
           "top3": [
-            "tests/test_lowlevel.py:127-189",
             "tests/test_lowlevel.py:192-235",
-            "HISTORY.md:1376-1435"
+            "tests/test_lowlevel.py:127-189",
+            "src/requests/auth.py:241-283"
           ]
         }
       }
@@ -725,13 +725,13 @@
           ]
         },
         "sparse": {
-          "recall@5": 0.0,
-          "recall@10": 0.0,
-          "mrr@10": 0.0,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
           "top3": [
-            "docs/user/advanced.rst:606-665",
             "src/requests/sessions.py:302-331",
-            "src/requests/adapters.py:592-611"
+            "src/requests/auth.py:76-96",
+            "tests/test_requests.py:542-558"
           ]
         },
         "dense": {
@@ -747,11 +747,11 @@
         "hybrid": {
           "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.2,
+          "mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/auth.py:76-96",
-            "src/requests/adapters.py:592-611",
-            "docs/user/quickstart.rst:221-280"
+            "tests/test_requests.py:542-558",
+            "src/requests/auth.py:25-66"
           ]
         }
       }
@@ -774,11 +774,11 @@
         "sparse": {
           "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.3333333333333333,
+          "mrr@10": 1.0,
           "top3": [
+            "src/requests/models.py:799-855",
             "src/requests/models.py:890-907",
-            "HISTORY.md:771-830",
-            "src/requests/models.py:799-855"
+            "src/requests/exceptions.py:127-128"
           ]
         },
         "dense": {
@@ -798,7 +798,7 @@
           "top3": [
             "src/requests/models.py:799-855",
             "src/requests/models.py:890-907",
-            "docs/user/advanced.rst:331-390"
+            "src/requests/exceptions.py:127-128"
           ]
         }
       }
@@ -824,8 +824,8 @@
           "mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:857-888",
-            "docs/dev/contributing.rst:1-60",
-            "docs/user/advanced.rst:496-555"
+            "docs/user/advanced.rst:496-555",
+            "docs/user/advanced.rst:276-335"
           ]
         },
         "dense": {
@@ -844,8 +844,8 @@
           "mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:857-888",
-            "src/requests/models.py:799-855",
-            "docs/user/advanced.rst:1046-1105"
+            "docs/user/advanced.rst:1101-1141",
+            "docs/user/advanced.rst:496-555"
           ]
         }
       }
@@ -871,7 +871,7 @@
           "mrr@10": 0.0,
           "top3": [
             "docs/user/quickstart.rst:331-390",
-            "HISTORY.md:881-940",
+            "docs/user/quickstart.rst:551-570",
             "HISTORY.md:166-225"
           ]
         },
@@ -887,12 +887,12 @@
         },
         "hybrid": {
           "recall@5": 0.0,
-          "recall@10": 1.0,
-          "mrr@10": 0.14285714285714285,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
           "top3": [
+            "docs/user/quickstart.rst:551-570",
             "docs/user/quickstart.rst:331-390",
-            "docs/user/quickstart.rst:386-445",
-            "docs/user/quickstart.rst:551-570"
+            "src/requests/models.py:754-767"
           ]
         }
       }
@@ -915,11 +915,11 @@
         "sparse": {
           "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.5,
+          "mrr@10": 1.0,
           "top3": [
-            "src/requests/status_codes.py:1-86",
             "src/requests/structures.py:13-80",
-            "docs/user/advanced.rst:716-775"
+            "HISTORY.md:1376-1435",
+            "src/requests/adapters.py:137-164"
           ]
         },
         "dense": {
@@ -939,7 +939,7 @@
           "top3": [
             "src/requests/structures.py:13-80",
             "src/requests/status_codes.py:1-86",
-            "src/requests/utils.py:375-403"
+            "src/requests/status_codes.py:109-125"
           ]
         }
       }
@@ -960,13 +960,13 @@
           ]
         },
         "sparse": {
-          "recall@5": 1.0,
-          "recall@10": 1.0,
-          "mrr@10": 0.2,
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
           "top3": [
-            "src/requests/models.py:494-570",
             "docs/user/advanced.rst:331-390",
-            "HISTORY.md:1321-1380"
+            "docs/user/quickstart.rst:276-335",
+            "docs/user/quickstart.rst:221-280"
           ]
         },
         "dense": {
@@ -982,11 +982,11 @@
         "hybrid": {
           "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.5,
+          "mrr@10": 0.2,
           "top3": [
-            "src/requests/models.py:494-570",
-            "src/requests/models.py:136-203",
-            "docs/user/quickstart.rst:276-335"
+            "docs/user/quickstart.rst:276-335",
+            "docs/user/advanced.rst:331-390",
+            "docs/user/advanced.rst:386-445"
           ]
         }
       }
@@ -1009,11 +1009,11 @@
         "sparse": {
           "recall@5": 0.5,
           "recall@10": 0.5,
-          "mrr@10": 0.3333333333333333,
+          "mrr@10": 1.0,
           "top3": [
-            "docs/user/quickstart.rst:331-390",
-            "src/requests/api.py:14-59",
-            "src/requests/utils.py:135-201"
+            "src/requests/utils.py:135-201",
+            "src/requests/models.py:494-570",
+            "docs/user/quickstart.rst:331-390"
           ]
         },
         "dense": {
@@ -1027,13 +1027,13 @@
           ]
         },
         "hybrid": {
-          "recall@5": 0.5,
+          "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:135-201",
-            "docs/user/quickstart.rst:331-390",
-            "src/requests/api.py:14-59"
+            "src/requests/models.py:494-570",
+            "docs/user/quickstart.rst:331-390"
           ]
         }
       }
@@ -1055,12 +1055,12 @@
         },
         "sparse": {
           "recall@5": 0.0,
-          "recall@10": 0.0,
-          "mrr@10": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.16666666666666666,
           "top3": [
             "docs/user/advanced.rst:991-1050",
-            "docs/user/advanced.rst:1046-1105",
-            "docs/user/quickstart.rst:166-225"
+            "docs/user/advanced.rst:936-995",
+            "tests/test_requests.py:1619-1641"
           ]
         },
         "dense": {
@@ -1075,12 +1075,12 @@
         },
         "hybrid": {
           "recall@5": 0.0,
-          "recall@10": 0.0,
-          "mrr@10": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.16666666666666666,
           "top3": [
             "docs/user/advanced.rst:991-1050",
-            "docs/user/advanced.rst:1046-1105",
-            "docs/user/advanced.rst:1-60"
+            "tests/test_requests.py:1619-1641",
+            "tests/test_requests.py:1643-1651"
           ]
         }
       }
@@ -1102,12 +1102,12 @@
         },
         "sparse": {
           "recall@5": 0.0,
-          "recall@10": 0.0,
-          "mrr@10": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.1111111111111111,
           "top3": [
-            "HISTORY.md:1321-1380",
-            "docs/user/advanced.rst:1-60",
-            "docs/user/advanced.rst:56-115"
+            "docs/user/advanced.rst:166-225",
+            "docs/user/advanced.rst:386-445",
+            "docs/user/quickstart.rst:386-445"
           ]
         },
         "dense": {
@@ -1121,13 +1121,13 @@
           ]
         },
         "hybrid": {
-          "recall@5": 0.0,
+          "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.1111111111111111,
+          "mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:56-115",
-            "docs/user/advanced.rst:1-60",
-            "docs/api.rst:111-170"
+            "src/requests/sessions.py:61-88",
+            "docs/user/advanced.rst:166-225"
           ]
         }
       }
@@ -1154,7 +1154,7 @@
           "top3": [
             "HISTORY.md:716-775",
             "src/requests/models.py:409-481",
-            "HISTORY.md:606-665"
+            "src/requests/sessions.py:107-125"
           ]
         },
         "dense": {
@@ -1197,11 +1197,11 @@
         "sparse": {
           "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.25,
+          "mrr@10": 1.0,
           "top3": [
-            "HISTORY.md:606-665",
-            "docs/user/advanced.rst:221-280",
-            "docs/user/quickstart.rst:221-280"
+            "src/requests/models.py:409-481",
+            "src/requests/utils.py:765-823",
+            "docs/community/faq.rst:1-60"
           ]
         },
         "dense": {
@@ -1221,7 +1221,7 @@
           "top3": [
             "src/requests/models.py:409-481",
             "HISTORY.md:1211-1270",
-            "HISTORY.md:606-665"
+            "src/requests/utils.py:765-823"
           ]
         }
       }
@@ -1242,13 +1242,13 @@
           ]
         },
         "sparse": {
-          "recall@5": 0.0,
+          "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.16666666666666666,
+          "mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/adapters.py:396-444",
-            "src/requests/sessions.py:500-563",
-            "src/requests/api.py:14-59"
+            "docs/user/advanced.rst:221-280",
+            "src/requests/adapters.py:304-357"
           ]
         },
         "dense": {
@@ -1289,13 +1289,13 @@
           ]
         },
         "sparse": {
-          "recall@5": 0.0,
+          "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.14285714285714285,
+          "mrr@10": 0.5,
           "top3": [
-            "docs/user/advanced.rst:1046-1105",
             "docs/user/advanced.rst:1101-1141",
-            "HISTORY.md:881-940"
+            "src/requests/adapters.py:613-687",
+            "HISTORY.md:1156-1215"
           ]
         },
         "dense": {
@@ -1311,11 +1311,11 @@
         "hybrid": {
           "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.2,
+          "mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:1101-1141",
-            "docs/user/advanced.rst:1046-1105",
-            "docs/user/quickstart.rst:496-555"
+            "src/requests/adapters.py:613-687",
+            "src/requests/exceptions.py:80-84"
           ]
         }
       }
@@ -1340,9 +1340,9 @@
           "recall@10": 0.0,
           "mrr@10": 0.0,
           "top3": [
-            "docs/conf.py:171-261",
-            "HISTORY.md:826-885",
-            "HISTORY.md:881-940"
+            "docs/api.rst:166-225",
+            "src/requests/__init__.py:105-184",
+            "docs/user/advanced.rst:1-60"
           ]
         },
         "dense": {
@@ -1361,7 +1361,7 @@
           "mrr@10": 0.0,
           "top3": [
             "src/requests/__init__.py:105-184",
-            "HISTORY.md:826-885",
+            "docs/api.rst:166-225",
             "src/requests/adapters.py:1-89"
           ]
         }
@@ -1385,11 +1385,11 @@
         "sparse": {
           "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.25,
+          "mrr@10": 0.5,
           "top3": [
-            "docs/user/advanced.rst:716-775",
-            "docs/user/advanced.rst:56-115",
-            "docs/user/quickstart.rst:166-225"
+            "src/requests/adapters.py:446-493",
+            "src/requests/adapters.py:359-394",
+            "src/requests/models.py:1026-1037"
           ]
         },
         "dense": {
@@ -1405,11 +1405,11 @@
         "hybrid": {
           "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.5,
+          "mrr@10": 1.0,
           "top3": [
-            "docs/user/quickstart.rst:166-225",
             "src/requests/adapters.py:359-394",
-            "src/requests/sessions.py:159-237"
+            "src/requests/models.py:1026-1037",
+            "docs/user/quickstart.rst:166-225"
           ]
         }
       }
@@ -1434,9 +1434,9 @@
           "recall@10": 0.0,
           "mrr@10": 0.0,
           "top3": [
-            "src/requests/sessions.py:500-563",
-            "docs/user/advanced.rst:56-115",
-            "docs/user/quickstart.rst:331-390"
+            "docs/user/quickstart.rst:441-500",
+            "docs/user/quickstart.rst:386-445",
+            "docs/user/advanced.rst:56-115"
           ]
         },
         "dense": {
@@ -1481,9 +1481,9 @@
           "recall@10": 0.0,
           "mrr@10": 0.0,
           "top3": [
-            "docs/user/advanced.rst:56-115",
+            "src/requests/cookies.py:206-223",
             "docs/user/advanced.rst:1101-1141",
-            "docs/conf.py:1-93"
+            "src/requests/cookies.py:151-167"
           ]
         },
         "dense": {
@@ -1497,13 +1497,13 @@
           ]
         },
         "hybrid": {
-          "recall@5": 1.0,
+          "recall@5": 0.0,
           "recall@10": 1.0,
-          "mrr@10": 0.2,
+          "mrr@10": 0.1,
           "top3": [
-            "docs/user/advanced.rst:56-115",
             "src/requests/cookies.py:206-223",
-            "tests/test_requests.py:1337-1356"
+            "src/requests/cookies.py:151-167",
+            "src/requests/cookies.py:194-204"
           ]
         }
       }
@@ -1525,12 +1525,12 @@
         },
         "sparse": {
           "recall@5": 0.0,
-          "recall@10": 0.0,
-          "mrr@10": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.1111111111111111,
           "top3": [
-            "docs/user/advanced.rst:606-665",
             "docs/user/advanced.rst:166-225",
-            "HISTORY.md:716-775"
+            "docs/user/advanced.rst:606-665",
+            "src/requests/adapters.py:446-493"
           ]
         },
         "dense": {
@@ -1544,13 +1544,13 @@
           ]
         },
         "hybrid": {
-          "recall@5": 0.0,
+          "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.14285714285714285,
+          "mrr@10": 0.3333333333333333,
           "top3": [
-            "docs/user/advanced.rst:606-665",
             "docs/user/advanced.rst:166-225",
-            "src/requests/utils.py:864-888"
+            "docs/user/advanced.rst:606-665",
+            "src/requests/sessions.py:750-779"
           ]
         }
       }
@@ -1571,13 +1571,13 @@
           ]
         },
         "sparse": {
-          "recall@5": 0.0,
+          "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.14285714285714285,
+          "mrr@10": 1.0,
           "top3": [
-            "src/requests/sessions.py:500-563",
-            "src/requests/api.py:14-59",
-            "src/requests/models.py:334-349"
+            "src/requests/utils.py:1081-1096",
+            "src/requests/models.py:334-349",
+            "src/requests/api.py:14-59"
           ]
         },
         "dense": {
@@ -1596,8 +1596,8 @@
           "mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1081-1096",
-            "docs/user/quickstart.rst:496-555",
-            "src/requests/auth.py:285-303"
+            "src/requests/auth.py:285-303",
+            "docs/user/advanced.rst:331-390"
           ]
         }
       }
@@ -1618,13 +1618,13 @@
           ]
         },
         "sparse": {
-          "recall@5": 0.0,
+          "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.125,
+          "mrr@10": 1.0,
           "top3": [
-            "HISTORY.md:771-830",
-            "HISTORY.md:716-775",
-            "docs/api.rst:221-261"
+            "src/requests/utils.py:1034-1042",
+            "tests/test_requests.py:1745-1762",
+            "HISTORY.md:771-830"
           ]
         },
         "dense": {
@@ -1643,8 +1643,8 @@
           "mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1034-1042",
-            "src/requests/utils.py:1045-1061",
-            "tests/test_requests.py:1745-1762"
+            "tests/test_requests.py:1745-1762",
+            "src/requests/utils.py:1045-1061"
           ]
         }
       }
@@ -1665,13 +1665,13 @@
           ]
         },
         "sparse": {
-          "recall@5": 0.5,
-          "recall@10": 0.5,
-          "mrr@10": 0.5,
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
           "top3": [
-            "docs/api.rst:166-225",
             "src/requests/models.py:980-995",
-            "HISTORY.md:1321-1380"
+            "src/requests/utils.py:914-948",
+            "docs/user/advanced.rst:936-995"
           ]
         },
         "dense": {
@@ -1685,13 +1685,13 @@
           ]
         },
         "hybrid": {
-          "recall@5": 0.5,
+          "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:980-995",
-            "docs/user/advanced.rst:936-995",
-            "HISTORY.md:1101-1160"
+            "src/requests/utils.py:914-948",
+            "docs/user/advanced.rst:936-995"
           ]
         }
       }
@@ -1712,13 +1712,13 @@
           ]
         },
         "sparse": {
-          "recall@5": 0.0,
+          "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.1111111111111111,
+          "mrr@10": 0.3333333333333333,
           "top3": [
-            "HISTORY.md:881-940",
-            "HISTORY.md:936-995",
-            "src/requests/adapters.py:396-444"
+            "src/requests/utils.py:900-911",
+            "tests/test_requests.py:512-517",
+            "src/requests/utils.py:891-897"
           ]
         },
         "dense": {
@@ -1734,10 +1734,10 @@
         "hybrid": {
           "recall@5": 1.0,
           "recall@10": 1.0,
-          "mrr@10": 0.5,
+          "mrr@10": 1.0,
           "top3": [
-            "HISTORY.md:936-995",
             "src/requests/utils.py:891-897",
+            "tests/test_requests.py:512-517",
             "src/requests/utils.py:900-911"
           ]
         }

@@ -7,7 +7,7 @@ import pytest
 from app.evaluation import ranking_metrics as rm
 from app.evaluation.evaluator import LineSpan
 from app.evaluation.retrieval_suite import load_suite, validate_against_checkout
-from app.retrieval.bm25 import BM25Index
+from app.retrieval.bm25 import BM25Index, tokenize
 
 SUITES_DIR = Path(__file__).resolve().parents[1] / "eval" / "suites"
 
@@ -137,3 +137,11 @@ def test_validate_against_checkout_reports_missing_files_and_overlong_spans(tmp_
     assert len(problems) == 2
     assert any(p.startswith("long:") for p in problems)
     assert any(p.startswith("gone:") for p in problems)
+
+
+def test_bm25_from_token_lists_matches_text_constructor():
+    docs = ["def get_netrc_auth(url): pass", "class Session: redirects", "unrelated text"]
+    from_text = BM25Index(docs).score("netrc auth session")
+    from_tokens = BM25Index.from_token_lists([tokenize(d) for d in docs]).score("netrc auth session")
+    assert from_text == pytest.approx(from_tokens)
+    assert from_text[0] > 0 and from_text[1] > 0 and from_text[2] == 0

@@ -9,7 +9,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-15.5.29-000000.svg?logo=next.js&logoColor=white)](https://nextjs.org)
 [![Tree-sitter](https://img.shields.io/badge/Tree--sitter-AST%20Call--Graph-2b5b84.svg)](https://tree-sitter.github.io/tree-sitter/)
 [![Vector Search](https://img.shields.io/badge/RAG-Hybrid%20RRF%20%2B%201--Hop%20AST-indigo.svg)](#2--hybrid-rrf-retrieval--1-hop-ast-call-graph-expansion)
-[![Tests](https://img.shields.io/badge/Pytest-49%20Passed-brightgreen.svg)](#-automated-testing--benchmark-results)
+[![Tests](https://img.shields.io/badge/Pytest-50%20Passed-brightgreen.svg)](#-automated-testing--benchmark-results)
 
 ---
 
@@ -75,7 +75,7 @@ Workspaces can be safely removed with immediate optimistic UI updates, backgroun
 
 ### 2. ⚡ Hybrid RRF Retrieval & 1-Hop AST Call-Graph Expansion
 - **Dense Vector Search**: Generates 384-dimensional embeddings via local ONNX runtime (`BAAI/bge-small-en-v1.5`), eliminating external latency and API token costs.
-- **Sparse Code Lexical Search**: Expands `camelCase`, `PascalCase`, and `snake_case` identifiers (`verifyJWTToken` $\rightarrow$ `verify jwt token`) with selective fuzzy matching (`rapidfuzz`) for high-recall keyword matching.
+- **Sparse Code Lexical Search**: Okapi BM25 over code-aware tokens: file path, symbol name and code, with `camelCase`, `PascalCase`, and `snake_case` identifiers expanded (`verifyJWTToken` $ightarrow$ `verify jwt token`).
 - **Reciprocal Rank Fusion (RRF)**: Dynamically weights vector vs. keyword importance ($\alpha = 0.35$ for explicit code identifiers/paths, $\alpha = 0.55$ for conceptual architectural queries) followed by score calibration.
 - **1-Hop AST Call-Graph Context Expansion**:
   - Automatically extracts referenced function calls and type identifiers from top-ranked primary chunks (`_extract_referenced_symbols`).
@@ -148,7 +148,7 @@ Workspaces can be safely removed with immediate optimistic UI updates, backgroun
 | **Source Parsing** | Tree-sitter (`python`, `typescript`, `javascript`) | C-compiled syntax tree analysis, symbol extraction, and 1-hop call-graph resolution |
 | **Embeddings** | FastEmbed (`BAAI/bge-small-en-v1.5`) | Zero-cost, low-latency local ONNX vector inference (384 dimensions) |
 | **Database** | PostgreSQL 16 (`pgvector`) / SQLite (`aiosqlite`) | Production `pgvector` support with zero-config SQLite local development fallback |
-| **Testing** | Pytest, `pytest-asyncio`, HTTPX | 49 unit & integration tests, run in CI |
+| **Testing** | Pytest, `pytest-asyncio`, HTTPX | 50 unit & integration tests, run in CI |
 | **Deployment** | Docker, Docker Compose | Unified multi-container orchestration |
 
 ---
@@ -222,7 +222,7 @@ docker-compose up --build
 
 ## 🧪 Automated Testing & Benchmark Results
 
-SpectraCode includes a 49-test automated suite in `backend/tests/` (run in CI on every push):
+SpectraCode includes a 50-test automated suite in `backend/tests/` (run in CI on every push):
 
 ```bash
 cd backend
@@ -253,15 +253,22 @@ The script clones `psf/requests` at commit `0e322af8` (tag v2.32.3), indexes it 
 | Mode | Recall@5 | Recall@10 | MRR@10 |
 | :--- | :--- | :--- | :--- |
 | BM25 (keyword baseline) | 0.63 [0.47, 0.79] | 0.73 [0.58, 0.87] | 0.51 [0.37, 0.66] |
-| Sparse signal only | 0.32 [0.18, 0.47] | 0.50 [0.34, 0.66] | 0.19 [0.11, 0.28] |
+| Sparse signal only (BM25 inside the hybrid) | 0.63 [0.47, 0.79] | 0.73 [0.58, 0.87] | 0.50 [0.37, 0.66] |
 | Dense only (`bge-small-en-v1.5`) | 0.71 [0.55, 0.85] | 0.85 [0.73, 0.97] | 0.57 [0.44, 0.70] |
-| **Hybrid (production)** | 0.68 [0.52, 0.82] | 0.82 [0.69, 0.94] | 0.55 [0.42, 0.69] |
+| **Hybrid (production)** | **0.77** [0.63, 0.90] | **0.87** [0.74, 0.97] | **0.67** [0.53, 0.81] |
+
+The hybrid's sparse signal is BM25 over the stored chunk tokens, so it nearly matches the BM25 baseline row; the small MRR difference comes from the stored tokens also including the symbol name.
 
 What this does and does not show:
-- The hybrid retriever clearly beats its own sparse signal, but **it is not measurably better than BM25 or dense-only** on this suite: the paired differences' intervals all include 0 (for example hybrid − BM25 Recall@10 = +0.10 [−0.03, +0.24]).
-- The custom sparse score (token overlap + fuzzy match) is much weaker than standard BM25, which suggests swapping it in as the next improvement.
+- **Hybrid beats BM25** on all three metrics. Paired differences: Recall@5 +0.15 [+0.03, +0.27], Recall@10 +0.15 [+0.05, +0.26], MRR@10 +0.16 [+0.09, +0.24].
+- **Hybrid is not measurably better than dense-only**: Recall@10 +0.02 [−0.10, +0.13], MRR@10 +0.09 [−0.03, +0.22]. On this suite the keyword signal mainly helps ranking, not coverage.
 - 31 queries is small, hence the wide intervals. All of them were written by the same person who chose the ground truth after reading the function list, which favours lexical matching; queries are tagged by author so independently written ones can be reported separately.
+- The BM25 change below was judged on the same 31 queries that exposed the problem, so it still needs confirming on held-out queries.
 - Ground truth only counts implementation code, so a highly ranked docs page explaining the same behaviour is scored as a miss.
+
+#### History: replacing the custom sparse score with BM25
+
+The first version of this benchmark showed that the original sparse score (substring token overlap + `rapidfuzz` partial ratio) was far weaker than BM25 (Recall@10 0.50 vs 0.73), and that the hybrid was not measurably better than either baseline (0.68 / 0.82 / 0.55 for Recall@5 / Recall@10 / MRR@10). Replacing it with BM25, with no other tuning, changed the hybrid by Recall@5 +0.10 [−0.03, +0.24], Recall@10 +0.05 [−0.06, +0.16] and MRR@10 +0.11 [+0.04, +0.19]: a clear ranking improvement, not a clear recall improvement. Three queries were fixed and one regressed (`bad_status_exception`). Mean query latency fell from about 385 ms to 320 ms.
 
 The in-app `/evaluation` page's "citation grounding" metric (stored as `faithfulness`) only checks that cited line ranges fall inside retrieved chunks. It does **not** check that the generated answer's claims are true.
 
@@ -301,7 +308,7 @@ SpectraCode/
 │   │   │   ├── benchmark_dataset.py   # Curated test queries with ground-truth spans
 │   │   │   └── evaluator.py           # Recall@K, MRR, Citation Precision/Recall/F1, citation grounding
 │   │   └── main.py                    # FastAPI application entrypoint
-│   ├── tests/                         # 49 unit & integration tests
+│   ├── tests/                         # 50 unit & integration tests
 │   ├── Dockerfile
 │   └── requirements.txt
 ├── frontend/
