@@ -1,7 +1,7 @@
 # 🧠 SpectraCode: AI-Powered Codebase Intelligence Platform
 
 > **Category:** Generative AI · LLM Engineering · Code RAG · Developer Tools  
-> **Status:** Production-Ready Foundation  
+> **Status:** Working prototype, live at spectracode.tech. Retrieval is benchmarked; answer quality is not yet measured.  
 > **Website:** [spectracode.tech](https://spectracode.tech)  
 > **Stack:** Next.js 15 (App Router), TypeScript, Tailwind CSS, FastAPI, PostgreSQL (`pgvector`) / SQLite, Tree-sitter, FastEmbed (ONNX), Pytest
 
@@ -15,9 +15,9 @@
 
 ## 📌 Executive Summary
 
-**SpectraCode** is an intelligent developer platform that analyzes source-code repositories and empowers engineers to rapidly understand unfamiliar codebases. Users can import public GitHub repositories with live Server-Sent Events (SSE) indexing telemetry, search source code via hybrid semantic and lexical retrieval, explore syntax trees and module dependency graphs, and chat with an AI assistant that answers technical questions with **strictly verified, clickable file and line number citations** (`[filepath:line_start-line_end]`) and an **interactive multi-file execution trace stepper**.
+**SpectraCode** is an intelligent developer platform that analyzes source-code repositories and empowers engineers to rapidly understand unfamiliar codebases. Users can import public GitHub repositories with live Server-Sent Events (SSE) indexing telemetry, search source code via hybrid semantic and lexical retrieval, explore syntax trees and module dependency graphs, and chat with an AI assistant that answers technical questions with **clickable file and line number citations, each checked against the retrieved code** (`[filepath:line_start-line_end]`) and an **interactive multi-file execution trace stepper**.
 
-Unlike naive RAG systems that suffer from hallucinated references, isolated single-file context windows, and broken line intervals, SpectraCode combines **Tree-sitter Concrete Syntax Tree (CST) chunking**, **Reciprocal Rank Fusion (RRF)**, **1-Hop AST Call-Graph Context Expansion**, and a **two-stage grounding verification gate** to ensure that every architectural claim is verifiable down to the exact line of code.
+To avoid invented file references, single-file context and wrong line ranges, SpectraCode combines **Tree-sitter Concrete Syntax Tree (CST) chunking**, **Reciprocal Rank Fusion (RRF)**, **1-Hop AST Call-Graph Context Expansion**, and a **two-stage citation check**: it declines to answer when retrieval finds nothing relevant, and it removes any citation that points outside the retrieved code. The check confirms where a citation points, not that the answer's claims are correct.
 
 ---
 
@@ -74,9 +74,8 @@ Workspaces can be safely removed with immediate optimistic UI updates, backgroun
 - Guarantees 1-indexed, inclusive line number intervals matching GitHub and IDE conventions.
 
 ### 2. ⚡ Hybrid RRF Retrieval & 1-Hop AST Call-Graph Expansion
-- **Dense Vector Search**: Generates 384-dimensional embeddings via local ONNX runtime (`BAAI/bge-small-en-v1.5`), eliminating external latency and API token costs.
-- **Sparse Code Lexical Search**: Okapi BM25 over code-aware tokens: file path, symbol name and code, with `camelCase`, `PascalCase`, and `snake_case` identifiers expanded (`verifyJWTToken` $
-ightarrow$ `verify jwt token`).
+- **Dense Vector Search**: Generates 384-dimensional embeddings via local ONNX runtime (`BAAI/bge-small-en-v1.5`), with no external embedding API.
+- **Sparse Code Lexical Search**: Okapi BM25 over code-aware tokens: file path, symbol name and code, with `camelCase`, `PascalCase`, and `snake_case` identifiers expanded (`verifyJWTToken` → `verify jwt token`).
 - **Reciprocal Rank Fusion (RRF)**: Dynamically weights vector vs. keyword importance ($\alpha = 0.35$ for explicit code identifiers/paths, $\alpha = 0.55$ for conceptual architectural queries) followed by score calibration.
 - **1-Hop AST Call-Graph Context Expansion**:
   - Automatically extracts referenced function calls and type identifiers from top-ranked primary chunks (`_extract_referenced_symbols`).
@@ -84,7 +83,7 @@ ightarrow$ `verify jwt token`).
   - Attaches `is_linked_hop=True` and `linked_from_symbol` metadata and serializes definitions into `<linked_hop_chunk>` prompt blocks—providing cross-file architectural context to the LLM **without polluting primary retrieval rank metrics (`Recall@K`, `MRR`) or benchmark citation precision**.
 
 ### 3. 🧭 Interactive Multi-File Flow Stepper & Trace Timeline
-- **Grounded Citation Engine**: Streaming LLM responses emit canonical citation tokens (`[filepath:line_start-line_end]`) that are verified against retrieved chunk boundaries (`EXACT_MATCH`, `CLAMPED_TO_BOUNDS`, `INVALID_LINE_RANGE`, or `HALLUCINATED_FILE` rejection).
+- **Grounded Citation Engine**: Streaming LLM responses emit canonical citation tokens (`[filepath:line_start-line_end]`) that are verified against retrieved chunk boundaries (`EXACT_MATCH`, `CLAMPED_TO_BOUNDS`, `INVALID_LINE_RANGE`, or `HALLUCINATED_FILE` rejection). Rejected citations are removed from the answer. If none survive, the top retrieved chunk is attached as a reference.
 - **Multi-Hop Flow Stepper (`ExecutionTraceStepper.tsx`)**: When an AI response cites multiple code spans across files or execution hops, an interactive visual trace timeline automatically renders beneath the answer:
   - **Step-by-Step Navigation**: Jump sequentially (`Previous` / `Next` or direct pill selection) across cited execution hops (`1 → 2 → 3`).
   - **Auto-Walkthrough Mode**: Toggle `Play` / `Pause` to automatically step through the multi-file execution trace on a 2.4-second cadence.
@@ -474,7 +473,7 @@ When presenting SpectraCode to recruiters, hiring managers, or engineering teams
 5. **Quantitative Grounded Evaluation (`/evaluation`)**:
    - Navigate to `/evaluation` and click **"Run Benchmark Suite"**.
    - Inspect the 6-metric ledger for the bundled sample repo (a smoke test on 5 curated queries; see the README's retrieval benchmark section for results on a real repository).
-   - Point out the out-of-scope negative query (`Kubernetes Helm chart`), demonstrating 100% abstention accuracy with zero hallucinated citations.
+   - Point out the out-of-scope negative query (`Kubernetes Helm chart`), showing that the assistant declines to answer instead of citing unrelated code. This is one query, not an accuracy measurement.
 
 ---
 
