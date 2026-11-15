@@ -114,3 +114,29 @@ Differences are `scope_gate` minus the current hybrid.
 - **Reading the rules:** the results file stores `hybrid_minus_scope_gate` per author under
   `hybrid_vs_baselines_by_author`. The rules use `scope_gate` minus the hybrid, so negate it and
   swap the interval ends. Trigger hits are stored per query as `scope_triggers`.
+
+## Result (scored once, 2026-11-15, after commit 69ea9f3)
+
+Differences are `scope_gate` minus the current hybrid, paired bootstrap, 95% intervals.
+
+| Set | Recall@10 | Answered@10 | MRR@10 | Rule |
+| :--- | :--- | :--- | :--- | :--- |
+| A, code (60) | +0.08 [+0.02, +0.15] | +0.03 [0.00, +0.08] | +0.06 [+0.03, +0.09] | 1: lower bound > 0, **passes** |
+| B, history and tests (23) | 0.00 [−0.17, +0.17] | +0.04 [−0.13, +0.22] | −0.03 [−0.14, +0.04] | 2: lower bound > −0.10, **fails** |
+
+**Decision: not adopted** (rule 3). Production keeps searching every file.
+
+- **Set A:** Recall@10 rose from 0.50 to 0.58: 5 questions gained, none lost. MRR@10 gained on 18
+  and lost on none. The project trigger fired on 2 of 60 (false alarms: "since urllib3 v1.8.3",
+  "Python 3.10"). The tests trigger never fired.
+- **Set B:** Recall@10 stayed at 0.65: 2 gains and 2 losses. Both losses are questions where no
+  trigger fired ("params no longer work…", "…are now rejected" about idna2008), so the changelog
+  entry was hidden. Both gains are questions with a version number, where hiding tests let the
+  changelog entry rise. No trigger fired on 4 of 23. Both test questions fired the tests trigger
+  and kept their answer.
+- **Why rule 2 fails:** the mean cost is 0, but with 23 questions one discordant pair moves the
+  mean by 0.04, so the interval is too wide to show the cost is under 0.10. The test could not
+  rule out a cost; it did not find one either. This is reported as a failed rule, as fixed in
+  advance, not re-read as a pass.
+- **What it suggests, untested:** the misses come from change questions phrased without trigger
+  words ("no longer", "now"). A follow-up would need a larger set B, fixed before collection.
