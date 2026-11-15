@@ -64,6 +64,18 @@ function CodeSkeleton() {
   );
 }
 
+// Pure helper: lives outside the component so hooks don't need it as a dependency.
+function findFirstFile(node: TreeNode): TreeNode | null {
+  if (node.type === "file") return node;
+  if (node.children) {
+    for (const child of node.children) {
+      const found = findFirstFile(child);
+      if (found) return found;
+    }
+  }
+  return null;
+}
+
 export default function RepositoryWorkspacePage() {
   const params = useParams();
   const router = useRouter();
@@ -149,17 +161,6 @@ export default function RepositoryWorkspacePage() {
     }, 4500);
     return () => clearInterval(timer);
   }, [repo, repoId]);
-
-  const findFirstFile = (node: TreeNode): TreeNode | null => {
-    if (node.type === "file") return node;
-    if (node.children) {
-      for (const child of node.children) {
-        const found = findFirstFile(child);
-        if (found) return found;
-      }
-    }
-    return null;
-  };
 
   // Precompute O(1) lookup map from normalized file_path -> TreeNode
   const fileNodeIndex = useMemo(() => {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Copy,
   Check,
@@ -172,7 +172,9 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
   // Display only: whether the symbol list is unfolded.
   const [showSymbols, setShowSymbols] = useState(true);
 
-  const scrollToHighlightedLine = () => {
+  // Stable across renders until the range changes, so the effect below re-runs exactly
+  // when it did before: on a new highlight range or a different file.
+  const scrollToHighlightedLine = useCallback(() => {
     if (highlightRange && containerRef.current) {
       const [startLine] = highlightRange;
       const lineElem = containerRef.current.querySelector(
@@ -182,11 +184,11 @@ export const CodeViewer: React.FC<CodeViewerProps> = ({
         lineElem.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     }
-  };
+  }, [highlightRange]);
 
   useEffect(() => {
     scrollToHighlightedLine();
-  }, [highlightRange, file?.id]);
+  }, [scrollToHighlightedLine, file?.id]);
 
   const lines = useMemo(() => {
     if (!file) return [];
