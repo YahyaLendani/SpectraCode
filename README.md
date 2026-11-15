@@ -9,7 +9,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-15.5.29-000000.svg?logo=next.js&logoColor=white)](https://nextjs.org)
 [![Tree-sitter](https://img.shields.io/badge/Tree--sitter-AST%20Call--Graph-2b5b84.svg)](https://tree-sitter.github.io/tree-sitter/)
 [![Vector Search](https://img.shields.io/badge/RAG-Hybrid%20RRF%20%2B%201--Hop%20AST-indigo.svg)](#2--hybrid-rrf-retrieval--1-hop-ast-call-graph-expansion)
-[![Tests](https://img.shields.io/badge/Pytest-56%20Passed-brightgreen.svg)](#-automated-testing--benchmark-results)
+[![Tests](https://img.shields.io/badge/Pytest-62%20Passed-brightgreen.svg)](#-automated-testing--benchmark-results)
 
 ---
 
@@ -236,7 +236,7 @@ docker-compose up --build
 
 ## 🧪 Automated Testing & Benchmark Results
 
-SpectraCode includes a 56-test automated suite in `backend/tests/` (run in CI on every push):
+SpectraCode includes a 62-test automated suite in `backend/tests/` (run in CI on every push):
 
 ```bash
 cd backend
@@ -256,6 +256,23 @@ python -m pytest tests/ -v
 - `test_retrieval_eval.py`: BM25 baseline, Recall@K / MRR / Answered@K relevance rules, bootstrap intervals and suite validation.
 
 ### Retrieval benchmark (real repository)
+
+#### What we learned
+
+255 hand-labelled questions against `psf/requests` v2.32.3, 208 of them real Stack Overflow and GitHub issue titles. Over the 208 real questions:
+
+| Mode | Recall@10 (code) | Answered@10 (code or docs) | MRR@10 |
+| :--- | :--- | :--- | :--- |
+| BM25 | 0.38 | 0.62 | 0.21 |
+| Dense only | **0.52** | 0.70 | **0.30** |
+| **Hybrid (production)** | 0.48 | **0.72** | 0.28 |
+
+- **Real questions are much harder than self-written ones.** On 31 questions written alongside the code, the hybrid reaches Recall@10 0.90. On real questions it reaches 0.48. Self-written benchmarks overstate retrieval quality.
+- **The hybrid clearly beats keyword search** over all 255 questions: Recall@10 +0.11 [+0.07, +0.16].
+- **The hybrid is not clearly better than dense-only search** over all 255 (Recall@10 −0.03 [−0.07, +0.02]). Each wins on different questions: dense-only finds more code for plain-language questions, and the hybrid finds changelog entries that share the question's exact wording (+0.30 Recall@10 on 23 change questions).
+- **Most ideas did not survive a fair test.** Since the switch to BM25, every proposed change was tested on new questions committed before scoring. One was adopted (scaling dense scores before fusion, as a fix that did no harm). Two were rejected: routing plain questions to dense-only, and hiding tests and the changelog unless asked.
+
+The details, each group's table and every test follow.
 
 ```bash
 cd backend
