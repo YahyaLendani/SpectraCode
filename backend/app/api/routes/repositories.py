@@ -14,6 +14,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, s
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, ConfigDict
 from sqlalchemy import delete, select, update
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import noload, selectinload
 
@@ -174,6 +175,37 @@ async def _mark_indexing_failed(repo_id: uuid.UUID, message: str) -> None:
     IndexingProgressTracker.update(repo_id, stage="failed", pct=0, error=message)
 
 
+# Statuses that mean an indexing task is (or was) running for the repository.
+IN_PROGRESS_STATUSES = (
+    IndexingStatus.PENDING,
+    IndexingStatus.CLONING,
+    IndexingStatus.PARSING_AST,
+    IndexingStatus.EMBEDDING,
+)
+INTERRUPTED_MESSAGE = "Indexing was interrupted because the server stopped. Import the repository again to retry."
+
+
+async def recover_interrupted_indexing() -> int:
+    """Marks repositories left mid-indexing by a previous server process as failed.
+
+    Indexing runs as an in-process background task, so a restart kills it without updating the
+    row. Without this, the repository stays "in progress" forever and the import endpoint refuses
+    to re-index it. Call once at startup, before any new task is queued. Assumes a single server
+    process (the Dockerfile runs one uvicorn worker): with several workers, one starting up would
+    fail another's live tasks.
+    """
+    async with AsyncSessionLocal() as session:
+        result = await session.execute(
+            update(Repository)
+            .where(Repository.status.in_(IN_PROGRESS_STATUSES))
+            .values(status=IndexingStatus.FAILED, error_message=INTERRUPTED_MESSAGE)
+        )
+        await session.commit()
+    if result.rowcount:
+        logger.warning("interrupted_indexing_recovered", extra={"repositories": result.rowcount})
+    return result.rowcount
+
+
 async def run_indexing_task(repo_id: uuid.UUID) -> None:
     async with AsyncSessionLocal() as session:
         try:
@@ -220,6 +252,28 @@ async def run_indexing_task(repo_id: uuid.UUID) -> None:
             _DEPENDENCY_GRAPH_CACHE[cache_key] = graph_payload
 
 
+async def _reindex_existing(db: AsyncSession, repo: Repository, background_tasks: BackgroundTasks) -> Repository:
+    """Re-indexes a finished or failed repository; leaves one that is still indexing alone.
+
+    The status check and the switch to PENDING happen in one UPDATE, so when two requests arrive
+    together only one of them matches the row and queues a task.
+    """
+    result = await db.execute(
+        update(Repository)
+        .where(
+            Repository.id == repo.id,
+            Repository.status.in_((IndexingStatus.FAILED, IndexingStatus.READY)),
+        )
+        .values(status=IndexingStatus.PENDING, error_message=None)
+        .execution_options(synchronize_session=False)
+    )
+    await db.commit()
+    if result.rowcount == 1:
+        background_tasks.add_task(run_indexing_task, repo.id)
+    await db.refresh(repo)
+    return repo
+
+
 @router.post("/import", response_model=RepositoryResponse, status_code=status.HTTP_202_ACCEPTED)
 async def import_repository(
     payload: RepositoryImportRequest,
@@ -243,12 +297,7 @@ async def import_repository(
     res = await db.execute(stmt)
     existing = res.scalar_one_or_none()
     if existing:
-        # If previous indexing failed or user wants re-index, trigger again
-        if existing.status in (IndexingStatus.FAILED, IndexingStatus.READY):
-            existing.status = IndexingStatus.PENDING
-            await db.commit()
-            background_tasks.add_task(run_indexing_task, existing.id)
-        return existing
+        return await _reindex_existing(db, existing, background_tasks)
 
     repo = Repository(
         id=uuid.uuid4(),
@@ -259,7 +308,14 @@ async def import_repository(
         status=IndexingStatus.PENDING,
     )
     db.add(repo)
-    await db.commit()
+    try:
+        await db.commit()
+    except IntegrityError:
+        # A concurrent request inserted the same owner/name first (uq_repo_owner_name).
+        # Its task is already queued, so return that row instead of failing with a 500.
+        await db.rollback()
+        res = await db.execute(stmt)
+        return res.scalar_one()
     await db.refresh(repo)
 
     # Queue indexing in background

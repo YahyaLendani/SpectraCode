@@ -22,7 +22,12 @@ async def lifespan(app: FastAPI):
     # 1. Initialize DB schema
     await init_db()
 
-    # 2. Seed and index default sample repository if none exist
+    # 2. Repositories a previous process was still indexing will never finish: mark them failed.
+    from app.api.routes.repositories import recover_interrupted_indexing
+
+    await recover_interrupted_indexing()
+
+    # 3. Seed and index default sample repository if none exist
     async with AsyncSessionLocal() as session:
         stmt = select(Repository).limit(1)
         res = await session.execute(stmt)

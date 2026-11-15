@@ -149,7 +149,7 @@ ightarrow$ `verify jwt token`).
 | **Source Parsing** | Tree-sitter (`python`, `typescript`, `javascript`) | C-compiled syntax tree analysis, symbol extraction, and 1-hop call-graph resolution |
 | **Embeddings** | FastEmbed (`BAAI/bge-small-en-v1.5`) | Zero-cost, low-latency local ONNX vector inference (384 dimensions) |
 | **Database** | PostgreSQL 16 (`pgvector`) / SQLite (`aiosqlite`) | Production `pgvector` support with zero-config SQLite local development fallback |
-| **Testing** | Pytest, `pytest-asyncio`, HTTPX | 58 unit & integration tests, run in CI |
+| **Testing** | Pytest, `pytest-asyncio`, HTTPX | 61 unit & integration tests, run in CI |
 | **Deployment** | Docker, Docker Compose | Unified multi-container orchestration |
 
 ---
@@ -223,6 +223,8 @@ Imports that exceed any of these limits stop with a readable error shown on the 
 | `MAX_CHUNKS` | `5000` | Code chunks embedded; roughly 15–20 minutes at the ~5 chunks/s measured on a laptop CPU |
 | `INDEXING_TIMEOUT_SECONDS` | `1800` | Wall-clock time for the whole indexing run |
 
+Re-importing a repository that is still indexing does nothing, and two simultaneous re-imports queue a single indexing run. Indexing runs inside the server process, so a restart interrupts it. On startup, any repository left mid-indexing is marked failed ("Indexing was interrupted…") so it can be imported again. This assumes a single server process, which is how the Dockerfile runs it.
+
 ### Option 2: Docker Compose (Full Production Stack)
 
 ```bash
@@ -249,6 +251,7 @@ python -m pytest tests/ -v
 - `test_llm_service.py`: Verifies Gemini grounded generation, visible fallback to template responses on API/network failures without leaking source code to logs, SSE generation-source reporting, and JSON log formatting.
 - `test_api.py`: Verifies `/health`, `/`, and repository lifecycle API endpoints.
 - `test_import_limits.py`: Checkout-size, file-count, chunk-count and indexing-timeout limits fail with a clear message.
+- `test_import_concurrency.py`: Startup recovery of interrupted indexing, one indexing run per racing re-import, and a racing first import returning the existing row.
 - `test_sample_identifier.py`: Only the exact `sample:fastapi` identifier selects the bundled demo repo.
 - `test_retrieval_eval.py`: BM25 baseline, Recall@K / MRR / Answered@K relevance rules, bootstrap intervals and suite validation.
 
@@ -350,7 +353,7 @@ SpectraCode/
 │   │   │   ├── benchmark_dataset.py   # Curated test queries with ground-truth spans
 │   │   │   └── evaluator.py           # Recall@K, MRR, Citation Precision/Recall/F1, citation grounding
 │   │   └── main.py                    # FastAPI application entrypoint
-│   ├── tests/                         # 58 unit & integration tests
+│   ├── tests/                         # 61 unit & integration tests
 │   ├── Dockerfile
 │   └── requirements.txt
 ├── frontend/
