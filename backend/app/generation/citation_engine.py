@@ -26,6 +26,9 @@ class CitationStatus(str, Enum):
     CLAMPED_TO_BOUNDS = "clamped_to_bounds"
     INVALID_LINE_RANGE = "invalid_line_range"
     HALLUCINATED_FILE = "hallucinated_file"
+    # Added by the engine, not cited by the model: the top retrieved chunk, attached when none of
+    # the model's citations could be matched. Kept apart so metrics do not count it as a citation.
+    FALLBACK_REFERENCE = "fallback_reference"
 
 
 @dataclass(frozen=True)
@@ -55,6 +58,11 @@ class GroundedResponse:
     rejected_citations: List[VerifiedCitation] = field(default_factory=list)
     is_abstained: bool = False
     abstention_reason: Optional[str] = None
+
+    @property
+    def model_citations(self) -> List[VerifiedCitation]:
+        """Verified citations the model itself wrote, without the engine's fallback reference."""
+        return [c for c in self.verified_citations if c.status != CitationStatus.FALLBACK_REFERENCE]
 
 
 class GroundedCitationEngine:
@@ -248,7 +256,7 @@ class GroundedCitationEngine:
                 verified_start_line=top_chunk.start_line,
                 verified_end_line=top_chunk.end_line,
                 chunk_id=top_chunk.chunk_id,
-                status=CitationStatus.EXACT_MATCH,
+                status=CitationStatus.FALLBACK_REFERENCE,
             )
             verified_list.append(auto_cit)
             sanitized_markdown += f"\n\n**Reference:** {auto_cit.canonical_marker}"

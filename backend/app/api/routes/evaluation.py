@@ -153,7 +153,7 @@ async def run_evaluation_benchmark(
                 start_line=c.verified_start_line,
                 end_line=c.verified_end_line,
             )
-            for c in verified_resp.verified_citations
+            for c in verified_resp.model_citations
         ]
 
         ground_truth_spans = [

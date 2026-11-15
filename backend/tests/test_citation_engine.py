@@ -43,6 +43,13 @@ def test_citation_verification_exact_and_clamped():
     resp_hallucinated = engine.verify_and_sanitize_response(llm_output_hallucinated, chunks)
     assert len(resp_hallucinated.rejected_citations) == 1
     assert resp_hallucinated.rejected_citations[0].status == CitationStatus.HALLUCINATED_FILE
+    # No model citation survived, so the top chunk is attached as a reference, marked as such and
+    # not counted as a citation the model made.
+    assert len(resp_hallucinated.verified_citations) == 1
+    assert resp_hallucinated.verified_citations[0].status == CitationStatus.FALLBACK_REFERENCE
+    assert resp_hallucinated.verified_citations[0].canonical_marker == "[src/auth/jwt.py:10-50]"
+    assert resp_hallucinated.model_citations == []
+    assert resp_exact.model_citations == resp_exact.verified_citations
 
 
 def test_citation_abstention():
