@@ -1,7 +1,7 @@
 {
   "suite": "psf/requests v2.32.3 retrieval suite",
   "suite_file": "eval/suites/requests_v2_32_3.json",
-  "run_at": "2026-11-15T16:24:12+00:00",
+  "run_at": "2026-11-15T16:29:31+00:00",
   "repository": {
     "clone_url": "https://github.com/psf/requests.git",
     "ref": "v2.32.3",
@@ -25,12 +25,12 @@
   "n_chunks": 761,
   "index_seconds": 0.0,
   "mean_latency_ms": {
-    "bm25": 2.6,
-    "sparse": 386.2,
-    "dense": 386.2,
-    "hybrid": 380.5,
-    "rrf_only": 386.2,
-    "dense_minmax": 386.2
+    "bm25": 2.4,
+    "sparse": 353.5,
+    "dense": 353.5,
+    "hybrid": 341.6,
+    "rrf_only": 353.5,
+    "dense_minmax": 353.5
   },
   "overall": {
     "bm25": {
@@ -53,6 +53,20 @@
         "ci95": [
           0.3164362519201229,
           0.5373655913978496
+        ]
+      },
+      "answered@10": {
+        "mean": 0.6935483870967742,
+        "ci95": [
+          0.5806451612903226,
+          0.8064516129032258
+        ]
+      },
+      "answer_mrr@10": {
+        "mean": 0.4646697388632873,
+        "ci95": [
+          0.35645161290322586,
+          0.5701612903225807
         ]
       }
     },
@@ -77,6 +91,20 @@
           0.3131592421915002,
           0.527905785970302
         ]
+      },
+      "answered@10": {
+        "mean": 0.6935483870967742,
+        "ci95": [
+          0.5806451612903226,
+          0.8064516129032258
+        ]
+      },
+      "answer_mrr@10": {
+        "mean": 0.4616487455197133,
+        "ci95": [
+          0.3545698924731183,
+          0.5636200716845878
+        ]
       }
     },
     "dense": {
@@ -99,6 +127,20 @@
         "ci95": [
           0.3743279569892473,
           0.5720430107526882
+        ]
+      },
+      "answered@10": {
+        "mean": 0.7903225806451613,
+        "ci95": [
+          0.6935483870967742,
+          0.8870967741935484
+        ]
+      },
+      "answer_mrr@10": {
+        "mean": 0.511847158218126,
+        "ci95": [
+          0.41854838709677417,
+          0.6109062980030722
         ]
       }
     },
@@ -123,6 +165,20 @@
           0.42903225806451617,
           0.6506912442396313
         ]
+      },
+      "answered@10": {
+        "mean": 0.8064516129032258,
+        "ci95": [
+          0.7096774193548387,
+          0.9032258064516129
+        ]
+      },
+      "answer_mrr@10": {
+        "mean": 0.5836661546338966,
+        "ci95": [
+          0.47835381464413723,
+          0.6902073732718894
+        ]
       }
     },
     "rrf_only": {
@@ -145,6 +201,20 @@
         "ci95": [
           0.4243663594470046,
           0.640316180235535
+        ]
+      },
+      "answered@10": {
+        "mean": 0.8225806451612904,
+        "ci95": [
+          0.7258064516129032,
+          0.9193548387096774
+        ]
+      },
+      "answer_mrr@10": {
+        "mean": 0.5709613415258576,
+        "ci95": [
+          0.46486175115207373,
+          0.6724462365591398
         ]
       }
     },
@@ -169,6 +239,20 @@
           0.4236559139784946,
           0.6409498207885305
         ]
+      },
+      "answered@10": {
+        "mean": 0.8387096774193549,
+        "ci95": [
+          0.7419354838709677,
+          0.9193548387096774
+        ]
+      },
+      "answer_mrr@10": {
+        "mean": 0.5780017921146953,
+        "ci95": [
+          0.47029569892473116,
+          0.6786290322580646
+        ]
       }
     }
   },
@@ -190,6 +274,20 @@
           ]
         },
         "mrr@10": {
+          "mean": 0.5072964669738863,
+          "ci95": [
+            0.36966205837173577,
+            0.6623655913978496
+          ]
+        },
+        "answered@10": {
+          "mean": 0.8064516129032258,
+          "ci95": [
+            0.6774193548387096,
+            0.9354838709677419
+          ]
+        },
+        "answer_mrr@10": {
           "mean": 0.5072964669738863,
           "ci95": [
             0.36966205837173577,
@@ -218,6 +316,20 @@
             0.3695340501792115,
             0.6551971326164874
           ]
+        },
+        "answered@10": {
+          "mean": 0.8064516129032258,
+          "ci95": [
+            0.6774193548387096,
+            0.9354838709677419
+          ]
+        },
+        "answer_mrr@10": {
+          "mean": 0.5039426523297491,
+          "ci95": [
+            0.3695340501792115,
+            0.6551971326164874
+          ]
         }
       },
       "dense": {
@@ -236,6 +348,20 @@
           ]
         },
         "mrr@10": {
+          "mean": 0.5725806451612904,
+          "ci95": [
+            0.4435483870967742,
+            0.7043010752688171
+          ]
+        },
+        "answered@10": {
+          "mean": 0.8709677419354839,
+          "ci95": [
+            0.7419354838709677,
+            0.967741935483871
+          ]
+        },
+        "answer_mrr@10": {
           "mean": 0.5725806451612904,
           "ci95": [
             0.4435483870967742,
@@ -264,6 +390,20 @@
             0.5333333333333334,
             0.8064516129032258
           ]
+        },
+        "answered@10": {
+          "mean": 0.9032258064516129,
+          "ci95": [
+            0.7741935483870968,
+            1.0
+          ]
+        },
+        "answer_mrr@10": {
+          "mean": 0.6666666666666667,
+          "ci95": [
+            0.5333333333333334,
+            0.8064516129032258
+          ]
         }
       },
       "rrf_only": {
@@ -287,6 +427,20 @@
             0.5154121863799284,
             0.7831541218637993
           ]
+        },
+        "answered@10": {
+          "mean": 0.9032258064516129,
+          "ci95": [
+            0.7741935483870968,
+            1.0
+          ]
+        },
+        "answer_mrr@10": {
+          "mean": 0.6457885304659499,
+          "ci95": [
+            0.5154121863799284,
+            0.7831541218637993
+          ]
         }
       },
       "dense_minmax": {
@@ -305,6 +459,20 @@
           ]
         },
         "mrr@10": {
+          "mean": 0.6422043010752688,
+          "ci95": [
+            0.5126344086021505,
+            0.7830645161290322
+          ]
+        },
+        "answered@10": {
+          "mean": 0.9354838709677419,
+          "ci95": [
+            0.8387096774193549,
+            1.0
+          ]
+        },
+        "answer_mrr@10": {
           "mean": 0.6422043010752688,
           "ci95": [
             0.5126344086021505,
@@ -335,6 +503,20 @@
             0.3125,
             0.765625
           ]
+        },
+        "answered@10": {
+          "mean": 0.625,
+          "ci95": [
+            0.375,
+            0.875
+          ]
+        },
+        "answer_mrr@10": {
+          "mean": 0.5364583333333334,
+          "ci95": [
+            0.3125,
+            0.765625
+          ]
         }
       },
       "sparse": {
@@ -353,6 +535,20 @@
           ]
         },
         "mrr@10": {
+          "mean": 0.5208333333333334,
+          "ci95": [
+            0.3020833333333333,
+            0.7395833333333334
+          ]
+        },
+        "answered@10": {
+          "mean": 0.625,
+          "ci95": [
+            0.375,
+            0.875
+          ]
+        },
+        "answer_mrr@10": {
           "mean": 0.5208333333333334,
           "ci95": [
             0.3020833333333333,
@@ -381,6 +577,20 @@
             0.31480654761904764,
             0.6479166666666667
           ]
+        },
+        "answered@10": {
+          "mean": 0.875,
+          "ci95": [
+            0.6875,
+            1.0
+          ]
+        },
+        "answer_mrr@10": {
+          "mean": 0.4771577380952381,
+          "ci95": [
+            0.31480654761904764,
+            0.6479166666666667
+          ]
         }
       },
       "hybrid": {
@@ -399,6 +609,20 @@
           ]
         },
         "mrr@10": {
+          "mean": 0.6069444444444444,
+          "ci95": [
+            0.38263888888888886,
+            0.8256944444444444
+          ]
+        },
+        "answered@10": {
+          "mean": 0.75,
+          "ci95": [
+            0.5625,
+            0.9375
+          ]
+        },
+        "answer_mrr@10": {
           "mean": 0.6069444444444444,
           "ci95": [
             0.38263888888888886,
@@ -427,6 +651,20 @@
             0.38571428571428573,
             0.79375
           ]
+        },
+        "answered@10": {
+          "mean": 0.8125,
+          "ci95": [
+            0.625,
+            1.0
+          ]
+        },
+        "answer_mrr@10": {
+          "mean": 0.5928571428571429,
+          "ci95": [
+            0.38571428571428573,
+            0.79375
+          ]
         }
       },
       "dense_minmax": {
@@ -445,6 +683,20 @@
           ]
         },
         "mrr@10": {
+          "mean": 0.6152777777777778,
+          "ci95": [
+            0.39861111111111114,
+            0.8375
+          ]
+        },
+        "answered@10": {
+          "mean": 0.8125,
+          "ci95": [
+            0.625,
+            1.0
+          ]
+        },
+        "answer_mrr@10": {
           "mean": 0.6152777777777778,
           "ci95": [
             0.39861111111111114,
@@ -475,6 +727,20 @@
             0.009523809523809523,
             0.34444444444444444
           ]
+        },
+        "answered@10": {
+          "mean": 0.5333333333333333,
+          "ci95": [
+            0.26666666666666666,
+            0.8
+          ]
+        },
+        "answer_mrr@10": {
+          "mean": 0.3,
+          "ci95": [
+            0.12222222222222222,
+            0.49444444444444446
+          ]
         }
       },
       "sparse": {
@@ -497,6 +763,20 @@
           "ci95": [
             0.009523809523809523,
             0.34444444444444444
+          ]
+        },
+        "answered@10": {
+          "mean": 0.5333333333333333,
+          "ci95": [
+            0.26666666666666666,
+            0.8
+          ]
+        },
+        "answer_mrr@10": {
+          "mean": 0.3111111111111111,
+          "ci95": [
+            0.13333333333333333,
+            0.5
           ]
         }
       },
@@ -521,6 +801,20 @@
             0.07666666666666667,
             0.45
           ]
+        },
+        "answered@10": {
+          "mean": 0.5333333333333333,
+          "ci95": [
+            0.26666666666666666,
+            0.8
+          ]
+        },
+        "answer_mrr@10": {
+          "mean": 0.4233333333333333,
+          "ci95": [
+            0.20666666666666667,
+            0.64
+          ]
         }
       },
       "hybrid": {
@@ -543,6 +837,20 @@
           "ci95": [
             0.05238095238095238,
             0.39841269841269844
+          ]
+        },
+        "answered@10": {
+          "mean": 0.6666666666666666,
+          "ci95": [
+            0.4,
+            0.8666666666666667
+          ]
+        },
+        "answer_mrr@10": {
+          "mean": 0.3873015873015873,
+          "ci95": [
+            0.19444444444444445,
+            0.5888888888888889
           ]
         }
       },
@@ -567,6 +875,20 @@
             0.08238095238095239,
             0.40857142857142853
           ]
+        },
+        "answered@10": {
+          "mean": 0.6666666666666666,
+          "ci95": [
+            0.4,
+            0.8666666666666667
+          ]
+        },
+        "answer_mrr@10": {
+          "mean": 0.392962962962963,
+          "ci95": [
+            0.20037037037037037,
+            0.5948148148148148
+          ]
         }
       },
       "dense_minmax": {
@@ -589,6 +911,20 @@
           "ci95": [
             0.07129629629629629,
             0.4
+          ]
+        },
+        "answered@10": {
+          "mean": 0.6666666666666666,
+          "ci95": [
+            0.4,
+            0.8666666666666667
+          ]
+        },
+        "answer_mrr@10": {
+          "mean": 0.40555555555555556,
+          "ci95": [
+            0.2111111111111111,
+            0.6055555555555556
           ]
         }
       }
@@ -616,6 +952,20 @@
         0.16314644137224782
       ]
     },
+    "hybrid_minus_bm25:answered@10": {
+      "mean": 0.11290322580645161,
+      "ci95": [
+        0.04838709677419355,
+        0.1935483870967742
+      ]
+    },
+    "hybrid_minus_bm25:answer_mrr@10": {
+      "mean": 0.11899641577060932,
+      "ci95": [
+        0.0702252944188428,
+        0.1758704557091654
+      ]
+    },
     "hybrid_minus_dense:recall@5": {
       "mean": -0.016129032258064516,
       "ci95": [
@@ -635,6 +985,20 @@
       "ci95": [
         -0.024212749615975422,
         0.16466973886328726
+      ]
+    },
+    "hybrid_minus_dense:answered@10": {
+      "mean": 0.016129032258064516,
+      "ci95": [
+        -0.06451612903225806,
+        0.0967741935483871
+      ]
+    },
+    "hybrid_minus_dense:answer_mrr@10": {
+      "mean": 0.07181899641577061,
+      "ci95": [
+        -0.024833589349718382,
+        0.1658410138248848
       ]
     },
     "hybrid_minus_sparse:recall@5": {
@@ -658,6 +1022,20 @@
         0.1681515616999488
       ]
     },
+    "hybrid_minus_sparse:answered@10": {
+      "mean": 0.11290322580645161,
+      "ci95": [
+        0.04838709677419355,
+        0.1935483870967742
+      ]
+    },
+    "hybrid_minus_sparse:answer_mrr@10": {
+      "mean": 0.12201740911418331,
+      "ci95": [
+        0.07542242703533027,
+        0.17482078853046595
+      ]
+    },
     "hybrid_minus_rrf_only:recall@5": {
       "mean": -0.03225806451612903,
       "ci95": [
@@ -677,6 +1055,20 @@
       "ci95": [
         -0.029838709677419355,
         0.053744239631336406
+      ]
+    },
+    "hybrid_minus_rrf_only:answered@10": {
+      "mean": -0.016129032258064516,
+      "ci95": [
+        -0.08064516129032258,
+        0.03225806451612903
+      ]
+    },
+    "hybrid_minus_rrf_only:answer_mrr@10": {
+      "mean": 0.012704813108038915,
+      "ci95": [
+        -0.024705581157194057,
+        0.05627240143369176
       ]
     },
     "hybrid_minus_dense_minmax:recall@5": {
@@ -699,6 +1091,20 @@
         -0.027060931899641576,
         0.04761904761904763
       ]
+    },
+    "hybrid_minus_dense_minmax:answered@10": {
+      "mean": -0.03225806451612903,
+      "ci95": [
+        -0.08064516129032258,
+        0.0
+      ]
+    },
+    "hybrid_minus_dense_minmax:answer_mrr@10": {
+      "mean": 0.005664362519201231,
+      "ci95": [
+        -0.028584229390681,
+        0.047465437788018434
+      ]
     }
   },
   "hybrid_vs_baselines_by_author": {
@@ -718,6 +1124,20 @@
         ]
       },
       "hybrid_minus_bm25:mrr@10": {
+        "mean": 0.15937019969278035,
+        "ci95": [
+          0.08602150537634408,
+          0.24162826420890937
+        ]
+      },
+      "hybrid_minus_bm25:answered@10": {
+        "mean": 0.0967741935483871,
+        "ci95": [
+          0.0,
+          0.22580645161290322
+        ]
+      },
+      "hybrid_minus_bm25:answer_mrr@10": {
         "mean": 0.15937019969278035,
         "ci95": [
           0.08602150537634408,
@@ -745,6 +1165,20 @@
           0.2241935483870968
         ]
       },
+      "hybrid_minus_dense:answered@10": {
+        "mean": 0.03225806451612903,
+        "ci95": [
+          -0.06451612903225806,
+          0.12903225806451613
+        ]
+      },
+      "hybrid_minus_dense:answer_mrr@10": {
+        "mean": 0.09408602150537636,
+        "ci95": [
+          -0.02795698924731183,
+          0.2241935483870968
+        ]
+      },
       "hybrid_minus_sparse:recall@5": {
         "mean": 0.14516129032258066,
         "ci95": [
@@ -760,6 +1194,20 @@
         ]
       },
       "hybrid_minus_sparse:mrr@10": {
+        "mean": 0.16272401433691755,
+        "ci95": [
+          0.0906810035842294,
+          0.23942652329749106
+        ]
+      },
+      "hybrid_minus_sparse:answered@10": {
+        "mean": 0.0967741935483871,
+        "ci95": [
+          0.0,
+          0.1935483870967742
+        ]
+      },
+      "hybrid_minus_sparse:answer_mrr@10": {
         "mean": 0.16272401433691755,
         "ci95": [
           0.0906810035842294,
@@ -787,6 +1235,20 @@
           0.07759856630824374
         ]
       },
+      "hybrid_minus_rrf_only:answered@10": {
+        "mean": 0.0,
+        "ci95": [
+          -0.0967741935483871,
+          0.0967741935483871
+        ]
+      },
+      "hybrid_minus_rrf_only:answer_mrr@10": {
+        "mean": 0.02087813620071685,
+        "ci95": [
+          -0.02007168458781362,
+          0.07759856630824374
+        ]
+      },
       "hybrid_minus_dense_minmax:recall@5": {
         "mean": -0.06451612903225806,
         "ci95": [
@@ -802,6 +1264,20 @@
         ]
       },
       "hybrid_minus_dense_minmax:mrr@10": {
+        "mean": 0.02446236559139785,
+        "ci95": [
+          -0.012365591397849464,
+          0.0774193548387097
+        ]
+      },
+      "hybrid_minus_dense_minmax:answered@10": {
+        "mean": -0.03225806451612903,
+        "ci95": [
+          -0.0967741935483871,
+          0.0
+        ]
+      },
+      "hybrid_minus_dense_minmax:answer_mrr@10": {
         "mean": 0.02446236559139785,
         "ci95": [
           -0.012365591397849464,
@@ -831,6 +1307,20 @@
           0.16875
         ]
       },
+      "hybrid_minus_bm25:answered@10": {
+        "mean": 0.125,
+        "ci95": [
+          0.0,
+          0.3125
+        ]
+      },
+      "hybrid_minus_bm25:answer_mrr@10": {
+        "mean": 0.07048611111111111,
+        "ci95": [
+          0.006944444444444444,
+          0.16875
+        ]
+      },
       "hybrid_minus_dense:recall@5": {
         "mean": -0.125,
         "ci95": [
@@ -846,6 +1336,20 @@
         ]
       },
       "hybrid_minus_dense:mrr@10": {
+        "mean": 0.12978670634920636,
+        "ci95": [
+          -0.08740079365079365,
+          0.3428075396825397
+        ]
+      },
+      "hybrid_minus_dense:answered@10": {
+        "mean": -0.125,
+        "ci95": [
+          -0.3125,
+          0.0
+        ]
+      },
+      "hybrid_minus_dense:answer_mrr@10": {
         "mean": 0.12978670634920636,
         "ci95": [
           -0.08740079365079365,
@@ -873,6 +1377,20 @@
           0.19791666666666669
         ]
       },
+      "hybrid_minus_sparse:answered@10": {
+        "mean": 0.125,
+        "ci95": [
+          0.0,
+          0.3125
+        ]
+      },
+      "hybrid_minus_sparse:answer_mrr@10": {
+        "mean": 0.08611111111111111,
+        "ci95": [
+          0.006944444444444444,
+          0.19791666666666669
+        ]
+      },
       "hybrid_minus_rrf_only:recall@5": {
         "mean": -0.03125,
         "ci95": [
@@ -894,6 +1412,20 @@
           0.08978174603174603
         ]
       },
+      "hybrid_minus_rrf_only:answered@10": {
+        "mean": -0.0625,
+        "ci95": [
+          -0.1875,
+          0.0
+        ]
+      },
+      "hybrid_minus_rrf_only:answer_mrr@10": {
+        "mean": 0.014087301587301588,
+        "ci95": [
+          -0.03432539682539683,
+          0.08978174603174603
+        ]
+      },
       "hybrid_minus_dense_minmax:recall@5": {
         "mean": -0.09375,
         "ci95": [
@@ -909,6 +1441,20 @@
         ]
       },
       "hybrid_minus_dense_minmax:mrr@10": {
+        "mean": -0.008333333333333333,
+        "ci95": [
+          -0.03680555555555556,
+          0.022222222222222227
+        ]
+      },
+      "hybrid_minus_dense_minmax:answered@10": {
+        "mean": -0.0625,
+        "ci95": [
+          -0.1875,
+          0.0
+        ]
+      },
+      "hybrid_minus_dense_minmax:answer_mrr@10": {
         "mean": -0.008333333333333333,
         "ci95": [
           -0.03680555555555556,
@@ -938,6 +1484,20 @@
           0.12380952380952381
         ]
       },
+      "hybrid_minus_bm25:answered@10": {
+        "mean": 0.13333333333333333,
+        "ci95": [
+          0.0,
+          0.3333333333333333
+        ]
+      },
+      "hybrid_minus_bm25:answer_mrr@10": {
+        "mean": 0.0873015873015873,
+        "ci95": [
+          -0.001587301587301589,
+          0.19682539682539685
+        ]
+      },
       "hybrid_minus_dense:recall@5": {
         "mean": -0.06666666666666667,
         "ci95": [
@@ -957,6 +1517,20 @@
         "ci95": [
           -0.2,
           0.13619047619047617
+        ]
+      },
+      "hybrid_minus_dense:answered@10": {
+        "mean": 0.13333333333333333,
+        "ci95": [
+          0.0,
+          0.3333333333333333
+        ]
+      },
+      "hybrid_minus_dense:answer_mrr@10": {
+        "mean": -0.03603174603174605,
+        "ci95": [
+          -0.21936507936507937,
+          0.1322222222222222
         ]
       },
       "hybrid_minus_sparse:recall@5": {
@@ -980,6 +1554,20 @@
           0.12380952380952381
         ]
       },
+      "hybrid_minus_sparse:answered@10": {
+        "mean": 0.13333333333333333,
+        "ci95": [
+          0.0,
+          0.3333333333333333
+        ]
+      },
+      "hybrid_minus_sparse:answer_mrr@10": {
+        "mean": 0.07619047619047618,
+        "ci95": [
+          -0.0031746031746031763,
+          0.16507936507936508
+        ]
+      },
       "hybrid_minus_rrf_only:recall@5": {
         "mean": -0.06666666666666667,
         "ci95": [
@@ -999,6 +1587,20 @@
         "ci95": [
           -0.12746031746031747,
           0.11603174603174603
+        ]
+      },
+      "hybrid_minus_rrf_only:answered@10": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "hybrid_minus_rrf_only:answer_mrr@10": {
+        "mean": -0.00566137566137566,
+        "ci95": [
+          -0.10777777777777778,
+          0.12111111111111113
         ]
       },
       "hybrid_minus_dense_minmax:recall@5": {
@@ -1021,6 +1623,20 @@
           -0.11037037037037038,
           0.11481481481481483
         ]
+      },
+      "hybrid_minus_dense_minmax:answered@10": {
+        "mean": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ]
+      },
+      "hybrid_minus_dense_minmax:answer_mrr@10": {
+        "mean": -0.018253968253968248,
+        "ci95": [
+          -0.11825396825396825,
+          0.11111111111111113
+        ]
       }
     }
   },
@@ -1034,6 +1650,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "HISTORY.md:56-115",
             "docs/user/quickstart.rst:221-280",
@@ -1044,6 +1662,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "HISTORY.md:56-115",
             "docs/user/quickstart.rst:221-280",
@@ -1054,6 +1674,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "tests/test_requests.py:1853-1858",
             "src/requests/sessions.py:282-300",
@@ -1064,6 +1686,8 @@
           "recall@5": 0.5,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/sessions.py:282-300",
             "docs/user/quickstart.rst:221-280",
@@ -1074,6 +1698,8 @@
           "recall@5": 0.5,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/sessions.py:282-300",
             "tests/test_requests.py:1853-1858",
@@ -1084,6 +1710,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/sessions.py:282-300",
             "tests/test_requests.py:1853-1858",
@@ -1101,6 +1729,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/authentication.rst:56-115",
             "src/requests/sessions.py:333-353",
@@ -1111,6 +1741,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "tests/test_requests.py:301-306",
             "docs/user/authentication.rst:56-115",
@@ -1121,6 +1753,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.25,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.25,
           "top3": [
             "tests/test_requests.py:294-299",
             "tests/test_requests.py:1908-1925",
@@ -1131,6 +1765,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "tests/test_requests.py:301-306",
             "src/requests/sessions.py:333-353",
@@ -1141,6 +1777,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "tests/test_requests.py:301-306",
             "src/requests/sessions.py:333-353",
@@ -1151,6 +1789,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "tests/test_requests.py:301-306",
             "src/requests/sessions.py:333-353",
@@ -1168,6 +1808,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:1101-1141",
             "src/requests/adapters.py:396-444",
@@ -1178,6 +1820,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:1101-1141",
             "src/requests/adapters.py:396-444",
@@ -1188,6 +1832,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.16666666666666666,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.16666666666666666,
           "top3": [
             "docs/user/quickstart.rst:496-555",
             "tests/test_requests.py:250-263",
@@ -1198,6 +1844,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.2,
           "top3": [
             "docs/user/advanced.rst:1101-1141",
             "docs/api.rst:166-225",
@@ -1208,6 +1856,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "docs/api.rst:166-225",
             "tests/test_requests.py:250-263",
@@ -1218,6 +1868,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.2,
           "top3": [
             "docs/user/advanced.rst:1101-1141",
             "docs/user/quickstart.rst:496-555",
@@ -1235,6 +1887,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "src/requests/utils.py:104-125",
             "src/requests/utils.py:765-823",
@@ -1245,6 +1899,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:765-823",
             "src/requests/utils.py:104-125",
@@ -1255,6 +1911,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:765-823",
             "src/requests/utils.py:104-125",
@@ -1265,6 +1923,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:765-823",
             "src/requests/utils.py:104-125",
@@ -1275,6 +1935,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:765-823",
             "src/requests/utils.py:104-125",
@@ -1285,6 +1947,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:765-823",
             "src/requests/utils.py:104-125",
@@ -1302,6 +1966,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:838-861",
             "src/requests/adapters.py:546-576",
@@ -1312,6 +1978,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:838-861",
             "src/requests/adapters.py:546-576",
@@ -1322,6 +1990,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:838-861",
             "tests/test_utils.py:510-533",
@@ -1332,6 +2002,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:838-861",
             "src/requests/adapters.py:546-576",
@@ -1342,6 +2014,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:838-861",
             "src/requests/utils.py:864-888",
@@ -1352,6 +2026,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:838-861",
             "src/requests/utils.py:864-888",
@@ -1369,6 +2045,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:909-945",
             "docs/user/quickstart.rst:56-115",
@@ -1379,6 +2057,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:909-945",
             "docs/user/quickstart.rst:56-115",
@@ -1389,6 +2069,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:909-945",
             "src/requests/utils.py:591-627",
@@ -1399,6 +2081,8 @@
           "recall@5": 0.5,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:909-945",
             "src/requests/models.py:947-978",
@@ -1409,6 +2093,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:909-945",
             "docs/user/quickstart.rst:111-170",
@@ -1419,6 +2105,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:909-945",
             "src/requests/models.py:947-978",
@@ -1436,6 +2124,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "tests/test_utils.py:376-408",
             "src/requests/utils.py:957-986",
@@ -1446,6 +2136,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "tests/test_utils.py:376-408",
             "src/requests/utils.py:957-986",
@@ -1456,6 +2148,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:957-986",
             "src/requests/models.py:947-978",
@@ -1466,6 +2160,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:957-986",
             "tests/test_utils.py:376-408",
@@ -1476,6 +2172,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:957-986",
             "src/requests/models.py:947-978",
@@ -1486,6 +2184,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:957-986",
             "tests/test_utils.py:376-408",
@@ -1503,6 +2203,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/authentication.rst:1-60",
             "src/requests/utils.py:204-258",
@@ -1513,6 +2215,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/authentication.rst:1-60",
             "src/requests/utils.py:204-258",
@@ -1523,6 +2227,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:204-258",
             "tests/test_requests.py:671-704",
@@ -1533,6 +2239,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:204-258",
             "docs/user/authentication.rst:1-60",
@@ -1543,6 +2251,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:204-258",
             "docs/user/quickstart.rst:221-280",
@@ -1553,6 +2263,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:204-258",
             "docs/user/authentication.rst:1-60",
@@ -1570,6 +2282,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.2,
           "top3": [
             "tests/test_lowlevel.py:192-235",
             "tests/test_lowlevel.py:127-189",
@@ -1580,6 +2294,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.2,
           "top3": [
             "tests/test_lowlevel.py:192-235",
             "tests/test_lowlevel.py:127-189",
@@ -1590,6 +2306,8 @@
           "recall@5": 0.5,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "tests/test_lowlevel.py:192-235",
             "tests/test_lowlevel.py:127-189",
@@ -1600,6 +2318,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "tests/test_lowlevel.py:192-235",
             "tests/test_lowlevel.py:127-189",
@@ -1610,6 +2330,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "tests/test_lowlevel.py:192-235",
             "tests/test_lowlevel.py:127-189",
@@ -1620,6 +2342,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "tests/test_lowlevel.py:192-235",
             "tests/test_lowlevel.py:127-189",
@@ -1637,6 +2361,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.2,
           "top3": [
             "src/requests/sessions.py:302-331",
             "src/requests/auth.py:76-96",
@@ -1647,6 +2373,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.2,
           "top3": [
             "src/requests/sessions.py:302-331",
             "src/requests/auth.py:76-96",
@@ -1657,6 +2385,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "src/requests/auth.py:76-96",
             "src/requests/auth.py:25-66",
@@ -1667,6 +2397,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/auth.py:76-96",
             "tests/test_requests.py:542-558",
@@ -1677,6 +2409,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/auth.py:76-96",
             "tests/test_requests.py:542-558",
@@ -1687,6 +2421,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/auth.py:76-96",
             "tests/test_requests.py:542-558",
@@ -1704,6 +2440,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:799-855",
             "src/requests/models.py:890-907",
@@ -1714,6 +2452,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:799-855",
             "src/requests/models.py:890-907",
@@ -1724,6 +2464,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "docs/user/advanced.rst:331-390",
             "tests/test_lowlevel.py:39-60",
@@ -1734,6 +2476,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:799-855",
             "src/requests/models.py:890-907",
@@ -1744,6 +2488,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:799-855",
             "docs/user/advanced.rst:331-390",
@@ -1754,6 +2500,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:799-855",
             "src/requests/exceptions.py:127-128",
@@ -1771,6 +2519,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:857-888",
             "docs/user/advanced.rst:496-555",
@@ -1781,6 +2531,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:857-888",
             "docs/user/advanced.rst:496-555",
@@ -1791,6 +2543,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:857-888",
             "src/requests/utils.py:564-578",
@@ -1801,6 +2555,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:857-888",
             "docs/user/advanced.rst:1101-1141",
@@ -1811,6 +2567,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:857-888",
             "docs/user/quickstart.rst:166-225",
@@ -1821,6 +2579,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:857-888",
             "docs/user/quickstart.rst:166-225",
@@ -1838,6 +2598,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/quickstart.rst:331-390",
             "docs/user/quickstart.rst:551-570",
@@ -1848,6 +2610,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/quickstart.rst:331-390",
             "docs/user/quickstart.rst:551-570",
@@ -1858,6 +2622,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/quickstart.rst:551-570",
             "src/requests/models.py:997-1024",
@@ -1868,6 +2634,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/quickstart.rst:551-570",
             "docs/user/quickstart.rst:331-390",
@@ -1878,6 +2646,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.125,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.125,
           "top3": [
             "docs/user/quickstart.rst:551-570",
             "docs/user/quickstart.rst:386-445",
@@ -1888,6 +2658,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.2,
           "top3": [
             "docs/user/quickstart.rst:551-570",
             "docs/user/quickstart.rst:331-390",
@@ -1905,6 +2677,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/structures.py:13-80",
             "HISTORY.md:1376-1435",
@@ -1915,6 +2689,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/structures.py:13-80",
             "HISTORY.md:1376-1435",
@@ -1925,6 +2701,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "src/requests/utils.py:1034-1042",
             "src/requests/structures.py:13-80",
@@ -1935,6 +2713,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/structures.py:13-80",
             "src/requests/status_codes.py:1-86",
@@ -1945,6 +2725,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/structures.py:13-80",
             "src/requests/utils.py:375-403",
@@ -1955,6 +2737,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/structures.py:13-80",
             "src/requests/utils.py:375-403",
@@ -1972,6 +2756,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.1,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.1,
           "top3": [
             "docs/user/advanced.rst:331-390",
             "docs/user/quickstart.rst:276-335",
@@ -1982,6 +2768,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:331-390",
             "docs/user/quickstart.rst:276-335",
@@ -1992,6 +2780,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:386-445",
             "src/requests/models.py:136-203",
@@ -2002,6 +2792,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.2,
           "top3": [
             "docs/user/quickstart.rst:276-335",
             "docs/user/advanced.rst:331-390",
@@ -2012,6 +2804,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.25,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.25,
           "top3": [
             "docs/user/quickstart.rst:276-335",
             "docs/user/advanced.rst:386-445",
@@ -2022,6 +2816,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.2,
           "top3": [
             "docs/user/advanced.rst:386-445",
             "docs/user/quickstart.rst:276-335",
@@ -2039,6 +2835,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:135-201",
             "src/requests/models.py:494-570",
@@ -2049,6 +2847,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:135-201",
             "src/requests/models.py:494-570",
@@ -2059,6 +2859,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:135-201",
             "src/requests/models.py:572-586",
@@ -2069,6 +2871,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:135-201",
             "src/requests/models.py:494-570",
@@ -2079,6 +2883,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:135-201",
             "src/requests/models.py:572-586",
@@ -2089,6 +2895,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:135-201",
             "src/requests/models.py:494-570",
@@ -2106,6 +2914,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.16666666666666666,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.16666666666666666,
           "top3": [
             "docs/user/advanced.rst:991-1050",
             "docs/user/advanced.rst:936-995",
@@ -2116,6 +2926,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.16666666666666666,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.16666666666666666,
           "top3": [
             "docs/user/advanced.rst:991-1050",
             "docs/user/advanced.rst:936-995",
@@ -2126,6 +2938,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:991-1050",
             "docs/user/advanced.rst:1-60",
@@ -2136,6 +2950,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.16666666666666666,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.16666666666666666,
           "top3": [
             "docs/user/advanced.rst:991-1050",
             "tests/test_requests.py:1619-1641",
@@ -2146,6 +2962,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:991-1050",
             "tests/test_requests.py:1619-1641",
@@ -2156,6 +2974,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.1,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.1,
           "top3": [
             "docs/user/advanced.rst:991-1050",
             "tests/test_requests.py:1619-1641",
@@ -2173,6 +2993,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.14285714285714285,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.14285714285714285,
           "top3": [
             "docs/user/advanced.rst:166-225",
             "docs/user/advanced.rst:386-445",
@@ -2183,6 +3005,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.1111111111111111,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.1111111111111111,
           "top3": [
             "docs/user/advanced.rst:166-225",
             "docs/user/advanced.rst:386-445",
@@ -2193,6 +3017,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:56-115",
             "src/requests/sessions.py:61-88",
@@ -2203,6 +3029,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:56-115",
             "src/requests/sessions.py:61-88",
@@ -2213,6 +3041,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:56-115",
             "src/requests/sessions.py:61-88",
@@ -2223,6 +3053,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:56-115",
             "src/requests/sessions.py:61-88",
@@ -2240,6 +3072,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "HISTORY.md:716-775",
             "src/requests/models.py:409-481",
@@ -2250,6 +3084,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "HISTORY.md:716-775",
             "src/requests/models.py:409-481",
@@ -2260,6 +3096,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:409-481",
             "tests/conftest.py:15-22",
@@ -2270,6 +3108,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:409-481",
             "HISTORY.md:716-775",
@@ -2280,6 +3120,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:409-481",
             "src/requests/utils.py:636-657",
@@ -2290,6 +3132,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:409-481",
             "src/requests/utils.py:636-657",
@@ -2307,6 +3151,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:409-481",
             "src/requests/utils.py:765-823",
@@ -2317,6 +3163,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:409-481",
             "src/requests/utils.py:765-823",
@@ -2327,6 +3175,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.16666666666666666,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.16666666666666666,
           "top3": [
             "src/requests/exceptions.py:99-100",
             "HISTORY.md:1596-1655",
@@ -2337,6 +3187,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:409-481",
             "HISTORY.md:1211-1270",
@@ -2347,6 +3199,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:409-481",
             "HISTORY.md:1211-1270",
@@ -2357,6 +3211,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:409-481",
             "HISTORY.md:1211-1270",
@@ -2374,6 +3230,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/adapters.py:396-444",
             "docs/user/advanced.rst:221-280",
@@ -2384,6 +3242,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/adapters.py:396-444",
             "docs/user/advanced.rst:221-280",
@@ -2394,6 +3254,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "docs/user/advanced.rst:221-280",
             "tests/testserver/server.py:138-176",
@@ -2404,6 +3266,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:221-280",
             "src/requests/adapters.py:304-357",
@@ -2414,6 +3278,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:221-280",
             "src/requests/adapters.py:304-357",
@@ -2424,6 +3290,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:221-280",
             "src/requests/adapters.py:304-357",
@@ -2441,6 +3309,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:1101-1141",
             "src/requests/adapters.py:613-687",
@@ -2451,6 +3321,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:1101-1141",
             "src/requests/adapters.py:613-687",
@@ -2461,6 +3333,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:1101-1141",
             "tests/test_requests.py:2442-2508",
@@ -2471,6 +3345,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:1101-1141",
             "src/requests/adapters.py:613-687",
@@ -2481,6 +3357,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.2,
           "top3": [
             "docs/user/advanced.rst:1101-1141",
             "tests/test_requests.py:2442-2508",
@@ -2491,6 +3369,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.25,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.25,
           "top3": [
             "docs/user/advanced.rst:1101-1141",
             "src/requests/exceptions.py:80-84",
@@ -2508,6 +3388,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/api.rst:166-225",
             "src/requests/__init__.py:105-184",
@@ -2518,6 +3400,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/api.rst:166-225",
             "src/requests/__init__.py:105-184",
@@ -2528,6 +3412,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "HISTORY.md:111-170",
             "src/requests/adapters.py:165-201",
@@ -2538,6 +3424,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/__init__.py:105-184",
             "docs/api.rst:166-225",
@@ -2548,6 +3436,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/__init__.py:105-184",
             "src/requests/adapters.py:1-89",
@@ -2558,6 +3448,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/__init__.py:105-184",
             "src/requests/adapters.py:1-89",
@@ -2575,6 +3467,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/adapters.py:359-394",
             "src/requests/adapters.py:446-493",
@@ -2585,6 +3479,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "src/requests/adapters.py:446-493",
             "src/requests/adapters.py:359-394",
@@ -2595,6 +3491,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.16666666666666666,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.16666666666666666,
           "top3": [
             "docs/user/quickstart.rst:166-225",
             "src/requests/models.py:1026-1037",
@@ -2605,6 +3503,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/adapters.py:359-394",
             "src/requests/models.py:1026-1037",
@@ -2615,6 +3515,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/models.py:1026-1037",
             "docs/user/quickstart.rst:166-225",
@@ -2625,6 +3527,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/models.py:1026-1037",
             "docs/user/quickstart.rst:166-225",
@@ -2642,6 +3546,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/quickstart.rst:441-500",
             "docs/user/quickstart.rst:386-445",
@@ -2652,6 +3558,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/quickstart.rst:441-500",
             "docs/user/quickstart.rst:386-445",
@@ -2662,6 +3570,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/quickstart.rst:441-500",
             "src/requests/sessions.py:234-280",
@@ -2672,6 +3582,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/quickstart.rst:441-500",
             "docs/user/advanced.rst:56-115",
@@ -2682,6 +3594,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/quickstart.rst:441-500",
             "docs/user/advanced.rst:56-115",
@@ -2692,6 +3606,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/quickstart.rst:441-500",
             "docs/user/advanced.rst:56-115",
@@ -2709,6 +3625,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/cookies.py:206-223",
             "docs/user/advanced.rst:1101-1141",
@@ -2719,6 +3637,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/cookies.py:206-223",
             "docs/user/advanced.rst:1101-1141",
@@ -2729,6 +3649,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/cookies.py:386-413",
             "tests/test_requests.py:1337-1356",
@@ -2739,6 +3661,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.1,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.1,
           "top3": [
             "src/requests/cookies.py:206-223",
             "src/requests/cookies.py:151-167",
@@ -2749,6 +3673,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.1111111111111111,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.1111111111111111,
           "top3": [
             "src/requests/cookies.py:206-223",
             "src/requests/cookies.py:194-204",
@@ -2759,6 +3685,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.125,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.125,
           "top3": [
             "src/requests/cookies.py:206-223",
             "src/requests/cookies.py:151-167",
@@ -2776,6 +3704,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:166-225",
             "docs/user/advanced.rst:606-665",
@@ -2786,6 +3716,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.1111111111111111,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.1111111111111111,
           "top3": [
             "docs/user/advanced.rst:166-225",
             "docs/user/advanced.rst:606-665",
@@ -2796,6 +3728,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:606-665",
             "src/requests/sessions.py:750-779",
@@ -2806,6 +3740,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "docs/user/advanced.rst:166-225",
             "docs/user/advanced.rst:606-665",
@@ -2816,6 +3752,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:606-665",
             "src/requests/sessions.py:750-779",
@@ -2826,6 +3764,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "docs/user/advanced.rst:606-665",
             "docs/user/advanced.rst:166-225",
@@ -2843,6 +3783,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1081-1096",
             "src/requests/models.py:334-349",
@@ -2853,6 +3795,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1081-1096",
             "src/requests/models.py:334-349",
@@ -2863,6 +3807,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1081-1096",
             "src/requests/sessions.py:333-353",
@@ -2873,6 +3819,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1081-1096",
             "src/requests/auth.py:285-303",
@@ -2883,6 +3831,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1081-1096",
             "src/requests/auth.py:285-303",
@@ -2893,6 +3843,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1081-1096",
             "src/requests/auth.py:285-303",
@@ -2910,6 +3862,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1034-1042",
             "tests/test_requests.py:1745-1762",
@@ -2920,6 +3874,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1034-1042",
             "tests/test_requests.py:1745-1762",
@@ -2930,6 +3886,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1034-1042",
             "tests/test_requests.py:1745-1762",
@@ -2940,6 +3898,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1034-1042",
             "tests/test_requests.py:1745-1762",
@@ -2950,6 +3910,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1034-1042",
             "tests/test_requests.py:1745-1762",
@@ -2960,6 +3922,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1034-1042",
             "tests/test_requests.py:1745-1762",
@@ -2977,6 +3941,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:980-995",
             "src/requests/utils.py:914-948",
@@ -2987,6 +3953,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:980-995",
             "src/requests/utils.py:914-948",
@@ -2997,6 +3965,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:936-995",
             "src/requests/models.py:980-995",
@@ -3007,6 +3977,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:980-995",
             "src/requests/utils.py:914-948",
@@ -3017,6 +3989,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:980-995",
             "docs/user/advanced.rst:936-995",
@@ -3027,6 +4001,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:980-995",
             "docs/user/advanced.rst:936-995",
@@ -3044,6 +4020,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.25,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.25,
           "top3": [
             "src/requests/utils.py:900-911",
             "tests/test_requests.py:512-517",
@@ -3054,6 +4032,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/utils.py:900-911",
             "tests/test_requests.py:512-517",
@@ -3064,6 +4044,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:891-897",
             "tests/test_requests.py:512-517",
@@ -3074,6 +4056,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:891-897",
             "tests/test_requests.py:512-517",
@@ -3084,6 +4068,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:891-897",
             "tests/test_requests.py:512-517",
@@ -3094,6 +4080,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:891-897",
             "tests/test_requests.py:512-517",
@@ -3111,6 +4099,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1018-1031",
             "src/requests/adapters.py:592-611",
@@ -3121,6 +4111,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1018-1031",
             "src/requests/adapters.py:592-611",
@@ -3131,6 +4123,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/authentication.rst:1-60",
             "src/requests/utils.py:1018-1031",
@@ -3141,6 +4135,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1018-1031",
             "src/requests/auth.py:25-66",
@@ -3151,6 +4147,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1018-1031",
             "src/requests/auth.py:76-96",
@@ -3161,6 +4159,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:1018-1031",
             "src/requests/auth.py:25-66",
@@ -3178,6 +4178,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:989-1015",
             "src/requests/adapters.py:446-493",
@@ -3188,6 +4190,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:989-1015",
             "src/requests/adapters.py:446-493",
@@ -3198,6 +4202,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/utils.py:765-823",
             "src/requests/utils.py:864-888",
@@ -3208,6 +4214,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:989-1015",
             "src/requests/adapters.py:546-576",
@@ -3218,6 +4226,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:989-1015",
             "src/requests/utils.py:765-823",
@@ -3228,6 +4238,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:989-1015",
             "src/requests/utils.py:765-823",
@@ -3245,6 +4257,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:636-657",
             "src/requests/utils.py:660-679",
@@ -3255,6 +4269,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:636-657",
             "src/requests/utils.py:660-679",
@@ -3265,6 +4281,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:636-657",
             "src/requests/utils.py:660-679",
@@ -3275,6 +4293,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:636-657",
             "src/requests/utils.py:660-679",
@@ -3285,6 +4305,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:636-657",
             "src/requests/utils.py:660-679",
@@ -3295,6 +4317,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:636-657",
             "src/requests/utils.py:660-679",
@@ -3312,6 +4336,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/cookies.py:306-319",
             "docs/user/quickstart.rst:386-445",
@@ -3322,6 +4348,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/quickstart.rst:386-445",
             "src/requests/cookies.py:306-319",
@@ -3332,6 +4360,8 @@
           "recall@5": 0.5,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/cookies.py:306-319",
             "docs/user/advanced.rst:56-115",
@@ -3342,6 +4372,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/cookies.py:306-319",
             "src/requests/cookies.py:542-561",
@@ -3352,6 +4384,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/cookies.py:306-319",
             "docs/user/advanced.rst:56-115",
@@ -3362,6 +4396,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/cookies.py:306-319",
             "docs/user/advanced.rst:56-115",
@@ -3379,6 +4415,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:539-561",
             "docs/user/advanced.rst:716-775",
@@ -3389,6 +4427,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:539-561",
             "docs/user/advanced.rst:716-775",
@@ -3399,6 +4439,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/models.py:909-945",
             "src/requests/utils.py:591-627",
@@ -3409,6 +4451,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:539-561",
             "docs/user/advanced.rst:716-775",
@@ -3419,6 +4463,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:539-561",
             "src/requests/models.py:909-945",
@@ -3429,6 +4475,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:539-561",
             "src/requests/models.py:909-945",
@@ -3446,6 +4494,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/quickstart.rst:166-225",
             "LICENSE:1-60",
@@ -3456,6 +4506,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/quickstart.rst:166-225",
             "LICENSE:1-60",
@@ -3466,6 +4518,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:754-767",
             "src/requests/models.py:740-748",
@@ -3476,6 +4530,8 @@
           "recall@5": 0.0,
           "recall@10": 0.5,
           "mrr@10": 0.1,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.1,
           "top3": [
             "src/requests/sessions.py:333-353",
             "src/requests/models.py:947-978",
@@ -3486,6 +4542,8 @@
           "recall@5": 0.5,
           "recall@10": 1.0,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.2,
           "top3": [
             "src/requests/adapters.py:359-394",
             "src/requests/sessions.py:333-353",
@@ -3496,6 +4554,8 @@
           "recall@5": 0.5,
           "recall@10": 1.0,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.2,
           "top3": [
             "src/requests/sessions.py:333-353",
             "src/requests/adapters.py:359-394",
@@ -3513,6 +4573,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/adapters.py:536-544",
             "src/requests/adapters.py:165-201",
@@ -3523,6 +4585,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/adapters.py:536-544",
             "src/requests/adapters.py:165-201",
@@ -3533,6 +4597,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "src/requests/models.py:1026-1037",
             "src/requests/adapters.py:536-544",
@@ -3543,6 +4609,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/adapters.py:536-544",
             "src/requests/adapters.py:165-201",
@@ -3553,6 +4621,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/adapters.py:536-544",
             "tests/test_requests.py:2096-2103",
@@ -3563,6 +4633,8 @@
           "recall@5": 0.5,
           "recall@10": 0.5,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/adapters.py:536-544",
             "src/requests/adapters.py:165-201",
@@ -3580,6 +4652,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:56-115",
             "HISTORY.md:551-610",
@@ -3590,6 +4664,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:56-115",
             "HISTORY.md:551-610",
@@ -3600,6 +4676,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/sessions.py:794-797",
             "src/requests/sessions.py:454-455",
@@ -3610,6 +4688,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:56-115",
             "docs/user/advanced.rst:1-60",
@@ -3620,6 +4700,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:56-115",
             "docs/user/advanced.rst:1-60",
@@ -3630,6 +4712,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:56-115",
             "docs/user/advanced.rst:1-60",
@@ -3647,6 +4731,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/adapters.py:137-164",
             "src/requests/models.py:334-349",
@@ -3657,6 +4743,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/adapters.py:137-164",
             "src/requests/models.py:334-349",
@@ -3667,6 +4755,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:111-170",
             "src/requests/models.py:409-481",
@@ -3677,6 +4767,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:111-170",
             "src/requests/models.py:334-349",
@@ -3687,6 +4779,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:111-170",
             "src/requests/sessions.py:500-563",
@@ -3697,6 +4791,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:111-170",
             "src/requests/models.py:334-349",
@@ -3714,6 +4810,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:1046-1105",
             "docs/user/authentication.rst:1-60",
@@ -3724,6 +4822,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:1046-1105",
             "docs/user/authentication.rst:1-60",
@@ -3734,6 +4834,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.125,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.125,
           "top3": [
             "docs/user/quickstart.rst:221-280",
             "docs/user/advanced.rst:111-170",
@@ -3744,6 +4846,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/quickstart.rst:221-280",
             "docs/user/advanced.rst:936-995",
@@ -3754,6 +4858,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/quickstart.rst:221-280",
             "docs/user/advanced.rst:936-995",
@@ -3764,6 +4870,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/quickstart.rst:221-280",
             "docs/user/advanced.rst:936-995",
@@ -3781,6 +4889,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "HISTORY.md:881-940",
             "src/requests/api.py:14-59",
@@ -3791,6 +4901,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "HISTORY.md:881-940",
             "src/requests/api.py:14-59",
@@ -3801,6 +4913,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "tests/test_requests.py:1797-1803",
             "src/requests/utils.py:261-265",
@@ -3811,6 +4925,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.1111111111111111,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.1111111111111111,
           "top3": [
             "HISTORY.md:881-940",
             "src/requests/api.py:14-59",
@@ -3821,6 +4937,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.14285714285714285,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.14285714285714285,
           "top3": [
             "src/requests/api.py:14-59",
             "src/requests/utils.py:135-201",
@@ -3831,6 +4949,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.2,
           "top3": [
             "HISTORY.md:881-940",
             "src/requests/api.py:14-59",
@@ -3848,6 +4968,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.25,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.25,
           "top3": [
             "src/requests/utils.py:765-823",
             "HISTORY.md:1211-1270",
@@ -3858,6 +4980,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "src/requests/utils.py:765-823",
             "src/requests/utils.py:682-694",
@@ -3868,6 +4992,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "tests/test_utils.py:191-253",
             "src/requests/utils.py:719-740",
@@ -3878,6 +5004,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "src/requests/utils.py:765-823",
             "src/requests/utils.py:682-694",
@@ -3888,6 +5016,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "src/requests/utils.py:765-823",
             "src/requests/utils.py:682-694",
@@ -3898,6 +5028,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/utils.py:765-823",
             "tests/test_utils.py:191-253",
@@ -3915,6 +5047,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "HISTORY.md:716-775",
             "HISTORY.md:56-115",
@@ -3925,6 +5059,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "HISTORY.md:716-775",
             "HISTORY.md:56-115",
@@ -3935,6 +5071,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.2,
           "top3": [
             "src/requests/auth.py:99-104",
             "docs/user/authentication.rst:1-60",
@@ -3945,6 +5083,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/adapters.py:592-611",
             "docs/user/authentication.rst:1-60",
@@ -3955,6 +5095,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/authentication.rst:1-60",
             "src/requests/adapters.py:592-611",
@@ -3965,6 +5107,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/adapters.py:592-611",
             "docs/user/authentication.rst:1-60",
@@ -3982,6 +5126,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:268-302",
             "HISTORY.md:221-280",
@@ -3992,6 +5138,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:268-302",
             "HISTORY.md:221-280",
@@ -4002,6 +5150,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/user/advanced.rst:276-335",
             "src/requests/utils.py:268-302",
@@ -4012,6 +5162,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:268-302",
             "src/requests/certs.py:1-17",
@@ -4022,6 +5174,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:268-302",
             "docs/user/advanced.rst:276-335",
@@ -4032,6 +5186,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:268-302",
             "src/requests/certs.py:1-17",
@@ -4049,6 +5205,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "HISTORY.md:1266-1325",
             "HISTORY.md:166-225",
@@ -4059,6 +5217,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "HISTORY.md:1266-1325",
             "HISTORY.md:166-225",
@@ -4069,6 +5229,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.14285714285714285,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.14285714285714285,
           "top3": [
             "docs/user/quickstart.rst:441-500",
             "docs/user/advanced.rst:56-115",
@@ -4079,6 +5241,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:56-115",
             "docs/user/advanced.rst:111-170",
@@ -4089,6 +5253,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.14285714285714285,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.14285714285714285,
           "top3": [
             "docs/user/advanced.rst:56-115",
             "docs/user/advanced.rst:111-170",
@@ -4099,6 +5265,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.1111111111111111,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.1111111111111111,
           "top3": [
             "docs/user/advanced.rst:56-115",
             "docs/user/advanced.rst:111-170",
@@ -4116,6 +5284,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:947-978",
             "docs/user/quickstart.rst:111-170",
@@ -4126,6 +5296,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:947-978",
             "docs/user/quickstart.rst:111-170",
@@ -4136,6 +5308,8 @@
           "recall@5": 0.5,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:947-978",
             "tests/test_requests.py:2969-2976",
@@ -4146,6 +5320,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:947-978",
             "HISTORY.md:166-225",
@@ -4156,6 +5332,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:947-978",
             "HISTORY.md:166-225",
@@ -4166,6 +5344,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:947-978",
             "HISTORY.md:166-225",
@@ -4183,6 +5363,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "HISTORY.md:1376-1435",
             "docs/user/advanced.rst:881-940",
@@ -4193,6 +5375,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "HISTORY.md:1376-1435",
             "docs/user/advanced.rst:881-940",
@@ -4203,6 +5387,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/api.py:103-115",
             "src/requests/sessions.py:626-637",
@@ -4213,6 +5399,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/api.py:103-115",
             "tests/test_requests.py:2799-2802",
@@ -4223,6 +5411,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/api.py:103-115",
             "docs/user/quickstart.rst:276-335",
@@ -4233,6 +5423,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/api.py:103-115",
             "tests/test_requests.py:2799-2802",
@@ -4250,6 +5442,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/help.py:1-33",
             "src/requests/compat.py:18-27",
@@ -4260,6 +5454,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/help.py:1-33",
             "tests/compat.py:1-13",
@@ -4270,6 +5466,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "tests/test_requests.py:2729-2763",
             "tests/test_requests.py:888-890",
@@ -4280,6 +5478,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/__init__.py:1-57",
             "src/requests/help.py:1-33",
@@ -4290,6 +5490,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/__init__.py:1-57",
             "src/requests/cookies.py:194-204",
@@ -4300,6 +5502,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/__init__.py:1-57",
             "src/requests/help.py:1-33",
@@ -4317,6 +5521,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/install.rst:1-36",
             "docs/conf.py:355-386",
@@ -4327,6 +5533,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/install.rst:1-36",
             "docs/conf.py:355-386",
@@ -4337,6 +5545,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.25,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.25,
           "top3": [
             "src/requests/utils.py:135-201",
             "docs/user/advanced.rst:331-390",
@@ -4347,6 +5557,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.14285714285714285,
           "top3": [
             "docs/user/quickstart.rst:331-390",
             "docs/user/advanced.rst:331-390",
@@ -4357,6 +5569,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.1111111111111111,
           "top3": [
             "docs/user/advanced.rst:331-390",
             "docs/user/quickstart.rst:331-390",
@@ -4367,6 +5581,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.16666666666666666,
           "top3": [
             "docs/user/advanced.rst:331-390",
             "docs/user/quickstart.rst:331-390",
@@ -4384,6 +5600,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/community/faq.rst:56-89",
             "docs/user/advanced.rst:881-940",
@@ -4394,6 +5612,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/community/faq.rst:56-89",
             "docs/user/advanced.rst:881-940",
@@ -4404,6 +5624,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.1,
           "top3": [
             "docs/community/faq.rst:56-89",
             "docs/user/advanced.rst:166-225",
@@ -4414,6 +5636,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.25,
           "top3": [
             "docs/community/faq.rst:56-89",
             "docs/user/advanced.rst:166-225",
@@ -4424,6 +5648,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.14285714285714285,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.25,
           "top3": [
             "docs/community/faq.rst:56-89",
             "docs/user/advanced.rst:166-225",
@@ -4434,6 +5660,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.1111111111111111,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.25,
           "top3": [
             "docs/community/faq.rst:56-89",
             "docs/user/advanced.rst:166-225",
@@ -4451,6 +5679,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.25,
           "top3": [
             "HISTORY.md:1376-1435",
             "src/requests/models.py:1-84",
@@ -4461,6 +5691,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.25,
           "top3": [
             "HISTORY.md:1376-1435",
             "src/requests/models.py:1-84",
@@ -4471,6 +5703,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:947-978",
             "src/requests/adapters.py:359-394",
@@ -4481,6 +5715,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "HISTORY.md:1376-1435",
             "src/requests/models.py:947-978",
@@ -4491,6 +5727,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:947-978",
             "src/requests/adapters.py:359-394",
@@ -4501,6 +5739,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/models.py:947-978",
             "src/requests/adapters.py:359-394",
@@ -4518,6 +5758,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.14285714285714285,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.25,
           "top3": [
             "tests/test_utils.py:547-608",
             "tests/test_requests.py:1789-1795",
@@ -4528,6 +5770,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.14285714285714285,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.25,
           "top3": [
             "tests/test_utils.py:547-608",
             "tests/test_requests.py:1789-1795",
@@ -4538,6 +5782,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.25,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "docs/user/advanced.rst:386-445",
             "tests/test_requests.py:1789-1795",
@@ -4548,6 +5794,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.16666666666666666,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "tests/test_requests.py:1789-1795",
             "tests/test_requests.py:1797-1803",
@@ -4558,6 +5806,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.25,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "tests/test_requests.py:1789-1795",
             "docs/user/advanced.rst:386-445",
@@ -4568,6 +5818,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.16666666666666666,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "tests/test_requests.py:1789-1795",
             "docs/user/advanced.rst:386-445",
@@ -4585,6 +5837,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/sessions.py:781-792",
             "src/requests/sessions.py:799-808",
@@ -4595,6 +5849,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/sessions.py:781-792",
             "src/requests/sessions.py:799-808",
@@ -4605,6 +5861,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/sessions.py:781-792",
             "src/requests/adapters.py:165-201",
@@ -4615,6 +5873,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/sessions.py:781-792",
             "src/requests/adapters.py:165-201",
@@ -4625,6 +5885,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/sessions.py:781-792",
             "src/requests/adapters.py:578-590",
@@ -4635,6 +5897,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/sessions.py:781-792",
             "src/requests/adapters.py:165-201",
@@ -4652,6 +5916,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "docs/user/quickstart.rst:496-555",
             "docs/user/advanced.rst:1101-1141",
@@ -4662,6 +5928,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "docs/user/quickstart.rst:496-555",
             "docs/user/advanced.rst:1101-1141",
@@ -4672,6 +5940,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "tests/test_requests.py:2442-2508",
             "docs/user/quickstart.rst:496-555",
@@ -4682,6 +5952,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.14285714285714285,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "docs/user/quickstart.rst:496-555",
             "tests/test_requests.py:2442-2508",
@@ -4692,6 +5964,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.14285714285714285,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "docs/user/quickstart.rst:496-555",
             "tests/test_requests.py:2442-2508",
@@ -4702,6 +5976,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.125,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "docs/user/quickstart.rst:496-555",
             "tests/test_requests.py:2442-2508",
@@ -4719,6 +5995,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/adapters.py:202-222",
             "src/requests/adapters.py:165-201",
@@ -4729,6 +6007,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/adapters.py:202-222",
             "src/requests/adapters.py:165-201",
@@ -4739,6 +6019,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.1,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "docs/user/advanced.rst:1046-1105",
             "tests/test_requests.py:2645-2652",
@@ -4749,6 +6031,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 1.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/adapters.py:202-222",
             "src/requests/adapters.py:165-201",
@@ -4759,6 +6043,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.25,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/adapters.py:165-201",
             "tests/test_requests.py:2645-2652",
@@ -4769,6 +6055,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/adapters.py:165-201",
             "tests/test_requests.py:2645-2652",
@@ -4786,6 +6074,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:1-60",
             "docs/user/advanced.rst:881-940",
@@ -4796,6 +6086,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:1-60",
             "docs/user/advanced.rst:881-940",
@@ -4806,6 +6098,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:111-170",
             "src/requests/sessions.py:593-602",
@@ -4816,6 +6110,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:111-170",
             "docs/user/advanced.rst:936-995",
@@ -4826,6 +6122,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:111-170",
             "docs/user/advanced.rst:936-995",
@@ -4836,6 +6134,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "docs/user/advanced.rst:111-170",
             "docs/user/advanced.rst:936-995",
@@ -4853,6 +6153,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.16666666666666666,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.16666666666666666,
           "top3": [
             "tests/test_requests.py:512-517",
             "tests/test_requests.py:356-362",
@@ -4863,6 +6165,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.16666666666666666,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.16666666666666666,
           "top3": [
             "tests/test_requests.py:512-517",
             "tests/test_requests.py:356-362",
@@ -4873,6 +6177,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 1.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "src/requests/utils.py:891-897",
             "tests/test_requests.py:512-517",
@@ -4883,6 +6189,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.3333333333333333,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "tests/test_requests.py:512-517",
             "tests/test_requests.py:356-362",
@@ -4893,6 +6201,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "tests/test_requests.py:512-517",
             "src/requests/utils.py:891-897",
@@ -4903,6 +6213,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.5,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "tests/test_requests.py:512-517",
             "src/requests/utils.py:891-897",
@@ -4920,6 +6232,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/adapters.py:202-222",
             "tests/test_requests.py:2645-2652",
@@ -4930,6 +6244,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/adapters.py:202-222",
             "tests/test_requests.py:2645-2652",
@@ -4940,6 +6256,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "tests/test_requests.py:250-263",
             "src/requests/adapters.py:165-201",
@@ -4950,6 +6268,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/adapters.py:202-222",
             "tests/test_requests.py:2645-2652",
@@ -4960,6 +6280,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/adapters.py:165-201",
             "tests/test_requests.py:2645-2652",
@@ -4970,6 +6292,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "tests/test_requests.py:2645-2652",
             "src/requests/adapters.py:165-201",
@@ -4987,6 +6311,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "src/requests/compat.py:1-17",
             "HISTORY.md:221-280",
@@ -4997,6 +6323,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "src/requests/compat.py:1-17",
             "docs/user/advanced.rst:606-665",
@@ -5007,6 +6335,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "src/requests/utils.py:864-888",
             "docs/user/advanced.rst:606-665",
@@ -5017,6 +6347,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "docs/user/advanced.rst:606-665",
             "docs/user/advanced.rst:551-610",
@@ -5027,6 +6359,8 @@
           "recall@5": 1.0,
           "recall@10": 1.0,
           "mrr@10": 0.2,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "docs/user/advanced.rst:606-665",
             "docs/user/advanced.rst:551-610",
@@ -5037,6 +6371,8 @@
           "recall@5": 0.0,
           "recall@10": 1.0,
           "mrr@10": 0.1,
+          "answered@10": 1.0,
+          "answer_mrr@10": 1.0,
           "top3": [
             "docs/user/advanced.rst:606-665",
             "docs/user/advanced.rst:551-610",
@@ -5054,6 +6390,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/api.py:103-115",
             "src/requests/sessions.py:626-637",
@@ -5064,6 +6402,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/api.py:103-115",
             "tests/test_requests.py:2072-2080",
@@ -5074,6 +6414,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/api.py:103-115",
             "src/requests/sessions.py:626-637",
@@ -5084,6 +6426,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/api.py:103-115",
             "tests/test_requests.py:2072-2080",
@@ -5094,6 +6438,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/api.py:103-115",
             "src/requests/sessions.py:626-637",
@@ -5104,6 +6450,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "src/requests/api.py:103-115",
             "src/requests/sessions.py:626-637",
@@ -5121,6 +6469,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/dev/contributing.rst:1-60",
             "docs/user/quickstart.rst:331-390",
@@ -5131,6 +6481,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.5,
           "top3": [
             "docs/dev/contributing.rst:1-60",
             "docs/user/quickstart.rst:331-390",
@@ -5141,6 +6493,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 0.0,
+          "answer_mrr@10": 0.0,
           "top3": [
             "HISTORY.md:1871-1930",
             "tests/test_lowlevel.py:364-404",
@@ -5151,6 +6505,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.25,
           "top3": [
             "docs/dev/contributing.rst:56-115",
             "docs/dev/contributing.rst:1-60",
@@ -5161,6 +6517,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.2,
           "top3": [
             "docs/dev/contributing.rst:56-115",
             "docs/user/quickstart.rst:496-555",
@@ -5171,6 +6529,8 @@
           "recall@5": 0.0,
           "recall@10": 0.0,
           "mrr@10": 0.0,
+          "answered@10": 1.0,
+          "answer_mrr@10": 0.3333333333333333,
           "top3": [
             "docs/dev/contributing.rst:56-115",
             "docs/user/quickstart.rst:496-555",

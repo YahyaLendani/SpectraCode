@@ -149,7 +149,7 @@ ightarrow$ `verify jwt token`).
 | **Source Parsing** | Tree-sitter (`python`, `typescript`, `javascript`) | C-compiled syntax tree analysis, symbol extraction, and 1-hop call-graph resolution |
 | **Embeddings** | FastEmbed (`BAAI/bge-small-en-v1.5`) | Zero-cost, low-latency local ONNX vector inference (384 dimensions) |
 | **Database** | PostgreSQL 16 (`pgvector`) / SQLite (`aiosqlite`) | Production `pgvector` support with zero-config SQLite local development fallback |
-| **Testing** | Pytest, `pytest-asyncio`, HTTPX | 56 unit & integration tests, run in CI |
+| **Testing** | Pytest, `pytest-asyncio`, HTTPX | 58 unit & integration tests, run in CI |
 | **Deployment** | Docker, Docker Compose | Unified multi-container orchestration |
 
 ---
@@ -250,7 +250,7 @@ python -m pytest tests/ -v
 - `test_api.py`: Verifies `/health`, `/`, and repository lifecycle API endpoints.
 - `test_import_limits.py`: Checkout-size, file-count, chunk-count and indexing-timeout limits fail with a clear message.
 - `test_sample_identifier.py`: Only the exact `sample:fastapi` identifier selects the bundled demo repo.
-- `test_retrieval_eval.py`: BM25 baseline, Recall@K / MRR relevance rules, bootstrap intervals and suite validation.
+- `test_retrieval_eval.py`: BM25 baseline, Recall@K / MRR / Answered@K relevance rules, bootstrap intervals and suite validation.
 
 ### Retrieval benchmark (real repository)
 
@@ -297,14 +297,15 @@ What this does and does not show:
 
 15 question titles copied verbatim from the top-voted `python-requests` questions on Stack Overflow (picked by a fixed rule, recorded in the suite notes). Ground truth is the function that implements what the question asks about.
 
-| Mode | Recall@5 | Recall@10 | MRR@10 |
+| Mode | Recall@10 (code) | Answered@10 (code or docs) | MRR@10 (code or docs) |
 | :--- | :--- | :--- | :--- |
-| BM25 | 0.13 | 0.27 | 0.15 |
-| Dense only | 0.33 | 0.40 | 0.25 |
-| **Hybrid (production)** | 0.27 | 0.40 | 0.21 |
+| BM25 | 0.27 | 0.53 | 0.30 |
+| Dense only | 0.40 | 0.53 | 0.42 |
+| **Hybrid (production)** | 0.40 | 0.67 | 0.39 |
 
-- **Real questions score far lower than the Claude-written ones** (Recall@10 0.40 vs 0.87). Treat the 0.87 as an upper bound, not as expected behaviour.
-- For "how do I…" questions the top hits are often docs, tests or `api.py`. These can be useful answers, but the benchmark counts only the implementing code as relevant.
+- **Real questions score far lower than the Claude-written ones** (code Recall@10 0.40 vs 0.87). Treat the 0.87 as an upper bound, not as expected behaviour.
+- **Answered@10** also accepts a user-docs section that directly answers the question (`docs_answers` in the suite), and one accepted answer is enough. The hybrid answers 10 of 15 questions. The hybrid-minus-BM25 and hybrid-minus-dense intervals are both [0.00, +0.33], so its lead is not established. The docs sections were picked after these retrieval results had been seen.
+- Still unanswered: the try/except, headers-with-`get()`, POST-params and "Max retries exceeded" questions, plus POST JSON. For POST JSON, the right docs chunk is ranked 3rd but covers 38% of the section, just under the 40% threshold.
 - Two fixes for the fusion step were written down before these queries were scored ([eval/fusion_preregistration.md](backend/eval/fusion_preregistration.md)). Both raised Recall@10 by +0.13, but the 95% interval [0.00, +0.33] does not exclude zero, so production fusion is unchanged.
 
 #### History: replacing the custom sparse score with BM25
@@ -349,7 +350,7 @@ SpectraCode/
 │   │   │   ├── benchmark_dataset.py   # Curated test queries with ground-truth spans
 │   │   │   └── evaluator.py           # Recall@K, MRR, Citation Precision/Recall/F1, citation grounding
 │   │   └── main.py                    # FastAPI application entrypoint
-│   ├── tests/                         # 56 unit & integration tests
+│   ├── tests/                         # 58 unit & integration tests
 │   ├── Dockerfile
 │   └── requirements.txt
 ├── frontend/

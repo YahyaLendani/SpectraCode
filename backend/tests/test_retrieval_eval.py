@@ -64,6 +64,17 @@ def test_recall_requires_ground_truth():
         rm.recall_at_k([], [], k=5)
 
 
+def test_answered_needs_only_one_accepted_span():
+    code = LineSpan("a.py", 1, 10)
+    docs = LineSpan("docs/x.rst", 100, 119)
+    ranked = [LineSpan("docs/x.rst", 95, 115), LineSpan("b.py", 1, 5)]
+    assert rm.recall_at_k(ranked, [code, docs], 10) == 0.5
+    assert rm.answered_at_k(ranked, [code, docs], 10) == 1.0
+    assert rm.answered_at_k(ranked, [code], 10) == 0.0
+    assert rm.answered_at_k(ranked, [code, docs], 1) == 1.0
+    assert rm.answered_at_k(ranked[1:], [code, docs], 10) == 0.0
+
+
 def test_reciprocal_rank_counts_small_chunk_inside_long_span():
     ranked = [
         LineSpan("src/pkg/other.py", 1, 40),
@@ -153,3 +164,19 @@ def test_bm25_from_token_lists_matches_text_constructor():
     from_tokens = BM25Index.from_token_lists([tokenize(d) for d in docs]).score("netrc auth session")
     assert from_text == pytest.approx(from_tokens)
     assert from_text[0] > 0 and from_text[1] > 0 and from_text[2] == 0
+
+
+def test_docs_answers_are_loaded_and_validated(tmp_path):
+    q = {
+        "id": "x",
+        "query": "q",
+        "ground_truth": [{"file": "a.py", "start": 1, "end": 2}],
+        "docs_answers": [{"file": "docs/missing.rst", "start": 1, "end": 3}],
+    }
+    suite = load_suite(_write_suite(tmp_path, [q]))
+    assert suite.queries[0].docs_answers == [LineSpan("docs/missing.rst", 1, 3)]
+    (tmp_path / "a.py").write_text("x\ny\n", encoding="utf-8")
+    assert validate_against_checkout(suite, tmp_path) == ["x: docs/missing.rst does not exist"]
+    bad = {**q, "docs_answers": [{"file": "d.rst", "start": 5, "end": 2}]}
+    with pytest.raises(ValueError, match="invalid span"):
+        load_suite(_write_suite(tmp_path, [bad]))

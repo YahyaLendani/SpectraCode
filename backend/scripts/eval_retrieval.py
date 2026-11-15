@@ -209,16 +209,19 @@ async def run(suite_path: Path) -> dict:
             timings["hybrid"].append(time.perf_counter() - t)
             ranked["hybrid"] = _spans(hybrid[:k_max])
 
+            accepted = q.ground_truth + q.docs_answers
             row = {"id": q.id, "author": q.author, "query": q.query, "modes": {}}
             for mode in MODES:
                 row["modes"][mode] = {
                     **{f"recall@{k}": rm.recall_at_k(ranked[mode], q.ground_truth, k) for k in K_VALUES},
                     f"mrr@{k_max}": rm.reciprocal_rank(ranked[mode], q.ground_truth, k_max),
+                    f"answered@{k_max}": rm.answered_at_k(ranked[mode], accepted, k_max),
+                    f"answer_mrr@{k_max}": rm.reciprocal_rank(ranked[mode], accepted, k_max),
                     "top3": [f"{s.file_path}:{s.start_line}-{s.end_line}" for s in ranked[mode][:3]],
                 }
             per_query.append(row)
 
-    metric_names = [f"recall@{k}" for k in K_VALUES] + [f"mrr@{k_max}"]
+    metric_names = [f"recall@{k}" for k in K_VALUES] + [f"mrr@{k_max}", f"answered@{k_max}", f"answer_mrr@{k_max}"]
 
     def summarise(rows_subset):
         out = {}

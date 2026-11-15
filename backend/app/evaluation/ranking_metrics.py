@@ -7,6 +7,8 @@ Relevance rules (kept identical across every retrieval mode being compared):
 - MRR@k: rank of the first chunk that is itself relevant, meaning it covers at least
   `coverage_threshold` of some ground-truth span, or at least half of the chunk lies
   inside one (so a small chunk inside a long function still counts).
+- Answered@k: 1 if any accepted answer (code ground truth or a docs section) is found in
+  the top k by the same union-coverage rule, else 0. One answer is enough.
 """
 
 from __future__ import annotations
@@ -46,6 +48,16 @@ def recall_at_k(
         if len(covered) / _span_len(gt) >= coverage_threshold:
             found += 1
     return found / len(ground_truth)
+
+
+def answered_at_k(
+    ranked: Sequence[LineSpan],
+    accepted: Sequence[LineSpan],
+    k: int,
+    coverage_threshold: float = 0.4,
+) -> float:
+    """1.0 if any single accepted span is found (unlike recall, which needs all of them)."""
+    return 1.0 if any(recall_at_k(ranked, [a], k, coverage_threshold) for a in accepted) else 0.0
 
 
 def reciprocal_rank(

@@ -6,7 +6,7 @@
     "ref": "v2.32.3",
     "commit_sha": "0e322af87745eff34caffe4df68456ebc20d9068"
   },
-  "notes": "Natural-language questions with hand-checked line ranges at the pinned commit. 'author' records who wrote each query: queries written by someone who had just read the function list leak symbol knowledge, so results should also be reported per author. Queries with author 'claude-heldout' were written after the BM25 change was decided and were not used to make it; they share the author bias of the first 31 (same writer, who has read the code). Queries with author 'stackoverflow' are real question titles, copied verbatim from the top-voted python-requests questions on Stack Overflow (id = question id). They were picked in vote order by a fixed rule (keep a question only if one place in the requests source implements what it asks about; skip install/environment errors, comparisons with other libraries and repeated topics; stop at 15), set before any retrieval run on them. Ground truth was chosen by Claude, who has read the code.",
+  "notes": "Natural-language questions with hand-checked line ranges at the pinned commit. 'author' records who wrote each query: queries written by someone who had just read the function list leak symbol knowledge, so results should also be reported per author. Queries with author 'claude-heldout' were written after the BM25 change was decided and were not used to make it; they share the author bias of the first 31 (same writer, who has read the code). Queries with author 'stackoverflow' are real question titles, copied verbatim from the top-voted python-requests questions on Stack Overflow (id = question id). They were picked in vote order by a fixed rule (keep a question only if one place in the requests source implements what it asks about; skip install/environment errors, comparisons with other libraries and repeated topics; stop at 15), set before any retrieval run on them. Ground truth was chosen by Claude, who has read the code. 'docs_answers' (Stack Overflow queries only) lists user-docs sections that directly answer the question as asked; they count for the separate answered@k metric, not for code recall. Sections were chosen by heading from the docs table of contents, after the retrieval results for these queries had already been seen, so they may carry some bias. The two error-message questions (no connection adapters, max retries exceeded) have no docs section that explains them and get none.",
   "queries": [
     {
       "id": "redirect_strip_auth",
@@ -637,6 +637,14 @@
           "start": 494,
           "end": 570
         }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 233,
+          "end": 301,
+          "section": "More complicated POST requests"
+        }
       ]
     },
     {
@@ -648,6 +656,14 @@
           "file": "src/requests/exceptions.py",
           "start": 12,
           "end": 26
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 549,
+          "end": 570,
+          "section": "Errors and Exceptions"
         }
       ]
     },
@@ -661,6 +677,20 @@
           "start": 799,
           "end": 855
         }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 525,
+          "end": 576,
+          "section": "Streaming Requests"
+        },
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 167,
+          "end": 205,
+          "section": "Raw Response Content"
+        }
       ]
     },
     {
@@ -672,6 +702,14 @@
           "file": "src/requests/adapters.py",
           "start": 304,
           "end": 357
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 211,
+          "end": 253,
+          "section": "SSL Cert Verification"
         }
       ]
     },
@@ -685,6 +723,14 @@
           "start": 947,
           "end": 978
         }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 143,
+          "end": 166,
+          "section": "JSON Response Content"
+        }
       ]
     },
     {
@@ -696,6 +742,20 @@
           "file": "src/requests/models.py",
           "start": 137,
           "end": 203
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 302,
+          "end": 365,
+          "section": "POST a Multipart-Encoded File"
+        },
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 391,
+          "end": 422,
+          "section": "POST Multiple Multipart-Encoded Files"
         }
       ]
     },
@@ -721,6 +781,20 @@
           "start": 652,
           "end": 664
         }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 526,
+          "end": 548,
+          "section": "Timeouts"
+        },
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 1090,
+          "end": 1141,
+          "section": "Timeouts"
+        }
       ]
     },
     {
@@ -732,6 +806,14 @@
           "file": "src/requests/adapters.py",
           "start": 202,
           "end": 222
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 1035,
+          "end": 1061,
+          "section": "Example: Automatic Retries"
         }
       ]
     },
@@ -745,6 +827,14 @@
           "start": 483,
           "end": 492
         }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 206,
+          "end": 232,
+          "section": "Custom Headers"
+        }
       ]
     },
     {
@@ -756,6 +846,20 @@
           "file": "src/requests/utils.py",
           "start": 891,
           "end": 911
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 206,
+          "end": 232,
+          "section": "Custom Headers"
+        },
+        {
+          "file": "docs/community/faq.rst",
+          "start": 21,
+          "end": 28,
+          "section": "Custom User-Agents?"
         }
       ]
     },
@@ -781,6 +885,14 @@
           "start": 838,
           "end": 861
         }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 577,
+          "end": 670,
+          "section": "Proxies"
+        }
       ]
     },
     {
@@ -793,6 +905,14 @@
           "start": 409,
           "end": 481
         }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 54,
+          "end": 83,
+          "section": "Passing Parameters In URLs"
+        }
       ]
     },
     {
@@ -804,6 +924,14 @@
           "file": "src/requests/models.py",
           "start": 997,
           "end": 1024
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 366,
+          "end": 403,
+          "section": "Response Status Codes"
         }
       ]
     }
