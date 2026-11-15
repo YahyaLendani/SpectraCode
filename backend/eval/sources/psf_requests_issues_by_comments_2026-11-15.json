@@ -1,0 +1,5006 @@
+{
+ "fetched_at": "2026-11-15",
+ "query": "search/issues q='repo:psf/requests is:issue' sort=comments order=desc (search API caps at 1000)",
+ "items": [
+  {
+   "number": 2966,
+   "comments": 211,
+   "title": "Consider using system trust stores by default in 3.0.0."
+  },
+  {
+   "number": 1573,
+   "comments": 122,
+   "title": "Specify password for SSL client side certificate"
+  },
+  {
+   "number": 2455,
+   "comments": 111,
+   "title": "CERTIFICATE_VERIFY_FAILED with 2.5.2, works with 2.5.1"
+  },
+  {
+   "number": 4006,
+   "comments": 91,
+   "title": "requests 2.14.0 cannot be installed using pip < 8.1.2"
+  },
+  {
+   "number": 2022,
+   "comments": 76,
+   "title": "https GET request fails with \"handshake failure\""
+  },
+  {
+   "number": 239,
+   "comments": 81,
+   "title": "Too many open files"
+  },
+  {
+   "number": 1155,
+   "comments": 79,
+   "title": "Add MultiDict Support"
+  },
+  {
+   "number": 3006,
+   "comments": 77,
+   "title": "requests.exceptions.SSLError: EOF occurred in violation of protocol (_ssl.c:645)"
+  },
+  {
+   "number": 1289,
+   "comments": 67,
+   "title": "Python 3.3 requests issue"
+  },
+  {
+   "number": 1659,
+   "comments": 64,
+   "title": "Update SSL Certs"
+  },
+  {
+   "number": 223,
+   "comments": 63,
+   "title": "Content-Length is missing"
+  },
+  {
+   "number": 520,
+   "comments": 62,
+   "title": "requests leaves a hanging connection for each request"
+  },
+  {
+   "number": 3070,
+   "comments": 62,
+   "title": "Consider making Timeout option required or have a default"
+  },
+  {
+   "number": 2422,
+   "comments": 61,
+   "title": "Broken pipe Exception"
+  },
+  {
+   "number": 624,
+   "comments": 59,
+   "title": "Documentation Translation Guide"
+  },
+  {
+   "number": 2214,
+   "comments": 57,
+   "title": "verify=False and requests.packages.urllib3.disable_warnings()"
+  },
+  {
+   "number": 2699,
+   "comments": 56,
+   "title": "timeout=False puts the socket in non-blocking mode, causing weird errors."
+  },
+  {
+   "number": 1685,
+   "comments": 54,
+   "title": "Possible Memory Leak"
+  },
+  {
+   "number": 1547,
+   "comments": 54,
+   "title": "Installation fails in Cygwin 64 bit"
+  },
+  {
+   "number": 844,
+   "comments": 52,
+   "title": "umbrella ticket to resolve iteration / read size / chunked encoding questions"
+  },
+  {
+   "number": 1648,
+   "comments": 52,
+   "title": "Header \"Transfer-Encoding: chunked\" set even if Content-Length is provided which causes body to not actually get chunked"
+  },
+  {
+   "number": 2725,
+   "comments": 52,
+   "title": "Requests.put blocking on Windows (Tika-Python)"
+  },
+  {
+   "number": 1252,
+   "comments": 50,
+   "title": "UnicodeDecodeError: 'ascii' codec can't decode byte 0xff in position 169: ordinal not in range(128)"
+  },
+  {
+   "number": 1906,
+   "comments": 49,
+   "title": "OpenSSL.SSL.Error: [('SSL routines', 'SSL3_GET_RECORD', 'decryption failed or bad record mac')]"
+  },
+  {
+   "number": 771,
+   "comments": 47,
+   "title": "socket leak (suspected due to redirection)"
+  },
+  {
+   "number": 1336,
+   "comments": 47,
+   "title": "Set cookie on 401"
+  },
+  {
+   "number": 749,
+   "comments": 47,
+   "title": "TLS SNI Support"
+  },
+  {
+   "number": 1390,
+   "comments": 46,
+   "title": "Async mode seems to have disappeared"
+  },
+  {
+   "number": 2338,
+   "comments": 45,
+   "title": "Proxy not working"
+  },
+  {
+   "number": 465,
+   "comments": 44,
+   "title": "no way to read uncompressed content as file-like object"
+  },
+  {
+   "number": 3213,
+   "comments": 44,
+   "title": "Importing requests is fairly slow"
+  },
+  {
+   "number": 2935,
+   "comments": 44,
+   "title": "KeyError in connectionpool?"
+  },
+  {
+   "number": 2086,
+   "comments": 43,
+   "title": "Remove ISO-8859-1 charset fallback"
+  },
+  {
+   "number": 2424,
+   "comments": 42,
+   "title": "Consider Requests' Inclusion in Python 3.5's Standard Library"
+  },
+  {
+   "number": 2409,
+   "comments": 42,
+   "title": "Consecutive requests with Session() raises 404"
+  },
+  {
+   "number": 3948,
+   "comments": 42,
+   "title": "Requests not working in a Docker container"
+  },
+  {
+   "number": 2467,
+   "comments": 41,
+   "title": "timeout issues for chunked responses"
+  },
+  {
+   "number": 2371,
+   "comments": 40,
+   "title": "requests has poor performance streaming large binary responses"
+  },
+  {
+   "number": 968,
+   "comments": 40,
+   "title": "Switch to Apache 2"
+  },
+  {
+   "number": 1622,
+   "comments": 40,
+   "title": "Requests 2.0.0 breaks SSL proxying via https_port of Squid."
+  },
+  {
+   "number": 1910,
+   "comments": 39,
+   "title": "100% processor usage during GET have to wait 60s for response"
+  },
+  {
+   "number": 281,
+   "comments": 39,
+   "title": "Cookies need to be CookieJar-backed again."
+  },
+  {
+   "number": 1198,
+   "comments": 39,
+   "title": "max-retries-exceeded exceptions are confusing"
+  },
+  {
+   "number": 2982,
+   "comments": 39,
+   "title": "Error 404 for url, that contains relative path parts"
+  },
+  {
+   "number": 2543,
+   "comments": 39,
+   "title": "OpenSSL.SSL.SysCallError: (104, 'Connection reset by peer')"
+  },
+  {
+   "number": 3052,
+   "comments": 39,
+   "title": "Why default to simplejson?"
+  },
+  {
+   "number": 6432,
+   "comments": 39,
+   "title": "The latest version of requests (2.29.0) does not support urllib3 2.0.0"
+  },
+  {
+   "number": 2911,
+   "comments": 39,
+   "title": "Can't use session proxy in  its request for HTTPS protocol"
+  },
+  {
+   "number": 2336,
+   "comments": 38,
+   "title": "Timeout for connecting to proxy"
+  },
+  {
+   "number": 713,
+   "comments": 38,
+   "title": "Support for \"Expects\" http header"
+  },
+  {
+   "number": 3099,
+   "comments": 38,
+   "title": "overall timeout"
+  },
+  {
+   "number": 4076,
+   "comments": 38,
+   "title": "ValueError: not enough values to unpack (expected 3, got 1)"
+  },
+  {
+   "number": 2039,
+   "comments": 37,
+   "title": "incomplete file upload"
+  },
+  {
+   "number": 1457,
+   "comments": 37,
+   "title": "Returns empty with Google over HTTPS"
+  },
+  {
+   "number": 3701,
+   "comments": 37,
+   "title": "AttributeError: 'X509' object has no attribute '_x509'"
+  },
+  {
+   "number": 3748,
+   "comments": 37,
+   "title": "requests get(URL) never returns, even with Proxy!"
+  },
+  {
+   "number": 2949,
+   "comments": 37,
+   "title": "Session's Authorization header isn't sent on redirect"
+  },
+  {
+   "number": 1915,
+   "comments": 36,
+   "title": "TypeError: getresponse() got an unexpected keyword argument 'buffering'"
+  },
+  {
+   "number": 1081,
+   "comments": 36,
+   "title": "Generate multipart posts without a file"
+  },
+  {
+   "number": 4043,
+   "comments": 36,
+   "title": "python requests runs infinitely if the called script executes more than 2 minutes"
+  },
+  {
+   "number": 1967,
+   "comments": 35,
+   "title": "Running a single connection with pool_block == True, hangs the application"
+  },
+  {
+   "number": 1133,
+   "comments": 35,
+   "title": "Pluggable Request objects?"
+  },
+  {
+   "number": 2651,
+   "comments": 34,
+   "title": "Cannot make URL query string with a parameter without a value"
+  },
+  {
+   "number": 557,
+   "comments": 34,
+   "title": "Seeing SSLError: [Errno 185090050] _ssl.c:340: error:0B084002:x509 certificate routines:X509_load_cert_crl_file:system lib"
+  },
+  {
+   "number": 2406,
+   "comments": 33,
+   "title": "Unusable `requests` in main and forked processes (`rq` worker script)"
+  },
+  {
+   "number": 2519,
+   "comments": 33,
+   "title": "Client Certificates w/Passphrases?"
+  },
+  {
+   "number": 3212,
+   "comments": 33,
+   "title": "SSL Error: bad handshake"
+  },
+  {
+   "number": 2717,
+   "comments": 33,
+   "title": "\"OverflowError: string longer than 2147483647 bytes\" when trying requests.put"
+  },
+  {
+   "number": 2008,
+   "comments": 32,
+   "title": "urllib3 has been updated to new version 1.8.1, \"source_address\" is supported. May the requests lib support it?"
+  },
+  {
+   "number": 2117,
+   "comments": 32,
+   "title": "Multipart files unicode filename"
+  },
+  {
+   "number": 910,
+   "comments": 32,
+   "title": "POST with json data and oauth auth_header signature_type not working"
+  },
+  {
+   "number": 5003,
+   "comments": 32,
+   "title": "POST request works in Postman/cURL, but not in Requests"
+  },
+  {
+   "number": 2950,
+   "comments": 32,
+   "title": "Unable to upload chunks to Flask"
+  },
+  {
+   "number": 4244,
+   "comments": 32,
+   "title": "(\"bad handshake: SysCallError(-1, 'Unexpected EOF')\",) despite using verify=False"
+  },
+  {
+   "number": 1847,
+   "comments": 31,
+   "title": "SSL error when trying to open a webpage"
+  },
+  {
+   "number": 2118,
+   "comments": 31,
+   "title": "Let the user provide an SSLContext object"
+  },
+  {
+   "number": 2364,
+   "comments": 31,
+   "title": "ConnectionError: ('Connection aborted.', BadStatusLine(\"\"''''\")) on Windows"
+  },
+  {
+   "number": 1787,
+   "comments": 31,
+   "title": "socket.timeout exception"
+  },
+  {
+   "number": 3938,
+   "comments": 31,
+   "title": "zeep lib bad handshake error"
+  },
+  {
+   "number": 3807,
+   "comments": 31,
+   "title": "'NoneType' object has no attribute 'readline' "
+  },
+  {
+   "number": 627,
+   "comments": 31,
+   "title": "Failure to get through digest page which redirects to temporary AWS url"
+  },
+  {
+   "number": 1638,
+   "comments": 31,
+   "title": "Set-Cookie header parsing"
+  },
+  {
+   "number": 2313,
+   "comments": 30,
+   "title": "Can't use post to upload a file with Chinese characters in its name."
+  },
+  {
+   "number": 498,
+   "comments": 30,
+   "title": "App Engine Fixes"
+  },
+  {
+   "number": 30,
+   "comments": 30,
+   "title": "HTTPS Cert Checking"
+  },
+  {
+   "number": 1171,
+   "comments": 30,
+   "title": "ConnectionResetError on Windows 7/Python 3.3"
+  },
+  {
+   "number": 4270,
+   "comments": 30,
+   "title": "Missing header information in Response object"
+  },
+  {
+   "number": 1294,
+   "comments": 29,
+   "title": "Getting errno from an SSLError"
+  },
+  {
+   "number": 951,
+   "comments": 29,
+   "title": "Fork Chardet"
+  },
+  {
+   "number": 1542,
+   "comments": 29,
+   "title": "POST Request in Heroku - 403 Forbidden"
+  },
+  {
+   "number": 335,
+   "comments": 29,
+   "title": "CookieError in requests and not in urllib2"
+  },
+  {
+   "number": 3683,
+   "comments": 29,
+   "title": "URL has an invalid label."
+  },
+  {
+   "number": 4078,
+   "comments": 29,
+   "title": "GAE fails with v2.16.3 | error: required argument is not a float"
+  },
+  {
+   "number": 6443,
+   "comments": 29,
+   "title": "Latest release of requests causes urllib3 to throw an error"
+  },
+  {
+   "number": 2870,
+   "comments": 29,
+   "title": "Unbundling logic still breaks downstream."
+  },
+  {
+   "number": 2062,
+   "comments": 28,
+   "title": "Default Authentication Overwrites Authentication Header"
+  },
+  {
+   "number": 970,
+   "comments": 28,
+   "title": "Refactor"
+  },
+  {
+   "number": 2688,
+   "comments": 28,
+   "title": "When path of requests contains non-ascii chars, it failed loading ca_certs"
+  },
+  {
+   "number": 2939,
+   "comments": 28,
+   "title": "Multiple Location headers in response are concatenated"
+  },
+  {
+   "number": 1871,
+   "comments": 27,
+   "title": "Our use of urllib3's ConnectionPools is not threadsafe."
+  },
+  {
+   "number": 1459,
+   "comments": 27,
+   "title": "Consider 2.0"
+  },
+  {
+   "number": 2818,
+   "comments": 27,
+   "title": "TypeError after 2.7.0 -> 2.8.0 upgrade (cannot make memory view...)"
+  },
+  {
+   "number": 2988,
+   "comments": 27,
+   "title": "Proxy bypass detection could add delay of ~4.5 seconds to each request "
+  },
+  {
+   "number": 3002,
+   "comments": 27,
+   "title": "Request via IPv6 ip result in a broken Host header"
+  },
+  {
+   "number": 1879,
+   "comments": 26,
+   "title": "params no longer work for non-http URLs"
+  },
+  {
+   "number": 2169,
+   "comments": 26,
+   "title": "Connection keep alive issue"
+  },
+  {
+   "number": 1236,
+   "comments": 26,
+   "title": "socket.timeout is thrown instead of requests.exceptions.Timeout"
+  },
+  {
+   "number": 3954,
+   "comments": 26,
+   "title": "requests shows lots of DeprecationWarning on Python 3.6"
+  },
+  {
+   "number": 4937,
+   "comments": 26,
+   "title": "Connection reset by peer when sending POST"
+  },
+  {
+   "number": 1784,
+   "comments": 25,
+   "title": "Can't upload file larger than 2GB to webdav by requests"
+  },
+  {
+   "number": 1859,
+   "comments": 25,
+   "title": "Brittle test"
+  },
+  {
+   "number": 1034,
+   "comments": 25,
+   "title": "__init__() got an unexpected keyword argument 'verify'"
+  },
+  {
+   "number": 944,
+   "comments": 25,
+   "title": "OAuth import fails in Python 3.2"
+  },
+  {
+   "number": 1581,
+   "comments": 25,
+   "title": "Python 3 issue with urllib3 (local) import"
+  },
+  {
+   "number": 2621,
+   "comments": 25,
+   "title": "TLS hostname validation logic does not support subjectAltName with IP records"
+  },
+  {
+   "number": 3287,
+   "comments": 25,
+   "title": "requests.packages monkey patching of unbundled urllib3 does not work"
+  },
+  {
+   "number": 4248,
+   "comments": 25,
+   "title": "Error decoding chunked response in _update_chunk_length: ValueError: invalid literal for int() with base 16: b'HTTP/1.1 200 OK\\r\\n'"
+  },
+  {
+   "number": 3975,
+   "comments": 25,
+   "title": "requests.packages.urllib3.connection.HTTPConnection object at 0x00007effa13b1ec0>: Failed to establish a new connection: [Errno -11] System error"
+  },
+  {
+   "number": 4601,
+   "comments": 25,
+   "title": "Requests memory leak"
+  },
+  {
+   "number": 2184,
+   "comments": 24,
+   "title": "Port test suite to pytest-httpbin"
+  },
+  {
+   "number": 1604,
+   "comments": 24,
+   "title": "Response.text returns improperly decoded text (requests 1.2.3, python 2.7)"
+  },
+  {
+   "number": 1480,
+   "comments": 24,
+   "title": "[Errno 2] _ssl.c:504: The operation did not complete (read)"
+  },
+  {
+   "number": 2609,
+   "comments": 24,
+   "title": "Memory Leak"
+  },
+  {
+   "number": 2649,
+   "comments": 24,
+   "title": "Requests seems to stucks when using with futures.ThreadPoolExecutor"
+  },
+  {
+   "number": 3859,
+   "comments": 24,
+   "title": "Certificate failure with Python 2.7.13 and current Requests on virtualized server"
+  },
+  {
+   "number": 3556,
+   "comments": 24,
+   "title": "\"Requests is the only Non-GMO HTTP library for Python, safe for human consumption.\""
+  },
+  {
+   "number": 3880,
+   "comments": 24,
+   "title": "timeout causes exception unrelated to timeout"
+  },
+  {
+   "number": 3895,
+   "comments": 24,
+   "title": "Redirect issue requests not passing proxies through to redirect"
+  },
+  {
+   "number": 3523,
+   "comments": 24,
+   "title": "2.11.0: ValueError: Unable to determine SOCKS version "
+  },
+  {
+   "number": 4673,
+   "comments": 24,
+   "title": "Inconsistent urllib3 version requirements between setup.py and __init__.py"
+  },
+  {
+   "number": 6071,
+   "comments": 24,
+   "title": "CURL_CA_BUNDLE= disables certificate verification"
+  },
+  {
+   "number": 989,
+   "comments": 23,
+   "title": "streaming a response with iter_lines doesn't work"
+  },
+  {
+   "number": 1041,
+   "comments": 23,
+   "title": "Setting stream=False does not immediately result in a closed connection"
+  },
+  {
+   "number": 882,
+   "comments": 23,
+   "title": "Incompatibility with Python 3.1"
+  },
+  {
+   "number": 326,
+   "comments": 23,
+   "title": "`ImportError: No module named certifi` when using SSL"
+  },
+  {
+   "number": 4191,
+   "comments": 23,
+   "title": "Possible Memory Leak "
+  },
+  {
+   "number": 3477,
+   "comments": 23,
+   "title": "Requests 2.11: check_header_validity failed on header with integer value"
+  },
+  {
+   "number": 3098,
+   "comments": 23,
+   "title": "HeaderParsingError: Failed to parse headers"
+  },
+  {
+   "number": 5871,
+   "comments": 23,
+   "title": "Make chardet/charset_normalizer optional?"
+  },
+  {
+   "number": 6715,
+   "comments": 23,
+   "title": "SSLV3_ALERT_HANDSHAKE_FAILURE after upgrade from 2.31.0 to 2.32.2"
+  },
+  {
+   "number": 2817,
+   "comments": 23,
+   "title": "RFE: Be able to pass 'no_proxy' in proxies dictionary argument"
+  },
+  {
+   "number": 2063,
+   "comments": 22,
+   "title": "Mutating Session.proxies does not work"
+  },
+  {
+   "number": 2247,
+   "comments": 22,
+   "title": "requests sends HTTP auth details in Host header"
+  },
+  {
+   "number": 1803,
+   "comments": 22,
+   "title": "Timeouts do not occur when stream == True."
+  },
+  {
+   "number": 3729,
+   "comments": 22,
+   "title": "iter_content slow with large chunk size on HTTPS connection"
+  },
+  {
+   "number": 3759,
+   "comments": 22,
+   "title": "cookies.py why replace escaped quote with nothing?"
+  },
+  {
+   "number": 4238,
+   "comments": 22,
+   "title": "418 I'm a Teapot"
+  },
+  {
+   "number": 5203,
+   "comments": 22,
+   "title": "Re-consider the occult imagery."
+  },
+  {
+   "number": 1985,
+   "comments": 22,
+   "title": "requests doen't work with IPv6 addresses that contains the '%' sign"
+  },
+  {
+   "number": 2899,
+   "comments": 22,
+   "title": "requests: Support SSL_CERT_FILE environment variable"
+  },
+  {
+   "number": 2912,
+   "comments": 22,
+   "title": "Question mark eaten from request URL if no params specified"
+  },
+  {
+   "number": 2181,
+   "comments": 21,
+   "title": "Requests is slow to upload large files"
+  },
+  {
+   "number": 1303,
+   "comments": 21,
+   "title": "requests follows a PUT request's 301 and does a PUT request at the end"
+  },
+  {
+   "number": 513,
+   "comments": 21,
+   "title": "ImportError: No module named certifi"
+  },
+  {
+   "number": 47,
+   "comments": 21,
+   "title": "Kerberos support"
+  },
+  {
+   "number": 2616,
+   "comments": 21,
+   "title": "requests.exceptions.SSLError: EOF occurred in violation of protocol (_ssl.c:600)"
+  },
+  {
+   "number": 3061,
+   "comments": 21,
+   "title": "Getting tunnel CONNECT response headers"
+  },
+  {
+   "number": 3364,
+   "comments": 21,
+   "title": "iter_content not chunking?"
+  },
+  {
+   "number": 3065,
+   "comments": 21,
+   "title": "ImportError No module ngd-httpsclient"
+  },
+  {
+   "number": 3682,
+   "comments": 21,
+   "title": "ImportError"
+  },
+  {
+   "number": 4073,
+   "comments": 21,
+   "title": "Restore \"packages\" namespace for backwards compatibility "
+  },
+  {
+   "number": 2816,
+   "comments": 21,
+   "title": "Downstream unbundlers should populate setup.py"
+  },
+  {
+   "number": 6711,
+   "comments": 21,
+   "title": "breaking aws s3 usage with requests 2.32.0"
+  },
+  {
+   "number": 1885,
+   "comments": 20,
+   "title": "Redirect can expose netrc password"
+  },
+  {
+   "number": 2002,
+   "comments": 20,
+   "title": "bool(failure response) is False"
+  },
+  {
+   "number": 2399,
+   "comments": 20,
+   "title": "[Proposed Enhancement] Consume remainder of socket in Response.close"
+  },
+  {
+   "number": 2465,
+   "comments": 20,
+   "title": "Issue with pyinstaller"
+  },
+  {
+   "number": 2255,
+   "comments": 20,
+   "title": "Session requests should respect verify=False"
+  },
+  {
+   "number": 938,
+   "comments": 20,
+   "title": "Tracking: 'requests' org"
+  },
+  {
+   "number": 868,
+   "comments": 20,
+   "title": "Replacing usage of isinstance in requests"
+  },
+  {
+   "number": 1384,
+   "comments": 20,
+   "title": "Third party libraries committed verbatim"
+  },
+  {
+   "number": 179,
+   "comments": 20,
+   "title": "Accept k/v lists in place of dicts everywhere."
+  },
+  {
+   "number": 304,
+   "comments": 20,
+   "title": "Add caching support with pluggable storage classes"
+  },
+  {
+   "number": 3038,
+   "comments": 20,
+   "title": "Order of request headers should be preserved when sent to origin server"
+  },
+  {
+   "number": 3353,
+   "comments": 20,
+   "title": "get request hangs \"in readinto return self._sock.recv_into(b)\" without raising exception"
+  },
+  {
+   "number": 3929,
+   "comments": 20,
+   "title": "Don't override `Authorization` header when contents are bearer token (or any other token)"
+  },
+  {
+   "number": 3742,
+   "comments": 20,
+   "title": "Problems with requests version 2.12"
+  },
+  {
+   "number": 4315,
+   "comments": 20,
+   "title": "Investigate users with slow import time, and attempt to mitigate in future releases"
+  },
+  {
+   "number": 4272,
+   "comments": 20,
+   "title": "requests 2.18.4 with proxies throw SSLError: (\"bad handshake: SysCallError(-1, 'Unexpected EOF')\",)"
+  },
+  {
+   "number": 5710,
+   "comments": 20,
+   "title": "idna 3.0 version package conflict"
+  },
+  {
+   "number": 5943,
+   "comments": 20,
+   "title": "urllib3 v1.26.7 break Session Object with Proxy"
+  },
+  {
+   "number": 655,
+   "comments": 20,
+   "title": "Requests is not doing SSL cert verification"
+  },
+  {
+   "number": 606,
+   "comments": 20,
+   "title": "Allow specifying the ssl protocol version to use"
+  },
+  {
+   "number": 1973,
+   "comments": 20,
+   "title": "Sockets remain in CLOSE_WAIT"
+  },
+  {
+   "number": 2850,
+   "comments": 20,
+   "title": "Connection reset by peer problem."
+  },
+  {
+   "number": 7271,
+   "comments": 20,
+   "title": "RFC: Adding inline type annotations to Requests"
+  },
+  {
+   "number": 2044,
+   "comments": 19,
+   "title": "UnicodeDecodeError when using POST with files AND Authentication"
+  },
+  {
+   "number": 2061,
+   "comments": 19,
+   "title": "Making https proxies easier to deal with"
+  },
+  {
+   "number": 1751,
+   "comments": 19,
+   "title": "Add option to limit response downloads by size."
+  },
+  {
+   "number": 2411,
+   "comments": 19,
+   "title": "Requests 2.5.1 doesn't recognize unicode filenames for uploads"
+  },
+  {
+   "number": 1280,
+   "comments": 19,
+   "title": "Session.request doesn't have parameter return_response, contrary to what the docs say."
+  },
+  {
+   "number": 1704,
+   "comments": 19,
+   "title": "requests.delete not actually deleting"
+  },
+  {
+   "number": 916,
+   "comments": 19,
+   "title": "requests.packages.chardet2 missing in 0.14.2, preventing installation on Python 3.3"
+  },
+  {
+   "number": 1308,
+   "comments": 19,
+   "title": "Provide ciphers list for HTTPS requests"
+  },
+  {
+   "number": 265,
+   "comments": 19,
+   "title": "HTTP request uses full URL, should be path only"
+  },
+  {
+   "number": 369,
+   "comments": 19,
+   "title": "requests.get() URL Encode Issue"
+  },
+  {
+   "number": 378,
+   "comments": 19,
+   "title": "Should None values in data be handled differently?"
+  },
+  {
+   "number": 171,
+   "comments": 19,
+   "title": "socket.error: [Errno 54] Connection reset by peer"
+  },
+  {
+   "number": 194,
+   "comments": 19,
+   "title": "Google App Engine Support"
+  },
+  {
+   "number": 295,
+   "comments": 19,
+   "title": "Don't read whole files into memory for multipart file uploads."
+  },
+  {
+   "number": 2645,
+   "comments": 19,
+   "title": "[RFC] Change behaviour of Response.ok in 3.0"
+  },
+  {
+   "number": 3367,
+   "comments": 19,
+   "title": "Special IP proxy service timeout problems"
+  },
+  {
+   "number": 3734,
+   "comments": 19,
+   "title": "docker-py breaks with some configurations of Requests v2.12.2"
+  },
+  {
+   "number": 4278,
+   "comments": 19,
+   "title": "python -c \"import requests\" got a lot slower"
+  },
+  {
+   "number": 4171,
+   "comments": 19,
+   "title": "Problem finding certificate"
+  },
+  {
+   "number": 4227,
+   "comments": 19,
+   "title": "requests.get(stream=True) will get incomplete data"
+  },
+  {
+   "number": 2840,
+   "comments": 19,
+   "title": "test_response_iter_lines_reentrant failing with python 2.7 and urllib 1.12"
+  },
+  {
+   "number": 2018,
+   "comments": 18,
+   "title": "Re-order proxy precedence."
+  },
+  {
+   "number": 1840,
+   "comments": 18,
+   "title": "server cookies (not set by me) not saved within a Session"
+  },
+  {
+   "number": 2159,
+   "comments": 18,
+   "title": " readline() takes exactly 1 argument (2 given)"
+  },
+  {
+   "number": 2573,
+   "comments": 18,
+   "title": "SSLV3_ALERT_HANDSHAKE_FAILURE in 2.6.2"
+  },
+  {
+   "number": 2590,
+   "comments": 18,
+   "title": "PATCH get response 301(moved permanently) is redirected with empty body"
+  },
+  {
+   "number": 1265,
+   "comments": 18,
+   "title": "Seeing SSLError: [Errno 185090050] _ssl.c:340: error:0B084002:x509 certificate routines:X509_load_cert_crl_file:system lib"
+  },
+  {
+   "number": 851,
+   "comments": 18,
+   "title": "SSL \"unknown protocol\" is returned when it should be \"certificate verify failed\""
+  },
+  {
+   "number": 1558,
+   "comments": 18,
+   "title": "Make instances of PreparedRequest class pickable"
+  },
+  {
+   "number": 1367,
+   "comments": 18,
+   "title": "allow Response class to be pickled"
+  },
+  {
+   "number": 711,
+   "comments": 18,
+   "title": "Parse Link headers (rfc5988)"
+  },
+  {
+   "number": 310,
+   "comments": 18,
+   "title": "Encode data according to Content-Type."
+  },
+  {
+   "number": 3079,
+   "comments": 18,
+   "title": "requests gets stuck on post redirect where data is readable"
+  },
+  {
+   "number": 3840,
+   "comments": 18,
+   "title": "should a malformed non-gzip yet marked gzip response be handled in requests?"
+  },
+  {
+   "number": 4045,
+   "comments": 18,
+   "title": "Async-only for Requests v3?"
+  },
+  {
+   "number": 4117,
+   "comments": 18,
+   "title": "Looks like dependency mismatch for chardet lib. "
+  },
+  {
+   "number": 5297,
+   "comments": 18,
+   "title": "Python 3.7.6: urllib3.exceptions.ProxySchemeUnknown"
+  },
+  {
+   "number": 4664,
+   "comments": 18,
+   "title": "requests.Session doesn't properly handle closed keep-alive sessions"
+  },
+  {
+   "number": 1665,
+   "comments": 18,
+   "title": "Error in JSON decoding for Python 3"
+  },
+  {
+   "number": 1979,
+   "comments": 18,
+   "title": "Authentication Handlers lost on redirect."
+  },
+  {
+   "number": 2735,
+   "comments": 18,
+   "title": "AttributeError: '_socketobject' object has no attribute 'set_tlsext_host_name' "
+  },
+  {
+   "number": 2863,
+   "comments": 18,
+   "title": "Multiple requests on a single Session with different client certs behave incorrectly"
+  },
+  {
+   "number": 6159,
+   "comments": 18,
+   "title": "Breaking change in 2.28.0 when using string enums as Headers (working in v2.27.1)"
+  },
+  {
+   "number": 2020,
+   "comments": 17,
+   "title": "Iterating over chunks that are not terminated by new lines"
+  },
+  {
+   "number": 2028,
+   "comments": 17,
+   "title": "ImportError: cannot import name certs"
+  },
+  {
+   "number": 1942,
+   "comments": 17,
+   "title": "Requests, YCM, and FreeBSD error"
+  },
+  {
+   "number": 2352,
+   "comments": 17,
+   "title": "Clarity on docs regarding debugging"
+  },
+  {
+   "number": 1051,
+   "comments": 17,
+   "title": "requests.get is ALWAYS sending content length"
+  },
+  {
+   "number": 1053,
+   "comments": 17,
+   "title": "TooManyRedirect on pypi.python.org"
+  },
+  {
+   "number": 917,
+   "comments": 17,
+   "title": "'params' argument does not accept custom query string"
+  },
+  {
+   "number": 1554,
+   "comments": 17,
+   "title": "reading multipart/x-mixed-replace stream"
+  },
+  {
+   "number": 65,
+   "comments": 17,
+   "title": "OAuth Support"
+  },
+  {
+   "number": 1209,
+   "comments": 17,
+   "title": "SSL verification broken if using a proxy"
+  },
+  {
+   "number": 1228,
+   "comments": 17,
+   "title": "Problem with missing cookies after redirect"
+  },
+  {
+   "number": 2653,
+   "comments": 17,
+   "title": ".htaccesss redirect to non ASCII folder does not work"
+  },
+  {
+   "number": 2693,
+   "comments": 17,
+   "title": "Double POST requests sent at the same time when a delay is encountered."
+  },
+  {
+   "number": 2595,
+   "comments": 17,
+   "title": "UnicodeEncodeError handling gzipped responses on Google App Engine"
+  },
+  {
+   "number": 4123,
+   "comments": 17,
+   "title": "Make response.next lazily computable."
+  },
+  {
+   "number": 4525,
+   "comments": 17,
+   "title": "Support Brotli algorithm encoding"
+  },
+  {
+   "number": 3534,
+   "comments": 17,
+   "title": "proxies missing [ipv6] address support"
+  },
+  {
+   "number": 3577,
+   "comments": 17,
+   "title": "response.iter_lines() did not print the last line of stream log."
+  },
+  {
+   "number": 4031,
+   "comments": 17,
+   "title": "unvendor dependencies for 3.0.0"
+  },
+  {
+   "number": 4926,
+   "comments": 17,
+   "title": "requests can't properly handle redirects if the response body is encoded in something else than 'utf8'"
+  },
+  {
+   "number": 2920,
+   "comments": 17,
+   "title": "POST to S3 Bucket Returning 403"
+  },
+  {
+   "number": 2110,
+   "comments": 16,
+   "title": "Requests stops respecting configured proxies"
+  },
+  {
+   "number": 2206,
+   "comments": 16,
+   "title": "problems with get_encodings_from_content"
+  },
+  {
+   "number": 924,
+   "comments": 16,
+   "title": "Implement a peek method. "
+  },
+  {
+   "number": 480,
+   "comments": 16,
+   "title": "utils.get_encoding_from_headers returns ISO-8859-1 incorrectly"
+  },
+  {
+   "number": 2554,
+   "comments": 16,
+   "title": "Ability to prefix session URLs"
+  },
+  {
+   "number": 3017,
+   "comments": 16,
+   "title": "Whitepace characters surrounding a URL should be ignored"
+  },
+  {
+   "number": 3174,
+   "comments": 16,
+   "title": "Recent update of urllib3 broke stream requests"
+  },
+  {
+   "number": 3137,
+   "comments": 16,
+   "title": "Python ssl certificate connectivity issue from mac, ssl.c:2825"
+  },
+  {
+   "number": 3837,
+   "comments": 16,
+   "title": "Proposal: potential way to follow bad url shorteners "
+  },
+  {
+   "number": 4477,
+   "comments": 16,
+   "title": "POST to CA fails using TLS "
+  },
+  {
+   "number": 3752,
+   "comments": 16,
+   "title": "https:// does not work with Python 3.6 "
+  },
+  {
+   "number": 3189,
+   "comments": 16,
+   "title": "error 54, 'Connection reset by peer'"
+  },
+  {
+   "number": 3716,
+   "comments": 16,
+   "title": "Can't Get Version 2.2.1"
+  },
+  {
+   "number": 4022,
+   "comments": 16,
+   "title": "Handling of URLs with unicode in python 2.7"
+  },
+  {
+   "number": 4842,
+   "comments": 16,
+   "title": "Using a `json.JSONDecoder` fails when simplejson is present"
+  },
+  {
+   "number": 6707,
+   "comments": 16,
+   "title": "Requests 2.32.0 Not supported URL scheme http+docker"
+  },
+  {
+   "number": 2925,
+   "comments": 16,
+   "title": "Deadlock caused by local import in different thread."
+  },
+  {
+   "number": 2773,
+   "comments": 16,
+   "title": "option to disable .netrc"
+  },
+  {
+   "number": 2875,
+   "comments": 16,
+   "title": "Failed to establish a new connection: [Errno 11001] getaddrinfo failed"
+  },
+  {
+   "number": 6167,
+   "comments": 16,
+   "title": "InvalidHeader exception when trying to add a \":method\" header field (breaking change in 2.28.0)"
+  },
+  {
+   "number": 2053,
+   "comments": 15,
+   "title": "gevent adapter"
+  },
+  {
+   "number": 1857,
+   "comments": 15,
+   "title": "Disable SSL compression for security reasons."
+  },
+  {
+   "number": 1882,
+   "comments": 15,
+   "title": "ResourceWarning in python 3.2+"
+  },
+  {
+   "number": 2228,
+   "comments": 15,
+   "title": "Documentation examples."
+  },
+  {
+   "number": 2511,
+   "comments": 15,
+   "title": "Documentation unclear on Response.elapsed"
+  },
+  {
+   "number": 1686,
+   "comments": 15,
+   "title": "problem with downloading when http_proxy set"
+  },
+  {
+   "number": 362,
+   "comments": 15,
+   "title": "https requests over proxy"
+  },
+  {
+   "number": 394,
+   "comments": 15,
+   "title": "Binding a particular IP"
+  },
+  {
+   "number": 427,
+   "comments": 15,
+   "title": "Installation of v0.10.1 on Windows 7 & Py2.5 fails - syntax error in utils.randombytes"
+  },
+  {
+   "number": 429,
+   "comments": 15,
+   "title": "Query params are not properly sanitized"
+  },
+  {
+   "number": 741,
+   "comments": 15,
+   "title": "Multiple Link: headers in response"
+  },
+  {
+   "number": 1163,
+   "comments": 15,
+   "title": "What happened to danger_mode?"
+  },
+  {
+   "number": 1183,
+   "comments": 15,
+   "title": "No means of authenticating redirects"
+  },
+  {
+   "number": 1188,
+   "comments": 15,
+   "title": "ClosedPoolError gets shadowed by a false Timeout error"
+  },
+  {
+   "number": 1220,
+   "comments": 15,
+   "title": "raise_for_status does not raise for redirects"
+  },
+  {
+   "number": 3359,
+   "comments": 15,
+   "title": "Uncertain about content/text vs iter_content(decode_unicode=True/False)"
+  },
+  {
+   "number": 3933,
+   "comments": 15,
+   "title": "[Tracking] slow leak in latest requests with https connections"
+  },
+  {
+   "number": 4127,
+   "comments": 15,
+   "title": "UnboundLocalError: local variable 'bypass' referenced before assignment"
+  },
+  {
+   "number": 4461,
+   "comments": 15,
+   "title": "couldn't access iter_contents()"
+  },
+  {
+   "number": 4590,
+   "comments": 15,
+   "title": "requests treats urllib3's SSL handshake timeout as ReadTimeout"
+  },
+  {
+   "number": 5067,
+   "comments": 15,
+   "title": "urllib3 v1.25 support"
+  },
+  {
+   "number": 5149,
+   "comments": 15,
+   "title": "Project maintainence "
+  },
+  {
+   "number": 5536,
+   "comments": 15,
+   "title": "When stream=True iter_content(chunk_size=None) reads the input as a single big chunk"
+  },
+  {
+   "number": 5759,
+   "comments": 15,
+   "title": "Upper version limits in dependencies"
+  },
+  {
+   "number": 5817,
+   "comments": 15,
+   "title": "Requests on pyth in 3 doesn't work the same as it does in python 2"
+  },
+  {
+   "number": 6086,
+   "comments": 15,
+   "title": "urllib.request.proxy_bypass makes DNS request without using configured proxies when system has NO_PROXY configured at some level"
+  },
+  {
+   "number": 6407,
+   "comments": 15,
+   "title": "Server redirect containing neither body nor content-length header can result in delays/timeouts"
+  },
+  {
+   "number": 6441,
+   "comments": 15,
+   "title": "Poetry cannot publish artifacts anymore due to auto update to requests 2.30.0"
+  },
+  {
+   "number": 161,
+   "comments": 15,
+   "title": "requests bumps into TooManyRedirects, curl/wget don't"
+  },
+  {
+   "number": 539,
+   "comments": 15,
+   "title": "iter_lines small chunks"
+  },
+  {
+   "number": 4871,
+   "comments": 15,
+   "title": "respect no_proxy environment variable and proxies['no'] parameter"
+  },
+  {
+   "number": 2708,
+   "comments": 15,
+   "title": "user-agent not sent in CONNECT makes the request fail (proxy is used)"
+  },
+  {
+   "number": 1647,
+   "comments": 15,
+   "title": "Special Character in Proxy Authentication"
+  },
+  {
+   "number": 2876,
+   "comments": 15,
+   "title": "Exception messages"
+  },
+  {
+   "number": 2791,
+   "comments": 15,
+   "title": "Request doesnt work on Ubuntu to fetch a TLS1.2 https"
+  },
+  {
+   "number": 2866,
+   "comments": 15,
+   "title": "Better testing for chunked uploads."
+  },
+  {
+   "number": 2879,
+   "comments": 15,
+   "title": "SSL error when using Requests 2.8.1 and SHA-1"
+  },
+  {
+   "number": 4961,
+   "comments": 15,
+   "title": "OpenSSL.SSL.Error raised with invalid client cert and openssl 1.1.1."
+  },
+  {
+   "number": 1853,
+   "comments": 14,
+   "title": "Allow to disable SSL compression."
+  },
+  {
+   "number": 1865,
+   "comments": 14,
+   "title": "Support Certificate Revocation Lists where possible"
+  },
+  {
+   "number": 1928,
+   "comments": 14,
+   "title": "Limit overall execution time"
+  },
+  {
+   "number": 1997,
+   "comments": 14,
+   "title": "boundary for custom 'Content-Type: multipart/form-data' header"
+  },
+  {
+   "number": 1953,
+   "comments": 14,
+   "title": "The iterable produced by `Session.resolve_redirects` does not include the very first response"
+  },
+  {
+   "number": 1956,
+   "comments": 14,
+   "title": "`Session.send` accepts arbitrary kwargs for the adapter, `.resolve_redirects` doesn't"
+  },
+  {
+   "number": 2158,
+   "comments": 14,
+   "title": "Capture server IP address as part of a Requests object"
+  },
+  {
+   "number": 2454,
+   "comments": 14,
+   "title": "SSL certificate caching"
+  },
+  {
+   "number": 2481,
+   "comments": 14,
+   "title": "\"407 Proxy Authentication Required\" after redirect with load balanced authenticated proxies"
+  },
+  {
+   "number": 2559,
+   "comments": 14,
+   "title": "Make an official logo and stickers for it"
+  },
+  {
+   "number": 2215,
+   "comments": 14,
+   "title": "Using st_size on FIFO files or stdin will cause super_len to return 0 as the length"
+  },
+  {
+   "number": 2312,
+   "comments": 14,
+   "title": "SSL request hangs"
+  },
+  {
+   "number": 2490,
+   "comments": 14,
+   "title": "411 response results in exception in Session.send"
+  },
+  {
+   "number": 1674,
+   "comments": 14,
+   "title": "\"č\" - UTF-8 UnicodeDecodeError"
+  },
+  {
+   "number": 765,
+   "comments": 14,
+   "title": "Chardet sometimes fails and force the wrong encoding"
+  },
+  {
+   "number": 975,
+   "comments": 14,
+   "title": "Auth persists though redirect."
+  },
+  {
+   "number": 935,
+   "comments": 14,
+   "title": "Sending multipart data - we need better API"
+  },
+  {
+   "number": 905,
+   "comments": 14,
+   "title": "https under proxy doesn't work"
+  },
+  {
+   "number": 1577,
+   "comments": 14,
+   "title": "Requests not timing out"
+  },
+  {
+   "number": 70,
+   "comments": 14,
+   "title": "Python 3.x Support"
+  },
+  {
+   "number": 1204,
+   "comments": 14,
+   "title": "SSL error 140770FC with requests behind company proxy"
+  },
+  {
+   "number": 3467,
+   "comments": 14,
+   "title": "cannot pass realm parameter to HTTPDigestAuth"
+  },
+  {
+   "number": 3446,
+   "comments": 14,
+   "title": "Posting a mutlipart-encoded file with non-ASCII characters in filename doesn't work"
+  },
+  {
+   "number": 3389,
+   "comments": 14,
+   "title": "I question the distribution of LGPL code with Requests"
+  },
+  {
+   "number": 3774,
+   "comments": 14,
+   "title": "bad handshake error with ssl3"
+  },
+  {
+   "number": 3879,
+   "comments": 14,
+   "title": "python-requests version:1.1.0 ConnectionError: [Errno 2] server failed"
+  },
+  {
+   "number": 3980,
+   "comments": 14,
+   "title": "iter_lines() sometimes yields broken results when chunk_size is small"
+  },
+  {
+   "number": 3039,
+   "comments": 14,
+   "title": "Proxy settings not working"
+  },
+  {
+   "number": 4187,
+   "comments": 14,
+   "title": "UTF-8 characters unable to handle in headers."
+  },
+  {
+   "number": 4364,
+   "comments": 14,
+   "title": "Delete cookies not working with adapter"
+  },
+  {
+   "number": 4376,
+   "comments": 14,
+   "title": "SSLError when requests deportesweb.madrid.es"
+  },
+  {
+   "number": 5097,
+   "comments": 14,
+   "title": "Quote in proxy string causes InvalidURL: Failed to parse."
+  },
+  {
+   "number": 5263,
+   "comments": 14,
+   "title": "`connect` timeout is *not* a TCP connect timeout, but a TCP connect + send the whole HTTP request timeout"
+  },
+  {
+   "number": 5214,
+   "comments": 14,
+   "title": "Website and documentation are offline"
+  },
+  {
+   "number": 5801,
+   "comments": 14,
+   "title": "403 error while using github API"
+  },
+  {
+   "number": 6219,
+   "comments": 14,
+   "title": "psf to take over request/toolbelt project?"
+  },
+  {
+   "number": 6104,
+   "comments": 14,
+   "title": "ValueError when calling requests.get on windows systems."
+  },
+  {
+   "number": 2785,
+   "comments": 14,
+   "title": "Information leakage in default user agent"
+  },
+  {
+   "number": 1905,
+   "comments": 13,
+   "title": "HTTPS not working on Google App Engine"
+  },
+  {
+   "number": 1969,
+   "comments": 13,
+   "title": "Better Document SNI and PyOpenSSL Support"
+  },
+  {
+   "number": 2201,
+   "comments": 13,
+   "title": "WARNING - [Errno 1] _ssl.c:504: error:14090086:SSL routines:SSL3_GET_SERVER_CERTIFICATE:certificate verify failed"
+  },
+  {
+   "number": 2575,
+   "comments": 13,
+   "title": "HEAD request not following redirects since 2.6.1"
+  },
+  {
+   "number": 2565,
+   "comments": 13,
+   "title": "regression over 2.6.0 with session behind proxy"
+  },
+  {
+   "number": 2366,
+   "comments": 13,
+   "title": "redirected request with a wrong host header"
+  },
+  {
+   "number": 2502,
+   "comments": 13,
+   "title": "Kerberos auth doesn't work when the host is an alias"
+  },
+  {
+   "number": 1285,
+   "comments": 13,
+   "title": "Fail fast on HTTPS calls with the ssl module unavailable"
+  },
+  {
+   "number": 1292,
+   "comments": 13,
+   "title": "HTTP Headers that contains underscore (_) are not transferred to server"
+  },
+  {
+   "number": 1705,
+   "comments": 13,
+   "title": "Latest version broken?  (pyopenssl 0.13)"
+  },
+  {
+   "number": 988,
+   "comments": 13,
+   "title": "Debugging traces"
+  },
+  {
+   "number": 995,
+   "comments": 13,
+   "title": "Expose “source address” variable for users on 2.7 or 3.2+"
+  },
+  {
+   "number": 1050,
+   "comments": 13,
+   "title": "PUT should always send Content-Length header"
+  },
+  {
+   "number": 1084,
+   "comments": 13,
+   "title": "POST and PUT on 307 redirect will re-POST without body"
+  },
+  {
+   "number": 1416,
+   "comments": 13,
+   "title": "Syntax error when installing 1.2.3 on Python 3.3.2"
+  },
+  {
+   "number": 1572,
+   "comments": 13,
+   "title": "urllib3 exceptions passing through requests API"
+  },
+  {
+   "number": 1557,
+   "comments": 13,
+   "title": "[FROM SESSION-FUTURES] Multiple Redirects"
+  },
+  {
+   "number": 1353,
+   "comments": 13,
+   "title": "Closing a connection from another thread"
+  },
+  {
+   "number": 500,
+   "comments": 13,
+   "title": "Async requests don't honor timeout param"
+  },
+  {
+   "number": 505,
+   "comments": 13,
+   "title": "Allow disabling of cookie persistance/sending"
+  },
+  {
+   "number": 536,
+   "comments": 13,
+   "title": "unicode in cookies"
+  },
+  {
+   "number": 167,
+   "comments": 13,
+   "title": "User-agent lookup "
+  },
+  {
+   "number": 98,
+   "comments": 13,
+   "title": "Revisit Async Module"
+  },
+  {
+   "number": 1495,
+   "comments": 12,
+   "title": "Can't set headers per part of multipart requests"
+  },
+  {
+   "number": 1233,
+   "comments": 13,
+   "title": "Cut a release for v1.2.0"
+  },
+  {
+   "number": 1795,
+   "comments": 13,
+   "title": "Incorrect encoding detected for UTF-8 XML response."
+  },
+  {
+   "number": 1804,
+   "comments": 13,
+   "title": "requests seems to expect more content until it is forcibly closed by the remote host [Errno 10054]"
+  },
+  {
+   "number": 2628,
+   "comments": 13,
+   "title": "Incomplete HTML Request"
+  },
+  {
+   "number": 2766,
+   "comments": 13,
+   "title": "Document threading contract for Session class"
+  },
+  {
+   "number": 3421,
+   "comments": 13,
+   "title": "iter_content with chunk_size=None hangs when used with requests.Session on Python 3"
+  },
+  {
+   "number": 3788,
+   "comments": 13,
+   "title": "Exceptions having references to urllib3 exceptions in \"message\" field"
+  },
+  {
+   "number": 4564,
+   "comments": 13,
+   "title": "[Python 3] Basic auth relying on utf-8 encoding by default"
+  },
+  {
+   "number": 3883,
+   "comments": 13,
+   "title": "This code generates errors only on Mac OSX"
+  },
+  {
+   "number": 4775,
+   "comments": 13,
+   "title": "fails on older TLS stacks with OpenSSL 1.1.1pre9"
+  },
+  {
+   "number": 3558,
+   "comments": 13,
+   "title": "Using Python's requests lib throwing ProxyError"
+  },
+  {
+   "number": 3602,
+   "comments": 13,
+   "title": "Self signed certificate, passed to via verify=/path/to/cert does still trigger certificate verify failed"
+  },
+  {
+   "number": 3687,
+   "comments": 13,
+   "title": "because of idna2008 enforcement some real urls that work in the browser are now broken"
+  },
+  {
+   "number": 3706,
+   "comments": 13,
+   "title": "requests not able to validate the self signed certificate but i can use it using curl "
+  },
+  {
+   "number": 3677,
+   "comments": 13,
+   "title": "[Errno -3] Temporary failure in name resolution"
+  },
+  {
+   "number": 3935,
+   "comments": 13,
+   "title": "Requests and Let's Encrypt Certificates"
+  },
+  {
+   "number": 4020,
+   "comments": 13,
+   "title": "GAE - Error during the import _winreg"
+  },
+  {
+   "number": 4012,
+   "comments": 13,
+   "title": " Invalid environment marker"
+  },
+  {
+   "number": 4381,
+   "comments": 13,
+   "title": "SSLError \"bad handshake: Error([('SSL routines', 'tls_process_server_certificate', 'certificate verify failed')],) with self signed certificate"
+  },
+  {
+   "number": 4764,
+   "comments": 13,
+   "title": "InvalidSchema(\"No connection adapters were found for '%s'\" % url)"
+  },
+  {
+   "number": 5215,
+   "comments": 13,
+   "title": "verify=False causing memory leak"
+  },
+  {
+   "number": 5212,
+   "comments": 13,
+   "title": "URL in readme (https://2.python-requests.org/) is http only"
+  },
+  {
+   "number": 6115,
+   "comments": 13,
+   "title": "Still cannot prevent requests library from encoding"
+  },
+  {
+   "number": 584,
+   "comments": 13,
+   "title": "Make oauth an optional dependency"
+  },
+  {
+   "number": 1728,
+   "comments": 13,
+   "title": "Request cookies should not be persisted to session"
+  },
+  {
+   "number": 2771,
+   "comments": 13,
+   "title": "Please add absolute_import at the beginning of every file"
+  },
+  {
+   "number": 2955,
+   "comments": 13,
+   "title": "Issue with Lets Encrypt certificates"
+  },
+  {
+   "number": 6735,
+   "comments": 13,
+   "title": "requests 2.32.3 with IPv6 link local address fails with error: [Errno -2] Name or service not known"
+  },
+  {
+   "number": 3829,
+   "comments": 14,
+   "title": "Session.verify=False ignored when REQUESTS_CA_BUNDLE environment variable is set"
+  },
+  {
+   "number": 2084,
+   "comments": 12,
+   "title": "Verify https, without exception"
+  },
+  {
+   "number": 1786,
+   "comments": 12,
+   "title": "Certificate Revocation List (CRL) support with https"
+  },
+  {
+   "number": 1869,
+   "comments": 12,
+   "title": "Why don't we send `strict` to urllib3?"
+  },
+  {
+   "number": 1899,
+   "comments": 12,
+   "title": "PEP8 Compliance"
+  },
+  {
+   "number": 1968,
+   "comments": 12,
+   "title": "latest version mismatch"
+  },
+  {
+   "number": 2164,
+   "comments": 12,
+   "title": "python requests session failed to read the response"
+  },
+  {
+   "number": 2423,
+   "comments": 12,
+   "title": "requests 2.5.0 uninstall fails"
+  },
+  {
+   "number": 2448,
+   "comments": 12,
+   "title": "Use of Session for repeated requests subject to TCP timing problem"
+  },
+  {
+   "number": 2283,
+   "comments": 12,
+   "title": "vulnerability in SSL v3"
+  },
+  {
+   "number": 2334,
+   "comments": 12,
+   "title": "HTTPDigestAuth on session not thread-safe"
+  },
+  {
+   "number": 2362,
+   "comments": 12,
+   "title": "Reduce bus factor"
+  },
+  {
+   "number": 1691,
+   "comments": 12,
+   "title": "Add possibility to specify IPv4 or IPv6?"
+  },
+  {
+   "number": 804,
+   "comments": 12,
+   "title": "Session params ommited in 0.13.8"
+  },
+  {
+   "number": 847,
+   "comments": 12,
+   "title": "Support 'file' scheme"
+  },
+  {
+   "number": 879,
+   "comments": 12,
+   "title": "Issues with HTTP proxy and accessing localhost - does requests ignore no_proxy?"
+  },
+  {
+   "number": 1567,
+   "comments": 12,
+   "title": "GET request to \"https://sso.queensu.ca\" Connection reset by peer"
+  },
+  {
+   "number": 1582,
+   "comments": 12,
+   "title": "Allow custom authentication (in particular NTLM) to proxies "
+  },
+  {
+   "number": 1584,
+   "comments": 12,
+   "title": "POST a Multipart-Encoded File with streaming"
+  },
+  {
+   "number": 1599,
+   "comments": 12,
+   "title": "<type 'exceptions.AttributeError'>: 'NoneType' object has no attribute 'error' in adapters.py"
+  },
+  {
+   "number": 1320,
+   "comments": 12,
+   "title": "Transport adapters don't work as advertised"
+  },
+  {
+   "number": 392,
+   "comments": 12,
+   "title": "colon in url path is escaped"
+  },
+  {
+   "number": 468,
+   "comments": 12,
+   "title": "data can not be passed in session initialization"
+  },
+  {
+   "number": 400,
+   "comments": 12,
+   "title": "Unfortunate header unicode interactions"
+  },
+  {
+   "number": 64,
+   "comments": 12,
+   "title": "Apache License v2"
+  },
+  {
+   "number": 69,
+   "comments": 12,
+   "title": "Parameters are getting out of hand. "
+  },
+  {
+   "number": 101,
+   "comments": 12,
+   "title": "HTTP keep alive support"
+  },
+  {
+   "number": 290,
+   "comments": 12,
+   "title": "timeout not working?"
+  },
+  {
+   "number": 1182,
+   "comments": 12,
+   "title": "SSL exception when using any HTTPS proxy"
+  },
+  {
+   "number": 1124,
+   "comments": 12,
+   "title": "SSLError from imgur API, however proper cert appears via Chrome"
+  },
+  {
+   "number": 1202,
+   "comments": 12,
+   "title": "requests + gevent dns error"
+  },
+  {
+   "number": 3013,
+   "comments": 12,
+   "title": "Easy printing of Requests and Responses, two new utils?"
+  },
+  {
+   "number": 3009,
+   "comments": 12,
+   "title": "Inspecting 'response.ok' with non-ascii HTTP status \"reason\" content causes UnicodeDecodeError"
+  },
+  {
+   "number": 3015,
+   "comments": 12,
+   "title": "Ability to set timeout after response"
+  },
+  {
+   "number": 3104,
+   "comments": 12,
+   "title": "SSLError exception leak while reading content stream"
+  },
+  {
+   "number": 3095,
+   "comments": 12,
+   "title": "SSLError: bad handshake (ssl3_get_server_certificate, certificate verify failed)"
+  },
+  {
+   "number": 3924,
+   "comments": 12,
+   "title": "requests.exceptions.ReadTimeout is raised whenever how long I set the timeout ..."
+  },
+  {
+   "number": 3906,
+   "comments": 12,
+   "title": "('Connection aborted.', OSError(89, 'Function not implemented')) in version 2.13.0"
+  },
+  {
+   "number": 3888,
+   "comments": 12,
+   "title": "Non-ascii (iso-8859-1) location headers are handled incorrectly on handling a redirect"
+  },
+  {
+   "number": 3790,
+   "comments": 12,
+   "title": "Module boot extremely slow (2-3 seconds)"
+  },
+  {
+   "number": 3965,
+   "comments": 12,
+   "title": "OpenSSL.SSL.SysCallError: (-1, 'Unexpected EOF')"
+  },
+  {
+   "number": 3970,
+   "comments": 12,
+   "title": "requests.exceptions.ConnectionError"
+  },
+  {
+   "number": 4255,
+   "comments": 12,
+   "title": "requests does not remove the default port from response url"
+  },
+  {
+   "number": 4069,
+   "comments": 12,
+   "title": "2.16.0 Release Breaking Changes if you relied on Vendored packages"
+  },
+  {
+   "number": 3008,
+   "comments": 12,
+   "title": "invalid git history"
+  },
+  {
+   "number": 3825,
+   "comments": 12,
+   "title": "urllib3 connection pool block is not properly implemented"
+  },
+  {
+   "number": 3955,
+   "comments": 12,
+   "title": "Feature Request : Disable hostname verification"
+  },
+  {
+   "number": 3066,
+   "comments": 12,
+   "title": "auth and data set results in invalid http header"
+  },
+  {
+   "number": 3593,
+   "comments": 12,
+   "title": "requests.exceptions.SSLError: EOF occurred in violation of protocol (_ssl.c:590)"
+  },
+  {
+   "number": 4246,
+   "comments": 12,
+   "title": "SSLError  HTTPSConnectionPool  Max retries exceeded with url: /oauth/token Caused by SSLError('bad handshake: SysCallError(0, None))"
+  },
+  {
+   "number": 4077,
+   "comments": 12,
+   "title": "UnicodeDecodeError when trying to install requests on Windows (using Appveyor)"
+  },
+  {
+   "number": 4160,
+   "comments": 12,
+   "title": "requests 2.18.0 breaks docker-py"
+  },
+  {
+   "number": 4130,
+   "comments": 12,
+   "title": "German signs äÄöÖüÜß presented not correctly"
+  },
+  {
+   "number": 4287,
+   "comments": 12,
+   "title": "Sending HTTPS requests to specific destination IP address"
+  },
+  {
+   "number": 5058,
+   "comments": 12,
+   "title": "Nested dict data get silently ignored in POST request"
+  },
+  {
+   "number": 5460,
+   "comments": 12,
+   "title": "Make content-type be multi-part without being given files"
+  },
+  {
+   "number": 6027,
+   "comments": 12,
+   "title": "Proxy authentication bug"
+  },
+  {
+   "number": 6140,
+   "comments": 12,
+   "title": "python-requests.org domain suspended."
+  },
+  {
+   "number": 6888,
+   "comments": 12,
+   "title": "Importing requests will very rarely, throw a regex error."
+  },
+  {
+   "number": 7634,
+   "comments": 12,
+   "title": "Non-string form field names raise AttributeError when files are attached"
+  },
+  {
+   "number": 1672,
+   "comments": 12,
+   "title": "Unknown problem with sessions"
+  },
+  {
+   "number": 2969,
+   "comments": 12,
+   "title": "Cut a release to match urllib3-1.14?"
+  },
+  {
+   "number": 2900,
+   "comments": 12,
+   "title": "Feature requests: iter_chunks([max_size])"
+  },
+  {
+   "number": 2014,
+   "comments": 11,
+   "title": "RuntimeWarning: Parent module 'requests' not found while handling absolute import"
+  },
+  {
+   "number": 2025,
+   "comments": 11,
+   "title": "JSON Upload"
+  },
+  {
+   "number": 2011,
+   "comments": 11,
+   "title": "Feature Request: Add timeout to session"
+  },
+  {
+   "number": 2155,
+   "comments": 11,
+   "title": "Streaming gzipped responses"
+  },
+  {
+   "number": 2417,
+   "comments": 11,
+   "title": "pylint friendly"
+  },
+  {
+   "number": 2272,
+   "comments": 11,
+   "title": "chunked encoding bug when release connection"
+  },
+  {
+   "number": 2386,
+   "comments": 11,
+   "title": "SSL verification fails with proxy"
+  },
+  {
+   "number": 1261,
+   "comments": 11,
+   "title": "Issue arising from #1190"
+  },
+  {
+   "number": 1698,
+   "comments": 11,
+   "title": "Prepared requests don't work with session"
+  },
+  {
+   "number": 1703,
+   "comments": 11,
+   "title": "proxy with authentication fails in requests 2.0"
+  },
+  {
+   "number": 1714,
+   "comments": 11,
+   "title": "isalnum() in utils.py should be isdigit()"
+  },
+  {
+   "number": 1045,
+   "comments": 11,
+   "title": "Cookies with empty values are ignored and are not parsed properly from the 'set-cookie' HTTP response header"
+  },
+  {
+   "number": 961,
+   "comments": 11,
+   "title": "TooManyRedirects getting page with 200 status code"
+  },
+  {
+   "number": 875,
+   "comments": 11,
+   "title": "Keep-alive doesn't work over http proxy"
+  },
+  {
+   "number": 896,
+   "comments": 11,
+   "title": "POSTing file while passing data as well using OAuth"
+  },
+  {
+   "number": 1561,
+   "comments": 11,
+   "title": "Header keys lose their case"
+  },
+  {
+   "number": 1545,
+   "comments": 11,
+   "title": "Setup code coverage"
+  },
+  {
+   "number": 1358,
+   "comments": 11,
+   "title": "HTTPDigest working with CURL but not Requests?"
+  },
+  {
+   "number": 237,
+   "comments": 11,
+   "title": "infinite recursion on 401 error"
+  },
+  {
+   "number": 272,
+   "comments": 11,
+   "title": "Session cookies break requests-oauth"
+  },
+  {
+   "number": 338,
+   "comments": 11,
+   "title": "LookupError in requests, not in urllib2"
+  },
+  {
+   "number": 503,
+   "comments": 11,
+   "title": "Some notes for the quickstart tutorial"
+  },
+  {
+   "number": 440,
+   "comments": 11,
+   "title": "Requests (via oreos.monkeys) quotes cookie *values* -- browsers do not"
+  },
+  {
+   "number": 286,
+   "comments": 11,
+   "title": "Session Cookie doublequotes bug"
+  },
+  {
+   "number": 2635,
+   "comments": 11,
+   "title": "With HTTPResponse body set to string, \"ValueError: Unable to determine whether fp is closed\""
+  },
+  {
+   "number": 2642,
+   "comments": 11,
+   "title": "BadStatusLine on Server restart"
+  },
+  {
+   "number": 3220,
+   "comments": 11,
+   "title": "Location Value Error when trying to post through a session"
+  },
+  {
+   "number": 3904,
+   "comments": 11,
+   "title": "Can't use a way to wait until HTML content response is completely saved"
+  },
+  {
+   "number": 4285,
+   "comments": 11,
+   "title": "Decoding issues on Linux cause Segmentation fault for given sites"
+  },
+  {
+   "number": 4553,
+   "comments": 11,
+   "title": "[python 2.7][requests 2.18.4] Header memory leak?"
+  },
+  {
+   "number": 4009,
+   "comments": 11,
+   "title": "OSError Tunnel connection failed: 400 Bad Request"
+  },
+  {
+   "number": 4256,
+   "comments": 11,
+   "title": "SSL verification error when using requests sessions"
+  },
+  {
+   "number": 3845,
+   "comments": 11,
+   "title": "Various Intermittent Request Errors"
+  },
+  {
+   "number": 3521,
+   "comments": 11,
+   "title": "adding cookies with newlines breaks header"
+  },
+  {
+   "number": 3605,
+   "comments": 11,
+   "title": "ndg package not being installed"
+  },
+  {
+   "number": 3992,
+   "comments": 11,
+   "title": "Invalid file object with requests >= 2.13.0 on Jython"
+  },
+  {
+   "number": 4104,
+   "comments": 11,
+   "title": "AttributeError: module 'requests.packages' has no attribute 'urllib3'"
+  },
+  {
+   "number": 4580,
+   "comments": 11,
+   "title": "Suggest: let json.dumps keeps non-ASCII characters when sending json request"
+  },
+  {
+   "number": 4472,
+   "comments": 11,
+   "title": "Request function never returns"
+  },
+  {
+   "number": 4639,
+   "comments": 11,
+   "title": "if reqeusts is called in while loop, it always return same value even if data has been updated in database."
+  },
+  {
+   "number": 4995,
+   "comments": 11,
+   "title": "Empty body when using requests.post() that follows a 302"
+  },
+  {
+   "number": 4824,
+   "comments": 11,
+   "title": "HTTPSConnectionPool(host='stats.nba.com', port=443): Read timed out. (read timeout=None)"
+  },
+  {
+   "number": 4830,
+   "comments": 11,
+   "title": "Urllib3 1.24"
+  },
+  {
+   "number": 5430,
+   "comments": 11,
+   "title": "A `ConnectionError` (\"Read timed out.\") is raised instead of `ReadTimeout`, when using `timeout` keyword argument of `Session.get()`"
+  },
+  {
+   "number": 5789,
+   "comments": 11,
+   "title": "User guide for how to provide timeouts"
+  },
+  {
+   "number": 6043,
+   "comments": 11,
+   "title": "407 Proxy Authentication Required on 2.27.1"
+  },
+  {
+   "number": 5773,
+   "comments": 11,
+   "title": "Connection timeout (not Read, Wall or Total) is consistently taking twice as long"
+  },
+  {
+   "number": 6455,
+   "comments": 11,
+   "title": "Incorrect behavior with schemeless-dotless host:port URLs"
+  },
+  {
+   "number": 2811,
+   "comments": 11,
+   "title": "2.8.0 release raise ConnectTimeout on not known url"
+  },
+  {
+   "number": 2951,
+   "comments": 11,
+   "title": "TypeError: unsupported operand type(s) for -=: 'unicode' and 'int'"
+  },
+  {
+   "number": 558,
+   "comments": 11,
+   "title": "Remove chardet from dependencies"
+  },
+  {
+   "number": 574,
+   "comments": 11,
+   "title": "run pyflakes during CI builds?"
+  },
+  {
+   "number": 1995,
+   "comments": 11,
+   "title": "Create an Extra for Better SSL Support"
+  },
+  {
+   "number": 1731,
+   "comments": 11,
+   "title": "SSL certificate verify failed"
+  },
+  {
+   "number": 2852,
+   "comments": 11,
+   "title": "OpenSSL.SSL.SysCallError: (10054, 'WSAECONNRESET')"
+  },
+  {
+   "number": 2885,
+   "comments": 11,
+   "title": "sending post request data nested object"
+  },
+  {
+   "number": 7223,
+   "comments": 11,
+   "title": "Chardet is used, when it is available, not when `[use-chardet-on-py3]`-extra is installed"
+  },
+  {
+   "number": 7341,
+   "comments": 11,
+   "title": "Documentation for ChunkedEncodingError is either incorrect or very misleading"
+  },
+  {
+   "number": 2043,
+   "comments": 10,
+   "title": "[resolved] incomplete file download ? file received capped at 1024MB then stopped."
+  },
+  {
+   "number": 2093,
+   "comments": 10,
+   "title": "Review new httpbin package and pytest-httpbin for testing"
+  },
+  {
+   "number": 1856,
+   "comments": 10,
+   "title": "Broken parsing of authenticated URI for Proxy"
+  },
+  {
+   "number": 1864,
+   "comments": 10,
+   "title": "HTTPDigestAuth Does not send Authorization headers"
+  },
+  {
+   "number": 1939,
+   "comments": 10,
+   "title": "Why decode the response body of a redirect?"
+  },
+  {
+   "number": 2143,
+   "comments": 10,
+   "title": "Incomplete support for OPTIONS method"
+  },
+  {
+   "number": 2192,
+   "comments": 10,
+   "title": "[regression] urllib3.exceptions.ProtocolError not wrapped"
+  },
+  {
+   "number": 2433,
+   "comments": 10,
+   "title": "iter_lines method will always hold the last response in the server in a buffer"
+  },
+  {
+   "number": 2576,
+   "comments": 10,
+   "title": "Set-Cookie - violating rfc6265"
+  },
+  {
+   "number": 2303,
+   "comments": 10,
+   "title": "Python 3.4: \"ReferenceError: weakly-referenced object no longer exists\" in __del__ of a class which refers to a Session object"
+  },
+  {
+   "number": 2359,
+   "comments": 10,
+   "title": "Charset detection in text() can be pathologically slow"
+  },
+  {
+   "number": 2510,
+   "comments": 10,
+   "title": "TypeError: getresponse() got an unexpected keyword argument 'buffering'         "
+  },
+  {
+   "number": 1255,
+   "comments": 10,
+   "title": "\"Pushable\" streaming upload requests"
+  },
+  {
+   "number": 1297,
+   "comments": 10,
+   "title": "requests logging is not documented, incomplete and works unexpectedly "
+  },
+  {
+   "number": 997,
+   "comments": 10,
+   "title": "Requests v0.14.2 - requests.session() fails on post() with KeyError exception"
+  },
+  {
+   "number": 1005,
+   "comments": 10,
+   "title": "Documentation"
+  },
+  {
+   "number": 1056,
+   "comments": 10,
+   "title": "Proxy"
+  },
+  {
+   "number": 1069,
+   "comments": 10,
+   "title": "Cookies lost on redirect"
+  },
+  {
+   "number": 761,
+   "comments": 10,
+   "title": "ssl cert problems"
+  },
+  {
+   "number": 1445,
+   "comments": 10,
+   "title": "Ability to create requests with session context without sending immedately"
+  },
+  {
+   "number": 1469,
+   "comments": 10,
+   "title": "content type header is null"
+  },
+  {
+   "number": 1580,
+   "comments": 10,
+   "title": "websocket support"
+  },
+  {
+   "number": 1608,
+   "comments": 10,
+   "title": "\"Content-Type header: application/x-www-form-urlencoded\" won't be overridden"
+  },
+  {
+   "number": 1617,
+   "comments": 10,
+   "title": "Inconsistent ConnectionError Behavior"
+  },
+  {
+   "number": 1365,
+   "comments": 10,
+   "title": "Uploading Files"
+  },
+  {
+   "number": 1397,
+   "comments": 10,
+   "title": "bug report"
+  },
+  {
+   "number": 482,
+   "comments": 10,
+   "title": "Feature any http verb in docs"
+  },
+  {
+   "number": 507,
+   "comments": 10,
+   "title": "Allow overriding/disabling an entire default kwarg (as well as individual keys)"
+  },
+  {
+   "number": 515,
+   "comments": 10,
+   "title": "Suggestion to change iter_lines() logic"
+  },
+  {
+   "number": 398,
+   "comments": 10,
+   "title": "Header capitalization causes problems with some web servers"
+  },
+  {
+   "number": 526,
+   "comments": 10,
+   "title": "Multipart (files=) Strings"
+  },
+  {
+   "number": 672,
+   "comments": 10,
+   "title": "Programmatically Finding requests Object's HTTP Verb"
+  },
+  {
+   "number": 742,
+   "comments": 10,
+   "title": "SSL certs aren't working with https://graph.facebook.com in Mac OS"
+  },
+  {
+   "number": 157,
+   "comments": 10,
+   "title": "GET with a 302 redirect response causing params to be glued on incorrectly"
+  },
+  {
+   "number": 296,
+   "comments": 10,
+   "title": "ConnectionError with Python 2.5 and SSL site"
+  },
+  {
+   "number": 1491,
+   "comments": 10,
+   "title": "Installed certifi, set REQUESTS_CA_BUNDLE env var, still getting SSL error."
+  },
+  {
+   "number": 1147,
+   "comments": 10,
+   "title": "Throws errors with socks module"
+  },
+  {
+   "number": 1166,
+   "comments": 10,
+   "title": "Make test suite totally offline"
+  },
+  {
+   "number": 1813,
+   "comments": 10,
+   "title": "Allow Content-Disposition header to be overridden per-field"
+  },
+  {
+   "number": 2691,
+   "comments": 10,
+   "title": "Can't upload files bigger than 2GB (streaming upload)"
+  },
+  {
+   "number": 2622,
+   "comments": 10,
+   "title": "get fails for \"http://www.merrickbank.com/\""
+  },
+  {
+   "number": 3012,
+   "comments": 10,
+   "title": "Memory usage"
+  },
+  {
+   "number": 3033,
+   "comments": 10,
+   "title": "Moving documentation translation to translating platform"
+  },
+  {
+   "number": 3491,
+   "comments": 10,
+   "title": "Requests is no longer converting Boolean values in headers to strings"
+  },
+  {
+   "number": 3833,
+   "comments": 10,
+   "title": "bad handshake - requests.exceptions.SSLError"
+  },
+  {
+   "number": 3887,
+   "comments": 10,
+   "title": "Feature: allow setting of urllib3 backoff_factor"
+  },
+  {
+   "number": 3772,
+   "comments": 10,
+   "title": "Digest Auth will auth regardless of status code"
+  },
+  {
+   "number": 4323,
+   "comments": 10,
+   "title": "Make sessions safe[r] in multi-process environment"
+  },
+  {
+   "number": 3637,
+   "comments": 10,
+   "title": "Chunked uploads do not deduplicate the Host header field when provided by the user"
+  },
+  {
+   "number": 3662,
+   "comments": 10,
+   "title": "Basic http auth + unicode = error"
+  },
+  {
+   "number": 3341,
+   "comments": 10,
+   "title": "Setting session.timeout doesn't do anything"
+  },
+  {
+   "number": 3250,
+   "comments": 10,
+   "title": "docs don't show correct max_redirects"
+  },
+  {
+   "number": 3482,
+   "comments": 10,
+   "title": "Can't connect to HTTPS URL because the SSL module is not available."
+  },
+  {
+   "number": 3698,
+   "comments": 10,
+   "title": "AttributeError: 'NoneType' object has no attribute 'read'"
+  },
+  {
+   "number": 3685,
+   "comments": 10,
+   "title": "ImportError no module named urlparse"
+  },
+  {
+   "number": 3780,
+   "comments": 10,
+   "title": "idna package increases memory usage by ~20MB"
+  },
+  {
+   "number": 3560,
+   "comments": 10,
+   "title": "TypeError: unsupported operand type(s) for -=: 'Retry' and 'int'"
+  },
+  {
+   "number": 3653,
+   "comments": 10,
+   "title": "Chunked transfer encoding for SSE heartbeats failing"
+  },
+  {
+   "number": 4298,
+   "comments": 10,
+   "title": "Stop Requests.post from encoding the data field,"
+  },
+  {
+   "number": 4338,
+   "comments": 10,
+   "title": "s.get(\"https://manage.office.com\") fails with _ssl.c:504: EOF occurred in violation of protocol"
+  },
+  {
+   "number": 4353,
+   "comments": 10,
+   "title": "Misleading exception with invalid protocol in proxy variable"
+  },
+  {
+   "number": 4002,
+   "comments": 10,
+   "title": "redirect loop with manual host header"
+  },
+  {
+   "number": 3985,
+   "comments": 10,
+   "title": "No module named 'requests.packages.urllib3.packages.six' // requests on python3.6 Lambda"
+  },
+  {
+   "number": 4415,
+   "comments": 10,
+   "title": "Requests seems to either ignore or not notice rare transport errors"
+  },
+  {
+   "number": 4143,
+   "comments": 10,
+   "title": "Can't parse version information, urllib3 returns \"['dev']\""
+  },
+  {
+   "number": 4366,
+   "comments": 10,
+   "title": "Response content corrupted for file download"
+  },
+  {
+   "number": 4655,
+   "comments": 10,
+   "title": "Connection Reset by Peer"
+  },
+  {
+   "number": 4569,
+   "comments": 10,
+   "title": "IDNAError when trying to GET a working url"
+  },
+  {
+   "number": 4221,
+   "comments": 10,
+   "title": "HTTPS proxy fails with requests."
+  },
+  {
+   "number": 4657,
+   "comments": 10,
+   "title": "Certificate verify failed SSLError"
+  },
+  {
+   "number": 4908,
+   "comments": 10,
+   "title": "From `Expecting value: line 1 column 1 (char 0)` to `Response content not in json format`"
+  },
+  {
+   "number": 5131,
+   "comments": 10,
+   "title": "requests.utils function accepts invalid ip/cidr input"
+  },
+  {
+   "number": 5461,
+   "comments": 10,
+   "title": "Treat invalid percent encoding consistently"
+  },
+  {
+   "number": 5794,
+   "comments": 10,
+   "title": "response.json() raises inconsistent exception type"
+  },
+  {
+   "number": 5731,
+   "comments": 10,
+   "title": "no/no_proxy is not honoured"
+  },
+  {
+   "number": 5975,
+   "comments": 10,
+   "title": "Request doesn't provide a way to refresh headers for each retry, making it impossible to regenerate expired Authorization headers"
+  },
+  {
+   "number": 5892,
+   "comments": 10,
+   "title": "Non-standard HTTP status codes?"
+  },
+  {
+   "number": 6726,
+   "comments": 10,
+   "title": "Multiple concurrent client certs broken with v2.32.3"
+  },
+  {
+   "number": 6838,
+   "comments": 10,
+   "title": "v 2.32.3 sends multiple requests"
+  },
+  {
+   "number": 6928,
+   "comments": 10,
+   "title": "Python 3.13: an unexpected `Authorization` header because of NETRC file"
+  },
+  {
+   "number": 1671,
+   "comments": 10,
+   "title": "Certificate name checking does not honor the Host header"
+  },
+  {
+   "number": 1984,
+   "comments": 10,
+   "title": "auth removes the post body"
+  },
+  {
+   "number": 2947,
+   "comments": 10,
+   "title": "No protection against line breaks in header values"
+  },
+  {
+   "number": 2963,
+   "comments": 10,
+   "title": "ResourceWarning still triggered when warnings enabled"
+  },
+  {
+   "number": 2907,
+   "comments": 10,
+   "title": "Support arguments whose values are None"
+  },
+  {
+   "number": 6947,
+   "comments": 10,
+   "title": "verify=False crashes on py3.13 on windows (FileNotFoundError)"
+  },
+  {
+   "number": 6945,
+   "comments": 10,
+   "title": "`SSLCertVerificationError` when fetching `https://od.moi.gov.tw/api/v1/`"
+  },
+  {
+   "number": 1839,
+   "comments": 9,
+   "title": "Unquote+Quote cycle prohibits urls required by salesforce.com"
+  },
+  {
+   "number": 1844,
+   "comments": 9,
+   "title": "Proxy Bypass Fails in Python <=2.6.5"
+  },
+  {
+   "number": 1848,
+   "comments": 9,
+   "title": "API for reporting failing URLs"
+  },
+  {
+   "number": 1855,
+   "comments": 9,
+   "title": "When Content-Length differs from received message body length, an exception should be raised"
+  },
+  {
+   "number": 1880,
+   "comments": 9,
+   "title": "Document how to test Requests without going over the wire"
+  },
+  {
+   "number": 2006,
+   "comments": 9,
+   "title": "Feature request: automatic auth type detection"
+  },
+  {
+   "number": 2113,
+   "comments": 9,
+   "title": "TypeError with pyOpenSSL, unicode headers, and python 2.x"
+  },
+  {
+   "number": 2460,
+   "comments": 9,
+   "title": "Import requests library troubleshooting"
+  },
+  {
+   "number": 2558,
+   "comments": 9,
+   "title": "Import issues in 2.5.2+"
+  },
+  {
+   "number": 2560,
+   "comments": 9,
+   "title": "Add contribution guidelines"
+  },
+  {
+   "number": 2571,
+   "comments": 9,
+   "title": "Post vs Get"
+  },
+  {
+   "number": 2211,
+   "comments": 9,
+   "title": "Subdomain that ends with dash works in OSX but not Linux"
+  },
+  {
+   "number": 2229,
+   "comments": 9,
+   "title": "full URL sent instead of path when using https proxy"
+  },
+  {
+   "number": 2259,
+   "comments": 9,
+   "title": "HTTP Authentication Any"
+  },
+  {
+   "number": 2293,
+   "comments": 9,
+   "title": "Odd HTTPS issue"
+  },
+  {
+   "number": 2321,
+   "comments": 9,
+   "title": "'verify' with custom ca bundle"
+  },
+  {
+   "number": 2368,
+   "comments": 9,
+   "title": "api.dribbble.com SSL certificate does not validate"
+  },
+  {
+   "number": 2508,
+   "comments": 9,
+   "title": "Session timeout doesn't accept tuple?"
+  },
+  {
+   "number": 857,
+   "comments": 9,
+   "title": "Streaming requests should raise an error when network problems occur"
+  },
+  {
+   "number": 1248,
+   "comments": 9,
+   "title": "HTTP Proxy does not handle authentication"
+  },
+  {
+   "number": 782,
+   "comments": 9,
+   "title": "dispatch_hook eats exceptions"
+  },
+  {
+   "number": 952,
+   "comments": 9,
+   "title": "Streaming Requests"
+  },
+  {
+   "number": 978,
+   "comments": 9,
+   "title": "Build issue related to s/chardet/charade/ change"
+  },
+  {
+   "number": 1409,
+   "comments": 9,
+   "title": "Request('POST',url,data,files).prepare() munging data when it contains a nested dict"
+  },
+  {
+   "number": 1436,
+   "comments": 9,
+   "title": "Prepared requests do not observe REQUESTS_CA_BUNDLE for SSL verification"
+  },
+  {
+   "number": 1448,
+   "comments": 9,
+   "title": "The problem with stream=True"
+  },
+  {
+   "number": 1449,
+   "comments": 9,
+   "title": "SSLError: EOF occurred in violation of protocol"
+  },
+  {
+   "number": 1389,
+   "comments": 9,
+   "title": "SSL certificate error with python requests module while sending GCM messages"
+  },
+  {
+   "number": 1396,
+   "comments": 9,
+   "title": "`pip install requests` results in installing v0.14.2"
+  },
+  {
+   "number": 1307,
+   "comments": 9,
+   "title": "Python 3 POST multipart/form-data with encode()"
+  },
+  {
+   "number": 1317,
+   "comments": 9,
+   "title": "C Runtime Error R6034 with py2exe"
+  },
+  {
+   "number": 1325,
+   "comments": 9,
+   "title": "wtf happened to strict_mode? (POST should remain POST on redirect)"
+  },
+  {
+   "number": 337,
+   "comments": 9,
+   "title": "TooManyRedirects in requests, not in urllib2"
+  },
+  {
+   "number": 397,
+   "comments": 9,
+   "title": "Ability to declare how the content should be parsed"
+  },
+  {
+   "number": 454,
+   "comments": 9,
+   "title": "'already consumed' accessing response.text with Content-Length: 0"
+  },
+  {
+   "number": 737,
+   "comments": 9,
+   "title": "multipart/form-data and multiple fields with the same name"
+  },
+  {
+   "number": 126,
+   "comments": 9,
+   "title": "Error fetching non-existant pages using authentication"
+  },
+  {
+   "number": 1481,
+   "comments": 9,
+   "title": "zlib Error -2 while decompressing in 1.2.3"
+  },
+  {
+   "number": 2659,
+   "comments": 9,
+   "title": "Extend \"verify\" to accept directory argument"
+  },
+  {
+   "number": 2627,
+   "comments": 9,
+   "title": "SSLv3 - OSX use last OpenSSL version [tag: ssl.OPENSSL_VERSION // SSL.SSLeay_version(SSL.SSLEAY_VERSION)]"
+  },
+  {
+   "number": 2613,
+   "comments": 9,
+   "title": "Prepared requests containing binary files will not send when unicode_literals is imported"
+  },
+  {
+   "number": 2538,
+   "comments": 9,
+   "title": "Dependency is not satisfiable: python (>= 2.7.5-5~)"
+  },
+  {
+   "number": 3131,
+   "comments": 9,
+   "title": "utils.select_proxy raises an exception when URL has no hostname"
+  },
+  {
+   "number": 3416,
+   "comments": 9,
+   "title": "Unable to override cookie policy in Session.prepare_request"
+  },
+  {
+   "number": 3507,
+   "comments": 9,
+   "title": "Requests 2.11.0 and Python 3.2"
+  },
+  {
+   "number": 3363,
+   "comments": 9,
+   "title": "Add let's encrypt ca certificates to trusted certs"
+  },
+  {
+   "number": 4053,
+   "comments": 9,
+   "title": "Trouble with a specific request"
+  },
+  {
+   "number": 4186,
+   "comments": 9,
+   "title": "Request with Empty Content Throws Errors When `.json()` is Called"
+  },
+  {
+   "number": 3619,
+   "comments": 9,
+   "title": "ValueError: negative shift count in _proxy_bypass_macosx_sysconf"
+  },
+  {
+   "number": 3337,
+   "comments": 9,
+   "title": "SSLError: [Errno bad handshake] (-1, 'Unexpected EOF')"
+  },
+  {
+   "number": 3481,
+   "comments": 9,
+   "title": "Error with decode_unicode=True on streamed response"
+  },
+  {
+   "number": 3753,
+   "comments": 9,
+   "title": "Basic auth with integer username broken in 2.12.2"
+  },
+  {
+   "number": 3046,
+   "comments": 9,
+   "title": "python 3.5 requests 2.9.1 can not upload Chinese filename"
+  },
+  {
+   "number": 4051,
+   "comments": 9,
+   "title": "gevent - 'module' object has no attribute 'epoll' with Python2-7 and Gevent -1.0.1; with Requests-2.13.0"
+  },
+  {
+   "number": 4222,
+   "comments": 9,
+   "title": "support idna 2.6"
+  },
+  {
+   "number": 4414,
+   "comments": 9,
+   "title": "Cookie is not set in requests.Session when \"Set-Cookie\" header is received"
+  },
+  {
+   "number": 4023,
+   "comments": 9,
+   "title": "Requests extremely slow compared to urllib.request.urlopen"
+  },
+  {
+   "number": 4659,
+   "comments": 9,
+   "title": "requests[security] breaks on Python 2.6 after pyOpenSSL 18.0.0 (2018-05-16) drops support"
+  },
+  {
+   "number": 4784,
+   "comments": 9,
+   "title": "Remote end closed connection without response on successive Session requests"
+  },
+  {
+   "number": 4956,
+   "comments": 9,
+   "title": "Content-Length is not checked, resulting in short reads with no error"
+  },
+  {
+   "number": 4923,
+   "comments": 9,
+   "title": "Requests 2.21.0 doesn't recognise unicode filenames for uploads"
+  },
+  {
+   "number": 5065,
+   "comments": 9,
+   "title": "URLlib 1.24.1 vulnerable to CVE-2019-11324 (rated CVSS 7.5 High)"
+  },
+  {
+   "number": 4890,
+   "comments": 9,
+   "title": "idna 2.8 released"
+  },
+  {
+   "number": 5371,
+   "comments": 9,
+   "title": "Trying to access the latest en documentation from doc.python-requests.org domain causes a faulty redirect and a HTTP404"
+  },
+  {
+   "number": 5412,
+   "comments": 9,
+   "title": "Expecting property name enclosed in double quotes"
+  },
+  {
+   "number": 5577,
+   "comments": 9,
+   "title": "Non Ascii characters are escaped when posting JSON"
+  },
+  {
+   "number": 5677,
+   "comments": 9,
+   "title": "Session does not consistently respects proxy environment variables."
+  },
+  {
+   "number": 5427,
+   "comments": 9,
+   "title": "Cannot download files larger than 124MB"
+  },
+  {
+   "number": 5543,
+   "comments": 9,
+   "title": "Request fails in python subprocess"
+  },
+  {
+   "number": 5552,
+   "comments": 9,
+   "title": "Response 400 while using Requests package in Django"
+  },
+  {
+   "number": 5540,
+   "comments": 9,
+   "title": "iter_lines is still broken?"
+  },
+  {
+   "number": 5450,
+   "comments": 9,
+   "title": "timeout 2x as long as parameter"
+  },
+  {
+   "number": 5833,
+   "comments": 9,
+   "title": "Discrepancies between self-prepared and session-prepared request headers"
+  },
+  {
+   "number": 5900,
+   "comments": 9,
+   "title": "Basic authentication with a proxy not using Proxy-Authorization header"
+  },
+  {
+   "number": 5724,
+   "comments": 9,
+   "title": "Support the new Deprecation HTTP header"
+  },
+  {
+   "number": 5846,
+   "comments": 9,
+   "title": "TestRequests.test_pyopenssl_redirect is broken in CI"
+  },
+  {
+   "number": 6439,
+   "comments": 9,
+   "title": "Response truncated with requests 2.30.0 and urllib3 2.0.1"
+  },
+  {
+   "number": 6763,
+   "comments": 9,
+   "title": "Body with Special Characters Gets Cut"
+  },
+  {
+   "number": 2822,
+   "comments": 9,
+   "title": "requests doesn't prepare the request before passing it to the Auth backend."
+  },
+  {
+   "number": 538,
+   "comments": 9,
+   "title": "Name:\"Requests\" is too general"
+  },
+  {
+   "number": 553,
+   "comments": 9,
+   "title": "IronPython: import issue"
+  },
+  {
+   "number": 578,
+   "comments": 9,
+   "title": "document new cookie API (and maybe improve it)"
+  },
+  {
+   "number": 1663,
+   "comments": 9,
+   "title": "Test failures"
+  },
+  {
+   "number": 2978,
+   "comments": 9,
+   "title": "Inconsistent behaviour with https between urllib3 and requestsion. "
+  },
+  {
+   "number": 1727,
+   "comments": 9,
+   "title": "Proxy configuration is not re-evaluated on redirects"
+  },
+  {
+   "number": 2700,
+   "comments": 9,
+   "title": "inclusion of timeout parameter on PUT causes error 14, 'Bad address'"
+  },
+  {
+   "number": 2872,
+   "comments": 9,
+   "title": "Post request hangs in certain cases when body is a StringIO"
+  },
+  {
+   "number": 2889,
+   "comments": 9,
+   "title": "Cannot Upload a large package on Windows 7 32 bit OS, with requests"
+  },
+  {
+   "number": 6004,
+   "comments": 9,
+   "title": "For Morsel cookies requests expects wrong Expires time format"
+  },
+  {
+   "number": 7564,
+   "comments": 9,
+   "title": "raise FileNotFoundError for missing TLS material"
+  },
+  {
+   "number": 6964,
+   "comments": 9,
+   "title": "CVE-2024-47081: Netrc credential leak in PSF requests library"
+  },
+  {
+   "number": 2057,
+   "comments": 8,
+   "title": "merge_setting always returns a dict, even if dict_class is set to something else"
+  },
+  {
+   "number": 1753,
+   "comments": 8,
+   "title": "Support method to gzip or otherwise compress HTTP request body?"
+  },
+  {
+   "number": 1842,
+   "comments": 8,
+   "title": "HTTPS connections with requests incompatible with python 2.6.(0-2) "
+  },
+  {
+   "number": 1938,
+   "comments": 8,
+   "title": "Support content-length checking"
+  },
+  {
+   "number": 1966,
+   "comments": 8,
+   "title": "response unconnected with stream=True for some SSL sites"
+  },
+  {
+   "number": 2234,
+   "comments": 8,
+   "title": "when setting the Accept-Encoding header to None, it is still sent as 'identity'"
+  },
+  {
+   "number": 2111,
+   "comments": 8,
+   "title": "Unhelpful Error for large timeout"
+  },
+  {
+   "number": 2425,
+   "comments": 8,
+   "title": "SOCKS proxy support"
+  },
+  {
+   "number": 2418,
+   "comments": 8,
+   "title": "Data argument introduced too early in Quickstart guide"
+  },
+  {
+   "number": 2462,
+   "comments": 8,
+   "title": "Error in `requests.packages.__init__` (version > 2.5.1)"
+  },
+  {
+   "number": 2568,
+   "comments": 8,
+   "title": "Keep-alive broken in 2.6.1 and 2.6.2 with chunked transfer-encoding"
+  },
+  {
+   "number": 2307,
+   "comments": 8,
+   "title": "SSL connections with timeout dont seem to respect retries"
+  },
+  {
+   "number": 2383,
+   "comments": 8,
+   "title": "Force use of tls with requests"
+  },
+  {
+   "number": 2377,
+   "comments": 8,
+   "title": "Set Cookie does not work properly with HTTP 302"
+  },
+  {
+   "number": 1246,
+   "comments": 8,
+   "title": "Please provide a RELEASE tag"
+  },
+  {
+   "number": 1018,
+   "comments": 8,
+   "title": "AttributeError: 'PreparedRequest' object has no attribute 'data'"
+  },
+  {
+   "number": 1028,
+   "comments": 8,
+   "title": "Requests 1.0.2 + Broken JSON"
+  },
+  {
+   "number": 1029,
+   "comments": 8,
+   "title": "Since 1.0, seeing a large amount of \"Cannot assign requested address\" socket.errors"
+  },
+  {
+   "number": 1073,
+   "comments": 8,
+   "title": "Stop connection"
+  },
+  {
+   "number": 790,
+   "comments": 8,
+   "title": "oauth post does not work"
+  },
+  {
+   "number": 960,
+   "comments": 8,
+   "title": "New project requests-hooks?"
+  },
+  {
+   "number": 964,
+   "comments": 8,
+   "title": "Divisive language in license documentation"
+  },
+  {
+   "number": 881,
+   "comments": 8,
+   "title": "squid proxy server says requests.get is  \"Unsupported Request Method and Protocol\" "
+  },
+  {
+   "number": 1410,
+   "comments": 8,
+   "title": "All cookies set during redirects are no longer stored on the Response object"
+  },
+  {
+   "number": 1570,
+   "comments": 8,
+   "title": "Handle multiple TLS versions out of the box"
+  },
+  {
+   "number": 1550,
+   "comments": 8,
+   "title": "No \"Host\" header entry in response.request.headers"
+  },
+  {
+   "number": 1595,
+   "comments": 8,
+   "title": "ujson option"
+  },
+  {
+   "number": 1615,
+   "comments": 8,
+   "title": "ConnectionError on timeout=0"
+  },
+  {
+   "number": 1372,
+   "comments": 8,
+   "title": "`pip install requests` insists to download Sphinx, Jinja2, ..."
+  },
+  {
+   "number": 1329,
+   "comments": 8,
+   "title": "Replacing existing session headers is not done case-insensitively"
+  },
+  {
+   "number": 232,
+   "comments": 8,
+   "title": "Document what exceptions may be raised"
+  },
+  {
+   "number": 256,
+   "comments": 8,
+   "title": "GET request sends full url to server - should be path only"
+  },
+  {
+   "number": 386,
+   "comments": 8,
+   "title": "Requests and urllib3 using one test platform?"
+  },
+  {
+   "number": 396,
+   "comments": 8,
+   "title": "Track upload/download progress"
+  },
+  {
+   "number": 404,
+   "comments": 8,
+   "title": "Redirection problem"
+  },
+  {
+   "number": 525,
+   "comments": 8,
+   "title": "Distibute Workload"
+  },
+  {
+   "number": 694,
+   "comments": 8,
+   "title": "requests 0.13.1 not working with https and proxy"
+  },
+  {
+   "number": 285,
+   "comments": 8,
+   "title": "Requests don't allow multiple files for a key"
+  },
+  {
+   "number": 306,
+   "comments": 8,
+   "title": "requests does not install if Python has no SSL support"
+  },
+  {
+   "number": 18,
+   "comments": 8,
+   "title": "gzip decompression"
+  },
+  {
+   "number": 23,
+   "comments": 8,
+   "title": "Tracking chained redirection"
+  },
+  {
+   "number": 1522,
+   "comments": 8,
+   "title": "non existant https site hangs"
+  },
+  {
+   "number": 1170,
+   "comments": 8,
+   "title": "Bring back the hooks from 0.x to 1.x"
+  },
+  {
+   "number": 1189,
+   "comments": 8,
+   "title": "Multiple Cookies on Redirect"
+  },
+  {
+   "number": 1131,
+   "comments": 8,
+   "title": "New Session API feels awkward"
+  },
+  {
+   "number": 1218,
+   "comments": 8,
+   "title": "HTTPS proxy not being used - max retries exceeded"
+  },
+  {
+   "number": 1789,
+   "comments": 8,
+   "title": "Requests on PYPY 2.21 is over twice as slow as on CPython"
+  },
+  {
+   "number": 1805,
+   "comments": 8,
+   "title": "Getting a public Google Spreadsheet doc gives you the too many redirects error"
+  },
+  {
+   "number": 2987,
+   "comments": 8,
+   "title": "Enhanced form-data serialization"
+  },
+  {
+   "number": 2529,
+   "comments": 8,
+   "title": "\"import requests\" takes a full second?"
+  },
+  {
+   "number": 2532,
+   "comments": 8,
+   "title": "\"PreparedRequest.prepare_cookies\" can only be called once (and \"succeeds\" silently if called again)"
+  },
+  {
+   "number": 2636,
+   "comments": 8,
+   "title": "Same HTTPConnection object returned to pool twice"
+  },
+  {
+   "number": 2681,
+   "comments": 8,
+   "title": "pyopenssl: maximum recursion depth exceeded while calling a Python object"
+  },
+  {
+   "number": 2665,
+   "comments": 8,
+   "title": "cookiejar_from_dict support SimpleCookie"
+  },
+  {
+   "number": 2844,
+   "comments": 8,
+   "title": "_encode_params return bytes that break urlencode"
+  },
+  {
+   "number": 3490,
+   "comments": 8,
+   "title": "Remove header in middle of redirection"
+  },
+  {
+   "number": 3674,
+   "comments": 8,
+   "title": "Requests does not support session key logging"
+  },
+  {
+   "number": 3912,
+   "comments": 8,
+   "title": "ResourceWarning: unclosed socket.socket when I run a unittest？"
+  },
+  {
+   "number": 3805,
+   "comments": 8,
+   "title": "Cannot clone repo due to bad timezone error"
+  },
+  {
+   "number": 3777,
+   "comments": 8,
+   "title": "EOF occurred in violation of protocol"
+  },
+  {
+   "number": 4503,
+   "comments": 8,
+   "title": "POST body: argument 'data' of type 'str' works, except when it doesn't"
+  },
+  {
+   "number": 4350,
+   "comments": 8,
+   "title": "Exception when preparing a request using a value from future.builtins str"
+  },
+  {
+   "number": 3986,
+   "comments": 8,
+   "title": "Allow empty data values in multipart form upload"
+  },
+  {
+   "number": 4297,
+   "comments": 8,
+   "title": "Data request not working"
+  },
+  {
+   "number": 4391,
+   "comments": 8,
+   "title": "requests.session ignores second `verify` argument?"
+  },
+  {
+   "number": 4392,
+   "comments": 8,
+   "title": "Streamed request with preset Host header sends two Host headers"
+  },
+  {
+   "number": 3007,
+   "comments": 8,
+   "title": "Add ability to pass CA certificates by fileobj"
+  },
+  {
+   "number": 3794,
+   "comments": 8,
+   "title": "When a response with status code 204 is received the package still tries to parser its bytes and get an exception"
+  },
+  {
+   "number": 4777,
+   "comments": 8,
+   "title": "What about `before_request` hook?"
+  },
+  {
+   "number": 3565,
+   "comments": 8,
+   "title": "Allow the customization of the default session creation"
+  },
+  {
+   "number": 3732,
+   "comments": 8,
+   "title": "Mutual TLS failing for requests > 2.11.1"
+  },
+  {
+   "number": 3075,
+   "comments": 8,
+   "title": "Incorrect Request When URL Contains Uppercase Letters in \"HTTPS\" Protocol and When Using Proxies"
+  },
+  {
+   "number": 3031,
+   "comments": 8,
+   "title": "[WinError 10048] Only one usage of each socket address ..."
+  },
+  {
+   "number": 3599,
+   "comments": 8,
+   "title": "Windows C runtime error R6034 when importing requests in embedded python"
+  },
+  {
+   "number": 3649,
+   "comments": 8,
+   "title": "The data= parameter barfs on all dictionary-like objects that don't subclass dict itself"
+  },
+  {
+   "number": 3711,
+   "comments": 8,
+   "title": "Indna causes issues with Jython due to uts46data.py"
+  },
+  {
+   "number": 4320,
+   "comments": 8,
+   "title": "SSLError(SSLError(\"bad handshake: SysCallError(10060, 'WSAETIMEDOUT')\",),) on windows 10"
+  },
+  {
+   "number": 4176,
+   "comments": 8,
+   "title": "The right way to debug requests with https proxy"
+  },
+  {
+   "number": 4301,
+   "comments": 8,
+   "title": "Sessions apparently corrupting header values on subsequent requests"
+  },
+  {
+   "number": 4000,
+   "comments": 8,
+   "title": "Cookies never returned in response object"
+  },
+  {
+   "number": 4467,
+   "comments": 8,
+   "title": "Shouldn't it raise ReadTimeout instead in models.py:752 ?"
+  },
+  {
+   "number": 4385,
+   "comments": 8,
+   "title": "not able to extract key:value from Json "
+  },
+  {
+   "number": 4638,
+   "comments": 8,
+   "title": "OpenSSL.SSL.SysCallError: (-1, 'Unexpected EOF')"
+  },
+  {
+   "number": 4212,
+   "comments": 8,
+   "title": "ECONNRESET error after upgrading packages"
+  },
+  {
+   "number": 4984,
+   "comments": 8,
+   "title": "requests.exceptions.InvalidProxyURL: Please check proxy URL"
+  },
+  {
+   "number": 5028,
+   "comments": 8,
+   "title": "Proxy Issue - 407 Proxy Authentication Required"
+  },
+  {
+   "number": 4879,
+   "comments": 8,
+   "title": "cannot use json() on request in python 3.7 (TypeError: must be str, not bytes)"
+  },
+  {
+   "number": 5223,
+   "comments": 8,
+   "title": "Running requests in parallel from a zip archive can create race condition when unpacking the cacerts.pem file"
+  },
+  {
+   "number": 5284,
+   "comments": 8,
+   "title": "POST with redirection becomes GET"
+  },
+  {
+   "number": 5575,
+   "comments": 8,
+   "title": "Requests ignores HSTS if redirected to http:// version of site"
+  },
+  {
+   "number": 5436,
+   "comments": 8,
+   "title": "Add response.future_requests_uri, deprecate response.is_permanent_redirect"
+  },
+  {
+   "number": 5561,
+   "comments": 8,
+   "title": "Requests 2.24.0 removed necessary namespace for other modules"
+  },
+  {
+   "number": 5750,
+   "comments": 8,
+   "title": "Post request using https proxies returning encoded text after update to python 3.9.1"
+  },
+  {
+   "number": 6101,
+   "comments": 8,
+   "title": "Host header field contains scope of IPv6 address"
+  },
+  {
+   "number": 6153,
+   "comments": 8,
+   "title": "Strange difference between passing proxy as None vs an empty string"
+  },
+  {
+   "number": 6344,
+   "comments": 8,
+   "title": "Cookies returned in Set-Cookie header not added to RequestsCookieJar "
+  },
+  {
+   "number": 6560,
+   "comments": 8,
+   "title": "Unsuccessful TLS handshake when using `requests` in multiple threads on Ubuntu Jammy"
+  },
+  {
+   "number": 583,
+   "comments": 8,
+   "title": "new implementation for safe_mode?"
+  },
+  {
+   "number": 601,
+   "comments": 8,
+   "title": "document testing practices"
+  },
+  {
+   "number": 6059,
+   "comments": 8,
+   "title": "Session Object Doesn't Honor Proxy"
+  },
+  {
+   "number": 2703,
+   "comments": 8,
+   "title": "Broken parsing of authenticated URI for Proxy"
+  },
+  {
+   "number": 2910,
+   "comments": 8,
+   "title": "Expired SSL certificates don't raise an error"
+  },
+  {
+   "number": 1746,
+   "comments": 8,
+   "title": "Don't lowercase the whole URL when opening a connection"
+  },
+  {
+   "number": 2862,
+   "comments": 8,
+   "title": "Big memory leaks on PyPy (simplest usage)"
+  },
+  {
+   "number": 2887,
+   "comments": 8,
+   "title": "On requests 2.8.0+ chunked requests can cause an unhandled urllib3.exceptions.NewConnectionError"
+  },
+  {
+   "number": 2890,
+   "comments": 8,
+   "title": "Deleted cookies should be included in response.cookies"
+  },
+  {
+   "number": 4939,
+   "comments": 8,
+   "title": "Determining the IP address of server with bad TLS cert."
+  },
+  {
+   "number": 2722,
+   "comments": 8,
+   "title": "Proxies that depend on the URL"
+  },
+  {
+   "number": 7434,
+   "comments": 8,
+   "title": "Inline annotations in 2.34.0 cause mypy error for Request json payloads"
+  },
+  {
+   "number": 7610,
+   "comments": 8,
+   "title": "Drop the versionless `License ::` classifier now that `license` is a valid SPDX expression"
+  },
+  {
+   "number": 6102,
+   "comments": 9,
+   "title": "HTTPDigestAuth fails on non-latin credentials"
+  },
+  {
+   "number": 2081,
+   "comments": 7,
+   "title": "Sometimes Requests doesn't handle properly domains encoded in Cyrillic"
+  },
+  {
+   "number": 1777,
+   "comments": 7,
+   "title": "AttributeError: 'HTTPAdapter' object has no attribute 'proxy_manager'"
+  },
+  {
+   "number": 1780,
+   "comments": 7,
+   "title": "Specifying POST body content-type"
+  },
+  {
+   "number": 1875,
+   "comments": 7,
+   "title": "Provide 2.2.1 release."
+  },
+  {
+   "number": 2119,
+   "comments": 7,
+   "title": "Get parameters are being double encoded"
+  },
+  {
+   "number": 1946,
+   "comments": 7,
+   "title": "Testsuite failure"
+  },
+  {
+   "number": 2003,
+   "comments": 7,
+   "title": "auth kwarg cannot be used to authenticate an HTTPS request through a HTTP proxy"
+  },
+  {
+   "number": 2239,
+   "comments": 7,
+   "title": "ssl and multiple subdomains"
+  },
+  {
+   "number": 2108,
+   "comments": 7,
+   "title": "gevent ssl and WantWrite error"
+  },
+  {
+   "number": 2180,
+   "comments": 7,
+   "title": "Github timeline no longer available - makes poor example"
+  },
+  {
+   "number": 2449,
+   "comments": 7,
+   "title": "[rfe] requests should process chunked responses transparently"
+  },
+  {
+   "number": 2446,
+   "comments": 7,
+   "title": "gzip response is not decoded"
+  },
+  {
+   "number": 2408,
+   "comments": 7,
+   "title": "Wrong digest header creation when server has qop=\"auth,auth-int\""
+  },
+  {
+   "number": 2557,
+   "comments": 7,
+   "title": "Make chardet an optional dependency"
+  },
+  {
+   "number": 2561,
+   "comments": 7,
+   "title": "Content-Encoding: Gzip not automatically decoded in 2.6.1"
+  },
+  {
+   "number": 2593,
+   "comments": 7,
+   "title": "contextlib.closing(response) is not enough when using sessions and stream = True"
+  },
+  {
+   "number": 2284,
+   "comments": 7,
+   "title": "bugs on HTTP-request nested json."
+  },
+  {
+   "number": 2315,
+   "comments": 7,
+   "title": "elapsed time for requests.get over 2 minutes per url"
+  },
+  {
+   "number": 2314,
+   "comments": 7,
+   "title": "Ignoring SSL errors with Session obejcts"
+  },
+  {
+   "number": 2524,
+   "comments": 7,
+   "title": "TypeError: __str__ returned non-string (type Error)"
+  },
+  {
+   "number": 854,
+   "comments": 7,
+   "title": "Add response.__len__"
+  },
+  {
+   "number": 1266,
+   "comments": 7,
+   "title": "How to upload binary file using PUT?"
+  },
+  {
+   "number": 1074,
+   "comments": 7,
+   "title": "Proxy support broken"
+  },
+  {
+   "number": 1083,
+   "comments": 7,
+   "title": "OpenSSL 1.0.1c and TLSv1 Handshake Failures"
+  },
+  {
+   "number": 832,
+   "comments": 7,
+   "title": "request 0.14.0 doesn't bytecompile with python 3.2"
+  },
+  {
+   "number": 959,
+   "comments": 7,
+   "title": "__version__ should be set to `dev` unless tagged"
+  },
+  {
+   "number": 963,
+   "comments": 7,
+   "title": "More complete OAuth tutorial documentation"
+  },
+  {
+   "number": 928,
+   "comments": 7,
+   "title": "invalid charset"
+  },
+  {
+   "number": 931,
+   "comments": 7,
+   "title": "avoid reverse DNS lookup?"
+  },
+  {
+   "number": 885,
+   "comments": 7,
+   "title": "Function like urllib.urlretrieve for downloading files"
+  },
+  {
+   "number": 889,
+   "comments": 7,
+   "title": "python setup.py bdist_rpm fails"
+  },
+  {
+   "number": 891,
+   "comments": 7,
+   "title": "error when trying to use oauth"
+  },
+  {
+   "number": 1442,
+   "comments": 7,
+   "title": "feature request - cookiejar to accept and return actual cookies"
+  },
+  {
+   "number": 1447,
+   "comments": 7,
+   "title": "Response hook's callback function returns a value to cause exception"
+  },
+  {
+   "number": 1461,
+   "comments": 7,
+   "title": "https POST works on Mac but fails on Windows"
+  },
+  {
+   "number": 1586,
+   "comments": 7,
+   "title": "deactivate automatic gzip decompression ?"
+  },
+  {
+   "number": 1601,
+   "comments": 7,
+   "title": "qop problem on HTTPDigestAuth"
+  },
+  {
+   "number": 1609,
+   "comments": 7,
+   "title": "status_code wrong"
+  },
+  {
+   "number": 1380,
+   "comments": 7,
+   "title": "TypeError: CaseInsensitiveDict is not JSON serializable"
+  },
+  {
+   "number": 1300,
+   "comments": 7,
+   "title": "Set max_redirects per request"
+  },
+  {
+   "number": 1319,
+   "comments": 7,
+   "title": "Infinite recursion on 401 response with digest auth"
+  },
+  {
+   "number": 367,
+   "comments": 7,
+   "title": "Impossible to submit multiple query parameter values on a single key cleanly"
+  },
+  {
+   "number": 456,
+   "comments": 7,
+   "title": "Custom client SSL certificate"
+  },
+  {
+   "number": 436,
+   "comments": 7,
+   "title": "ValueError in generate_chunked (invalid literal for int())"
+  },
+  {
+   "number": 719,
+   "comments": 7,
+   "title": "no option to turn off retry"
+  },
+  {
+   "number": 722,
+   "comments": 7,
+   "title": "Can't use params in a get() with OAuth creds"
+  },
+  {
+   "number": 738,
+   "comments": 7,
+   "title": "pip install error on py3k"
+  },
+  {
+   "number": 745,
+   "comments": 7,
+   "title": "SSL handshake error"
+  },
+  {
+   "number": 156,
+   "comments": 7,
+   "title": "get_unicode_from_response does not check charsets from meta tags"
+  },
+  {
+   "number": 1521,
+   "comments": 7,
+   "title": "Requires python to be run as root (sudo) on Ubuntu LTS"
+  },
+  {
+   "number": 1159,
+   "comments": 7,
+   "title": "Feature: ability to force / remove any header to a request"
+  },
+  {
+   "number": 1141,
+   "comments": 7,
+   "title": "[RFC] Response as a string"
+  },
+  {
+   "number": 1211,
+   "comments": 7,
+   "title": "Ability to dump request content"
+  },
+  {
+   "number": 1822,
+   "comments": 7,
+   "title": "UnicodeEncodeError: 'latin-1' codec can't encode characters"
+  },
+  {
+   "number": 1824,
+   "comments": 7,
+   "title": "Invalid ~/.netrc file does not raise any warnings or errors from requests"
+  },
+  {
+   "number": 2625,
+   "comments": 7,
+   "title": "expose request start time"
+  },
+  {
+   "number": 2633,
+   "comments": 7,
+   "title": "Does requests support url anchor"
+  },
+  {
+   "number": 2639,
+   "comments": 7,
+   "title": "Traceback when filename contains non-ascii characters"
+  },
+  {
+   "number": 3105,
+   "comments": 7,
+   "title": "Sticker Design [Kenneth]"
+  },
+  {
+   "number": 3290,
+   "comments": 7,
+   "title": "Content-length not calculated correctly"
+  },
+  {
+   "number": 3094,
+   "comments": 7,
+   "title": "session proxy not working with user/password"
+  },
+  {
+   "number": 3386,
+   "comments": 7,
+   "title": "The keywords headers must be string or buffer in new version 2.10.0?"
+  },
+  {
+   "number": 3445,
+   "comments": 7,
+   "title": "Connection pooling is tied to sessions"
+  },
+  {
+   "number": 3355,
+   "comments": 7,
+   "title": "'True' payload in get cause problem"
+  },
+  {
+   "number": 3939,
+   "comments": 7,
+   "title": "requests.exceptions.SSLError: (\\\"bad handshake: SysCallError(-1, 'Unexpected EOF')"
+  },
+  {
+   "number": 3821,
+   "comments": 7,
+   "title": "problem with the proxy"
+  },
+  {
+   "number": 3824,
+   "comments": 7,
+   "title": "With SSL connection: TypeError: data must be a memoryview, buffer or byte string"
+  },
+  {
+   "number": 3863,
+   "comments": 7,
+   "title": "Socks5 proxy do not resolves dns through the proxy server"
+  },
+  {
+   "number": 3908,
+   "comments": 7,
+   "title": "REQUESTS_CA_BUNDLE does not fall back on system cert chain in Python 3.6?"
+  },
+  {
+   "number": 3891,
+   "comments": 7,
+   "title": "Requests fails to handle amazon.com cookies"
+  },
+  {
+   "number": 4032,
+   "comments": 7,
+   "title": "Allow verify parameter to take a file-like object such as StringIO"
+  },
+  {
+   "number": 3661,
+   "comments": 7,
+   "title": "Close keep-alive connections after configurable period (aka keep-alive timeout)"
+  },
+  {
+   "number": 4592,
+   "comments": 7,
+   "title": "Malformed `Set-Cookie` containing CRLF does not cause an error"
+  },
+  {
+   "number": 3659,
+   "comments": 7,
+   "title": "URL proxy auth with empty passwords doesn't emit auth header."
+  },
+  {
+   "number": 3630,
+   "comments": 7,
+   "title": "Explicit DNSError subclass for failed DNS lookups"
+  },
+  {
+   "number": 2997,
+   "comments": 7,
+   "title": "allow_redirects=True for one get affects the next one"
+  },
+  {
+   "number": 3025,
+   "comments": 7,
+   "title": "Proxies not working"
+  },
+  {
+   "number": 3214,
+   "comments": 7,
+   "title": "Using specific SSL version TLSv1.2"
+  },
+  {
+   "number": 3592,
+   "comments": 7,
+   "title": "single request causing connection-pool to repeat multiple times"
+  },
+  {
+   "number": 3479,
+   "comments": 7,
+   "title": "requests v2.11 has a syntax error in python3.2"
+  },
+  {
+   "number": 3603,
+   "comments": 7,
+   "title": "Link on Documentation web page not working"
+  },
+  {
+   "number": 3516,
+   "comments": 7,
+   "title": "requests.exceptions.InvalidSchema: Missing dependencies for SOCKS support."
+  },
+  {
+   "number": 3528,
+   "comments": 7,
+   "title": "Stuck on request when changing proxy while inside a session"
+  },
+  {
+   "number": 3550,
+   "comments": 7,
+   "title": "ConnectionError: HTTPConnectionPool( Max retries exceeded with url) [Errno -2] Name or service not known"
+  },
+  {
+   "number": 4271,
+   "comments": 7,
+   "title": "Unexpected result in iter_lines with '\\r\\n' delimiter"
+  },
+  {
+   "number": 4284,
+   "comments": 7,
+   "title": "Stream content timeout not working for given site"
+  },
+  {
+   "number": 4344,
+   "comments": 7,
+   "title": "headers shouldn't be a dictionary, it should be a list"
+  },
+  {
+   "number": 4109,
+   "comments": 7,
+   "title": "Concerns about 3.0.0 Plans (cryptography)"
+  },
+  {
+   "number": 4400,
+   "comments": 7,
+   "title": "IndexError when handle http response"
+  },
+  {
+   "number": 4080,
+   "comments": 7,
+   "title": "test"
+  },
+  {
+   "number": 4096,
+   "comments": 7,
+   "title": "Requests > 2.16.1 breaks urllib3's Retry functionality"
+  },
+  {
+   "number": 4474,
+   "comments": 7,
+   "title": "Inconsistency while reading chunked output"
+  },
+  {
+   "number": 4437,
+   "comments": 7,
+   "title": "Add bearer token to requests.auth?"
+  },
+  {
+   "number": 4605,
+   "comments": 7,
+   "title": "Request freezes when doing 'r.text' "
+  },
+  {
+   "number": 4615,
+   "comments": 7,
+   "title": "problem with parsing: HTTPSConnectionPool"
+  },
+  {
+   "number": 4214,
+   "comments": 7,
+   "title": "Returning cookies from Adapters"
+  },
+  {
+   "number": 4768,
+   "comments": 7,
+   "title": "Crash when using requests + concurrent.futures.ProcessPoolExecutor"
+  },
+  {
+   "number": 4649,
+   "comments": 7,
+   "title": "utf-8 passwords in url don't work"
+  },
+  {
+   "number": 4866,
+   "comments": 7,
+   "title": "Unexpected exception: InvalidURL: No host specified."
+  },
+  {
+   "number": 5083,
+   "comments": 7,
+   "title": "请求起点中文网获取的书籍信息不全"
+  },
+  {
+   "number": 5037,
+   "comments": 7,
+   "title": "Add request event hook"
+  },
+  {
+   "number": 4817,
+   "comments": 7,
+   "title": "When making a PATCH request or any random method and using a proxy the body is not sent"
+  },
+  {
+   "number": 5170,
+   "comments": 7,
+   "title": "How to parse blank to %20, not + ?"
+  },
+  {
+   "number": 5158,
+   "comments": 7,
+   "title": "Authentication errors on MacOS"
+  },
+  {
+   "number": 5316,
+   "comments": 7,
+   "title": "HTTPAdapter with SSLContext specified does not use SSLContext's ca_certs on Windows"
+  },
+  {
+   "number": 5341,
+   "comments": 7,
+   "title": "idna requirement causing problems now idna 2.9 has been released."
+  },
+  {
+   "number": 5583,
+   "comments": 7,
+   "title": "ValueError: invalid literal for int() with base 16: b''"
+  },
+  {
+   "number": 5597,
+   "comments": 7,
+   "title": "response.text converting to utf-8 poorly"
+  },
+  {
+   "number": 5632,
+   "comments": 7,
+   "title": "Requests and Answers Encoding"
+  },
+  {
+   "number": 5544,
+   "comments": 7,
+   "title": "Raising readtimeout instead of connecttimeout"
+  },
+  {
+   "number": 5504,
+   "comments": 7,
+   "title": "Preparing a request body without headers throws a TypeError"
+  },
+  {
+   "number": 5525,
+   "comments": 7,
+   "title": "Setting encoding of UTF-8 for some websites with non-UTF-8 encoding change response.text to be gibberish"
+  },
+  {
+   "number": 5384,
+   "comments": 7,
+   "title": "request.get(url, proxies=proxies) is possibly sending CONNECT as two TCP transmission, breaking custom readers and TLS handshakes. "
+  },
+  {
+   "number": 6025,
+   "comments": 7,
+   "title": "Support for proxy that requires DigestAuth"
+  },
+  {
+   "number": 5751,
+   "comments": 7,
+   "title": "TLS SNI Support (Under Python 2.7.6)"
+  },
+  {
+   "number": 5887,
+   "comments": 7,
+   "title": "Truncated http request"
+  },
+  {
+   "number": 5726,
+   "comments": 7,
+   "title": "Possible memory leaking when combining session, threading and proxies"
+  },
+  {
+   "number": 5936,
+   "comments": 7,
+   "title": "`cert` parameter does not accept a single `pathlib.Path` object as argument"
+  },
+  {
+   "number": 6295,
+   "comments": 7,
+   "title": "Endless history: the history contains a self-reference"
+  },
+  {
+   "number": 6539,
+   "comments": 7,
+   "title": "Versions at requests.readthedocs.io flyout menu are outdated"
+  },
+  {
+   "number": 6453,
+   "comments": 7,
+   "title": "Error when requesting URL which contains emojis or certain characters"
+  },
+  {
+   "number": 6586,
+   "comments": 7,
+   "title": "The Content-Length header for string `data` counts Unicode characters in the string when it should count encoded bytes"
+  },
+  {
+   "number": 6537,
+   "comments": 7,
+   "title": "`unsafe legacy renegotiation disabled` error in specific website on Python 3.12"
+  },
+  {
+   "number": 2921,
+   "comments": 7,
+   "title": "Non-descript error: Gevent + Connection Pooling + SSL"
+  },
+  {
+   "number": 2975,
+   "comments": 7,
+   "title": "Why retry doesn't work on sesson.post method"
+  },
+  {
+   "number": 592,
+   "comments": 7,
+   "title": "Internal encoding detection doesn't match external chardet call"
+  },
+  {
+   "number": 596,
+   "comments": 7,
+   "title": "Test failure against Python 3.2"
+  },
+  {
+   "number": 599,
+   "comments": 7,
+   "title": "Stream POST requests"
+  },
+  {
+   "number": 637,
+   "comments": 7,
+   "title": "Dict data is not being properly urlencoded"
+  },
+  {
+   "number": 653,
+   "comments": 7,
+   "title": "Support for streaming POST data"
+  },
+  {
+   "number": 602,
+   "comments": 7,
+   "title": "requests.head redirect timeout (on only linux environments?)"
+  },
+  {
+   "number": 1655,
+   "comments": 7,
+   "title": "Session hooks broken"
+  },
+  {
+   "number": 1974,
+   "comments": 7,
+   "title": "Payload in array"
+  },
+  {
+   "number": 1978,
+   "comments": 7,
+   "title": "Handle httplib IncompleteRead exception"
+  },
+  {
+   "number": 4806,
+   "comments": 7,
+   "title": "How to set requests 'user-agent' header globally"
+  },
+  {
+   "number": 2906,
+   "comments": 7,
+   "title": "requests.packages.urllib3.exceptions.SSLError: EOF occurred in violation of protocol (_ssl.c:646)"
+  },
+  {
+   "number": 2913,
+   "comments": 7,
+   "title": "If socket is none requests started creating a new connection"
+  },
+  {
+   "number": 1744,
+   "comments": 7,
+   "title": "Upgrade to 2.0.1 breaks existing code wherever cookies are passed as keyword arguments."
+  },
+  {
+   "number": 1623,
+   "comments": 7,
+   "title": "Use MD5-sess authentication got  \"UnboundLocalError: local variable 'hash_utf8' referenced before assignment\""
+  },
+  {
+   "number": 1630,
+   "comments": 7,
+   "title": "Cookies not persisted when set via functional API."
+  },
+  {
+   "number": 2783,
+   "comments": 7,
+   "title": "SSL: CERTIFICATE_VERIFY_FAILED on valid(?) cert chain with verify=\"./bundle.crt\""
+  },
+  {
+   "number": 2867,
+   "comments": 7,
+   "title": "How to deal with using requests and urllib3 together"
+  },
+  {
+   "number": 2868,
+   "comments": 7,
+   "title": "Can't modify cookies from auth plugin"
+  },
+  {
+   "number": 2884,
+   "comments": 7,
+   "title": "SSLError: [Errno 185090050] _ssl.c:336: error:0B084002:x509 certificate routines:X509_load_cert_crl_file:system lib"
+  },
+  {
+   "number": 5006,
+   "comments": 7,
+   "title": "[BUG] Requests ignoring setting OP_NO_SSLv3"
+  },
+  {
+   "number": 2709,
+   "comments": 7,
+   "title": "Problem sending POST data to a login form with the character \"ñ\" (With Curl Works)"
+  },
+  {
+   "number": 7456,
+   "comments": 7,
+   "title": "typing.get_type_hints() fails on Response, PreparedRequest, and Request after 2.34.0"
+  },
+  {
+   "number": 3296,
+   "comments": 7,
+   "title": "no_proxy env ignored on 302 redirect"
+  },
+  {
+   "number": 4294,
+   "comments": 7,
+   "title": "OpenSSL.SSL.SysCallError: (-1, 'Unexpected EOF') "
+  },
+  {
+   "number": 7627,
+   "comments": 7,
+   "title": "Docstring examples in `from_key_val_list` show the pre-3.12 OrderedDict repr"
+  },
+  {
+   "number": 7040,
+   "comments": 7,
+   "title": "2.32.5 breaks passing custom SSL context"
+  },
+  {
+   "number": 2030,
+   "comments": 6,
+   "title": "Session proxies not used"
+  },
+  {
+   "number": 2035,
+   "comments": 6,
+   "title": "redirect will not keep the Cookie field in headers"
+  },
+  {
+   "number": 2042,
+   "comments": 6,
+   "title": "Incorrect encoding detected when no encoding is given"
+  },
+  {
+   "number": 2073,
+   "comments": 6,
+   "title": "Newline problems in Windows"
+  },
+  {
+   "number": 2080,
+   "comments": 6,
+   "title": "Cookie deletion test missing"
+  },
+  {
+   "number": 1761,
+   "comments": 6,
+   "title": "binary file upload fails with python 2.7 under windows"
+  },
+  {
+   "number": 1774,
+   "comments": 6,
+   "title": "Response should not return 'ISO-8859-1' as default encoding"
+  },
+  {
+   "number": 1843,
+   "comments": 6,
+   "title": "Allow bypassing decoding with iter_content"
+  },
+  {
+   "number": 2120,
+   "comments": 6,
+   "title": "Unexpected keyword argument in packages/urllib3/connectionpool.py"
+  },
+  {
+   "number": 1996,
+   "comments": 6,
+   "title": "MIME type no longer set on file upload"
+  },
+  {
+   "number": 2154,
+   "comments": 6,
+   "title": "Putting a literal encoded + in the request without it encoding."
+  },
+  {
+   "number": 2230,
+   "comments": 6,
+   "title": "requests will improperly raise errors as ConnectionError"
+  },
+  {
+   "number": 2231,
+   "comments": 6,
+   "title": "Endless loop in sessions.py"
+  },
+  {
+   "number": 2235,
+   "comments": 6,
+   "title": "chunk size error for unicode content"
+  },
+  {
+   "number": 2242,
+   "comments": 6,
+   "title": "HTTPS Session Resume!!"
+  },
+  {
+   "number": 2204,
+   "comments": 6,
+   "title": "2.4.0 request refused raises different exception (breaking change)"
+  },
+  {
+   "number": 2456,
+   "comments": 6,
+   "title": "Thawte (erroneously?) removed from certificate bundle"
+  },
+  {
+   "number": 2403,
+   "comments": 6,
+   "title": "Provide a way for all existing connections to be discarded"
+  },
+  {
+   "number": 2251,
+   "comments": 6,
+   "title": "to use ssl connections ssl varialble must be differ than None."
+  },
+  {
+   "number": 2262,
+   "comments": 6,
+   "title": "Proper encoding for application/json Content-Type"
+  },
+  {
+   "number": 2266,
+   "comments": 6,
+   "title": "Move utility functions from requests.utils to requests-toolbelt"
+  },
+  {
+   "number": 2322,
+   "comments": 6,
+   "title": "requests is not happy with a shoutcast stream"
+  },
+  {
+   "number": 2329,
+   "comments": 6,
+   "title": "Can't override Content-Length"
+  },
+  {
+   "number": 2505,
+   "comments": 6,
+   "title": "request.files is empty after POSTing a file"
+  },
+  {
+   "number": 2517,
+   "comments": 6,
+   "title": "ZeroReturnError exception on GET request to facebook.com"
+  },
+  {
+   "number": 2585,
+   "comments": 6,
+   "title": "Session.get_adapter won't work correctly for case-sensitive URLs"
+  },
+  {
+   "number": 1715,
+   "comments": 6,
+   "title": "Redirection breaks on oddly cased protocols"
+  },
+  {
+   "number": 1718,
+   "comments": 6,
+   "title": "handles Retry-After header in 503 Service Unavailable"
+  },
+  {
+   "number": 1008,
+   "comments": 6,
+   "title": "ConnectionError with App Engine"
+  },
+  {
+   "number": 1023,
+   "comments": 6,
+   "title": "Setting u'POST' in requests.models.PreparedRequest.prepare_method breaks attaching files."
+  },
+  {
+   "number": 1025,
+   "comments": 6,
+   "title": "New urrlib3 breaks App Engine"
+  },
+  {
+   "number": 1087,
+   "comments": 6,
+   "title": "Encodings from content"
+  },
+  {
+   "number": 1102,
+   "comments": 6,
+   "title": "address compromised TURKTRUST certificates"
+  },
+  {
+   "number": 821,
+   "comments": 6,
+   "title": "When proxy is used, Accept header is overwritten"
+  },
+  {
+   "number": 950,
+   "comments": 6,
+   "title": "JSON-encoded data alongside files in POST request is not supported"
+  },
+  {
+   "number": 927,
+   "comments": 6,
+   "title": "requests.post() adds unwanted Authorization: Basic header with anonymous:no@mail.dom"
+  },
+  {
+   "number": 886,
+   "comments": 6,
+   "title": "Return server's SSL certificate in Response or Session"
+  },
+  {
+   "number": 864,
+   "comments": 6,
+   "title": "Data of array not converted properly on content-type application/x-www-form-urlencoded"
+  },
+  {
+   "number": 865,
+   "comments": 6,
+   "title": "Setting a custom header to integer 0 (zero) results in 'int' object is not iterable error"
+  },
+  {
+   "number": 1418,
+   "comments": 6,
+   "title": "Python 3 Windows SSL issue"
+  },
+  {
+   "number": 1450,
+   "comments": 6,
+   "title": "View a Request, PreparedRequest as a curl command"
+  }
+ ]
+}

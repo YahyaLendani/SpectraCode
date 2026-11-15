@@ -6,7 +6,7 @@
     "ref": "v2.32.3",
     "commit_sha": "0e322af87745eff34caffe4df68456ebc20d9068"
   },
-  "notes": "Natural-language questions with hand-checked line ranges at the pinned commit. 'author' records who wrote each query: queries written by someone who had just read the function list leak symbol knowledge, so results should also be reported per author. Queries with author 'claude-heldout' were written after the BM25 change was decided and were not used to make it; they share the author bias of the first 31 (same writer, who has read the code). Queries with author 'stackoverflow' are real question titles, copied verbatim from the top-voted python-requests questions on Stack Overflow (id = question id). They were picked in vote order by a fixed rule (keep a question only if one place in the requests source implements what it asks about; skip install/environment errors, comparisons with other libraries and repeated topics; stop at 15), set before any retrieval run on them. Ground truth was chosen by Claude, who has read the code. 'docs_answers' (Stack Overflow queries only) lists user-docs sections that directly answer the question as asked; they count for the separate answered@k metric, not for code recall. Sections were chosen by heading from the docs table of contents, after the retrieval results for these queries had already been seen, so they may carry some bias. The two error-message questions (no connection adapters, max retries exceeded) have no docs section that explains them and get none. Queries with author 'stackoverflow-2' are a second, untouched set for the fusion test in eval/fusion_replication_preregistration.md. Same source and rule, continuing in vote order from rank 25 (the rank after the last of the first 15) in a list fetched on 2026-11-15 and saved as eval/sources/so_python_requests_by_votes_2026-11-15.json; so_vote_rank is the 0-based position in that list. Ranks 25-840 were examined and 40 kept. 'Topic already covered' was applied mechanically: a question is skipped if the function implementing it is already the ground truth of an earlier kept Stack Overflow question. Ground truth and docs_answers for these 40 were written before any retrieval run on them; 28 have a docs answer.",
+  "notes": "Natural-language questions with hand-checked line ranges at the pinned commit. 'author' records who wrote each query: queries written by someone who had just read the function list leak symbol knowledge, so results should also be reported per author. Queries with author 'claude-heldout' were written after the BM25 change was decided and were not used to make it; they share the author bias of the first 31 (same writer, who has read the code). Queries with author 'stackoverflow' are real question titles, copied verbatim from the top-voted python-requests questions on Stack Overflow (id = question id). They were picked in vote order by a fixed rule (keep a question only if one place in the requests source implements what it asks about; skip install/environment errors, comparisons with other libraries and repeated topics; stop at 15), set before any retrieval run on them. Ground truth was chosen by Claude, who has read the code. 'docs_answers' (Stack Overflow queries only) lists user-docs sections that directly answer the question as asked; they count for the separate answered@k metric, not for code recall. Sections were chosen by heading from the docs table of contents, after the retrieval results for these queries had already been seen, so they may carry some bias. The two error-message questions (no connection adapters, max retries exceeded) have no docs section that explains them and get none. Queries with author 'stackoverflow-2' are a second, untouched set for the fusion test in eval/fusion_replication_preregistration.md. Same source and rule, continuing in vote order from rank 25 (the rank after the last of the first 15) in a list fetched on 2026-11-15 and saved as eval/sources/so_python_requests_by_votes_2026-11-15.json; so_vote_rank is the 0-based position in that list. Ranks 25-840 were examined and 40 kept. 'Topic already covered' was applied mechanically: a question is skipped if the function implementing it is already the ground truth of an earlier kept Stack Overflow question. Ground truth and docs_answers for these 40 were written before any retrieval run on them; 28 have a docs answer. Queries with authors 'stackoverflow-3' and 'github-issues' are the two untouched sets for the routing test in eval/routing_preregistration.md, split by the production router (HybridCodeRetriever.compute_dynamic_alpha): every 'stackoverflow-3' title is a plain question and every 'github-issues' title is an identifier question. 'stackoverflow-3': same Stack Overflow list and rule, continuing from rank 841 (pages 11-15 were appended to the saved list for this); ranks 841-1352 were examined and 40 kept. 'github-issues': issue titles, verbatim, from psf/requests issues sorted by comments, saved as eval/sources/psf_requests_issues_by_comments_2026-11-15.json; issue_comment_rank is the 0-based position in that list and id is gh_<issue number>. Ranks 0-408 were examined and 30 kept. The repeat rule applies within each set only. Ground truth and docs_answers for all 70 were written before any retrieval run on them; 33 of the 40 plain and 16 of the 30 identifier questions have a docs answer.",
   "queries": [
     {
       "id": "redirect_strip_auth",
@@ -1698,6 +1698,1344 @@
           "file": "src/requests/utils.py",
           "start": 826,
           "end": 835
+        }
+      ]
+    },
+    {
+      "id": "so_34767484",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 844,
+      "query": "using self-signed certificates with requests in python",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 304,
+          "end": 357
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 211,
+          "end": 253,
+          "section": "SSL Cert Verification"
+        }
+      ]
+    },
+    {
+      "id": "so_12592553",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 847,
+      "query": "Python Requests Multipart HTTP POST",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 136,
+          "end": 203
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 302,
+          "end": 365,
+          "section": "POST a Multipart-Encoded File"
+        }
+      ]
+    },
+    {
+      "id": "so_25393502",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 849,
+      "query": "How to maintain login session while logging in using Python Script",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 390,
+          "end": 449
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 10,
+          "end": 86,
+          "section": "Session Objects"
+        }
+      ]
+    },
+    {
+      "id": "so_9692979",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 855,
+      "query": "Calculating Content-Length with Python",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 572,
+          "end": 586
+        }
+      ]
+    },
+    {
+      "id": "so_61345601",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 864,
+      "query": "Python Requests modules: post very large files in chunks to monitor progress",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 494,
+          "end": 570
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 349,
+          "end": 367,
+          "section": "Streaming Uploads"
+        }
+      ]
+    },
+    {
+      "id": "so_32258413",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 872,
+      "query": "Python requests timeouts",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 613,
+          "end": 719
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 526,
+          "end": 548,
+          "section": "Timeouts"
+        },
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 1090,
+          "end": 1141,
+          "section": "Timeouts"
+        }
+      ]
+    },
+    {
+      "id": "so_30514459",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 891,
+      "query": "Python requests module url encode",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 106,
+          "end": 134
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 54,
+          "end": 83,
+          "section": "Passing Parameters In URLs"
+        }
+      ]
+    },
+    {
+      "id": "so_66370290",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 918,
+      "query": "How to attach .netrc file to python requests get method?",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 204,
+          "end": 258
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/authentication.rst",
+          "start": 36,
+          "end": 47,
+          "section": "netrc Authentication"
+        }
+      ]
+    },
+    {
+      "id": "so_60301253",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 925,
+      "query": "Can you get Request Headers with python request library?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 483,
+          "end": 492
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 87,
+          "end": 120,
+          "section": "Request and Response Objects"
+        }
+      ]
+    },
+    {
+      "id": "so_46253288",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 929,
+      "query": "scrape with correct character encoding (python requests + beautifulsoup)",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 909,
+          "end": 945
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 84,
+          "end": 120,
+          "section": "Response Content"
+        },
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 706,
+          "end": 736,
+          "section": "Encodings"
+        }
+      ]
+    },
+    {
+      "id": "so_37945057",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 930,
+      "query": "Python Requests - authentication after redirect",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 282,
+          "end": 300
+        }
+      ]
+    },
+    {
+      "id": "so_32264559",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 931,
+      "query": "HTTP Delete with python requests module",
+      "ground_truth": [
+        {
+          "file": "src/requests/api.py",
+          "start": 148,
+          "end": 157
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 20,
+          "end": 53,
+          "section": "Make a Request"
+        }
+      ]
+    },
+    {
+      "id": "so_68775783",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 941,
+      "query": "Pythons requests library removing appending question mark from URL",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 409,
+          "end": 481
+        }
+      ]
+    },
+    {
+      "id": "so_24260149",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 948,
+      "query": "Python: Requests Session Login Cookies",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 457,
+          "end": 498
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 10,
+          "end": 86,
+          "section": "Session Objects"
+        }
+      ]
+    },
+    {
+      "id": "so_23967305",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 954,
+      "query": "Modify request params with custom authentication",
+      "ground_truth": [
+        {
+          "file": "src/requests/auth.py",
+          "start": 69,
+          "end": 73
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 487,
+          "end": 524,
+          "section": "Custom Authentication"
+        },
+        {
+          "file": "docs/user/authentication.rst",
+          "start": 108,
+          "end": 145,
+          "section": "New Forms of Authentication"
+        }
+      ]
+    },
+    {
+      "id": "so_42979289",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 962,
+      "query": "Is it possible to catch all exceptions for requests? (and generally, for a module)",
+      "ground_truth": [
+        {
+          "file": "src/requests/exceptions.py",
+          "start": 12,
+          "end": 24
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 549,
+          "end": 570,
+          "section": "Errors and Exceptions"
+        }
+      ]
+    },
+    {
+      "id": "so_42959165",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 981,
+      "query": "Stream pricing from oanda V20 rest api using python requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 857,
+          "end": 888
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 525,
+          "end": 576,
+          "section": "Streaming Requests"
+        }
+      ]
+    },
+    {
+      "id": "so_59590669",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 988,
+      "query": "Streaming to a variable instead of a file when using the requests library in Python",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 799,
+          "end": 855
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 525,
+          "end": 576,
+          "section": "Streaming Requests"
+        },
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 300,
+          "end": 335,
+          "section": "Body Content Workflow"
+        }
+      ]
+    },
+    {
+      "id": "so_47841513",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1036,
+      "query": "Is it possible to set a maximum number of retries shared between all pool connections in the same session?",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 202,
+          "end": 222
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 1035,
+          "end": 1061,
+          "section": "Example: Automatic Retries"
+        }
+      ]
+    },
+    {
+      "id": "so_36014646",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1044,
+      "query": "Python Requests Not Respecting verify=False",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 750,
+          "end": 779
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 211,
+          "end": 253,
+          "section": "SSL Cert Verification"
+        }
+      ]
+    },
+    {
+      "id": "so_39906836",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1058,
+      "query": "Unable to determine SOCKS version from socks",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 266,
+          "end": 302
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 671,
+          "end": 697,
+          "section": "SOCKS"
+        }
+      ]
+    },
+    {
+      "id": "so_51322889",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1059,
+      "query": "Check current url of webpage using requests python 3.7.0",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 359,
+          "end": 394
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 477,
+          "end": 525,
+          "section": "Redirection and History"
+        }
+      ]
+    },
+    {
+      "id": "so_43071816",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1063,
+      "query": "How to check if request post has been successfully posted?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 997,
+          "end": 1024
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 366,
+          "end": 403,
+          "section": "Response Status Codes"
+        }
+      ]
+    },
+    {
+      "id": "so_31928942",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1086,
+      "query": "Trying to load cookie into requests session from dictionary",
+      "ground_truth": [
+        {
+          "file": "src/requests/cookies.py",
+          "start": 521,
+          "end": 539
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 442,
+          "end": 476,
+          "section": "Cookies"
+        }
+      ]
+    },
+    {
+      "id": "so_47537644",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1103,
+      "query": "Python - How to get the page Wikipedia will redirect me to?",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 159,
+          "end": 280
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 477,
+          "end": 525,
+          "section": "Redirection and History"
+        }
+      ]
+    },
+    {
+      "id": "so_44448625",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1104,
+      "query": "How to handle a connection error gracefully in requests?",
+      "ground_truth": [
+        {
+          "file": "src/requests/exceptions.py",
+          "start": 59,
+          "end": 60
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 549,
+          "end": 570,
+          "section": "Errors and Exceptions"
+        }
+      ]
+    },
+    {
+      "id": "so_77262501",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1126,
+      "query": "How to alter cipher suite used with Python requests?",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 240,
+          "end": 264
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 1008,
+          "end": 1034,
+          "section": "Example: Specific SSL Version"
+        }
+      ]
+    },
+    {
+      "id": "so_60066356",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1132,
+      "query": "Python Requests: Handling JSON response, storing to list or dict?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 947,
+          "end": 978
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 143,
+          "end": 166,
+          "section": "JSON Response Content"
+        }
+      ]
+    },
+    {
+      "id": "so_31095006",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1143,
+      "query": "Does python-requests have any callback method?",
+      "ground_truth": [
+        {
+          "file": "src/requests/hooks.py",
+          "start": 22,
+          "end": 33
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 423,
+          "end": 486,
+          "section": "Event Hooks"
+        }
+      ]
+    },
+    {
+      "id": "so_47664001",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1170,
+      "query": "How to display body and headers before sending POST request?",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 295,
+          "end": 310
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 121,
+          "end": 210,
+          "section": "Prepared Requests"
+        }
+      ]
+    },
+    {
+      "id": "so_29295376",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1177,
+      "query": "Python requests module - send only specified headers",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 61,
+          "end": 88
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 10,
+          "end": 86,
+          "section": "Session Objects"
+        }
+      ]
+    },
+    {
+      "id": "so_47113376",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1190,
+      "query": "Python 3.x requests redirect with unicode character",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 107,
+          "end": 125
+        }
+      ]
+    },
+    {
+      "id": "so_43437667",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1192,
+      "query": "HEAD and GET http request return different status code for the same URL",
+      "ground_truth": [
+        {
+          "file": "src/requests/api.py",
+          "start": 88,
+          "end": 100
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 477,
+          "end": 525,
+          "section": "Redirection and History"
+        }
+      ]
+    },
+    {
+      "id": "so_19124965",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1252,
+      "query": "HTTP PUT with base64 encoded attachment using requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/api.py",
+          "start": 118,
+          "end": 130
+        }
+      ]
+    },
+    {
+      "id": "so_13005301",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1297,
+      "query": "https proxy support in python requests library",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 838,
+          "end": 861
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 577,
+          "end": 670,
+          "section": "Proxies"
+        }
+      ]
+    },
+    {
+      "id": "so_41689688",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1319,
+      "query": "Add a proxy header using python requests",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 592,
+          "end": 611
+        }
+      ]
+    },
+    {
+      "id": "so_37527047",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1321,
+      "query": "IDNA label empty or too long",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 399,
+          "end": 407
+        }
+      ]
+    },
+    {
+      "id": "so_36622584",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1322,
+      "query": "Python requests https through Burp. Verify param, default certs path",
+      "ground_truth": [
+        {
+          "file": "src/requests/certs.py",
+          "start": 1,
+          "end": 17
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 211,
+          "end": 253,
+          "section": "SSL Cert Verification"
+        },
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 279,
+          "end": 299,
+          "section": "CA Certificates"
+        }
+      ]
+    },
+    {
+      "id": "so_37710226",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1342,
+      "query": "How do I reach cookie information in python requests?",
+      "ground_truth": [
+        {
+          "file": "src/requests/cookies.py",
+          "start": 124,
+          "end": 137
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 442,
+          "end": 476,
+          "section": "Cookies"
+        }
+      ]
+    },
+    {
+      "id": "so_21583195",
+      "author": "stackoverflow-3",
+      "so_vote_rank": 1352,
+      "query": "Get HTTP response header using Python requests module",
+      "ground_truth": [
+        {
+          "file": "src/requests/structures.py",
+          "start": 13,
+          "end": 80
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 404,
+          "end": 441,
+          "section": "Response Headers"
+        }
+      ]
+    },
+    {
+      "id": "gh_281",
+      "author": "github-issues",
+      "issue_comment_rank": 41,
+      "query": "Cookies need to be CookieJar-backed again.",
+      "ground_truth": [
+        {
+          "file": "src/requests/cookies.py",
+          "start": 176,
+          "end": 437
+        }
+      ]
+    },
+    {
+      "id": "gh_1967",
+      "author": "github-issues",
+      "issue_comment_rank": 60,
+      "query": "Running a single connection with pool_block == True, hangs the application",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 240,
+          "end": 264
+        }
+      ]
+    },
+    {
+      "id": "gh_1236",
+      "author": "github-issues",
+      "issue_comment_rank": 106,
+      "query": "socket.timeout is thrown instead of requests.exceptions.Timeout",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 613,
+          "end": 719
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 549,
+          "end": 570,
+          "section": "Errors and Exceptions"
+        }
+      ]
+    },
+    {
+      "id": "gh_1604",
+      "author": "github-issues",
+      "issue_comment_rank": 120,
+      "query": "Response.text returns improperly decoded text (requests 1.2.3, python 2.7)",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 909,
+          "end": 945
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 84,
+          "end": 120,
+          "section": "Response Content"
+        },
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 706,
+          "end": 736,
+          "section": "Encodings"
+        }
+      ]
+    },
+    {
+      "id": "gh_3523",
+      "author": "github-issues",
+      "issue_comment_rank": 128,
+      "query": "2.11.0: ValueError: Unable to determine SOCKS version ",
+      "ground_truth": [
+        {
+          "file": "src/requests/adapters.py",
+          "start": 266,
+          "end": 302
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 671,
+          "end": 697,
+          "section": "SOCKS"
+        }
+      ]
+    },
+    {
+      "id": "gh_6071",
+      "author": "github-issues",
+      "issue_comment_rank": 130,
+      "query": "CURL_CA_BUNDLE= disables certificate verification",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 750,
+          "end": 779
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 211,
+          "end": 253,
+          "section": "SSL Cert Verification"
+        }
+      ]
+    },
+    {
+      "id": "gh_989",
+      "author": "github-issues",
+      "issue_comment_rank": 131,
+      "query": "streaming a response with iter_lines doesn't work",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 857,
+          "end": 888
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 525,
+          "end": 576,
+          "section": "Streaming Requests"
+        }
+      ]
+    },
+    {
+      "id": "gh_3477",
+      "author": "github-issues",
+      "issue_comment_rank": 136,
+      "query": "Requests 2.11: check_header_validity failed on header with integer value",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 1034,
+          "end": 1042
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 206,
+          "end": 232,
+          "section": "Custom Headers"
+        }
+      ]
+    },
+    {
+      "id": "gh_2817",
+      "author": "github-issues",
+      "issue_comment_rank": 140,
+      "query": "RFE: Be able to pass 'no_proxy' in proxies dictionary argument",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 864,
+          "end": 888
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 577,
+          "end": 670,
+          "section": "Proxies"
+        }
+      ]
+    },
+    {
+      "id": "gh_3729",
+      "author": "github-issues",
+      "issue_comment_rank": 144,
+      "query": "iter_content slow with large chunk size on HTTPS connection",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 799,
+          "end": 855
+        }
+      ]
+    },
+    {
+      "id": "gh_3759",
+      "author": "github-issues",
+      "issue_comment_rank": 145,
+      "query": "cookies.py why replace escaped quote with nothing?",
+      "ground_truth": [
+        {
+          "file": "src/requests/cookies.py",
+          "start": 206,
+          "end": 223
+        }
+      ]
+    },
+    {
+      "id": "gh_2399",
+      "author": "github-issues",
+      "issue_comment_rank": 165,
+      "query": "[Proposed Enhancement] Consume remainder of socket in Response.close",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 1026,
+          "end": 1037
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 300,
+          "end": 335,
+          "section": "Body Content Workflow"
+        }
+      ]
+    },
+    {
+      "id": "gh_179",
+      "author": "github-issues",
+      "issue_comment_rank": 171,
+      "query": "Accept k/v lists in place of dicts everywhere.",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 345,
+          "end": 371
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 233,
+          "end": 301,
+          "section": "More complicated POST requests"
+        }
+      ]
+    },
+    {
+      "id": "gh_1280",
+      "author": "github-issues",
+      "issue_comment_rank": 190,
+      "query": "Session.request doesn't have parameter return_response, contrary to what the docs say.",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 500,
+          "end": 591
+        }
+      ]
+    },
+    {
+      "id": "gh_1704",
+      "author": "github-issues",
+      "issue_comment_rank": 191,
+      "query": "requests.delete not actually deleting",
+      "ground_truth": [
+        {
+          "file": "src/requests/api.py",
+          "start": 148,
+          "end": 157
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 20,
+          "end": 53,
+          "section": "Make a Request"
+        }
+      ]
+    },
+    {
+      "id": "gh_369",
+      "author": "github-issues",
+      "issue_comment_rank": 195,
+      "query": "requests.get() URL Encode Issue",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 409,
+          "end": 481
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 54,
+          "end": 83,
+          "section": "Passing Parameters In URLs"
+        }
+      ]
+    },
+    {
+      "id": "gh_2645",
+      "author": "github-issues",
+      "issue_comment_rank": 200,
+      "query": "[RFC] Change behaviour of Response.ok in 3.0",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 754,
+          "end": 767
+        }
+      ]
+    },
+    {
+      "id": "gh_1051",
+      "author": "github-issues",
+      "issue_comment_rank": 233,
+      "query": "requests.get is ALWAYS sending content length",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 572,
+          "end": 586
+        }
+      ]
+    },
+    {
+      "id": "gh_1053",
+      "author": "github-issues",
+      "issue_comment_rank": 234,
+      "query": "TooManyRedirect on pypi.python.org",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 159,
+          "end": 280
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 477,
+          "end": 525,
+          "section": "Redirection and History"
+        }
+      ]
+    },
+    {
+      "id": "gh_4123",
+      "author": "github-issues",
+      "issue_comment_rank": 243,
+      "query": "Make response.next lazily computable.",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 784,
+          "end": 787
+        }
+      ]
+    },
+    {
+      "id": "gh_2206",
+      "author": "github-issues",
+      "issue_comment_rank": 251,
+      "query": "problems with get_encodings_from_content",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 489,
+          "end": 511
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 706,
+          "end": 736,
+          "section": "Encodings"
+        }
+      ]
+    },
+    {
+      "id": "gh_480",
+      "author": "github-issues",
+      "issue_comment_rank": 253,
+      "query": "utils.get_encoding_from_headers returns ISO-8859-1 incorrectly",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 539,
+          "end": 561
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 706,
+          "end": 736,
+          "section": "Encodings"
+        }
+      ]
+    },
+    {
+      "id": "gh_4842",
+      "author": "github-issues",
+      "issue_comment_rank": 264,
+      "query": "Using a `json.JSONDecoder` fails when simplejson is present",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 947,
+          "end": 978
+        }
+      ]
+    },
+    {
+      "id": "gh_2511",
+      "author": "github-issues",
+      "issue_comment_rank": 274,
+      "query": "Documentation unclear on Response.elapsed",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 673,
+          "end": 748
+        }
+      ]
+    },
+    {
+      "id": "gh_1220",
+      "author": "github-issues",
+      "issue_comment_rank": 284,
+      "query": "raise_for_status does not raise for redirects",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 997,
+          "end": 1024
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/quickstart.rst",
+          "start": 366,
+          "end": 403,
+          "section": "Response Status Codes"
+        }
+      ]
+    },
+    {
+      "id": "gh_4127",
+      "author": "github-issues",
+      "issue_comment_rank": 287,
+      "query": "UnboundLocalError: local variable 'bypass' referenced before assignment",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 765,
+          "end": 823
+        }
+      ]
+    },
+    {
+      "id": "gh_1997",
+      "author": "github-issues",
+      "issue_comment_rank": 311,
+      "query": "boundary for custom 'Content-Type: multipart/form-data' header",
+      "ground_truth": [
+        {
+          "file": "src/requests/models.py",
+          "start": 494,
+          "end": 570
+        }
+      ]
+    },
+    {
+      "id": "gh_2215",
+      "author": "github-issues",
+      "issue_comment_rank": 318,
+      "query": "Using st_size on FIFO files or stdin will cause super_len to return 0 as the length",
+      "ground_truth": [
+        {
+          "file": "src/requests/utils.py",
+          "start": 135,
+          "end": 201
+        }
+      ]
+    },
+    {
+      "id": "gh_4764",
+      "author": "github-issues",
+      "issue_comment_rank": 389,
+      "query": "InvalidSchema(\"No connection adapters were found for '%s'\" % url)",
+      "ground_truth": [
+        {
+          "file": "src/requests/sessions.py",
+          "start": 781,
+          "end": 792
+        }
+      ],
+      "docs_answers": [
+        {
+          "file": "docs/user/advanced.rst",
+          "start": 969,
+          "end": 1007,
+          "section": "Transport Adapters"
+        }
+      ]
+    },
+    {
+      "id": "gh_2334",
+      "author": "github-issues",
+      "issue_comment_rank": 408,
+      "query": "HTTPDigestAuth on session not thread-safe",
+      "ground_truth": [
+        {
+          "file": "src/requests/auth.py",
+          "start": 116,
+          "end": 124
         }
       ]
     }

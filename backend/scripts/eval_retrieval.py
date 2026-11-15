@@ -28,9 +28,12 @@ BACKEND = Path(__file__).resolve().parents[1]
 # Running a file puts its own folder (scripts/) on sys.path, not backend/, so `app` must be added.
 sys.path.insert(0, str(BACKEND))
 EVAL_DATA = BACKEND / "data" / "eval"
-MODES = ("bm25", "sparse", "dense", "hybrid", "rrf_only", "dense_minmax")
+MODES = ("bm25", "sparse", "dense", "hybrid", "rrf_only", "dense_minmax", "route_dense")
 # Candidate fusion fixes, fixed in eval/fusion_preregistration.md before the Stack Overflow queries were scored.
 CANDIDATES = ("rrf_only", "dense_minmax")
+# Routing candidate and its two query sets, fixed in eval/routing_preregistration.md before scoring.
+ROUTING_CANDIDATES = ("route_dense",)
+ROUTING_AUTHORS = ("stackoverflow-3", "github-issues")
 K_VALUES = (5, 10)
 
 
@@ -129,6 +132,11 @@ def _fusion_candidates(retriever, items, query: str, top_k: int) -> dict:
     return {"rrf_only": by_rrf[:top_k], "dense_minmax": [c for _, c in scored[:top_k]]}
 
 
+def _is_identifier_question(retriever, query: str) -> bool:
+    """The production router: a query gets the lower, identifier alpha if it names code."""
+    return retriever.compute_dynamic_alpha(query) != retriever.compute_dynamic_alpha("")
+
+
 def _spans(chunks):
     from app.evaluation.evaluator import LineSpan
 
@@ -210,8 +218,19 @@ async def run(suite_path: Path) -> dict:
             timings["hybrid"].append(time.perf_counter() - t)
             ranked["hybrid"] = _spans(hybrid[:k_max])
 
+            # route_dense: plain questions take the dense top 10, identifier questions keep the hybrid.
+            identifier = _is_identifier_question(retriever, q.query)
+            ranked["route_dense"] = ranked["hybrid"] if identifier else ranked["dense"]
+            timings["route_dense"].append(timings["hybrid"][-1] if identifier else scoring_time)
+
             accepted = q.ground_truth + q.docs_answers
-            row = {"id": q.id, "author": q.author, "query": q.query, "modes": {}}
+            row = {
+                "id": q.id,
+                "author": q.author,
+                "query": q.query,
+                "question_type": "identifier" if identifier else "plain",
+                "modes": {},
+            }
             for mode in MODES:
                 row["modes"][mode] = {
                     **{f"recall@{k}": rm.recall_at_k(ranked[mode], q.ground_truth, k) for k in K_VALUES},
@@ -238,7 +257,7 @@ async def run(suite_path: Path) -> dict:
 
     def compare(rows_subset):
         out = {}
-        for baseline in ("bm25", "dense", "sparse") + CANDIDATES:
+        for baseline in ("bm25", "dense", "sparse") + CANDIDATES + ROUTING_CANDIDATES:
             for m in metric_names:
                 a = [r["modes"]["hybrid"][m] for r in rows_subset]
                 b = [r["modes"][baseline][m] for r in rows_subset]
@@ -272,6 +291,8 @@ async def run(suite_path: Path) -> dict:
         "by_author": {a: summarise([r for r in per_query if r["author"] == a]) for a in authors},
         "hybrid_vs_baselines": comparisons,
         "hybrid_vs_baselines_by_author": {a: compare([r for r in per_query if r["author"] == a]) for a in authors},
+        # Rule 3 of eval/routing_preregistration.md: both routing sets together.
+        "hybrid_vs_baselines_routing_sets": compare([r for r in per_query if r["author"] in ROUTING_AUTHORS]),
         "per_query": per_query,
     }
 
