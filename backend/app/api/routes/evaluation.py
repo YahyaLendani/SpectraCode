@@ -16,6 +16,7 @@ from app.evaluation.evaluator import LineSpan, SpectraCodeBenchmarkEvaluator
 from app.evaluation.suite_generator import DynamicBenchmarkGenerator
 from app.generation.citation_engine import GroundedCitationEngine
 from app.generation.llm_service import LLMService
+from app.ingestion.git_importer import is_sample_identifier
 from app.retrieval.hybrid_retriever import HybridCodeRetriever
 
 router = APIRouter(prefix="/repositories", tags=["Evaluation"])
@@ -113,12 +114,12 @@ async def run_evaluation_benchmark(
         raise HTTPException(status_code=404, detail="Repository not found")
 
     clone_url = repo.clone_url or ""
-    if clone_url == "sample:fastapi" or "sample" in clone_url.lower():
+    if is_sample_identifier(clone_url):
         suite: List[BenchmarkQueryItem] = FASTAPI_BENCHMARK_SUITE
         suite_name = "SpectraCode Curated FastAPI Suite v1"
     else:
         suite = await DynamicBenchmarkGenerator.generate(db, repo_id)
-        suite_name = f"SpectraCode Tailored AST Suite v1 ({repo.github_name})"[:128]
+        suite_name = f"SpectraCode Symbol-Lookup Smoke Test v1 ({repo.github_name})"[:128]
 
     run_id = uuid.uuid4()
     sample_results_db: List[EvaluationSampleResult] = []

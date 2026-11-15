@@ -1,0 +1,1747 @@
+{
+  "suite": "psf/requests v2.32.3 retrieval suite",
+  "suite_file": "eval/suites/requests_v2_32_3.json",
+  "run_at": "2026-11-15T15:44:18+00:00",
+  "repository": {
+    "clone_url": "https://github.com/psf/requests.git",
+    "ref": "v2.32.3",
+    "commit_sha": "0e322af87745eff34caffe4df68456ebc20d9068"
+  },
+  "config": {
+    "embedding_model": "BAAI/bge-small-en-v1.5",
+    "max_chunk_chars": 3000,
+    "retriever": {
+      "rrf_k": 60,
+      "rerank_weight": 0.75,
+      "min_relevance_threshold": 0.15
+    },
+    "coverage_threshold": 0.4,
+    "bootstrap": {
+      "resamples": 2000,
+      "seed": 0
+    }
+  },
+  "n_queries": 31,
+  "n_chunks": 761,
+  "index_seconds": 145.1,
+  "mean_latency_ms": {
+    "bm25": 2.7,
+    "sparse": 392.5,
+    "dense": 392.5,
+    "hybrid": 385.0
+  },
+  "overall": {
+    "bm25": {
+      "recall@5": {
+        "mean": 0.6290322580645161,
+        "ci95": [
+          0.46774193548387094,
+          0.7903225806451613
+        ]
+      },
+      "recall@10": {
+        "mean": 0.7258064516129032,
+        "ci95": [
+          0.5806451612903226,
+          0.8709677419354839
+        ]
+      },
+      "mrr@10": {
+        "mean": 0.5072964669738863,
+        "ci95": [
+          0.36966205837173577,
+          0.6623655913978496
+        ]
+      }
+    },
+    "sparse": {
+      "recall@5": {
+        "mean": 0.3225806451612903,
+        "ci95": [
+          0.1774193548387097,
+          0.46774193548387094
+        ]
+      },
+      "recall@10": {
+        "mean": 0.5,
+        "ci95": [
+          0.3387096774193548,
+          0.6612903225806451
+        ]
+      },
+      "mrr@10": {
+        "mean": 0.18726318484383,
+        "ci95": [
+          0.1136968766001024,
+          0.27507680491551456
+        ]
+      }
+    },
+    "dense": {
+      "recall@5": {
+        "mean": 0.7096774193548387,
+        "ci95": [
+          0.5483870967741935,
+          0.8548387096774194
+        ]
+      },
+      "recall@10": {
+        "mean": 0.8548387096774194,
+        "ci95": [
+          0.7258064516129032,
+          0.967741935483871
+        ]
+      },
+      "mrr@10": {
+        "mean": 0.5725806451612904,
+        "ci95": [
+          0.4435483870967742,
+          0.7043010752688171
+        ]
+      }
+    },
+    "hybrid": {
+      "recall@5": {
+        "mean": 0.6774193548387096,
+        "ci95": [
+          0.5161290322580645,
+          0.8225806451612904
+        ]
+      },
+      "recall@10": {
+        "mean": 0.8225806451612904,
+        "ci95": [
+          0.6935483870967742,
+          0.9354838709677419
+        ]
+      },
+      "mrr@10": {
+        "mean": 0.5536610343061956,
+        "ci95": [
+          0.42375832053251405,
+          0.6934459805427547
+        ]
+      }
+    }
+  },
+  "by_author": {
+    "claude": {
+      "bm25": {
+        "recall@5": {
+          "mean": 0.6290322580645161,
+          "ci95": [
+            0.46774193548387094,
+            0.7903225806451613
+          ]
+        },
+        "recall@10": {
+          "mean": 0.7258064516129032,
+          "ci95": [
+            0.5806451612903226,
+            0.8709677419354839
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.5072964669738863,
+          "ci95": [
+            0.36966205837173577,
+            0.6623655913978496
+          ]
+        }
+      },
+      "sparse": {
+        "recall@5": {
+          "mean": 0.3225806451612903,
+          "ci95": [
+            0.1774193548387097,
+            0.46774193548387094
+          ]
+        },
+        "recall@10": {
+          "mean": 0.5,
+          "ci95": [
+            0.3387096774193548,
+            0.6612903225806451
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.18726318484383,
+          "ci95": [
+            0.1136968766001024,
+            0.27507680491551456
+          ]
+        }
+      },
+      "dense": {
+        "recall@5": {
+          "mean": 0.7096774193548387,
+          "ci95": [
+            0.5483870967741935,
+            0.8548387096774194
+          ]
+        },
+        "recall@10": {
+          "mean": 0.8548387096774194,
+          "ci95": [
+            0.7258064516129032,
+            0.967741935483871
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.5725806451612904,
+          "ci95": [
+            0.4435483870967742,
+            0.7043010752688171
+          ]
+        }
+      },
+      "hybrid": {
+        "recall@5": {
+          "mean": 0.6774193548387096,
+          "ci95": [
+            0.5161290322580645,
+            0.8225806451612904
+          ]
+        },
+        "recall@10": {
+          "mean": 0.8225806451612904,
+          "ci95": [
+            0.6935483870967742,
+            0.9354838709677419
+          ]
+        },
+        "mrr@10": {
+          "mean": 0.5536610343061956,
+          "ci95": [
+            0.42375832053251405,
+            0.6934459805427547
+          ]
+        }
+      }
+    }
+  },
+  "hybrid_vs_baselines": {
+    "hybrid_minus_bm25:recall@5": {
+      "mean": 0.04838709677419355,
+      "ci95": [
+        -0.04838709677419355,
+        0.16129032258064516
+      ]
+    },
+    "hybrid_minus_bm25:recall@10": {
+      "mean": 0.0967741935483871,
+      "ci95": [
+        -0.03225806451612903,
+        0.24193548387096775
+      ]
+    },
+    "hybrid_minus_bm25:mrr@10": {
+      "mean": 0.04636456733230927,
+      "ci95": [
+        -0.051536098310291864,
+        0.13904249871991806
+      ]
+    },
+    "hybrid_minus_dense:recall@5": {
+      "mean": -0.03225806451612903,
+      "ci95": [
+        -0.20967741935483872,
+        0.14516129032258066
+      ]
+    },
+    "hybrid_minus_dense:recall@10": {
+      "mean": -0.03225806451612903,
+      "ci95": [
+        -0.12903225806451613,
+        0.06451612903225806
+      ]
+    },
+    "hybrid_minus_dense:mrr@10": {
+      "mean": -0.018919610855094724,
+      "ci95": [
+        -0.15227854582693293,
+        0.1196620583717358
+      ]
+    },
+    "hybrid_minus_sparse:recall@5": {
+      "mean": 0.3548387096774194,
+      "ci95": [
+        0.1935483870967742,
+        0.5161290322580645
+      ]
+    },
+    "hybrid_minus_sparse:recall@10": {
+      "mean": 0.3225806451612903,
+      "ci95": [
+        0.1774193548387097,
+        0.4838709677419355
+      ]
+    },
+    "hybrid_minus_sparse:mrr@10": {
+      "mean": 0.36639784946236564,
+      "ci95": [
+        0.27549923195084486,
+        0.46632104454685097
+      ]
+    }
+  },
+  "per_query": [
+    {
+      "id": "redirect_strip_auth",
+      "author": "claude",
+      "query": "When following a redirect to a different host, when are the authorization credentials dropped?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "HISTORY.md:56-115",
+            "docs/user/quickstart.rst:221-280",
+            "src/requests/sessions.py:282-300"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "HISTORY.md:56-115",
+            "src/requests/sessions.py:282-300",
+            "docs/user/quickstart.rst:221-280"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "tests/test_requests.py:1853-1858",
+            "src/requests/sessions.py:282-300",
+            "src/requests/sessions.py:127-157"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/sessions.py:282-300",
+            "docs/user/quickstart.rst:221-280",
+            "src/requests/sessions.py:127-157"
+          ]
+        }
+      }
+    },
+    {
+      "id": "redirect_303_method",
+      "author": "claude",
+      "query": "How does a 303 See Other response change the HTTP verb of the follow-up request?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/authentication.rst:56-115",
+            "src/requests/sessions.py:333-353",
+            "HISTORY.md:1376-1435"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/api.rst:166-225",
+            "docs/user/advanced.rst:716-775",
+            "docs/user/advanced.rst:771-830"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.25,
+          "top3": [
+            "tests/test_requests.py:294-299",
+            "tests/test_requests.py:1908-1925",
+            "tests/test_requests.py:301-306"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/api.rst:166-225",
+            "src/requests/sessions.py:333-353",
+            "docs/api.rst:111-170"
+          ]
+        }
+      }
+    },
+    {
+      "id": "redirect_limit",
+      "author": "claude",
+      "query": "What stops the client from following redirects forever?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:1101-1141",
+            "src/requests/adapters.py:396-444",
+            "docs/api.rst:166-225"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:1101-1141",
+            "src/requests/adapters.py:396-444",
+            "docs/user/advanced.rst:716-775"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.16666666666666666,
+          "top3": [
+            "docs/user/quickstart.rst:496-555",
+            "tests/test_requests.py:250-263",
+            "src/requests/sessions.py:127-157"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "tests/test_requests.py:2191-2233",
+            "docs/user/advanced.rst:1101-1141",
+            "docs/api.rst:166-225"
+          ]
+        }
+      }
+    },
+    {
+      "id": "no_proxy_bypass",
+      "author": "claude",
+      "query": "How do environment variables decide that a host should skip the proxy?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "src/requests/utils.py:104-125",
+            "src/requests/utils.py:765-823",
+            "HISTORY.md:771-830"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/advanced.rst:606-665",
+            "src/requests/utils.py:765-823",
+            "HISTORY.md:771-830"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:765-823",
+            "src/requests/utils.py:104-125",
+            "tests/test_utils.py:191-253"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:765-823",
+            "docs/user/advanced.rst:606-665",
+            "src/requests/utils.py:104-125"
+          ]
+        }
+      }
+    },
+    {
+      "id": "select_proxy",
+      "author": "claude",
+      "query": "When several proxies are configured for schemes and specific hosts, which one is picked for a URL?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:838-861",
+            "src/requests/adapters.py:546-576",
+            "src/requests/utils.py:864-888"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "HISTORY.md:881-940",
+            "HISTORY.md:716-775",
+            "HISTORY.md:771-830"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:838-861",
+            "tests/test_utils.py:510-533",
+            "src/requests/utils.py:765-823"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "src/requests/utils.py:864-888",
+            "src/requests/utils.py:838-861",
+            "src/requests/adapters.py:546-576"
+          ]
+        }
+      }
+    },
+    {
+      "id": "encoding_guess",
+      "author": "claude",
+      "query": "How is the text encoding of a response body guessed when the server does not declare a charset?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:909-945",
+            "docs/user/quickstart.rst:56-115",
+            "src/requests/models.py:947-978"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:56-115",
+            "docs/user/advanced.rst:661-720",
+            "src/requests/models.py:947-978"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:909-945",
+            "src/requests/utils.py:591-627",
+            "docs/user/quickstart.rst:111-170"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/quickstart.rst:111-170",
+            "src/requests/models.py:909-945",
+            "src/requests/models.py:947-978"
+          ]
+        }
+      }
+    },
+    {
+      "id": "json_utf_detect",
+      "author": "claude",
+      "query": "How does it figure out whether raw JSON bytes are UTF-16 or UTF-32?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "tests/test_utils.py:376-408",
+            "src/requests/utils.py:957-986",
+            "src/requests/models.py:947-978"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.25,
+          "top3": [
+            "docs/user/advanced.rst:716-775",
+            "src/requests/api.py:14-59",
+            "src/requests/sessions.py:500-563"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:957-986",
+            "src/requests/models.py:947-978",
+            "tests/test_requests.py:2546-2551"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:957-986",
+            "src/requests/models.py:947-978",
+            "HISTORY.md:661-720"
+          ]
+        }
+      }
+    },
+    {
+      "id": "netrc_credentials",
+      "author": "claude",
+      "query": "Where are login credentials picked up from the user's netrc file?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/authentication.rst:1-60",
+            "src/requests/utils.py:204-258",
+            "docs/user/quickstart.rst:221-280"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/authentication.rst:1-60",
+            "HISTORY.md:716-775",
+            "HISTORY.md:1321-1380"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:204-258",
+            "tests/test_requests.py:671-704",
+            "docs/user/quickstart.rst:221-280"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/authentication.rst:1-60",
+            "src/requests/utils.py:204-258",
+            "docs/user/quickstart.rst:221-280"
+          ]
+        }
+      }
+    },
+    {
+      "id": "digest_challenge",
+      "author": "claude",
+      "query": "How is a digest authentication challenge answered after the server replies 401?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 0.2,
+          "top3": [
+            "tests/test_lowlevel.py:192-235",
+            "tests/test_lowlevel.py:127-189",
+            "docs/user/authentication.rst:1-60"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "HISTORY.md:1376-1435",
+            "tests/test_lowlevel.py:127-189",
+            "HISTORY.md:1046-1105"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "tests/test_lowlevel.py:192-235",
+            "tests/test_lowlevel.py:127-189",
+            "src/requests/auth.py:241-283"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.5,
+          "mrr@10": 0.16666666666666666,
+          "top3": [
+            "tests/test_lowlevel.py:127-189",
+            "tests/test_lowlevel.py:192-235",
+            "HISTORY.md:1376-1435"
+          ]
+        }
+      }
+    },
+    {
+      "id": "basic_auth_header",
+      "author": "claude",
+      "query": "How is the username and password turned into the Basic authorization header value?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
+          "top3": [
+            "src/requests/sessions.py:302-331",
+            "src/requests/auth.py:76-96",
+            "tests/test_requests.py:542-558"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:606-665",
+            "src/requests/sessions.py:302-331",
+            "src/requests/adapters.py:592-611"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "src/requests/auth.py:76-96",
+            "src/requests/auth.py:25-66",
+            "tests/test_requests.py:542-558"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
+          "top3": [
+            "src/requests/auth.py:76-96",
+            "src/requests/adapters.py:592-611",
+            "docs/user/quickstart.rst:221-280"
+          ]
+        }
+      }
+    },
+    {
+      "id": "stream_chunks",
+      "author": "claude",
+      "query": "How is a streamed response body read in chunks, and what error happens if the body was already consumed?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:799-855",
+            "src/requests/models.py:890-907",
+            "src/requests/exceptions.py:127-128"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "src/requests/models.py:890-907",
+            "HISTORY.md:771-830",
+            "src/requests/models.py:799-855"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "docs/user/advanced.rst:331-390",
+            "tests/test_lowlevel.py:39-60",
+            "src/requests/models.py:799-855"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:799-855",
+            "src/requests/models.py:890-907",
+            "docs/user/advanced.rst:331-390"
+          ]
+        }
+      }
+    },
+    {
+      "id": "stream_lines",
+      "author": "claude",
+      "query": "How are lines split when reading a streaming response one line at a time?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:857-888",
+            "docs/user/advanced.rst:496-555",
+            "docs/user/advanced.rst:276-335"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:857-888",
+            "docs/dev/contributing.rst:1-60",
+            "docs/user/advanced.rst:496-555"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:857-888",
+            "src/requests/utils.py:564-578",
+            "src/requests/models.py:799-855"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:857-888",
+            "src/requests/models.py:799-855",
+            "docs/user/advanced.rst:1046-1105"
+          ]
+        }
+      }
+    },
+    {
+      "id": "bad_status_exception",
+      "author": "claude",
+      "query": "Which status codes make the response raise an exception, and how is the error message built?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:331-390",
+            "docs/user/quickstart.rst:551-570",
+            "HISTORY.md:166-225"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:331-390",
+            "HISTORY.md:881-940",
+            "HISTORY.md:166-225"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/quickstart.rst:551-570",
+            "src/requests/models.py:997-1024",
+            "docs/user/quickstart.rst:386-445"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.14285714285714285,
+          "top3": [
+            "docs/user/quickstart.rst:331-390",
+            "docs/user/quickstart.rst:386-445",
+            "docs/user/quickstart.rst:551-570"
+          ]
+        }
+      }
+    },
+    {
+      "id": "case_insensitive_headers",
+      "author": "claude",
+      "query": "How are header names looked up regardless of upper or lower case?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/structures.py:13-80",
+            "HISTORY.md:1376-1435",
+            "src/requests/adapters.py:137-164"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "src/requests/status_codes.py:1-86",
+            "src/requests/structures.py:13-80",
+            "docs/user/advanced.rst:716-775"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "src/requests/utils.py:1034-1042",
+            "src/requests/structures.py:13-80",
+            "src/requests/models.py:483-492"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/structures.py:13-80",
+            "src/requests/status_codes.py:1-86",
+            "src/requests/utils.py:375-403"
+          ]
+        }
+      }
+    },
+    {
+      "id": "multipart_upload",
+      "author": "claude",
+      "query": "How are file uploads encoded into a multipart form body?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.1,
+          "top3": [
+            "docs/user/advanced.rst:331-390",
+            "docs/user/quickstart.rst:276-335",
+            "docs/user/quickstart.rst:221-280"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
+          "top3": [
+            "src/requests/models.py:494-570",
+            "docs/user/advanced.rst:331-390",
+            "HISTORY.md:1321-1380"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/advanced.rst:386-445",
+            "src/requests/models.py:136-203",
+            "docs/user/quickstart.rst:276-335"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "src/requests/models.py:494-570",
+            "src/requests/models.py:136-203",
+            "docs/user/quickstart.rst:276-335"
+          ]
+        }
+      }
+    },
+    {
+      "id": "content_length",
+      "author": "claude",
+      "query": "How is the length of the request body worked out for strings, files and other objects?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:135-201",
+            "src/requests/models.py:494-570",
+            "docs/user/quickstart.rst:331-390"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "docs/user/quickstart.rst:331-390",
+            "src/requests/api.py:14-59",
+            "src/requests/utils.py:135-201"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:135-201",
+            "src/requests/models.py:572-586",
+            "tests/test_requests.py:1822-1828"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:135-201",
+            "docs/user/quickstart.rst:331-390",
+            "src/requests/api.py:14-59"
+          ]
+        }
+      }
+    },
+    {
+      "id": "adapter_for_url",
+      "author": "claude",
+      "query": "How does a session decide which transport handles a given URL prefix?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.16666666666666666,
+          "top3": [
+            "docs/user/advanced.rst:991-1050",
+            "docs/user/advanced.rst:936-995",
+            "tests/test_requests.py:1619-1641"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:991-1050",
+            "docs/user/advanced.rst:1046-1105",
+            "docs/user/quickstart.rst:166-225"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:991-1050",
+            "docs/user/advanced.rst:1-60",
+            "tests/test_requests.py:1619-1641"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:991-1050",
+            "docs/user/advanced.rst:1046-1105",
+            "docs/user/advanced.rst:1-60"
+          ]
+        }
+      }
+    },
+    {
+      "id": "merge_settings",
+      "author": "claude",
+      "query": "How are session-wide settings combined with per-request ones, and how can a request remove a session header?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.14285714285714285,
+          "top3": [
+            "docs/user/advanced.rst:166-225",
+            "docs/user/advanced.rst:386-445",
+            "docs/user/quickstart.rst:386-445"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "HISTORY.md:1321-1380",
+            "docs/user/advanced.rst:1-60",
+            "docs/user/advanced.rst:56-115"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/advanced.rst:56-115",
+            "src/requests/sessions.py:61-88",
+            "docs/user/advanced.rst:1-60"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.1111111111111111,
+          "top3": [
+            "docs/user/advanced.rst:56-115",
+            "docs/user/advanced.rst:1-60",
+            "docs/api.rst:111-170"
+          ]
+        }
+      }
+    },
+    {
+      "id": "idna_hosts",
+      "author": "claude",
+      "query": "How are internationalized (non-ASCII) domain names converted when a URL is prepared?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 0.5,
+          "top3": [
+            "HISTORY.md:716-775",
+            "src/requests/models.py:409-481",
+            "src/requests/sessions.py:107-125"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 0.5,
+          "top3": [
+            "HISTORY.md:716-775",
+            "src/requests/models.py:409-481",
+            "HISTORY.md:606-665"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:409-481",
+            "tests/conftest.py:15-22",
+            "src/requests/utils.py:989-1015"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:409-481",
+            "HISTORY.md:716-775",
+            "src/requests/utils.py:636-657"
+          ]
+        }
+      }
+    },
+    {
+      "id": "missing_scheme",
+      "author": "claude",
+      "query": "What error does the user get when the URL has no http:// or https:// part, or no host?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:409-481",
+            "src/requests/utils.py:765-823",
+            "docs/community/faq.rst:1-60"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.25,
+          "top3": [
+            "HISTORY.md:606-665",
+            "docs/user/advanced.rst:221-280",
+            "docs/user/quickstart.rst:221-280"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.16666666666666666,
+          "top3": [
+            "src/requests/exceptions.py:99-100",
+            "HISTORY.md:1596-1655",
+            "HISTORY.md:1871-1930"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:409-481",
+            "HISTORY.md:1211-1270",
+            "HISTORY.md:606-665"
+          ]
+        }
+      }
+    },
+    {
+      "id": "tls_verify",
+      "author": "claude",
+      "query": "How is TLS certificate checking configured on the connection, including a custom CA bundle or client certificate?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "src/requests/adapters.py:396-444",
+            "docs/user/advanced.rst:221-280",
+            "src/requests/adapters.py:304-357"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.16666666666666666,
+          "top3": [
+            "src/requests/adapters.py:396-444",
+            "src/requests/sessions.py:500-563",
+            "src/requests/api.py:14-59"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.3333333333333333,
+          "top3": [
+            "docs/user/advanced.rst:221-280",
+            "tests/testserver/server.py:138-176",
+            "src/requests/adapters.py:304-357"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/advanced.rst:221-280",
+            "src/requests/adapters.py:304-357",
+            "src/requests/adapters.py:396-444"
+          ]
+        }
+      }
+    },
+    {
+      "id": "timeouts",
+      "author": "claude",
+      "query": "How are separate connect and read timeouts passed down to the connection?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/advanced.rst:1101-1141",
+            "src/requests/adapters.py:613-687",
+            "HISTORY.md:1156-1215"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.14285714285714285,
+          "top3": [
+            "docs/user/advanced.rst:1046-1105",
+            "docs/user/advanced.rst:1101-1141",
+            "HISTORY.md:881-940"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:1101-1141",
+            "tests/test_requests.py:2442-2508",
+            "docs/user/quickstart.rst:496-555"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
+          "top3": [
+            "docs/user/advanced.rst:1101-1141",
+            "docs/user/advanced.rst:1046-1105",
+            "docs/user/quickstart.rst:496-555"
+          ]
+        }
+      }
+    },
+    {
+      "id": "error_translation",
+      "author": "claude",
+      "query": "How are low-level network errors from urllib3 translated into this library's own exceptions?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/api.rst:166-225",
+            "src/requests/__init__.py:105-184",
+            "docs/user/advanced.rst:1-60"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/conf.py:171-261",
+            "HISTORY.md:826-885",
+            "HISTORY.md:881-940"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "HISTORY.md:111-170",
+            "src/requests/adapters.py:165-201",
+            "src/requests/__init__.py:58-90"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/__init__.py:105-184",
+            "HISTORY.md:826-885",
+            "src/requests/adapters.py:1-89"
+          ]
+        }
+      }
+    },
+    {
+      "id": "build_response",
+      "author": "claude",
+      "query": "How is the raw HTTP response from the connection pool turned into the user-facing response object?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/adapters.py:359-394",
+            "src/requests/adapters.py:446-493",
+            "src/requests/models.py:1026-1037"
+          ]
+        },
+        "sparse": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.25,
+          "top3": [
+            "docs/user/advanced.rst:716-775",
+            "docs/user/advanced.rst:56-115",
+            "docs/user/quickstart.rst:166-225"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.16666666666666666,
+          "top3": [
+            "docs/user/quickstart.rst:166-225",
+            "src/requests/models.py:1026-1037",
+            "tests/test_requests.py:2096-2103"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/quickstart.rst:166-225",
+            "src/requests/adapters.py:359-394",
+            "src/requests/sessions.py:159-237"
+          ]
+        }
+      }
+    },
+    {
+      "id": "store_response_cookies",
+      "author": "claude",
+      "query": "How are cookies set by a server response saved so later requests send them back?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:441-500",
+            "docs/user/quickstart.rst:386-445",
+            "docs/user/advanced.rst:56-115"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/sessions.py:500-563",
+            "docs/user/advanced.rst:56-115",
+            "docs/user/quickstart.rst:331-390"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:441-500",
+            "src/requests/sessions.py:234-280",
+            "docs/user/advanced.rst:56-115"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/quickstart.rst:441-500",
+            "docs/user/advanced.rst:56-115",
+            "docs/user/advanced.rst:1-60"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cookie_conflict",
+      "author": "claude",
+      "query": "What goes wrong when two cookies share a name across different domains and you look one up by name?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "src/requests/cookies.py:206-223",
+            "docs/user/advanced.rst:1101-1141",
+            "src/requests/cookies.py:151-167"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:56-115",
+            "docs/user/advanced.rst:1101-1141",
+            "docs/conf.py:1-93"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/cookies.py:386-413",
+            "tests/test_requests.py:1337-1356",
+            "src/requests/cookies.py:366-384"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.2,
+          "top3": [
+            "docs/user/advanced.rst:56-115",
+            "src/requests/cookies.py:206-223",
+            "tests/test_requests.py:1337-1356"
+          ]
+        }
+      }
+    },
+    {
+      "id": "env_settings",
+      "author": "claude",
+      "query": "How are proxy and certificate settings from environment variables applied to a request when trusting the environment?",
+      "modes": {
+        "bm25": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:166-225",
+            "docs/user/advanced.rst:606-665",
+            "src/requests/adapters.py:446-493"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 0.0,
+          "mrr@10": 0.0,
+          "top3": [
+            "docs/user/advanced.rst:606-665",
+            "docs/user/advanced.rst:166-225",
+            "HISTORY.md:716-775"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/advanced.rst:606-665",
+            "src/requests/sessions.py:750-779",
+            "src/requests/utils.py:864-888"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.14285714285714285,
+          "top3": [
+            "docs/user/advanced.rst:606-665",
+            "docs/user/advanced.rst:166-225",
+            "src/requests/utils.py:864-888"
+          ]
+        }
+      }
+    },
+    {
+      "id": "rewind_body",
+      "author": "claude",
+      "query": "How is a file-like request body moved back to its start before it is resent after a redirect?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:1081-1096",
+            "src/requests/models.py:334-349",
+            "src/requests/api.py:14-59"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.14285714285714285,
+          "top3": [
+            "src/requests/sessions.py:500-563",
+            "src/requests/api.py:14-59",
+            "src/requests/models.py:334-349"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:1081-1096",
+            "src/requests/sessions.py:333-353",
+            "tests/test_requests.py:1908-1925"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:1081-1096",
+            "docs/user/quickstart.rst:496-555",
+            "src/requests/auth.py:285-303"
+          ]
+        }
+      }
+    },
+    {
+      "id": "header_injection",
+      "author": "claude",
+      "query": "How are header values checked to reject newlines or leading whitespace?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:1034-1042",
+            "tests/test_requests.py:1745-1762",
+            "src/requests/utils.py:1045-1061"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.125,
+          "top3": [
+            "HISTORY.md:771-830",
+            "HISTORY.md:716-775",
+            "docs/api.rst:221-261"
+          ]
+        },
+        "dense": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:1034-1042",
+            "tests/test_requests.py:1745-1762",
+            "tests/test_requests.py:1697-1707"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:1034-1042",
+            "src/requests/utils.py:1045-1061",
+            "tests/test_requests.py:1745-1762"
+          ]
+        }
+      }
+    },
+    {
+      "id": "pagination_links",
+      "author": "claude",
+      "query": "How are pagination links in the Link response header parsed?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:980-995",
+            "src/requests/utils.py:914-948",
+            "docs/user/advanced.rst:936-995"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.5,
+          "recall@10": 0.5,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/api.rst:166-225",
+            "src/requests/models.py:980-995",
+            "HISTORY.md:1321-1380"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "docs/user/advanced.rst:936-995",
+            "src/requests/models.py:980-995",
+            "src/requests/utils.py:914-948"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 0.5,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/models.py:980-995",
+            "docs/user/advanced.rst:936-995",
+            "HISTORY.md:1101-1160"
+          ]
+        }
+      }
+    },
+    {
+      "id": "user_agent",
+      "author": "claude",
+      "query": "What User-Agent string is sent by default?",
+      "modes": {
+        "bm25": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.25,
+          "top3": [
+            "src/requests/utils.py:900-911",
+            "tests/test_requests.py:512-517",
+            "tests/test_requests.py:356-362"
+          ]
+        },
+        "sparse": {
+          "recall@5": 0.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.1111111111111111,
+          "top3": [
+            "HISTORY.md:881-940",
+            "HISTORY.md:936-995",
+            "src/requests/adapters.py:396-444"
+          ]
+        },
+        "dense": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 1.0,
+          "top3": [
+            "src/requests/utils.py:891-897",
+            "tests/test_requests.py:512-517",
+            "src/requests/auth.py:25-66"
+          ]
+        },
+        "hybrid": {
+          "recall@5": 1.0,
+          "recall@10": 1.0,
+          "mrr@10": 0.5,
+          "top3": [
+            "HISTORY.md:936-995",
+            "src/requests/utils.py:891-897",
+            "src/requests/utils.py:900-911"
+          ]
+        }
+      }
+    }
+  ]
+}

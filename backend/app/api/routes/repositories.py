@@ -31,7 +31,7 @@ from app.db.models import (
 )
 from app.db.session import AsyncSessionLocal, get_db
 from app.ingestion.dependency_analyzer import CodebaseDependencyAnalyzer
-from app.ingestion.git_importer import GitRepositoryImporter
+from app.ingestion.git_importer import SAMPLE_REPO_ID, GitRepositoryImporter, is_sample_identifier
 from app.ingestion.worker import IndexingProgressTracker, RepositoryIndexingWorker
 
 router = APIRouter(prefix="/repositories", tags=["Repositories"])
@@ -209,8 +209,8 @@ async def import_repository(
 ):
     url_input = payload.repository_url.strip()
 
-    if url_input == "sample:fastapi" or "sample" in url_input.lower():
-        owner, name, clone_url = "sample", "fastapi-cloudflow", "sample:fastapi"
+    if is_sample_identifier(url_input):
+        owner, name, clone_url = "sample", "fastapi-cloudflow", SAMPLE_REPO_ID
     else:
         try:
             owner, name, clone_url = GitRepositoryImporter.parse_repo_identifier(url_input)

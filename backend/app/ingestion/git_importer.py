@@ -8,6 +8,14 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, Generator, Set, Tuple
 
+# Identifier (and stored clone_url) of the bundled demo repository.
+SAMPLE_REPO_ID = "sample:fastapi"
+
+
+def is_sample_identifier(value: str) -> bool:
+    """True only for the exact bundled-sample identifier, never for a real repo URL."""
+    return value.strip().lower() == SAMPLE_REPO_ID
+
 
 @dataclass
 class DiscoveredFile:

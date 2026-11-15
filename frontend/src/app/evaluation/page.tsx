@@ -196,7 +196,7 @@ export default function EvaluationDashboardPage() {
         },
         {
           name: "Citations backed by retrieved code",
-          realName: "Faithfulness",
+          realName: "Citation grounding",
           explain: "Share of citations that lie inside the code the search retrieved for that question.",
           value: report.mean_faithfulness,
           target: 0.95,
@@ -206,15 +206,12 @@ export default function EvaluationDashboardPage() {
     : [];
 
   const selectedRepo = repositories.find((r) => r.id === selectedRepoId);
-  const isSampleRepo = Boolean(
-    selectedRepo &&
-      (selectedRepo.clone_url === "sample:fastapi" ||
-        selectedRepo.clone_url.toLowerCase().includes("sample"))
-  );
+  // Must match the backend's exact check (is_sample_identifier); a real repo named "sample-app" is not the sample.
+  const isSampleRepo = selectedRepo?.clone_url.trim().toLowerCase() === "sample:fastapi";
   const expectedSuiteLabel = selectedRepo
     ? isSampleRepo
       ? "SpectraCode Curated FastAPI Suite v1"
-      : `SpectraCode Tailored AST Suite v1 (${selectedRepo.github_name})`
+      : `SpectraCode Symbol-Lookup Smoke Test v1 (${selectedRepo.github_name})`
     : "Tailored Benchmark Suite";
 
   const reportRepo = report
@@ -376,7 +373,7 @@ export default function EvaluationDashboardPage() {
                       yet. Run the tailored benchmark to synthesize symbol-lookup
                       questions directly from this workspace&apos;s indexed AST classes
                       and functions—plus an out-of-scope abstention check—and score
-                      retrieval recall, citation accuracy, and faithfulness.
+                      retrieval recall, citation accuracy, and citation grounding. These are smoke tests: the questions name the symbols they look for.
                     </>
                   )}{" "}
                   No API key is required: answers come from Gemini when{" "}
@@ -483,7 +480,7 @@ export default function EvaluationDashboardPage() {
                             <th scope="col">Found in top results</th>
                             <th scope="col" className="num hidden !font-sans sm:table-cell">Citation precision</th>
                             <th scope="col" className="num hidden !font-sans sm:table-cell">Citation recall</th>
-                            <th scope="col" className="num hidden !pr-0 !font-sans sm:table-cell">Faithfulness</th>
+                            <th scope="col" className="num hidden !pr-0 !font-sans sm:table-cell">Grounding</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -501,7 +498,7 @@ export default function EvaluationDashboardPage() {
                                         {[
                                           ["Citation precision", sample.citation_precision],
                                           ["Citation recall", sample.citation_recall],
-                                          ["Faithfulness", sample.faithfulness],
+                                          ["Citation grounding", sample.faithfulness],
                                         ].map(([label, v]) => (
                                           <div key={label as string}>
                                             <dt className="text-xs text-sub">{label}</dt>

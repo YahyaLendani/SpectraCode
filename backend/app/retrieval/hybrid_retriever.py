@@ -76,14 +76,18 @@ class HybridCodeRetriever:
             return 0.35
         return base_alpha
 
-    async def retrieve(
+    async def score_candidates(
         self,
         session: AsyncSession,
         repository_id: uuid.UUID,
         query: str,
         query_embedding: Optional[List[float]] = None,
-        top_k: int = 10,
     ) -> List[RetrievedChunk]:
+        """Scores every chunk of the repository with independent dense and sparse signals.
+
+        Unranked and unfused, so evaluation can compare dense-only and sparse-only rankings
+        against the full hybrid pipeline on exactly the same scores.
+        """
         if query_embedding is None:
             query_embedding = await EmbeddingService.embed_query(query)
 
@@ -154,6 +158,20 @@ class HybridCodeRetriever:
                 sparse_score=max(0.0, float(sparse_score)),
             )
             items.append(item)
+
+        return items
+
+    async def retrieve(
+        self,
+        session: AsyncSession,
+        repository_id: uuid.UUID,
+        query: str,
+        query_embedding: Optional[List[float]] = None,
+        top_k: int = 10,
+    ) -> List[RetrievedChunk]:
+        items = await self.score_candidates(session, repository_id, query, query_embedding)
+        if not items:
+            return []
 
         # 3. Dense & Sparse Ranking
         items_by_dense = sorted(items, key=lambda x: x.dense_score, reverse=True)
