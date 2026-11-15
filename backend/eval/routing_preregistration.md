@@ -107,3 +107,37 @@ On the 30 plain `stackoverflow-2` questions, dense won on 5 and the hybrid on 1.
 holds, about 8 of 40 plain questions will differ, and rule 1 has a fair (not certain) chance of
 passing. The identifier side has no usable estimate: on the 15 identifier questions so far, each
 mode won once.
+
+## Result (scored once, 2026-11-15, after commit c9096be)
+
+All 172 suite queries were run once. The four older sets reproduce their earlier hybrid Recall@10
+(0.90, 0.72, 0.53, 0.26). Differences below are dense minus the current hybrid, with 95% CIs.
+
+**Rule 1, plain questions (40, `stackoverflow-3`):**
+- Recall@10: +0.03 [0.00, +0.07]. Dense found the code on 1 query the hybrid missed
+  (`so_47537644`, the Wikipedia redirect) and the hybrid on none that dense missed.
+- MRR@10: +0.06 [−0.02, +0.16].
+- Answered@10 (does not decide): −0.07 [−0.20, +0.03]. Dense lost the docs answer on 4 queries
+  (request headers, `verify=False`, checking a POST succeeded, response headers) and gained it on 1.
+
+The Recall@10 lower bound is 0.00, not above 0, so **rule 1 fails: plain questions keep the
+hybrid.** The predicted 8 differing queries did not appear: only 1 of 40 differed on Recall@10.
+
+**Rule 2, identifier questions (30, `github-issues`):**
+- Recall@10: +0.07 [−0.10, +0.23]. Dense won on 4 queries, the hybrid on 2 (`gh_6071`,
+  `gh_1997`).
+- MRR@10: −0.06 [−0.20, +0.06]. Answered@10: +0.10 [−0.07, +0.27].
+
+The lower bound is not above 0 and the upper bound is not below 0, so **identifier questions keep
+the hybrid (no change).** The hybrid is not shown to be better for them either.
+
+**Rule 3** has nothing to check, because neither rule changes the system. For the record,
+`route_dense` minus the hybrid over all 70 queries: Recall@10 +0.01 [0.00, +0.04].
+
+**Decision: no change. Production keeps the hybrid for every question type.** Mean latency was
+385 ms for dense and 371 ms for the hybrid, a difference too small to matter.
+
+What this does and does not show: on fresh queries, dense-only search was never clearly worse on
+Recall@10, but it was not clearly better either. The +0.13 gap seen on `stackoverflow-2` mostly did
+not repeat on the plain set, which fits regression to the mean. With 1 differing query in 40, a
+much larger set would be needed to tell the two apart on plain questions.
