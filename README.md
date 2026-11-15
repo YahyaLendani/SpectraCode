@@ -3,10 +3,10 @@
 > **Category:** Generative AI · LLM Engineering · Code RAG · Developer Tools  
 > **Status:** Production-Ready Foundation  
 > **Website:** [spectracode.tech](https://spectracode.tech)  
-> **Stack:** Next.js 14 (App Router), TypeScript, Tailwind CSS, FastAPI, PostgreSQL (`pgvector`) / SQLite, Tree-sitter, FastEmbed (ONNX), Pytest
+> **Stack:** Next.js 15 (App Router), TypeScript, Tailwind CSS, FastAPI, PostgreSQL (`pgvector`) / SQLite, Tree-sitter, FastEmbed (ONNX), Pytest
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.136.3-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![Next.js](https://img.shields.io/badge/Next.js-14.2.35-000000.svg?logo=next.js&logoColor=white)](https://nextjs.org)
+[![Next.js](https://img.shields.io/badge/Next.js-15.5.29-000000.svg?logo=next.js&logoColor=white)](https://nextjs.org)
 [![Tree-sitter](https://img.shields.io/badge/Tree--sitter-AST%20Call--Graph-2b5b84.svg)](https://tree-sitter.github.io/tree-sitter/)
 [![Vector Search](https://img.shields.io/badge/RAG-Hybrid%20RRF%20%2B%201--Hop%20AST-indigo.svg)](#2--hybrid-rrf-retrieval--1-hop-ast-call-graph-expansion)
 [![Tests](https://img.shields.io/badge/Pytest-28%20Passed%20(100%25)-brightgreen.svg)](#-automated-testing--benchmark-results)
@@ -113,7 +113,7 @@ Workspaces can be safely removed with immediate optimistic UI updates, backgroun
 
 ```text
 +---------------------------------------------------------------------------------------+
-|                                   NEXT.JS 14 FRONTEND                                 |
+|                                   NEXT.JS 15 FRONTEND                                 |
 |  - Developer Workspace & code viewer   - Multi-Hop ExecutionTraceStepper       |
 |  - Streaming SSE AI Chat with Citations       - Live 4-Stage SSE Import Progress      |
 |  - Interactive Module Dependency Graph        - Quantitative Benchmark Dashboard      |
@@ -149,7 +149,7 @@ Workspaces can be safely removed with immediate optimistic UI updates, backgroun
 
 | Component | Technology | Rationale |
 | :--- | :--- | :--- |
-| **Frontend** | Next.js 14 (App Router), React 18, TypeScript | High-performance developer workspace, SSE streaming, and trace UI |
+| **Frontend** | Next.js 15 (App Router), React 18, TypeScript | High-performance developer workspace, SSE streaming, and trace UI |
 | **Code Viewer** | Custom React code viewer, Tailwind CSS | Syntax highlighting, cited-line highlights, and scrolling to the cited range |
 | **Backend** | Python 3.11+, FastAPI, Uvicorn | Asynchronous, high-throughput REST and Server-Sent Events (SSE) API |
 | **Source Parsing** | Tree-sitter (`python`, `typescript`, `javascript`) | C-compiled syntax tree analysis, symbol extraction, and 1-hop call-graph resolution |

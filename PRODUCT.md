@@ -34,7 +34,7 @@ Answers are checked before they are shown. Every `[file:start-end]` citation is 
 - Chunking follows function, method, class, and interface boundaries (Tree-sitter), with 1-indexed inclusive line ranges.
 - Retrieval fuses local vector search (`BAAI/bge-small-en-v1.5`, 384 dimensions, ONNX) with identifier-aware keyword search by Reciprocal Rank Fusion, then expands one hop along the call graph.
 - Answer generation uses Gemini or OpenAI, with a mock provider when no key is set.
-- Frontend: Next.js 14 App Router, TypeScript, Tailwind CSS 3, lucide-react, Remotion player for the pipeline animation.
+- Frontend: Next.js 15 App Router, TypeScript, Tailwind CSS 3, lucide-react, Remotion player for the pipeline animation.
 - Terminology in use: workspace (an indexed repository), span (an indexed chunk of code), citation, trace, benchmark.
 
 ## Brand Commitments
